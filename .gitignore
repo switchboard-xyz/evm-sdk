@@ -1,0 +1,14 @@
+node_modules
+node_modules/**
+build/**
+lib
+*-keypair.json
+.switchboard
+.aptos
+.cache
+*.env
+demo/build/
+demo/build/Switchboard_Demo/
+demo/build/Switchboard_Demo/**
+build/
+dist
