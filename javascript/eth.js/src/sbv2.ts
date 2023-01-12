@@ -437,7 +437,7 @@ export function writeJobsToWeb3Storage(
  * @param gatewayIndex index of gateway to use
  * @returns
  */
-async function fetchJobsFromIPFS(
+export async function fetchJobsFromIPFS(
   hash: string,
   gatewayIndex = 0
 ): Promise<Job[]> {
