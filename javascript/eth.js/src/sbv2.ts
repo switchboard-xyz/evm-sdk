@@ -1,20 +1,25 @@
 import { OracleJob } from "@switchboard-xyz/common";
 import Big from "big.js";
-import { Wallet, ContractTransaction, Contract } from "ethers";
+import { Wallet, ContractTransaction } from "ethers";
 import ethers from "ethers";
 import { Switchboard__factory, Switchboard } from "./typechain-types";
 export { OracleJob, IOracleJob } from "@switchboard-xyz/common";
+import { Web3Storage } from "web3.storage";
+
 export const SWITCHBOARD_DEVNET_ADDRESS = ``;
 export const SWITCHBOARD_TESTNET_ADDRESS = ``;
 export const SWITCHBOARD_MAINNET_ADDRESS = ``;
 
-export function getWallet(privateKey: string, rpc: string) {
-  const provider = new ethers.providers.JsonRpcProvider(rpc);
-  return new Wallet(privateKey, provider);
-}
+const IpfsGateways = [
+  "https://ipfs.io/ipfs/",
+  "https://ipfs.infura.io/ipfs/",
+  "https://cloudflare-ipfs.com/ipfs/",
+];
 
-export function getSwitchboard(address: string, wallet: Wallet) {
-  return Switchboard__factory.connect(address, wallet);
+export interface Job {
+  name: string;
+  data: string;
+  weight: number;
 }
 
 export type EventCallback = (
@@ -139,6 +144,15 @@ export interface OracleQueueSetConfigsParams {
   unpermissionedFeedsEnabled: boolean;
 }
 
+export function getWallet(privateKey: string, rpc: string) {
+  const provider = new ethers.providers.JsonRpcProvider(rpc);
+  return new Wallet(privateKey, provider);
+}
+
+export function getSwitchboard(address: string, wallet: Wallet) {
+  return Switchboard__factory.connect(address, wallet);
+}
+
 export class AggregatorAccount {
   constructor(readonly client: Switchboard, readonly address: string) {}
 
@@ -147,9 +161,16 @@ export class AggregatorAccount {
   }
 
   async loadJobs(): Promise<Array<OracleJob>> {
-    const data = await this.loadData();
-    //
-    return await Promise.all([]);
+    const { jobsHash } = await this.client.aggregators(this.address);
+
+    try {
+      const res = await fetchJobsFromIPFS(jobsHash);
+      return res.map((job: Job) => {
+        return OracleJob.decodeDelimited(Buffer.from(job.data, "base64"));
+      });
+    } catch (e) {
+      console.log(e, "\nerror fetching jobs for ipfs hash:", jobsHash);
+    }
   }
 
   /**
@@ -169,7 +190,7 @@ export class AggregatorAccount {
       params.batchSize,
       params.minUpdateDelaySeconds,
       params.minOracleResults,
-      params.jobsHash,
+      params.jobsHash, // I recommend using https://web3.storage/ for hosting jobs - it's free + fast!
       params.queueAddress,
       params.varianceThreshold,
       params.minJobResults,
@@ -391,4 +412,50 @@ export async function fetchAggregators(
       }
     })
   );
+}
+
+/**
+ * Write Job to web3.Storage
+ */
+export function writeJobsToWeb3Storage(
+  jobs: Job[],
+  token: string
+): Promise<string> {
+  const client = new Web3Storage({ token });
+  const content = new File([JSON.stringify(jobs)], "", {
+    type: "application/json",
+  });
+  const cid = client.put([content], {
+    wrapWithDirectory: false,
+  });
+  return cid;
+}
+
+/**
+ * Fetch IPFS Hash from Gateways
+ * @param hash ipfs hash
+ * @param gatewayIndex index of gateway to use
+ * @returns
+ */
+async function fetchJobsFromIPFS(
+  hash: string,
+  gatewayIndex = 0
+): Promise<Job[]> {
+  try {
+    const response = await fetch(`${IpfsGateways[gatewayIndex]}${hash}`);
+    return await response.json();
+  } catch (error) {
+    console.error(
+      `Failed to fetch content from gateway ${IpfsGateways[gatewayIndex]}. Error: ${error}`
+    );
+
+    if (gatewayIndex === IpfsGateways.length - 1) {
+      throw new Error(
+        `Failed to fetch content from all gateways. Last error: ${error}`
+      );
+    }
+
+    gatewayIndex = (gatewayIndex + 1) % IpfsGateways.length;
+    return fetchJobsFromIPFS(hash);
+  }
 }
