@@ -6,6 +6,8 @@ import { Switchboard__factory, Switchboard } from "./typechain-types";
 export { OracleJob, IOracleJob } from "@switchboard-xyz/common";
 import { Web3Storage } from "web3.storage";
 
+export { Switchboard__factory, Switchboard } from "./typechain-types";
+
 export const SWITCHBOARD_DEVNET_ADDRESS = ``;
 export const SWITCHBOARD_TESTNET_ADDRESS = ``;
 export const SWITCHBOARD_MAINNET_ADDRESS = ``;
@@ -90,7 +92,6 @@ export interface AggregatorInitParams {
 export interface AggregatorSaveResultParams {
   oracleIdx: number;
   value: SBDecimal;
-  jobsChecksum: string;
 }
 
 export interface OracleSaveResultParams extends AggregatorSaveResultParams {
@@ -212,7 +213,7 @@ export class AggregatorAccount {
     return this.client.saveResult(
       this.address,
       params.oracleIdx,
-      params.value.mantissa
+      Number(params.value.mantissa) * (params.value.neg ? -1 : 1)
     );
   }
 
@@ -330,7 +331,7 @@ export class OracleAccount {
       ([a, o, v], p) => {
         a.push(p.aggregatorAddress);
         o.push(p.oracleIdx);
-        v.push(p.value.mantissa);
+        v.push(Number(p.value.mantissa) * (p.value.neg ? -1 : 1));
         return [a, o, v];
       },
       [[], [], []]

@@ -1,7 +1,7 @@
 {
   "name": "@switchboard-xyz/evm.js",
   "description": "API wrapper for intergating with the Switchboardv2 program on our EVM implementation",
-  "version": "2.5.31",
+  "version": "3.0.0",
   "license": "MIT",
   "bin": {
     "sbv2-evm": "./sbv2-evm.ts"
