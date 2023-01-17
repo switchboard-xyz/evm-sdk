@@ -89,13 +89,15 @@ export interface AggregatorInitParams {
   jobsHash: string;
 }
 
-export interface AggregatorSaveResultParams {
-  oracleIdx: number;
+export interface SaveResultParams {
   value: SBDecimal;
+  aggregatorAddress: string;
 }
 
-export interface OracleSaveResultParams extends AggregatorSaveResultParams {
-  aggregatorAddress: string;
+export interface OracleSaveResultParams {
+  data: SaveResultParams[];
+  oracleIdx: number;
+  queueAddress: string;
 }
 
 export interface AggregatorSetConfigParams {
@@ -207,20 +209,6 @@ export class AggregatorAccount {
     ).latestResult.value.toNumber();
   }
 
-  async saveResult(
-    params: AggregatorSaveResultParams
-  ): Promise<ContractTransaction> {
-    return this.client.saveResult(
-      this.address,
-      params.oracleIdx,
-      Number(params.value.mantissa) * (params.value.neg ? -1 : 1)
-    );
-  }
-
-  async openRound(): Promise<ContractTransaction> {
-    return await this.client.openRound(this.address);
-  }
-
   async setConfig(
     params: AggregatorSetConfigParams
   ): Promise<ContractTransaction> {
@@ -324,22 +312,24 @@ export class OracleAccount {
   /**
    * Oracle Bulk Save Results Action
    */
-  async saveManyResult(
-    params: OracleSaveResultParams[]
+  async saveManyResults(
+    params: OracleSaveResultParams
   ): Promise<ContractTransaction> {
-    const [aggregatorAddresses, oracleIdxs, values] = params.reduce(
-      ([a, o, v], p) => {
-        a.push(p.aggregatorAddress);
-        o.push(p.oracleIdx);
-        v.push(Number(p.value.mantissa) * (p.value.neg ? -1 : 1));
-        return [a, o, v];
-      },
-      [[], [], []]
-    );
+    const [aggregatorAddresses, values]: [string[], number[]] =
+      params.data.reduce(
+        ([a, v], p) => {
+          a.push(p.aggregatorAddress);
+          v.push(Number(p.value.mantissa) * (p.value.neg ? -1 : 1));
+          return [a, v];
+        },
+        [[] as string[], [] as number[]]
+      );
+
     return await this.client.saveResults(
-      aggregatorAddresses,
-      oracleIdxs,
-      values
+      aggregatorAddresses, // aggregator addresses - mapped to values
+      values, // values to save
+      params.queueAddress, // queue that all the aggregators are in
+      params.oracleIdx // oracle's index in the queue
     );
   }
 }
