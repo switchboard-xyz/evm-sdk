@@ -70,6 +70,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "setOracleConfig(address,string,address,address)": FunctionFragment;
     "setOraclePermission(address,address,bool)": FunctionFragment;
     "setQueueConfig(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
+    "sortResults((int256,uint256,address)[])": FunctionFragment;
   };
 
   getFunction(
@@ -100,6 +101,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "setOracleConfig"
       | "setOraclePermission"
       | "setQueueConfig"
+      | "sortResults"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -279,6 +281,10 @@ export interface SwitchboardInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "sortResults",
+    values: [Switchboard.ResultStruct[]]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "aggregatorExists",
@@ -366,10 +372,14 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "setQueueConfig",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "sortResults",
+    data: BytesLike
+  ): Result;
 
   events: {
     "AggregatorAccountInit(address,address)": EventFragment;
-    "AggregatorFundEvent(address,address)": EventFragment;
+    "AggregatorFundEvent(address,address,uint256)": EventFragment;
     "AggregatorResponseSettingsUpdate(address,uint256,uint256,uint256)": EventFragment;
     "AggregatorSaveResult(address,address,int256)": EventFragment;
     "AggregatorUpdate(address,int256,uint256)": EventFragment;
@@ -407,9 +417,10 @@ export type AggregatorAccountInitEventFilter =
 export interface AggregatorFundEventEventObject {
   aggregatorAddress: string;
   funder: string;
+  amount: BigNumber;
 }
 export type AggregatorFundEventEvent = TypedEvent<
-  [string, string],
+  [string, string, BigNumber],
   AggregatorFundEventEventObject
 >;
 
@@ -772,6 +783,11 @@ export interface Switchboard extends BaseContract {
       _oracleTimeout: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    sortResults(
+      input: Switchboard.ResultStruct[],
+      overrides?: CallOverrides
+    ): Promise<[Switchboard.ResultStructOutput[]]>;
   };
 
   aggregatorExists(
@@ -1020,6 +1036,11 @@ export interface Switchboard extends BaseContract {
     _oracleTimeout: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  sortResults(
+    input: Switchboard.ResultStruct[],
+    overrides?: CallOverrides
+  ): Promise<Switchboard.ResultStructOutput[]>;
 
   callStatic: {
     aggregatorExists(
@@ -1270,6 +1291,11 @@ export interface Switchboard extends BaseContract {
       _oracleTimeout: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    sortResults(
+      input: Switchboard.ResultStruct[],
+      overrides?: CallOverrides
+    ): Promise<Switchboard.ResultStructOutput[]>;
   };
 
   filters: {
@@ -1282,13 +1308,15 @@ export interface Switchboard extends BaseContract {
       accountAddress?: PromiseOrValue<string> | null
     ): AggregatorAccountInitEventFilter;
 
-    "AggregatorFundEvent(address,address)"(
+    "AggregatorFundEvent(address,address,uint256)"(
       aggregatorAddress?: PromiseOrValue<string> | null,
-      funder?: PromiseOrValue<string> | null
+      funder?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
     ): AggregatorFundEventEventFilter;
     AggregatorFundEvent(
       aggregatorAddress?: PromiseOrValue<string> | null,
-      funder?: PromiseOrValue<string> | null
+      funder?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
     ): AggregatorFundEventEventFilter;
 
     "AggregatorResponseSettingsUpdate(address,uint256,uint256,uint256)"(
@@ -1544,6 +1572,11 @@ export interface Switchboard extends BaseContract {
       _oracleTimeout: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    sortResults(
+      input: Switchboard.ResultStruct[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1726,6 +1759,11 @@ export interface Switchboard extends BaseContract {
       _reward: PromiseOrValue<BigNumberish>,
       _oracleTimeout: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    sortResults(
+      input: Switchboard.ResultStruct[],
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }
