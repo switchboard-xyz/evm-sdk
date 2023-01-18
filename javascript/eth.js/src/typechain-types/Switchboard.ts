@@ -56,6 +56,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "escrowFund(address)": FunctionFragment;
     "escrowWithdraw(address,address,uint256,uint256)": FunctionFragment;
     "getMedian((int256,uint256,address)[])": FunctionFragment;
+    "getOracleIdx(address)": FunctionFragment;
     "heartbeat(address)": FunctionFragment;
     "latestResult(address)": FunctionFragment;
     "oracleExists(address)": FunctionFragment;
@@ -87,6 +88,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "escrowFund"
       | "escrowWithdraw"
       | "getMedian"
+      | "getOracleIdx"
       | "heartbeat"
       | "latestResult"
       | "oracleExists"
@@ -178,6 +180,10 @@ export interface SwitchboardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getMedian",
     values: [Switchboard.ResultStruct[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getOracleIdx",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "heartbeat",
@@ -325,6 +331,10 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getMedian", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getOracleIdx",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "heartbeat", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "latestResult",
@@ -656,6 +666,11 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    getOracleIdx(
+      oracleAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     heartbeat(
       oracleAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -909,6 +924,11 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  getOracleIdx(
+    oracleAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   heartbeat(
     oracleAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1159,6 +1179,11 @@ export interface Switchboard extends BaseContract {
 
     getMedian(
       arr: Switchboard.ResultStruct[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getOracleIdx(
+      oracleAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1473,6 +1498,11 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getOracleIdx(
+      oracleAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     heartbeat(
       oracleAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1658,6 +1688,11 @@ export interface Switchboard extends BaseContract {
 
     getMedian(
       arr: Switchboard.ResultStruct[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getOracleIdx(
+      oracleAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
