@@ -387,7 +387,7 @@ export interface SwitchboardInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "AggregatorAccountInit(address,address)": EventFragment;
+    "AggregatorAccountInit(address,address,uint256)": EventFragment;
     "AggregatorFundEvent(address,address,uint256)": EventFragment;
     "AggregatorResponseSettingsUpdate(address,uint256,uint256,uint256)": EventFragment;
     "AggregatorSaveResult(address,address,int256)": EventFragment;
@@ -416,9 +416,10 @@ export interface SwitchboardInterface extends utils.Interface {
 export interface AggregatorAccountInitEventObject {
   authority: string;
   accountAddress: string;
+  timestamp: BigNumber;
 }
 export type AggregatorAccountInitEvent = TypedEvent<
-  [string, string],
+  [string, string, BigNumber],
   AggregatorAccountInitEventObject
 >;
 
@@ -1341,13 +1342,15 @@ export interface Switchboard extends BaseContract {
   };
 
   filters: {
-    "AggregatorAccountInit(address,address)"(
+    "AggregatorAccountInit(address,address,uint256)"(
       authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
+      accountAddress?: PromiseOrValue<string> | null,
+      timestamp?: null
     ): AggregatorAccountInitEventFilter;
     AggregatorAccountInit(
       authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
+      accountAddress?: PromiseOrValue<string> | null,
+      timestamp?: null
     ): AggregatorAccountInitEventFilter;
 
     "AggregatorFundEvent(address,address,uint256)"(
