@@ -40,10 +40,51 @@ export declare namespace Switchboard {
     timestamp: BigNumber;
     oracleAddress: string;
   };
+
+  export type AggregatorStruct = {
+    name: PromiseOrValue<string>;
+    authority: PromiseOrValue<string>;
+    latestResult: Switchboard.ResultStruct;
+    batchSize: PromiseOrValue<BigNumberish>;
+    minUpdateDelaySeconds: PromiseOrValue<BigNumberish>;
+    minOracleResults: PromiseOrValue<BigNumberish>;
+    jobsHash: PromiseOrValue<string>;
+    queueAddress: PromiseOrValue<string>;
+    balanceLeftForInterval: PromiseOrValue<BigNumberish>;
+    nextIntervalRefreshTime: PromiseOrValue<BigNumberish>;
+    balance: PromiseOrValue<BigNumberish>;
+  };
+
+  export type AggregatorStructOutput = [
+    string,
+    string,
+    Switchboard.ResultStructOutput,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    string,
+    string,
+    BigNumber,
+    BigNumber,
+    BigNumber
+  ] & {
+    name: string;
+    authority: string;
+    latestResult: Switchboard.ResultStructOutput;
+    batchSize: BigNumber;
+    minUpdateDelaySeconds: BigNumber;
+    minOracleResults: BigNumber;
+    jobsHash: string;
+    queueAddress: string;
+    balanceLeftForInterval: BigNumber;
+    nextIntervalRefreshTime: BigNumber;
+    balance: BigNumber;
+  };
 }
 
 export interface SwitchboardInterface extends utils.Interface {
   functions: {
+    "aggregatorAddresses(uint256)": FunctionFragment;
     "aggregatorExists(address)": FunctionFragment;
     "aggregatorReadConfigs(address)": FunctionFragment;
     "aggregatorResults(address,uint256)": FunctionFragment;
@@ -55,6 +96,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "createOracleQueue(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "escrowFund(address)": FunctionFragment;
     "escrowWithdraw(address,address,uint256)": FunctionFragment;
+    "getAggregatorsByAuthority(address)": FunctionFragment;
     "getMedian((int256,uint256,address)[])": FunctionFragment;
     "getOracleIdx(address)": FunctionFragment;
     "heartbeat(address)": FunctionFragment;
@@ -75,6 +117,7 @@ export interface SwitchboardInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "aggregatorAddresses"
       | "aggregatorExists"
       | "aggregatorReadConfigs"
       | "aggregatorResults"
@@ -86,6 +129,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "createOracleQueue"
       | "escrowFund"
       | "escrowWithdraw"
+      | "getAggregatorsByAuthority"
       | "getMedian"
       | "getOracleIdx"
       | "heartbeat"
@@ -104,6 +148,10 @@ export interface SwitchboardInterface extends utils.Interface {
       | "sortResults"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "aggregatorAddresses",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "aggregatorExists",
     values: [PromiseOrValue<string>]
@@ -173,6 +221,10 @@ export interface SwitchboardInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAggregatorsByAuthority",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getMedian",
@@ -284,6 +336,10 @@ export interface SwitchboardInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
+    functionFragment: "aggregatorAddresses",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "aggregatorExists",
     data: BytesLike
   ): Result;
@@ -319,6 +375,10 @@ export interface SwitchboardInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "escrowFund", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "escrowWithdraw",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAggregatorsByAuthority",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getMedian", data: BytesLike): Result;
@@ -550,6 +610,11 @@ export interface Switchboard extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    aggregatorAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     aggregatorExists(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -663,6 +728,11 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    getAggregatorsByAuthority(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[], Switchboard.AggregatorStructOutput[]]>;
+
     getMedian(
       arr: Switchboard.ResultStruct[],
       overrides?: CallOverrides
@@ -734,7 +804,7 @@ export interface Switchboard extends BaseContract {
     >;
 
     saveResults(
-      aggregatorAddresses: PromiseOrValue<string>[],
+      addresses: PromiseOrValue<string>[],
       results: PromiseOrValue<BigNumberish>[],
       queueAddress: PromiseOrValue<string>,
       oracleIdx: PromiseOrValue<BigNumberish>,
@@ -803,6 +873,11 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[Switchboard.ResultStructOutput[]]>;
   };
+
+  aggregatorAddresses(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   aggregatorExists(
     aggregatorAddress: PromiseOrValue<string>,
@@ -917,6 +992,11 @@ export interface Switchboard extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getAggregatorsByAuthority(
+    user: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<[string[], Switchboard.AggregatorStructOutput[]]>;
+
   getMedian(
     arr: Switchboard.ResultStruct[],
     overrides?: CallOverrides
@@ -988,7 +1068,7 @@ export interface Switchboard extends BaseContract {
   >;
 
   saveResults(
-    aggregatorAddresses: PromiseOrValue<string>[],
+    addresses: PromiseOrValue<string>[],
     results: PromiseOrValue<BigNumberish>[],
     queueAddress: PromiseOrValue<string>,
     oracleIdx: PromiseOrValue<BigNumberish>,
@@ -1058,6 +1138,11 @@ export interface Switchboard extends BaseContract {
   ): Promise<Switchboard.ResultStructOutput[]>;
 
   callStatic: {
+    aggregatorAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     aggregatorExists(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1171,6 +1256,11 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getAggregatorsByAuthority(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[], Switchboard.AggregatorStructOutput[]]>;
+
     getMedian(
       arr: Switchboard.ResultStruct[],
       overrides?: CallOverrides
@@ -1244,7 +1334,7 @@ export interface Switchboard extends BaseContract {
     >;
 
     saveResults(
-      aggregatorAddresses: PromiseOrValue<string>[],
+      addresses: PromiseOrValue<string>[],
       results: PromiseOrValue<BigNumberish>[],
       queueAddress: PromiseOrValue<string>,
       oracleIdx: PromiseOrValue<BigNumberish>,
@@ -1421,6 +1511,11 @@ export interface Switchboard extends BaseContract {
   };
 
   estimateGas: {
+    aggregatorAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     aggregatorExists(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1496,6 +1591,11 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    getAggregatorsByAuthority(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getMedian(
       arr: Switchboard.ResultStruct[],
       overrides?: CallOverrides
@@ -1537,7 +1637,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<BigNumber>;
 
     saveResults(
-      aggregatorAddresses: PromiseOrValue<string>[],
+      addresses: PromiseOrValue<string>[],
       results: PromiseOrValue<BigNumberish>[],
       queueAddress: PromiseOrValue<string>,
       oracleIdx: PromiseOrValue<BigNumberish>,
@@ -1608,6 +1708,11 @@ export interface Switchboard extends BaseContract {
   };
 
   populateTransaction: {
+    aggregatorAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     aggregatorExists(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1683,6 +1788,11 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    getAggregatorsByAuthority(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getMedian(
       arr: Switchboard.ResultStruct[],
       overrides?: CallOverrides
@@ -1724,7 +1834,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     saveResults(
-      aggregatorAddresses: PromiseOrValue<string>[],
+      addresses: PromiseOrValue<string>[],
       results: PromiseOrValue<BigNumberish>[],
       queueAddress: PromiseOrValue<string>,
       oracleIdx: PromiseOrValue<BigNumberish>,
