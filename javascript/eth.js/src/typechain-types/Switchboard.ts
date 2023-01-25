@@ -64,10 +64,9 @@ export interface SwitchboardInterface extends utils.Interface {
     "queueExists(address)": FunctionFragment;
     "queues(address)": FunctionFragment;
     "saveResults(address[],int256[],address,uint256)": FunctionFragment;
-    "setAggregatorConfig(address,string,address,uint256,uint256,uint256,string,address)": FunctionFragment;
+    "setAggregatorConfig(address,string,address,uint256,uint256,uint256,string,address,uint256,uint256,uint256)": FunctionFragment;
     "setAggregatorPermission(address,address,bool)": FunctionFragment;
     "setAggregatorReadConfig(address,uint256,address,address[],bool)": FunctionFragment;
-    "setAggregatorResponseConfig(address,uint256,uint256,uint256)": FunctionFragment;
     "setOracleConfig(address,string,address,address)": FunctionFragment;
     "setOraclePermission(address,address,bool)": FunctionFragment;
     "setQueueConfig(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
@@ -99,7 +98,6 @@ export interface SwitchboardInterface extends utils.Interface {
       | "setAggregatorConfig"
       | "setAggregatorPermission"
       | "setAggregatorReadConfig"
-      | "setAggregatorResponseConfig"
       | "setOracleConfig"
       | "setOraclePermission"
       | "setQueueConfig"
@@ -227,7 +225,10 @@ export interface SwitchboardInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
-      PromiseOrValue<string>
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
     ]
   ): string;
   encodeFunctionData(
@@ -246,15 +247,6 @@ export interface SwitchboardInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<string>[],
       PromiseOrValue<boolean>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setAggregatorResponseConfig",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
     ]
   ): string;
   encodeFunctionData(
@@ -363,10 +355,6 @@ export interface SwitchboardInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setAggregatorReadConfig",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setAggregatorResponseConfig",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -762,6 +750,9 @@ export interface Switchboard extends BaseContract {
       _minOracleResults: PromiseOrValue<BigNumberish>,
       _jobsHash: PromiseOrValue<string>,
       _queueAddress: PromiseOrValue<string>,
+      varianceThreshold: PromiseOrValue<BigNumberish>,
+      minJobResults: PromiseOrValue<BigNumberish>,
+      forceReportPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -778,14 +769,6 @@ export interface Switchboard extends BaseContract {
       rewardEscrow: PromiseOrValue<string>,
       readWhiteList: PromiseOrValue<string>[],
       limitReadsToWhitelist: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setAggregatorResponseConfig(
-      _aggregatorAddress: PromiseOrValue<string>,
-      varianceThreshold: PromiseOrValue<BigNumberish>,
-      minJobResults: PromiseOrValue<BigNumberish>,
-      forceReportPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -1021,6 +1004,9 @@ export interface Switchboard extends BaseContract {
     _minOracleResults: PromiseOrValue<BigNumberish>,
     _jobsHash: PromiseOrValue<string>,
     _queueAddress: PromiseOrValue<string>,
+    varianceThreshold: PromiseOrValue<BigNumberish>,
+    minJobResults: PromiseOrValue<BigNumberish>,
+    forceReportPeriod: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1037,14 +1023,6 @@ export interface Switchboard extends BaseContract {
     rewardEscrow: PromiseOrValue<string>,
     readWhiteList: PromiseOrValue<string>[],
     limitReadsToWhitelist: PromiseOrValue<boolean>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setAggregatorResponseConfig(
-    _aggregatorAddress: PromiseOrValue<string>,
-    varianceThreshold: PromiseOrValue<BigNumberish>,
-    minJobResults: PromiseOrValue<BigNumberish>,
-    forceReportPeriod: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1282,6 +1260,9 @@ export interface Switchboard extends BaseContract {
       _minOracleResults: PromiseOrValue<BigNumberish>,
       _jobsHash: PromiseOrValue<string>,
       _queueAddress: PromiseOrValue<string>,
+      varianceThreshold: PromiseOrValue<BigNumberish>,
+      minJobResults: PromiseOrValue<BigNumberish>,
+      forceReportPeriod: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1298,14 +1279,6 @@ export interface Switchboard extends BaseContract {
       rewardEscrow: PromiseOrValue<string>,
       readWhiteList: PromiseOrValue<string>[],
       limitReadsToWhitelist: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setAggregatorResponseConfig(
-      _aggregatorAddress: PromiseOrValue<string>,
-      varianceThreshold: PromiseOrValue<BigNumberish>,
-      minJobResults: PromiseOrValue<BigNumberish>,
-      forceReportPeriod: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1580,6 +1553,9 @@ export interface Switchboard extends BaseContract {
       _minOracleResults: PromiseOrValue<BigNumberish>,
       _jobsHash: PromiseOrValue<string>,
       _queueAddress: PromiseOrValue<string>,
+      varianceThreshold: PromiseOrValue<BigNumberish>,
+      minJobResults: PromiseOrValue<BigNumberish>,
+      forceReportPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1596,14 +1572,6 @@ export interface Switchboard extends BaseContract {
       rewardEscrow: PromiseOrValue<string>,
       readWhiteList: PromiseOrValue<string>[],
       limitReadsToWhitelist: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setAggregatorResponseConfig(
-      _aggregatorAddress: PromiseOrValue<string>,
-      varianceThreshold: PromiseOrValue<BigNumberish>,
-      minJobResults: PromiseOrValue<BigNumberish>,
-      forceReportPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1772,6 +1740,9 @@ export interface Switchboard extends BaseContract {
       _minOracleResults: PromiseOrValue<BigNumberish>,
       _jobsHash: PromiseOrValue<string>,
       _queueAddress: PromiseOrValue<string>,
+      varianceThreshold: PromiseOrValue<BigNumberish>,
+      minJobResults: PromiseOrValue<BigNumberish>,
+      forceReportPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1788,14 +1759,6 @@ export interface Switchboard extends BaseContract {
       rewardEscrow: PromiseOrValue<string>,
       readWhiteList: PromiseOrValue<string>[],
       limitReadsToWhitelist: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setAggregatorResponseConfig(
-      _aggregatorAddress: PromiseOrValue<string>,
-      varianceThreshold: PromiseOrValue<BigNumberish>,
-      minJobResults: PromiseOrValue<BigNumberish>,
-      forceReportPeriod: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -108,9 +108,6 @@ export interface AggregatorSetConfigParams {
   minOracleResults: number;
   minUpdateDelaySeconds: number;
   jobsHash: string;
-}
-
-export interface AggregatorSetResponseConfigParams {
   varianceThreshold?: Big;
   forceReportPeriod?: number;
   minJobResults?: number;
@@ -220,7 +217,10 @@ export class AggregatorAccount {
       params.minUpdateDelaySeconds,
       params.minOracleResults,
       params.jobsHash,
-      params.queueAddress
+      params.queueAddress,
+      Math.trunc(params.varianceThreshold.toNumber() * 10 ** 18),
+      params.minJobResults,
+      params.forceReportPeriod
     );
   }
 
