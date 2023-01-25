@@ -54,7 +54,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "createOracle(address,string,address,address)": FunctionFragment;
     "createOracleQueue(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "escrowFund(address)": FunctionFragment;
-    "escrowWithdraw(address,address,uint256,uint256)": FunctionFragment;
+    "escrowWithdraw(address,address,uint256)": FunctionFragment;
     "getMedian((int256,uint256,address)[])": FunctionFragment;
     "getOracleIdx(address)": FunctionFragment;
     "heartbeat(address)": FunctionFragment;
@@ -173,7 +173,6 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
   ): string;
@@ -396,6 +395,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "OracleAccountInit(address,address)": EventFragment;
     "OracleGC(address,address)": EventFragment;
     "OracleHeartbeat(address,address)": EventFragment;
+    "OraclePayoutEvent(address,address,uint256)": EventFragment;
     "OracleQueueAccountInit(address,address)": EventFragment;
   };
 
@@ -409,6 +409,7 @@ export interface SwitchboardInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OracleAccountInit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleGC"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleHeartbeat"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OraclePayoutEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleQueueAccountInit"): EventFragment;
 }
 
@@ -507,6 +508,19 @@ export type OracleHeartbeatEvent = TypedEvent<
 >;
 
 export type OracleHeartbeatEventFilter = TypedEventFilter<OracleHeartbeatEvent>;
+
+export interface OraclePayoutEventEventObject {
+  oracleAddress: string;
+  aggregatorAddress: string;
+  amount: BigNumber;
+}
+export type OraclePayoutEventEvent = TypedEvent<
+  [string, string, BigNumber],
+  OraclePayoutEventEventObject
+>;
+
+export type OraclePayoutEventEventFilter =
+  TypedEventFilter<OraclePayoutEventEvent>;
 
 export interface OracleQueueAccountInitEventObject {
   authority: string;
@@ -655,8 +669,7 @@ export interface Switchboard extends BaseContract {
 
     escrowWithdraw(
       recipient: PromiseOrValue<string>,
-      accountAddress: PromiseOrValue<string>,
-      accountType: PromiseOrValue<BigNumberish>,
+      aggregatorAddress: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -915,8 +928,7 @@ export interface Switchboard extends BaseContract {
 
   escrowWithdraw(
     recipient: PromiseOrValue<string>,
-    accountAddress: PromiseOrValue<string>,
-    accountType: PromiseOrValue<BigNumberish>,
+    aggregatorAddress: PromiseOrValue<string>,
     amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -1175,8 +1187,7 @@ export interface Switchboard extends BaseContract {
 
     escrowWithdraw(
       recipient: PromiseOrValue<string>,
-      accountAddress: PromiseOrValue<string>,
-      accountType: PromiseOrValue<BigNumberish>,
+      aggregatorAddress: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -1412,6 +1423,17 @@ export interface Switchboard extends BaseContract {
       authority?: PromiseOrValue<string> | null
     ): OracleHeartbeatEventFilter;
 
+    "OraclePayoutEvent(address,address,uint256)"(
+      oracleAddress?: PromiseOrValue<string> | null,
+      aggregatorAddress?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
+    ): OraclePayoutEventEventFilter;
+    OraclePayoutEvent(
+      oracleAddress?: PromiseOrValue<string> | null,
+      aggregatorAddress?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
+    ): OraclePayoutEventEventFilter;
+
     "OracleQueueAccountInit(address,address)"(
       authority?: PromiseOrValue<string> | null,
       accountAddress?: PromiseOrValue<string> | null
@@ -1493,8 +1515,7 @@ export interface Switchboard extends BaseContract {
 
     escrowWithdraw(
       recipient: PromiseOrValue<string>,
-      accountAddress: PromiseOrValue<string>,
-      accountType: PromiseOrValue<BigNumberish>,
+      aggregatorAddress: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1686,8 +1707,7 @@ export interface Switchboard extends BaseContract {
 
     escrowWithdraw(
       recipient: PromiseOrValue<string>,
-      accountAddress: PromiseOrValue<string>,
-      accountType: PromiseOrValue<BigNumberish>,
+      aggregatorAddress: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
