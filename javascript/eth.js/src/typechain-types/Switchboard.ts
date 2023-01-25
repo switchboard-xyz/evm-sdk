@@ -716,6 +716,7 @@ export interface Switchboard extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
+        BigNumber,
         BigNumber
       ] & {
         name: string;
@@ -723,6 +724,7 @@ export interface Switchboard extends BaseContract {
         unpermissionedFeedsEnabled: boolean;
         maxSize: BigNumber;
         reward: BigNumber;
+        size: BigNumber;
         oracleTimeout: BigNumber;
         gcIdx: BigNumber;
         currIdx: BigNumber;
@@ -974,6 +976,7 @@ export interface Switchboard extends BaseContract {
       BigNumber,
       BigNumber,
       BigNumber,
+      BigNumber,
       BigNumber
     ] & {
       name: string;
@@ -981,6 +984,7 @@ export interface Switchboard extends BaseContract {
       unpermissionedFeedsEnabled: boolean;
       maxSize: BigNumber;
       reward: BigNumber;
+      size: BigNumber;
       oracleTimeout: BigNumber;
       gcIdx: BigNumber;
       currIdx: BigNumber;
@@ -1234,6 +1238,7 @@ export interface Switchboard extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
+        BigNumber,
         BigNumber
       ] & {
         name: string;
@@ -1241,6 +1246,7 @@ export interface Switchboard extends BaseContract {
         unpermissionedFeedsEnabled: boolean;
         maxSize: BigNumber;
         reward: BigNumber;
+        size: BigNumber;
         oracleTimeout: BigNumber;
         gcIdx: BigNumber;
         currIdx: BigNumber;
