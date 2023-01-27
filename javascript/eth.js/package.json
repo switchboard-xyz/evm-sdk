@@ -1,7 +1,7 @@
 {
   "name": "@switchboard-xyz/evm.js",
   "description": "API wrapper for intergating with the Switchboardv2 program on our EVM implementation",
-  "version": "3.7.3",
+  "version": "3.7.4",
   "license": "MIT",
   "bin": {
     "sbv2-evm": "./sbv2-evm.ts"
@@ -39,8 +39,7 @@
     "bn.js": "^5.2.1",
     "chalk": "^5.0.1",
     "js-sha3": "^0.8.0",
-    "node-fetch": "^2.1.6",
-    "web3.storage": "^4.4.0"
+    "node-fetch": "^2.1.6"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",

@@ -3,7 +3,6 @@ import Big from "big.js";
 import { Wallet, ContractTransaction } from "ethers";
 import * as ethers from "ethers";
 import { Switchboard__factory, Switchboard } from "./typechain-types";
-import { Web3Storage } from "web3.storage";
 
 export { OracleJob, IOracleJob } from "@switchboard-xyz/common";
 export { Switchboard__factory, Switchboard } from "./typechain-types";
@@ -402,23 +401,6 @@ export async function fetchAggregators(
       }
     })
   );
-}
-
-/**
- * Write Job to web3.Storage
- */
-export function writeJobsToWeb3Storage(
-  jobs: Job[],
-  token: string
-): Promise<string> {
-  const client = new Web3Storage({ token });
-  const content = new File([JSON.stringify(jobs)], "", {
-    type: "application/json",
-  });
-  const cid = client.put([content], {
-    wrapWithDirectory: false,
-  });
-  return cid;
 }
 
 /**
