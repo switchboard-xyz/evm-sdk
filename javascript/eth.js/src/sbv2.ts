@@ -445,6 +445,6 @@ export async function fetchJobsFromIPFS(
       );
     }
 
-    return fetchJobsFromIPFS(hash, gatewayIndex);
+    return fetchJobsFromIPFS(hash, ++gatewayIndex);
   }
 }
