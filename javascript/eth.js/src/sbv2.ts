@@ -1,13 +1,12 @@
 import { OracleJob } from "@switchboard-xyz/common";
 import Big from "big.js";
 import { Wallet, ContractTransaction } from "ethers";
-import ethers from "ethers";
+import * as ethers from "ethers";
 import { Switchboard__factory, Switchboard } from "./typechain-types";
-export { OracleJob, IOracleJob } from "@switchboard-xyz/common";
 import { Web3Storage } from "web3.storage";
 
+export { OracleJob, IOracleJob } from "@switchboard-xyz/common";
 export { Switchboard__factory, Switchboard } from "./typechain-types";
-
 export const SWITCHBOARD_DEVNET_ADDRESS = ``;
 export const SWITCHBOARD_TESTNET_ADDRESS = ``;
 export const SWITCHBOARD_MAINNET_ADDRESS = ``;
