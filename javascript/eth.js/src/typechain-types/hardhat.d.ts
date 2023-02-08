@@ -13,10 +13,37 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "AggregatorV3Interface",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AggregatorV3Interface__factory>;
+    getContractFactory(
+      name: "ISwitchboard",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISwitchboard__factory>;
+    getContractFactory(
+      name: "LegacyOracleAdapter",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LegacyOracleAdapter__factory>;
+    getContractFactory(
       name: "Switchboard",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Switchboard__factory>;
 
+    getContractAt(
+      name: "AggregatorV3Interface",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AggregatorV3Interface>;
+    getContractAt(
+      name: "ISwitchboard",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISwitchboard>;
+    getContractAt(
+      name: "LegacyOracleAdapter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LegacyOracleAdapter>;
     getContractAt(
       name: "Switchboard",
       address: string,

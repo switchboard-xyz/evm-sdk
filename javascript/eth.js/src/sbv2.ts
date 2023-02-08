@@ -85,6 +85,8 @@ export interface AggregatorInitParams {
   varianceThreshold: number;
   forceReportPeriod: number;
   jobsHash: string;
+  initialValue: ethers.BigNumber;
+  enableLegacyAdapter: boolean;
 }
 
 export interface SaveResultParams {
@@ -109,6 +111,7 @@ export interface AggregatorSetConfigParams {
   varianceThreshold?: Big;
   forceReportPeriod?: number;
   minJobResults?: number;
+  enableLegacyAdapter?: boolean;
 }
 
 export interface AggregatorSetReadConfigParams {
@@ -116,6 +119,7 @@ export interface AggregatorSetReadConfigParams {
   rewardEscrow?: string;
   readWhitelist?: string[];
   limitReadsToWhitelist?: boolean;
+  enableLegacyAdapter?: boolean;
 }
 
 export interface OracleInitParams {
@@ -182,7 +186,6 @@ export class AggregatorAccount {
     params: AggregatorInitParams
   ): Promise<[AggregatorAccount, ContractTransaction]> {
     const tx = await client.createAggregator(
-      params.address,
       params.name,
       params.authority,
       params.batchSize,
@@ -192,10 +195,20 @@ export class AggregatorAccount {
       params.queueAddress,
       params.varianceThreshold,
       params.minJobResults,
-      params.forceReportPeriod
+      params.forceReportPeriod,
+      params.enableLegacyAdapter, // AggregatorV3 Interface Support (2x's gas cost)
+      {
+        value: params.initialValue ?? 0,
+      }
     );
 
-    return [new AggregatorAccount(client, params.address), tx];
+    const aggregatorAddress = await tx.wait().then((logs) => {
+      const log = logs.logs[0];
+      const sbLog = client.interface.parseLog(log);
+      return sbLog.args.accountAddress as string;
+    });
+
+    return [new AggregatorAccount(client, aggregatorAddress), tx];
   }
 
   async latestValue(): Promise<number> {
@@ -219,6 +232,19 @@ export class AggregatorAccount {
       Math.trunc(params.varianceThreshold.toNumber() * 10 ** 18),
       params.minJobResults,
       params.forceReportPeriod
+    );
+  }
+
+  async setReadConfig(
+    params: AggregatorSetReadConfigParams
+  ): Promise<ContractTransaction> {
+    return this.client.setAggregatorReadConfig(
+      this.address,
+      params.readCharge,
+      params.rewardEscrow,
+      params.readWhitelist,
+      params.limitReadsToWhitelist,
+      params.enableLegacyAdapter
     );
   }
 
@@ -284,16 +310,20 @@ export class OracleAccount {
    */
   static async init(
     client: Switchboard,
-    address: string,
     params: OracleInitParams
   ): Promise<[OracleAccount, ContractTransaction]> {
     const tx = await client.createOracle(
-      address,
       params.name,
       params.authority,
       params.queue
     );
-    return [new OracleAccount(client, address), tx];
+
+    const oracleAddress = await tx.wait().then((logs) => {
+      const log = logs.logs[0];
+      const sbLog = client.interface.parseLog(log);
+      return sbLog.args.accountAddress as string;
+    });
+    return [new OracleAccount(client, oracleAddress), tx];
   }
 
   async loadData(): Promise<any> {
@@ -313,14 +343,16 @@ export class OracleAccount {
   async saveManyResults(
     params: OracleSaveResultParams
   ): Promise<ContractTransaction> {
-    const [aggregatorAddresses, values]: [string[], number[]] =
+    const [aggregatorAddresses, values]: [string[], ethers.BigNumber[]] =
       params.data.reduce(
         ([a, v], p) => {
           a.push(p.aggregatorAddress);
-          v.push(Number(p.value.mantissa) * (p.value.neg ? -1 : 1));
+          v.push(
+            ethers.BigNumber.from(p.value.mantissa).mul(p.value.neg ? -1 : 1)
+          );
           return [a, v];
         },
-        [[] as string[], [] as number[]]
+        [[] as string[], [] as ethers.BigNumber[]]
       );
 
     return await this.client.saveResults(
@@ -347,7 +379,6 @@ export class OracleQueueAccount {
     params: OracleQueueInitParams
   ): Promise<[OracleQueueAccount, ContractTransaction]> {
     const tx = await client.createOracleQueue(
-      address,
       params.name,
       params.authority,
       params.unpermissionedFeedsEnabled,
@@ -355,8 +386,12 @@ export class OracleQueueAccount {
       params.reward,
       params.oracleTimeout
     );
-
-    return [new OracleQueueAccount(client, address), tx];
+    const queueAddress = await tx.wait().then((logs) => {
+      const log = logs.logs[0];
+      const sbLog = client.interface.parseLog(log);
+      return sbLog.args.accountAddress as string;
+    });
+    return [new OracleQueueAccount(client, queueAddress), tx];
   }
 
   async setConfigs(
