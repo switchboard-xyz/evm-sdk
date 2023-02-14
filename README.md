@@ -52,8 +52,8 @@ CoreDAO feeds.
 
 | **Lang** | **Name**                                                                                                                                                                                    | **Description**                                                                |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Solidity | [ISwitchboard.sol](/solidity/interfaces/ISwitchboard/)                                                                                                                                      | Solidity module to read Switchboard data feeds                                 |
-| Solidity | [ILegacyOracle](/solidity/interfaces/)                                                                                                                                                      | Solidity module to read Switchboard data feeds using the legacy oracle adapter |
+| Solidity | [ISwitchboard.sol](/solidity/ISwitchboard/)                                                                                                                                                 | Solidity module to read Switchboard data feeds                                 |
+| Solidity | [ILegacyOracle.sol](/solidity/ILegacyOracle/)                                                                                                                                               | Solidity module to read Switchboard data feeds using the legacy oracle adapter |
 | JS       | [@switchboard-xyz/evm.js](/javascript/evm.js/) <br />[[npmjs](https://www.npmjs.com/package/@switchboard-xyz/evm.js), [Typedocs](https://docs.switchboard.xyz/api/@switchboard-xyz/evm.js)] | Typescript package to interact with Switchboard V2                             |
 
 ## Example Programs
