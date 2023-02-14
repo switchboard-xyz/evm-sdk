@@ -3,7 +3,7 @@
     <img height="170" src="https://github.com/switchboard-xyz/sbv2-core/raw/main/website/static/img/icons/switchboard/avatar.svg" />
   </a>
 
-  <h1>sbv2-evm / Switchboard</h1>
+  <h1>sbv2-evm / ISwitchboard.sol</h1>
 
   <p>A Solidity contract to read a Switchboard data feed.</p>
 
