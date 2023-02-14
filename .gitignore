@@ -12,3 +12,5 @@ demo/build/Switchboard_Demo/
 demo/build/Switchboard_Demo/**
 build/
 dist
+
+**.DS_Store

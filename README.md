@@ -1,186 +1,69 @@
-# EVM Switchboard SDK
+<div align="center">
+  <a href="#">
+    <img height="170" src="https://github.com/switchboard-xyz/sbv2-core/raw/main/website/static/img/icons/switchboard/avatar.svg" />
+  </a>
 
-[![GitHub](https://img.shields.io/badge/--181717?logo=github&logoColor=ffffff)](https://github.com/switchboard-xyz/aptos-sdk)&nbsp;
-[![twitter](https://badgen.net/twitter/follow/switchboardxyz)](https://twitter.com/switchboardxyz)&nbsp;&nbsp;
+  <h1>Switchboard V2</h1>
 
-A library of utility functions to interact with the SwitchboardV2 evm implementation
+  <p>A collection of libraries and examples for interacting with Switchboard V2 on EVM chains.</p>
 
-**Official Documentation**:
-[https://docs.switchboard.xyz/](https://docs.switchboard.xyz/)
+  <p>
+	  <a href="https://www.npmjs.com/package/@switchboard-xyz/evm.js">
+      <img alt="NPM Badge" src="https://img.shields.io/github/package-json/v/switchboard-xyz/sbv2-evm?color=red&filename=javascript%2Fevm.js%2Fpackage.json&label=%40switchboard-xyz%2Fevm.js&logo=npm">
+    </a>
+  </p>
 
-### CoreDAO Testnet Contract Address
+  <p>
+    <a href="https://discord.gg/switchboardxyz">
+      <img alt="Discord" src="https://img.shields.io/discord/841525135311634443?color=blueviolet&logo=discord&logoColor=white">
+    </a>
+    <a href="https://twitter.com/switchboardxyz">
+      <img alt="Twitter" src="https://img.shields.io/twitter/follow/switchboardxyz?label=Follow+Switchboard" />
+    </a>
+  </p>
 
-```
-0xe9F5Ecb00BC437F061DF59d899F00f260740dC48
-```
+  <h4>
+    <strong>Documentation: </strong><a href="https://docs.switchboard.xyz">docs.switchboard.xyz</a>
+  </h4>
+</div>
 
-## Integrating Switchboard
+## Getting Started
 
-### Example Usage
+To get started, clone the
+[sbv2-evm](https://github.com/switchboard-xyz/sbv2-evm) repository.
 
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-interface ISwitchboard {
-
-  // read from aggregator
-  function latestResult(address aggregatorAddress)
-    external
-    payable
-    returns (
-      int256 value,
-      uint timestamp
-    );
-
-  // read round from an aggregator
-  function latestRound(address aggregatorAddress)
-    external
-    payable
-    returns (
-      uint80 round,
-      int256 value,
-      uint256 timestamp,
-      uint256 oldestConsideredValueTimestamp
-    );
-}
-
-contract ReadAFeed {
-
-  // version of this contract
-  int256 public latestValue;
-  uint256 public latestTimestamp;
-  address switchboardAddress;
-  address aggregatorAddress;
-
-  // constructor
-  // switchboard coreadao address: 0xe9F5Ecb00BC437F061DF59d899F00f260740dC48
-  // example feed address:
-  constructor(address _switchboard, address _aggregatorAddress) {
-    switchboardAddress = _switchboard;
-    aggregatorAddress = _aggregatorAddress;
-  }
-
-  function latest() external view returns (int256, uint256) {
-    return (latestValue, latestTimestamp);
-  }
-
-  function getLatestResult()
-    external
-    returns (
-      int256 value,
-      uint256 timestamp
-    ) {
-
-      ISwitchboard switchboard = ISwitchboard(switchboardAddress);
-      (value, timestamp) = switchboard.latestResult(aggregatorAddress);
-      latestValue = value;
-      latestTimestamp = timestamp;
-    }
-}
+```bash
+git clone https://github.com/switchboard-xyz/sbv2-evm
 ```
 
-## Creating Feeds via SDK
+## Program IDs
 
-## Install
+| **Network**     | **Program ID**                               |
+| --------------- | -------------------------------------------- |
+| CoreDAO Testnet | `0xe9F5Ecb00BC437F061DF59d899F00f260740dC48` |
 
-```
-npm i --save @switchboard-xyz/evm.js
-```
+See [switchboard.xyz/explorer](https://switchboard.xyz/explorer) for a list of
+feeds deployed on CoreDAO.
 
-## Typescript Aggregator Creation
+See [app.switchboard.xyz](https://app.switchboard.xyz) to create your own
+CoreDAO feeds.
 
-```typescript
-import { AggregatorAccount, OracleJob } from "@switchboard-xyz/evm.js";
-import { BigNumber, Wallet } from "ethers";
+## Libraries
 
-const authorityAddress = "0x1"; // Add your address here
-const queueAddress = "0x83Fb069B10426056Ef8Ca54750cB9bB552a59e7D"; // Permissionless queue address
-const switchboardAddress = "0xe9F5Ecb00BC437F061DF59d899F00f260740dC48";
+| **Lang** | **Name**                                                                                                                                                                                    | **Description**                                                                |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Solidity | [ISwitchboard.sol](/solidity/interfaces/ISwitchboard/)                                                                                                                                      | Solidity module to read Switchboard data feeds                                 |
+| Solidity | [ILegacyOracle](/solidity/interfaces/)                                                                                                                                                      | Solidity module to read Switchboard data feeds using the legacy oracle adapter |
+| JS       | [@switchboard-xyz/evm.js](/javascript/evm.js/) <br />[[npmjs](https://www.npmjs.com/package/@switchboard-xyz/evm.js), [Typedocs](https://docs.switchboard.xyz/api/@switchboard-xyz/evm.js)] | Typescript package to interact with Switchboard V2                             |
 
-const batchSize = 1; // 1 oracle will resolve a feed
-const minUpdateDelaySeconds = 30; // update every 30 seconds
-const minOracleResults = 1; // it should only take 1 oracle to resolve the feed
-const ipfsJobsAddress = ""; // OracleJobs stored in IPFS
-const varianceThreshold = 0; // Always update - but this is stored as a fixed scale factor decimal 18 digits represent the decimal portion of each num
-const minJobResults = 1; // It should only take 1 job to resolve a feed
-const forceReportPeriod = 0; // Force a result is off
+## Example Programs
 
-const tx = await switchboard.createAggregator(
-  "My BTC Feed",
-  authorityAddress,
-  oracleRequestBatchSize,
-  minUpdateDelaySeconds,
-  minOracleResults,
-  ipfsJobsAddress,
-  queueAddress,
+- [read-feed](/contracts/read-feed/): Read a Switchboard feed on Evm chains
+- [read-feed-aggregator-v3](/contracts/read-feed-aggregator-v3/): Read a
+  Switchboard feed on Evm chains
 
-  /// Response Configs (not used on-chain)
-  varianceThreshold,
-  minJobResults,
-  forceReportPeriod,
+## Troubleshooting
 
-  false, // Aggregator V3 Inteface is off (makes updates more expensive)
-  {
-    value: BigNumber.from(
-      new Big(params.initialLoadAmount).mul(WEI_PER_ETH.toString()).toString()
-    ),
-  }
-);
-
-// get aggregator address from receipt
-const aggregatorAddress = tx.wait().then((logs) => {
-  const log = logs.logs[0];
-  const sbLog = switchboard.interface.parseLog(log);
-  return sbLog.args.accountAddress as string;
-});
-```
-
-### Creating Jobs on IPFS
-
-A set of jobs must be encoded with the [following structure](https://ipfs.io/ipfs/bafybeiaprigfe7hakc4hgqyrjtgsbggrpvzfufpufzvpwtzlznyjb5hjw4/%20USD). This example uses [web3.storage](https://web3.storage).
-
-```typescript
-const jobs = [
-  {
-    name: job.name,
-    weight: job.weight,
-    data: Buffer.from(
-      sb.OracleJob.encodeDelimited({
-        tasks: [
-          {
-            httpTask: {
-              url: "https://api.coinbase.com/v2/prices/USDC-USD/spot",
-            },
-          },
-          {
-            jsonParseTask: {
-              path: "$.data.amount",
-            },
-          },
-          {
-            boundTask: {
-              lowerBoundValue: "0.98",
-              upperBoundValue: "1.02",
-            },
-          },
-        ],
-      }).finish()
-    ).toString("base64"),
-  },
-];
-
-const client = new Web3Storage({
-  token: "<TOKEN_GOES_HERE>",
-});
-
-// get jobs from validation
-const content = new File([JSON.stringify(jobs)], "", {
-  type: "application/json",
-});
-
-// get content ID - fetchable immediately via ipfs
-const cid = await client.put([content], {
-  wrapWithDirectory: false,
-});
-```
+1. File a [GitHub Issue](https://github.com/switchboard-xyz/sbv2-evm/issues/new)
+2. Ask a question in
+   [Discord #dev-support](https://discord.com/channels/841525135311634443/984343400377647144)
