@@ -33,19 +33,4 @@ contract ReadAFeed {
       latestValue = value;
       latestTimestamp = timestamp;
     }
-
-  function getRoundData()
-    external
-    returns (
-      uint80 roundId,
-      int256 answer,
-      uint256 timestamp,
-      uint256 oldestConsideredTimestamp
-    ) {
-      
-      ISwitchboard switchboard = ISwitchboard(switchboardAddress);
-      (roundId, answer, timestamp, oldestConsideredTimestamp) = switchboard.latestRound(aggregatorAddress);
-      latestTimestamp = timestamp;
-      latestValue = answer;
-    }
 }

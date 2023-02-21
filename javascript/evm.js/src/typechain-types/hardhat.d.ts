@@ -13,6 +13,10 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "Initializable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
       name: "AggregatorV3Interface",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AggregatorV3Interface__factory>;
@@ -28,7 +32,16 @@ declare module "hardhat/types/runtime" {
       name: "Switchboard",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Switchboard__factory>;
+    getContractFactory(
+      name: "SwitchboardV2TEST",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SwitchboardV2TEST__factory>;
 
+    getContractAt(
+      name: "Initializable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Initializable>;
     getContractAt(
       name: "AggregatorV3Interface",
       address: string,
@@ -49,6 +62,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Switchboard>;
+    getContractAt(
+      name: "SwitchboardV2TEST",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SwitchboardV2TEST>;
 
     // default types
     getContractFactory(

@@ -28,7 +28,7 @@ contract ReadAFeed {
       uint256 timestamp
     ) {
 
-      AggregatorV3Interface aggregator = AggregatorV3Interface(switchboardAddress);
+      AggregatorV3Interface aggregator = AggregatorV3Interface(aggregatorAddress);
 
       // fetch the latest round
       (

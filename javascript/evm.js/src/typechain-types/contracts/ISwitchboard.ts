@@ -4,6 +4,7 @@
 import type {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -20,55 +21,45 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "./common";
+} from "../common";
 
 export interface ISwitchboardInterface extends utils.Interface {
   functions: {
-    "aggregatorExists(address)": FunctionFragment;
-    "getReadCost(address)": FunctionFragment;
+    "getCurrentIntervalId(address)": FunctionFragment;
+    "getIntervalResult(address,uint80)": FunctionFragment;
     "latestResult(address)": FunctionFragment;
-    "latestRound(address)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "aggregatorExists"
-      | "getReadCost"
+      | "getCurrentIntervalId"
+      | "getIntervalResult"
       | "latestResult"
-      | "latestRound"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "aggregatorExists",
+    functionFragment: "getCurrentIntervalId",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getReadCost",
-    values: [PromiseOrValue<string>]
+    functionFragment: "getIntervalResult",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "latestResult",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "latestRound",
     values: [PromiseOrValue<string>]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "aggregatorExists",
+    functionFragment: "getCurrentIntervalId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getReadCost",
+    functionFragment: "getIntervalResult",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "latestResult",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "latestRound",
     data: BytesLike
   ): Result;
 
@@ -102,57 +93,68 @@ export interface ISwitchboard extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    aggregatorExists(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    getReadCost(
+    getCurrentIntervalId(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    getIntervalResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      round: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        value: BigNumber;
+        timestamp: BigNumber;
+        medianTimestamp: BigNumber;
+      }
+    >;
 
     latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    latestRound(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
   };
 
-  aggregatorExists(
-    aggregatorAddress: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  getReadCost(
+  getCurrentIntervalId(
     aggregatorAddress: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  getIntervalResult(
+    aggregatorAddress: PromiseOrValue<string>,
+    round: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber] & {
+      value: BigNumber;
+      timestamp: BigNumber;
+      medianTimestamp: BigNumber;
+    }
+  >;
 
   latestResult(
     aggregatorAddress: PromiseOrValue<string>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  latestRound(
-    aggregatorAddress: PromiseOrValue<string>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
-    aggregatorExists(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    getReadCost(
+    getCurrentIntervalId(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getIntervalResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      round: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        value: BigNumber;
+        timestamp: BigNumber;
+        medianTimestamp: BigNumber;
+      }
+    >;
 
     latestResult(
       aggregatorAddress: PromiseOrValue<string>,
@@ -160,61 +162,41 @@ export interface ISwitchboard extends BaseContract {
     ): Promise<
       [BigNumber, BigNumber] & { value: BigNumber; timestamp: BigNumber }
     >;
-
-    latestRound(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber] & {
-        round: BigNumber;
-        value: BigNumber;
-        timestamp: BigNumber;
-        oldestConsideredValueTimestamp: BigNumber;
-      }
-    >;
   };
 
   filters: {};
 
   estimateGas: {
-    aggregatorExists(
+    getCurrentIntervalId(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getReadCost(
+    getIntervalResult(
       aggregatorAddress: PromiseOrValue<string>,
+      round: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    latestRound(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    aggregatorExists(
+    getCurrentIntervalId(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getReadCost(
+    getIntervalResult(
       aggregatorAddress: PromiseOrValue<string>,
+      round: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    latestRound(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

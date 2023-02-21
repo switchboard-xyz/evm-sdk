@@ -26,7 +26,7 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "./common";
+} from "../common";
 
 export declare namespace Switchboard {
   export type ResultStruct = {
@@ -89,6 +89,7 @@ export interface SwitchboardInterface extends utils.Interface {
   functions: {
     "aggregatorAddresses(uint256)": FunctionFragment;
     "aggregatorExists(address)": FunctionFragment;
+    "aggregatorHistory(address,uint80)": FunctionFragment;
     "aggregatorReadConfigs(address)": FunctionFragment;
     "aggregatorResults(address,uint256)": FunctionFragment;
     "aggregatorToLegacyAdapter(address)": FunctionFragment;
@@ -100,13 +101,15 @@ export interface SwitchboardInterface extends utils.Interface {
     "escrowFund(address)": FunctionFragment;
     "escrowWithdraw(address,address,uint256)": FunctionFragment;
     "getAggregatorsByAuthority(address)": FunctionFragment;
+    "getCurrentIntervalId(address)": FunctionFragment;
+    "getIntervalResult(address,uint80)": FunctionFragment;
     "getMedian((int256,uint256,address)[])": FunctionFragment;
     "getOracleIdx(address)": FunctionFragment;
     "getReadCost(address)": FunctionFragment;
     "getReadyAggregators(address)": FunctionFragment;
     "heartbeat(address)": FunctionFragment;
+    "initialize()": FunctionFragment;
     "latestResult(address)": FunctionFragment;
-    "latestRound(address)": FunctionFragment;
     "oracleExists(address)": FunctionFragment;
     "oracles(address)": FunctionFragment;
     "queueExists(address)": FunctionFragment;
@@ -126,6 +129,7 @@ export interface SwitchboardInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "aggregatorAddresses"
       | "aggregatorExists"
+      | "aggregatorHistory"
       | "aggregatorReadConfigs"
       | "aggregatorResults"
       | "aggregatorToLegacyAdapter"
@@ -137,13 +141,15 @@ export interface SwitchboardInterface extends utils.Interface {
       | "escrowFund"
       | "escrowWithdraw"
       | "getAggregatorsByAuthority"
+      | "getCurrentIntervalId"
+      | "getIntervalResult"
       | "getMedian"
       | "getOracleIdx"
       | "getReadCost"
       | "getReadyAggregators"
       | "heartbeat"
+      | "initialize"
       | "latestResult"
-      | "latestRound"
       | "oracleExists"
       | "oracles"
       | "queueExists"
@@ -166,6 +172,10 @@ export interface SwitchboardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "aggregatorExists",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "aggregatorHistory",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "aggregatorReadConfigs",
@@ -239,6 +249,14 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getCurrentIntervalId",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getIntervalResult",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getMedian",
     values: [Switchboard.ResultStruct[]]
   ): string;
@@ -259,11 +277,11 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "latestResult",
-    values: [PromiseOrValue<string>]
+    functionFragment: "initialize",
+    values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "latestRound",
+    functionFragment: "latestResult",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -370,6 +388,10 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "aggregatorHistory",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "aggregatorReadConfigs",
     data: BytesLike
   ): Result;
@@ -410,6 +432,14 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "getAggregatorsByAuthority",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "getCurrentIntervalId",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getIntervalResult",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getMedian", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getOracleIdx",
@@ -424,12 +454,9 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "heartbeat", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "latestResult",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "latestRound",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -479,9 +506,11 @@ export interface SwitchboardInterface extends utils.Interface {
   events: {
     "AggregatorAccountInit(address,address,uint256)": EventFragment;
     "AggregatorFundEvent(address,address,uint256)": EventFragment;
+    "AggregatorIntervalRefreshed(address,uint256,uint256)": EventFragment;
     "AggregatorResponseSettingsUpdate(address,uint256,uint256,uint256)": EventFragment;
     "AggregatorSaveResult(address,address,int256)": EventFragment;
     "AggregatorUpdate(address,int256,uint256)": EventFragment;
+    "Initialized(uint8)": EventFragment;
     "LegacyOracleAdapterDeployed(address,address)": EventFragment;
     "OracleAccountInit(address,address)": EventFragment;
     "OracleGC(address,address)": EventFragment;
@@ -493,10 +522,14 @@ export interface SwitchboardInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "AggregatorAccountInit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorFundEvent"): EventFragment;
   getEvent(
+    nameOrSignatureOrTopic: "AggregatorIntervalRefreshed"
+  ): EventFragment;
+  getEvent(
     nameOrSignatureOrTopic: "AggregatorResponseSettingsUpdate"
   ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorSaveResult"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorUpdate"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(
     nameOrSignatureOrTopic: "LegacyOracleAdapterDeployed"
   ): EventFragment;
@@ -532,6 +565,19 @@ export type AggregatorFundEventEvent = TypedEvent<
 
 export type AggregatorFundEventEventFilter =
   TypedEventFilter<AggregatorFundEventEvent>;
+
+export interface AggregatorIntervalRefreshedEventObject {
+  aggregatorAddress: string;
+  intervalId: BigNumber;
+  balanceLeftForInterval: BigNumber;
+}
+export type AggregatorIntervalRefreshedEvent = TypedEvent<
+  [string, BigNumber, BigNumber],
+  AggregatorIntervalRefreshedEventObject
+>;
+
+export type AggregatorIntervalRefreshedEventFilter =
+  TypedEventFilter<AggregatorIntervalRefreshedEvent>;
 
 export interface AggregatorResponseSettingsUpdateEventObject {
   aggregatorAddress: string;
@@ -572,6 +618,13 @@ export type AggregatorUpdateEvent = TypedEvent<
 
 export type AggregatorUpdateEventFilter =
   TypedEventFilter<AggregatorUpdateEvent>;
+
+export interface InitializedEventObject {
+  version: number;
+}
+export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export interface LegacyOracleAdapterDeployedEventObject {
   aggregatorAddress: string;
@@ -677,6 +730,18 @@ export interface Switchboard extends BaseContract {
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    aggregatorHistory(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        value: BigNumber;
+        timestamp: BigNumber;
+        medianTimestamp: BigNumber;
+      }
+    >;
 
     aggregatorReadConfigs(
       arg0: PromiseOrValue<string>,
@@ -795,6 +860,23 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string[], Switchboard.AggregatorStructOutput[]]>;
 
+    getCurrentIntervalId(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { roundId: BigNumber }>;
+
+    getIntervalResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      intervalId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        value: BigNumber;
+        timestamp: BigNumber;
+        medianTimestamp: BigNumber;
+      }
+    >;
+
     getMedian(
       arr: Switchboard.ResultStruct[],
       overrides?: CallOverrides
@@ -820,12 +902,11 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    latestRound(
+    latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -964,6 +1045,18 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  aggregatorHistory(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber] & {
+      value: BigNumber;
+      timestamp: BigNumber;
+      medianTimestamp: BigNumber;
+    }
+  >;
+
   aggregatorReadConfigs(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -1081,6 +1174,23 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[string[], Switchboard.AggregatorStructOutput[]]>;
 
+  getCurrentIntervalId(
+    aggregatorAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getIntervalResult(
+    aggregatorAddress: PromiseOrValue<string>,
+    intervalId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber] & {
+      value: BigNumber;
+      timestamp: BigNumber;
+      medianTimestamp: BigNumber;
+    }
+  >;
+
   getMedian(
     arr: Switchboard.ResultStruct[],
     overrides?: CallOverrides
@@ -1106,12 +1216,11 @@ export interface Switchboard extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  latestResult(
-    aggregatorAddress: PromiseOrValue<string>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  initialize(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  latestRound(
+  latestResult(
     aggregatorAddress: PromiseOrValue<string>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -1250,6 +1359,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    aggregatorHistory(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        value: BigNumber;
+        timestamp: BigNumber;
+        medianTimestamp: BigNumber;
+      }
+    >;
+
     aggregatorReadConfigs(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1367,6 +1488,23 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string[], Switchboard.AggregatorStructOutput[]]>;
 
+    getCurrentIntervalId(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getIntervalResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      intervalId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        value: BigNumber;
+        timestamp: BigNumber;
+        medianTimestamp: BigNumber;
+      }
+    >;
+
     getMedian(
       arr: Switchboard.ResultStruct[],
       overrides?: CallOverrides
@@ -1392,23 +1530,13 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    initialize(overrides?: CallOverrides): Promise<void>;
+
     latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber] & { value: BigNumber; timestamp: BigNumber }
-    >;
-
-    latestRound(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber] & {
-        round: BigNumber;
-        value: BigNumber;
-        timestamp: BigNumber;
-        oldestConsideredValueTimestamp: BigNumber;
-      }
     >;
 
     oracleExists(
@@ -1558,6 +1686,17 @@ export interface Switchboard extends BaseContract {
       amount?: PromiseOrValue<BigNumberish> | null
     ): AggregatorFundEventEventFilter;
 
+    "AggregatorIntervalRefreshed(address,uint256,uint256)"(
+      aggregatorAddress?: PromiseOrValue<string> | null,
+      intervalId?: PromiseOrValue<BigNumberish> | null,
+      balanceLeftForInterval?: PromiseOrValue<BigNumberish> | null
+    ): AggregatorIntervalRefreshedEventFilter;
+    AggregatorIntervalRefreshed(
+      aggregatorAddress?: PromiseOrValue<string> | null,
+      intervalId?: PromiseOrValue<BigNumberish> | null,
+      balanceLeftForInterval?: PromiseOrValue<BigNumberish> | null
+    ): AggregatorIntervalRefreshedEventFilter;
+
     "AggregatorResponseSettingsUpdate(address,uint256,uint256,uint256)"(
       aggregatorAddress?: PromiseOrValue<string> | null,
       varianceThreshold?: null,
@@ -1592,6 +1731,9 @@ export interface Switchboard extends BaseContract {
       value?: PromiseOrValue<BigNumberish> | null,
       timestamp?: null
     ): AggregatorUpdateEventFilter;
+
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
 
     "LegacyOracleAdapterDeployed(address,address)"(
       aggregatorAddress?: PromiseOrValue<string> | null,
@@ -1658,6 +1800,12 @@ export interface Switchboard extends BaseContract {
 
     aggregatorExists(
       aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    aggregatorHistory(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1737,6 +1885,17 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getCurrentIntervalId(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getIntervalResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      intervalId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getMedian(
       arr: Switchboard.ResultStruct[],
       overrides?: CallOverrides
@@ -1762,12 +1921,11 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    latestRound(
+    latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1877,6 +2035,12 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    aggregatorHistory(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     aggregatorReadConfigs(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1953,6 +2117,17 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getCurrentIntervalId(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getIntervalResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      intervalId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getMedian(
       arr: Switchboard.ResultStruct[],
       overrides?: CallOverrides
@@ -1978,12 +2153,11 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    latestRound(
+    latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

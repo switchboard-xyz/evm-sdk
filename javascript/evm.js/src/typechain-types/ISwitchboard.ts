@@ -24,14 +24,28 @@ import type {
 
 export interface ISwitchboardInterface extends utils.Interface {
   functions: {
+    "aggregatorExists(address)": FunctionFragment;
+    "getReadCost(address)": FunctionFragment;
     "latestResult(address)": FunctionFragment;
     "latestRound(address)": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "latestResult" | "latestRound"
+    nameOrSignatureOrTopic:
+      | "aggregatorExists"
+      | "getReadCost"
+      | "latestResult"
+      | "latestRound"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "aggregatorExists",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getReadCost",
+    values: [PromiseOrValue<string>]
+  ): string;
   encodeFunctionData(
     functionFragment: "latestResult",
     values: [PromiseOrValue<string>]
@@ -41,6 +55,14 @@ export interface ISwitchboardInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "aggregatorExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getReadCost",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "latestResult",
     data: BytesLike
@@ -80,6 +102,16 @@ export interface ISwitchboard extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    aggregatorExists(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    getReadCost(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -90,6 +122,16 @@ export interface ISwitchboard extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
+
+  aggregatorExists(
+    aggregatorAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  getReadCost(
+    aggregatorAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   latestResult(
     aggregatorAddress: PromiseOrValue<string>,
@@ -102,6 +144,16 @@ export interface ISwitchboard extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    aggregatorExists(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    getReadCost(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -125,6 +177,16 @@ export interface ISwitchboard extends BaseContract {
   filters: {};
 
   estimateGas: {
+    aggregatorExists(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getReadCost(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -137,6 +199,16 @@ export interface ISwitchboard extends BaseContract {
   };
 
   populateTransaction: {
+    aggregatorExists(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getReadCost(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     latestResult(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }

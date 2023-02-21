@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import type { ISwitchboard, ISwitchboardInterface } from "../ISwitchboard";
+import type {
+  ISwitchboard,
+  ISwitchboardInterface,
+} from "../../contracts/ISwitchboard";
 
 const _abi = [
   {
@@ -15,12 +18,12 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "aggregatorExists",
+    name: "getCurrentIntervalId",
     outputs: [
       {
-        internalType: "bool",
+        internalType: "uint80",
         name: "",
-        type: "bool",
+        type: "uint80",
       },
     ],
     stateMutability: "view",
@@ -33,12 +36,27 @@ const _abi = [
         name: "aggregatorAddress",
         type: "address",
       },
+      {
+        internalType: "uint80",
+        name: "round",
+        type: "uint80",
+      },
     ],
-    name: "getReadCost",
+    name: "getIntervalResult",
     outputs: [
       {
+        internalType: "int256",
+        name: "value",
+        type: "int256",
+      },
+      {
         internalType: "uint256",
-        name: "",
+        name: "timestamp",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "medianTimestamp",
         type: "uint256",
       },
     ],
@@ -63,40 +81,6 @@ const _abi = [
       {
         internalType: "uint256",
         name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "aggregatorAddress",
-        type: "address",
-      },
-    ],
-    name: "latestRound",
-    outputs: [
-      {
-        internalType: "uint80",
-        name: "round",
-        type: "uint80",
-      },
-      {
-        internalType: "int256",
-        name: "value",
-        type: "int256",
-      },
-      {
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "oldestConsideredValueTimestamp",
         type: "uint256",
       },
     ],

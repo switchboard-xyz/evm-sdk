@@ -7,6 +7,7 @@ import type {
   BytesLike,
   CallOverrides,
   ContractTransaction,
+  Overrides,
   PayableOverrides,
   PopulatedTransaction,
   Signer,
@@ -22,24 +23,40 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface ISwitchboardInterface extends utils.Interface {
+export interface SwitchboardProxyInterface extends utils.Interface {
   functions: {
+    "addSwitchboardInstance(address)": FunctionFragment;
     "aggregatorExists(address)": FunctionFragment;
+    "findSwitchboardInstance(address)": FunctionFragment;
     "getReadCost(address)": FunctionFragment;
     "latestResult(address)": FunctionFragment;
     "latestRound(address)": FunctionFragment;
+    "removeSwitchboardInstance(address)": FunctionFragment;
+    "updateAuthority(address)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "addSwitchboardInstance"
       | "aggregatorExists"
+      | "findSwitchboardInstance"
       | "getReadCost"
       | "latestResult"
       | "latestRound"
+      | "removeSwitchboardInstance"
+      | "updateAuthority"
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "addSwitchboardInstance",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "aggregatorExists",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "findSwitchboardInstance",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -52,11 +69,27 @@ export interface ISwitchboardInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "latestRound",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "removeSwitchboardInstance",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateAuthority",
     values: [PromiseOrValue<string>]
   ): string;
 
   decodeFunctionResult(
+    functionFragment: "addSwitchboardInstance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "aggregatorExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "findSwitchboardInstance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -69,18 +102,26 @@ export interface ISwitchboardInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "latestRound",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "removeSwitchboardInstance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateAuthority",
     data: BytesLike
   ): Result;
 
   events: {};
 }
 
-export interface ISwitchboard extends BaseContract {
+export interface SwitchboardProxy extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ISwitchboardInterface;
+  interface: SwitchboardProxyInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -102,10 +143,20 @@ export interface ISwitchboard extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    addSwitchboardInstance(
+      switchboard: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     aggregatorExists(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    findSwitchboardInstance(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     getReadCost(
       aggregatorAddress: PromiseOrValue<string>,
@@ -121,12 +172,32 @@ export interface ISwitchboard extends BaseContract {
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    removeSwitchboardInstance(
+      switchboard: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    updateAuthority(
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
+
+  addSwitchboardInstance(
+    switchboard: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   aggregatorExists(
     aggregatorAddress: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  findSwitchboardInstance(
+    aggregatorAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   getReadCost(
     aggregatorAddress: PromiseOrValue<string>,
@@ -143,11 +214,31 @@ export interface ISwitchboard extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  removeSwitchboardInstance(
+    switchboard: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  updateAuthority(
+    newAuthority: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
+    addSwitchboardInstance(
+      switchboard: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     aggregatorExists(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    findSwitchboardInstance(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     getReadCost(
       aggregatorAddress: PromiseOrValue<string>,
@@ -172,12 +263,32 @@ export interface ISwitchboard extends BaseContract {
         oldestConsideredValueTimestamp: BigNumber;
       }
     >;
+
+    removeSwitchboardInstance(
+      switchboard: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updateAuthority(
+      newAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
+    addSwitchboardInstance(
+      switchboard: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     aggregatorExists(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    findSwitchboardInstance(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -195,11 +306,31 @@ export interface ISwitchboard extends BaseContract {
     latestRound(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    removeSwitchboardInstance(
+      switchboard: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    updateAuthority(
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    addSwitchboardInstance(
+      switchboard: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     aggregatorExists(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    findSwitchboardInstance(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -217,6 +348,16 @@ export interface ISwitchboard extends BaseContract {
     latestRound(
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    removeSwitchboardInstance(
+      switchboard: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateAuthority(
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

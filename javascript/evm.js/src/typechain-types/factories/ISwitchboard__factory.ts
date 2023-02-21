@@ -15,6 +15,44 @@ const _abi = [
         type: "address",
       },
     ],
+    name: "aggregatorExists",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "aggregatorAddress",
+        type: "address",
+      },
+    ],
+    name: "getReadCost",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "aggregatorAddress",
+        type: "address",
+      },
+    ],
     name: "latestResult",
     outputs: [
       {

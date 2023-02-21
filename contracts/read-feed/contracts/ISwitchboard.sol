@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 interface ISwitchboard {
 
-  // read from aggregator
+  // read the latest result (value and timestamp)
   function latestResult(address aggregatorAddress) 
     external 
     payable 
@@ -12,14 +12,18 @@ interface ISwitchboard {
       uint timestamp
     );
 
-  // read round from an aggregator
-  function latestRound(address aggregatorAddress) 
+  // adapter fns
+  function getIntervalResult(address aggregatorAddress, uint80 round) 
     external 
-    payable 
+    view 
     returns (
-      uint80 round,
-      int256 value, 
+      int256 value,
       uint256 timestamp,
-      uint256 oldestConsideredValueTimestamp
+      uint256 medianTimestamp
     );
+    
+  function getCurrentIntervalId(address aggregatorAddress) 
+    external 
+    view 
+    returns (uint80);
 }
