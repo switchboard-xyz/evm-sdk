@@ -46,6 +46,17 @@ export class SBDecimal {
     return result;
   }
 
+  // to signed big number
+  toBigNumber(): ethers.BigNumber {
+    let mantissa = this.mantissa;
+    let scale = this.scale;
+    while (scale < 18) {
+      mantissa += "0";
+      scale++;
+    }
+    return ethers.BigNumber.from(mantissa).mul(this.neg ? -1 : 1);
+  }
+
   static fromBig(val: Big): SBDecimal {
     const value = val.c.slice();
     let e = val.e + 1;
@@ -347,9 +358,7 @@ export class OracleAccount {
       params.data.reduce(
         ([a, v], p) => {
           a.push(p.aggregatorAddress);
-          v.push(
-            ethers.BigNumber.from(p.value.mantissa).mul(p.value.neg ? -1 : 1)
-          );
+          v.push(p.value.toBigNumber());
           return [a, v];
         },
         [[] as string[], [] as ethers.BigNumber[]]
