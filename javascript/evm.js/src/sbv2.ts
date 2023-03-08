@@ -1,11 +1,13 @@
+import { Switchboard, Switchboard__factory } from "./typechain-types";
+
 import { OracleJob } from "@switchboard-xyz/common";
 import Big from "big.js";
-import { Wallet, ContractTransaction } from "ethers";
+import { ContractTransaction, Wallet } from "ethers";
 import * as ethers from "ethers";
-import { Switchboard__factory, Switchboard } from "./typechain-types";
 
-export { OracleJob, IOracleJob } from "@switchboard-xyz/common";
-export { Switchboard__factory, Switchboard } from "./typechain-types";
+export { Switchboard, Switchboard__factory } from "./typechain-types";
+export { IOracleJob, OracleJob } from "@switchboard-xyz/common";
+
 export const SWITCHBOARD_DEVNET_ADDRESS = ``;
 export const SWITCHBOARD_TESTNET_ADDRESS = ``;
 export const SWITCHBOARD_MAINNET_ADDRESS = ``;
@@ -59,7 +61,7 @@ export class SBDecimal {
 
   static fromBig(val: Big): SBDecimal {
     const value = val.c.slice();
-    let e = val.e + 1;
+    const e = val.e + 1;
     while (value.length - e > 18) {
       value.pop();
     }

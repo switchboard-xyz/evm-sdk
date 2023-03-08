@@ -1,0 +1,6 @@
+{
+  "extends": "@switchboard-xyz",
+  "rules": {
+    "quotes": "off"
+  }
+}
