@@ -16,14 +16,5 @@
     "type": "git",
     "url": "https://github.com/switchboard-xyz/sbv2-evm.git"
   },
-  "packageManager": "pnpm@7.17.0",
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "eslint*",
-        "prettier*",
-        "typescript*"
-      ]
-    }
-  }
+  "packageManager": "pnpm@7.17.0"
 }
