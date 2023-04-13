@@ -2,7 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as iLegacyOracleSol from "./ILegacyOracle.sol";
+export * as legacyOracleAdapterV3Sol from "./LegacyOracleAdapterV3.sol";
+export * as switchboardV3Sol from "./SwitchboardV3.sol";
+export * as switchboardV3UpgradeSol from "./SwitchboardV3Upgrade.sol";
 export { ISwitchboard__factory } from "./ISwitchboard__factory";
+export { ISwitchboardVS__factory } from "./ISwitchboardVS__factory";
+export { Initializable__factory } from "./Initializable__factory";
 export { LegacyOracleAdapter__factory } from "./LegacyOracleAdapter__factory";
 export { Switchboard__factory } from "./Switchboard__factory";
 export { SwitchboardV2TEST__factory } from "./SwitchboardV2TEST__factory";
+export { SwitchboardVS__factory } from "./SwitchboardVS__factory";

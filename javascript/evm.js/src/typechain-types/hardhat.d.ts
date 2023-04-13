@@ -21,9 +21,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AggregatorV3Interface__factory>;
     getContractFactory(
+      name: "Initializable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
       name: "ISwitchboard",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISwitchboard__factory>;
+    getContractFactory(
+      name: "ISwitchboardVS",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISwitchboardVS__factory>;
+    getContractFactory(
+      name: "LegacyOracleAdapter",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LegacyOracleAdapter__factory>;
     getContractFactory(
       name: "LegacyOracleAdapter",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -36,6 +48,22 @@ declare module "hardhat/types/runtime" {
       name: "SwitchboardV2TEST",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SwitchboardV2TEST__factory>;
+    getContractFactory(
+      name: "Switchboard",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Switchboard__factory>;
+    getContractFactory(
+      name: "SwitchboardV3",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SwitchboardV3__factory>;
+    getContractFactory(
+      name: "SwitchboardV3",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SwitchboardV3__factory>;
+    getContractFactory(
+      name: "SwitchboardVS",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SwitchboardVS__factory>;
 
     getContractAt(
       name: "Initializable",
@@ -48,10 +76,25 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.AggregatorV3Interface>;
     getContractAt(
+      name: "Initializable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Initializable>;
+    getContractAt(
       name: "ISwitchboard",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ISwitchboard>;
+    getContractAt(
+      name: "ISwitchboardVS",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISwitchboardVS>;
+    getContractAt(
+      name: "LegacyOracleAdapter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LegacyOracleAdapter>;
     getContractAt(
       name: "LegacyOracleAdapter",
       address: string,
@@ -67,6 +110,26 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SwitchboardV2TEST>;
+    getContractAt(
+      name: "Switchboard",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Switchboard>;
+    getContractAt(
+      name: "SwitchboardV3",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SwitchboardV3>;
+    getContractAt(
+      name: "SwitchboardV3",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SwitchboardV3>;
+    getContractAt(
+      name: "SwitchboardVS",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SwitchboardVS>;
 
     // default types
     getContractFactory(

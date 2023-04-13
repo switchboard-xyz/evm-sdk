@@ -19,7 +19,7 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../common";
+} from "../../common";
 
 export interface LegacyOracleAdapterInterface extends utils.Interface {
   functions: {

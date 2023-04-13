@@ -3,7 +3,16 @@
 /* eslint-disable */
 import type * as iLegacyOracleSol from "./ILegacyOracle.sol";
 export type { iLegacyOracleSol };
+import type * as legacyOracleAdapterV3Sol from "./LegacyOracleAdapterV3.sol";
+export type { legacyOracleAdapterV3Sol };
+import type * as switchboardV3Sol from "./SwitchboardV3.sol";
+export type { switchboardV3Sol };
+import type * as switchboardV3UpgradeSol from "./SwitchboardV3Upgrade.sol";
+export type { switchboardV3UpgradeSol };
 export type { ISwitchboard } from "./ISwitchboard";
+export type { ISwitchboardVS } from "./ISwitchboardVS";
+export type { Initializable } from "./Initializable";
 export type { LegacyOracleAdapter } from "./LegacyOracleAdapter";
 export type { Switchboard } from "./Switchboard";
 export type { SwitchboardV2TEST } from "./SwitchboardV2TEST";
+export type { SwitchboardVS } from "./SwitchboardVS";
