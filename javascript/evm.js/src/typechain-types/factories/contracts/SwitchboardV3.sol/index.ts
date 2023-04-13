@@ -2,4 +2,3 @@
 /* tslint:disable */
 /* eslint-disable */
 export { Switchboard__factory } from "./Switchboard__factory";
-export { SwitchboardV3__factory } from "./SwitchboardV3__factory";

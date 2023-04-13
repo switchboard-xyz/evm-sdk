@@ -1,7 +1,7 @@
 {
   "name": "@switchboard-xyz/evm.js",
   "description": "API wrapper for intergating with the Switchboardv2 program on our EVM implementation",
-  "version": "3.9.5",
+  "version": "3.9.6",
   "license": "MIT",
   "files": [
     "lib",
@@ -23,7 +23,7 @@
     "build:esm": "tsc",
     "build": "shx rm -rf lib || true; npm run build:cjs && npm run build:esm",
     "watch": "tsc -p tsconfig.cjs.json --watch",
-    "prepack": "npm run lint && npm run build",
+    "prepack": "gts fix ./src ./tests && npm run lint && npm run build",
     "test": "ts-mocha -p ./tsconfig.cjs.json --require ts-node/register -t 1000000 ./tests/*.tests.ts",
     "lint": "gts lint ./src ./tests",
     "fix": "gts fix ./src ./tests",

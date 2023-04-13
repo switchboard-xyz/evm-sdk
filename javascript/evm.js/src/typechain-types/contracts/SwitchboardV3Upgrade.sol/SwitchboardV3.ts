@@ -120,6 +120,7 @@ export interface SwitchboardV3Interface extends utils.Interface {
     "setOraclePermission(address,address,bool)": FunctionFragment;
     "setQueueConfig(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "sortResults((int256,uint256,address)[])": FunctionFragment;
+    "switchboardVS()": FunctionFragment;
     "version()": FunctionFragment;
   };
 
@@ -158,6 +159,7 @@ export interface SwitchboardV3Interface extends utils.Interface {
       | "setOraclePermission"
       | "setQueueConfig"
       | "sortResults"
+      | "switchboardVS"
       | "version"
   ): FunctionFragment;
 
@@ -365,6 +367,10 @@ export interface SwitchboardV3Interface extends utils.Interface {
     functionFragment: "sortResults",
     values: [SwitchboardV3.ResultStruct[]]
   ): string;
+  encodeFunctionData(
+    functionFragment: "switchboardVS",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
@@ -482,6 +488,10 @@ export interface SwitchboardV3Interface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "sortResults",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "switchboardVS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
@@ -981,6 +991,8 @@ export interface SwitchboardV3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[SwitchboardV3.ResultStructOutput[]]>;
 
+    switchboardVS(overrides?: CallOverrides): Promise<[string]>;
+
     version(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
@@ -1284,6 +1296,8 @@ export interface SwitchboardV3 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<SwitchboardV3.ResultStructOutput[]>;
 
+  switchboardVS(overrides?: CallOverrides): Promise<string>;
+
   version(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
@@ -1586,6 +1600,8 @@ export interface SwitchboardV3 extends BaseContract {
       input: SwitchboardV3.ResultStruct[],
       overrides?: CallOverrides
     ): Promise<SwitchboardV3.ResultStructOutput[]>;
+
+    switchboardVS(overrides?: CallOverrides): Promise<string>;
 
     version(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -1919,6 +1935,8 @@ export interface SwitchboardV3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    switchboardVS(overrides?: CallOverrides): Promise<BigNumber>;
+
     version(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
@@ -2139,6 +2157,8 @@ export interface SwitchboardV3 extends BaseContract {
       input: SwitchboardV3.ResultStruct[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    switchboardVS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };

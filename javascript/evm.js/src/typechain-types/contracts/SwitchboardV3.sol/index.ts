@@ -2,4 +2,3 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Switchboard } from "./Switchboard";
-export type { SwitchboardV3 } from "./SwitchboardV3";

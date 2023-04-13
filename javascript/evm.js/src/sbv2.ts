@@ -1,24 +1,25 @@
 import {
-  Switchboard__factory,
   Switchboard,
+  Switchboard__factory,
   SwitchboardVS__factory,
-} from './typechain-types';
-import { OracleJob } from '@switchboard-xyz/common';
-import Big from 'big.js';
-import { ContractTransaction, Wallet } from 'ethers';
-import * as ethers from 'ethers';
+} from "./typechain-types";
 
-export { Switchboard, Switchboard__factory } from './typechain-types';
-export { IOracleJob, OracleJob } from '@switchboard-xyz/common';
+import { OracleJob } from "@switchboard-xyz/common";
+import Big from "big.js";
+import { ContractTransaction, Wallet } from "ethers";
+import * as ethers from "ethers";
+
+export { Switchboard, Switchboard__factory } from "./typechain-types";
+export { IOracleJob, OracleJob } from "@switchboard-xyz/common";
 
 export const SWITCHBOARD_DEVNET_ADDRESS = ``;
 export const SWITCHBOARD_TESTNET_ADDRESS = ``;
 export const SWITCHBOARD_MAINNET_ADDRESS = ``;
 
 const IpfsGateways = [
-  'https://ipfs.io/ipfs/',
-  'https://ipfs.infura.io/ipfs/',
-  'https://cloudflare-ipfs.com/ipfs/',
+  "https://ipfs.io/ipfs/",
+  "https://ipfs.infura.io/ipfs/",
+  "https://cloudflare-ipfs.com/ipfs/",
 ];
 
 export interface Job {
@@ -56,7 +57,7 @@ export class SBDecimal {
     let mantissa = this.mantissa;
     let scale = this.scale;
     while (scale < 18) {
-      mantissa += '0';
+      mantissa += "0";
       scale++;
     }
     return ethers.BigNumber.from(mantissa).mul(this.neg ? -1 : 1);
@@ -74,18 +75,18 @@ export class SBDecimal {
       value.push(0);
     }
 
-    return new SBDecimal(value.join(''), value.length - e, val.s === -1);
+    return new SBDecimal(value.join(""), value.length - e, val.s === -1);
   }
 
   static fromObj(obj: Object): SBDecimal {
-    const properties = ['mantissa', 'scale', 'neg'];
+    const properties = ["mantissa", "scale", "neg"];
     properties.forEach((p) => {
       if (!(p in obj)) {
         throw new Error(`Object is missing property ${p}`);
       }
     });
 
-    return new SBDecimal(obj['mantissa'], obj['scale'], obj['neg']);
+    return new SBDecimal(obj["mantissa"], obj["scale"], obj["neg"]);
   }
 }
 
@@ -188,10 +189,10 @@ export class AggregatorAccount {
     try {
       const res = await fetchJobsFromIPFS(jobsHash);
       return res.map((job: Job) => {
-        return OracleJob.decodeDelimited(Buffer.from(job.data, 'base64'));
+        return OracleJob.decodeDelimited(Buffer.from(job.data, "base64"));
       });
     } catch (e) {
-      console.log(e, '\nerror fetching jobs for ipfs hash:', jobsHash);
+      console.log(e, "\nerror fetching jobs for ipfs hash:", jobsHash);
     }
   }
 

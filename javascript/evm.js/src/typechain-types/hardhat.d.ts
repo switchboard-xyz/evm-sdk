@@ -57,10 +57,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SwitchboardV3__factory>;
     getContractFactory(
-      name: "SwitchboardV3",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SwitchboardV3__factory>;
-    getContractFactory(
       name: "SwitchboardVS",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SwitchboardVS__factory>;
@@ -115,11 +111,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Switchboard>;
-    getContractAt(
-      name: "SwitchboardV3",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SwitchboardV3>;
     getContractAt(
       name: "SwitchboardV3",
       address: string,
