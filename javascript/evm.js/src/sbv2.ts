@@ -168,12 +168,18 @@ export function getWallet(privateKey: string, rpc: string) {
   return new Wallet(privateKey, provider);
 }
 
-export function getSwitchboard(address: string, wallet: Wallet) {
-  return Switchboard__factory.connect(address, wallet);
+export function getSwitchboard(
+  address: string,
+  signerOrProvider: ethers.ethers.Signer | ethers.providers.Provider
+) {
+  return Switchboard__factory.connect(address, signerOrProvider);
 }
 
-export function getSwitchboardVS(address: string, wallet: Wallet) {
-  return SwitchboardVS__factory.connect(address, wallet);
+export function getSwitchboardVS(
+  address: string,
+  signerOrProvider: ethers.ethers.Signer | ethers.providers.Provider
+) {
+  return SwitchboardVS__factory.connect(address, signerOrProvider);
 }
 
 export class AggregatorAccount {
