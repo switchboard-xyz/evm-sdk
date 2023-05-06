@@ -122,6 +122,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "setPermission(address,address,uint256,bool)": FunctionFragment;
     "setQueueConfig(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "sortResults((int256,uint256,address)[])": FunctionFragment;
+    "switchboardVS()": FunctionFragment;
   };
 
   getFunction(
@@ -161,6 +162,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "setPermission"
       | "setQueueConfig"
       | "sortResults"
+      | "switchboardVS"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -368,6 +370,10 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "sortResults",
     values: [Switchboard.ResultStruct[]]
   ): string;
+  encodeFunctionData(
+    functionFragment: "switchboardVS",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "HEARTBEAT_PERMISSION",
@@ -489,6 +495,10 @@ export interface SwitchboardInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "sortResults",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "switchboardVS",
     data: BytesLike
   ): Result;
 
@@ -964,6 +974,8 @@ export interface Switchboard extends BaseContract {
       input: Switchboard.ResultStruct[],
       overrides?: CallOverrides
     ): Promise<[Switchboard.ResultStructOutput[]]>;
+
+    switchboardVS(overrides?: CallOverrides): Promise<[string]>;
   };
 
   HEARTBEAT_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1259,6 +1271,8 @@ export interface Switchboard extends BaseContract {
     input: Switchboard.ResultStruct[],
     overrides?: CallOverrides
   ): Promise<Switchboard.ResultStructOutput[]>;
+
+  switchboardVS(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     HEARTBEAT_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1556,6 +1570,8 @@ export interface Switchboard extends BaseContract {
       input: Switchboard.ResultStruct[],
       overrides?: CallOverrides
     ): Promise<Switchboard.ResultStructOutput[]>;
+
+    switchboardVS(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -1871,6 +1887,8 @@ export interface Switchboard extends BaseContract {
       input: Switchboard.ResultStruct[],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    switchboardVS(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -2088,5 +2106,7 @@ export interface Switchboard extends BaseContract {
       input: Switchboard.ResultStruct[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    switchboardVS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

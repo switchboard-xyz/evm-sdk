@@ -8,8 +8,6 @@ import { OracleJob } from "@switchboard-xyz/common";
 import Big from "big.js";
 import { ContractTransaction, Wallet } from "ethers";
 import * as ethers from "ethers";
-
-export { Switchboard, Switchboard__factory } from "./typechain-types";
 export { IOracleJob, OracleJob } from "@switchboard-xyz/common";
 
 export const SWITCHBOARD_DEVNET_ADDRESS = ``;
