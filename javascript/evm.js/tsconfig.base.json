@@ -6,7 +6,7 @@
     "tests/**/*",
     "lib",
     "node_modules",
-    "scripts"
+    "scripts",
   ],
   "files": [
     "src/index.ts"

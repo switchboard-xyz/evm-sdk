@@ -9,7 +9,7 @@ import type {
   SwitchboardInterface,
 } from "../../../contracts/Switchboard/Switchboard";
 
-const _abi = [
+export const _abi = [
   {
     inputs: [],
     stateMutability: "nonpayable",

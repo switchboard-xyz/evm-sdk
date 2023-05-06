@@ -1,11 +1,12 @@
 import {
   Switchboard,
-  Switchboard__factory,
-  SwitchboardVS__factory,
-} from "./typechain-types";
-
+  SwitchboardVS,
+} from "./typechain-types/contracts/Switchboard";
+import { _abi as SwitchboardABI } from "./typechain-types/factories/contracts/Switchboard/Switchboard__factory.js";
+import { _abi as SwitchboardVSABI } from "./typechain-types/factories/contracts/Switchboard/SwitchboardVS__factory.js";
 import { OracleJob } from "@switchboard-xyz/common";
 import Big from "big.js";
+import { Contract, ContractFactory, Overrides, Signer, utils } from "ethers";
 import { ContractTransaction, Wallet } from "ethers";
 import * as ethers from "ethers";
 export { IOracleJob, OracleJob } from "@switchboard-xyz/common";
@@ -170,14 +171,22 @@ export function getSwitchboard(
   address: string,
   signerOrProvider: ethers.ethers.Signer | ethers.providers.Provider
 ) {
-  return Switchboard__factory.connect(address, signerOrProvider);
+  return new Contract(
+    address,
+    SwitchboardABI,
+    signerOrProvider
+  ) as SwitchboardVS;
 }
 
 export function getSwitchboardVS(
   address: string,
   signerOrProvider: ethers.ethers.Signer | ethers.providers.Provider
 ) {
-  return SwitchboardVS__factory.connect(address, signerOrProvider);
+  return new Contract(
+    address,
+    SwitchboardVSABI,
+    signerOrProvider
+  ) as SwitchboardVS;
 }
 
 export class AggregatorAccount {
