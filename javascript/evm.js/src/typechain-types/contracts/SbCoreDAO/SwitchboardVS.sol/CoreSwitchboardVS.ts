@@ -40,6 +40,7 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     "forceOverrideVerify(address,address)": FunctionFragment;
     "generateAddress()": FunctionFragment;
     "getNodeIdx(address)": FunctionFragment;
+    "hasMrEnclave(address,bytes32)": FunctionFragment;
     "hasPermission(address,address,uint256)": FunctionFragment;
     "heartbeat(address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
@@ -74,6 +75,7 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
       | "forceOverrideVerify"
       | "generateAddress"
       | "getNodeIdx"
+      | "hasMrEnclave"
       | "hasPermission"
       | "heartbeat"
       | "initialize"
@@ -154,6 +156,10 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getNodeIdx",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasMrEnclave",
+    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "hasPermission",
@@ -292,6 +298,10 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getNodeIdx", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "hasMrEnclave",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "hasPermission",
     data: BytesLike
@@ -524,6 +534,12 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    hasMrEnclave(
+      queueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     hasPermission(
       granter: PromiseOrValue<string>,
       grantee: PromiseOrValue<string>,
@@ -743,6 +759,12 @@ export interface CoreSwitchboardVS extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  hasMrEnclave(
+    queueAddress: PromiseOrValue<string>,
+    mrEnclave: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   hasPermission(
     granter: PromiseOrValue<string>,
     grantee: PromiseOrValue<string>,
@@ -957,6 +979,12 @@ export interface CoreSwitchboardVS extends BaseContract {
       nodeAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    hasMrEnclave(
+      queueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     hasPermission(
       granter: PromiseOrValue<string>,
@@ -1241,6 +1269,12 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    hasMrEnclave(
+      queueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     hasPermission(
       granter: PromiseOrValue<string>,
       grantee: PromiseOrValue<string>,
@@ -1413,6 +1447,12 @@ export interface CoreSwitchboardVS extends BaseContract {
 
     getNodeIdx(
       nodeAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    hasMrEnclave(
+      queueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
