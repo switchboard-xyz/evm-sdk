@@ -4,6 +4,7 @@ import {
 } from "./typechain-types/contracts/Switchboard";
 import { _abi as SwitchboardABI } from "./typechain-types/factories/contracts/Switchboard/Switchboard__factory.js";
 import { _abi as SwitchboardVSABI } from "./typechain-types/factories/contracts/Switchboard/SwitchboardVS__factory.js";
+
 import { OracleJob } from "@switchboard-xyz/common";
 import Big from "big.js";
 import { Contract, ContractFactory, Overrides, Signer, utils } from "ethers";
@@ -171,11 +172,7 @@ export function getSwitchboard(
   address: string,
   signerOrProvider: ethers.ethers.Signer | ethers.providers.Provider
 ) {
-  return new Contract(
-    address,
-    SwitchboardABI,
-    signerOrProvider
-  ) as SwitchboardVS;
+  return new Contract(address, SwitchboardABI, signerOrProvider) as Switchboard;
 }
 
 export function getSwitchboardVS(
