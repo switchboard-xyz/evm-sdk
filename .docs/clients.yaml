@@ -1,0 +1,17 @@
+clients:
+  - name: "ISwitchboard"
+    description: "A Solidity contract to read a Switchboard data feed."
+    language: "solidity"
+    path: "solidity/ISwitchboard"
+  - name: "ILegacyOracle"
+    description:
+      "A Solidity contract to read a Switchboard data feed with a legacy oracle
+      adapter."
+    language: "solidity"
+    path: "solidity/ILegacyOracle"
+  - name: "@switchboard-xyz/evm.js"
+    slug: "./"
+    description:
+      "A Typescript client to interact with Switchboard on EVM chains."
+    language: "javascript"
+    path: "javascript/evm.js"

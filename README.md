@@ -1,36 +1,20 @@
 <div align="center">
-  <a href="#">
-    <img src="https://github.com/switchboard-xyz/sbv2-core/raw/main/website/static/img/icons/switchboard/avatar.png" />
-  </a>
 
-  <h1>Switchboard V2</h1>
+![Switchboard Logo](https://github.com/switchboard-xyz/sbv2-core/raw/main/website/static/img/icons/switchboard/avatar.png)
 
-  <p>A collection of libraries and examples for interacting with Switchboard V2 on EVM chains.</p>
+# Switchboard x EVM
 
-  <p>
-	  <a href="https://www.npmjs.com/package/@switchboard-xyz/evm.js">
-      <img alt="NPM Badge" src="https://img.shields.io/github/package-json/v/switchboard-xyz/sbv2-evm?color=red&filename=javascript%2Fevm.js%2Fpackage.json&label=%40switchboard-xyz%2Fevm.js&logo=npm" />
-    </a>
-  </p>
+> A collection of libraries and examples for interacting with Switchboard on EVM
+> chains.
 
-  <p>
-    <a href="https://discord.gg/switchboardxyz">
-      <img alt="Discord" src="https://img.shields.io/discord/841525135311634443?color=blueviolet&logo=discord&logoColor=white" />
-    </a>
-    <a href="https://twitter.com/switchboardxyz">
-      <img alt="Twitter" src="https://img.shields.io/twitter/follow/switchboardxyz?label=Follow+Switchboard" />
-    </a>
-  </p>
+[![NPM Badge](https://img.shields.io/github/package-json/v/switchboard-xyz/sbv2-evm?color=red&filename=javascript%2Fevm.js%2Fpackage.json&label=%40switchboard-xyz%2Fevm.js&logo=npm)](https://www.npmjs.com/package/@switchboard-xyz/evm.js)
 
-  <h4>
-    <strong>Documentation: </strong><a href="https://docs.switchboard.xyz">docs.switchboard.xyz</a>
-  </h4>
 </div>
 
 ## Getting Started
 
 To get started, clone the
-[sbv2-evm](https://github.com/switchboard-xyz/sbv2-evm) repository.
+[sbv2-near](https://github.com/switchboard-xyz/sbv2-evm) repository.
 
 ```bash
 git clone https://github.com/switchboard-xyz/sbv2-evm
@@ -41,33 +25,42 @@ Then install the dependencies
 ```bash
 cd sbv2-evm
 pnpm install
+pnpm build
 ```
 
-## Program IDs
+## Addresses
 
-| **Network**     | **Program ID**                               |
-| --------------- | -------------------------------------------- |
-| CoreDAO Testnet | `0xe9F5Ecb00BC437F061DF59d899F00f260740dC48` |
+The following addresses can be used with the Switchboard deployment on Coredao
 
-See [switchboard.xyz/explorer](https://switchboard.xyz/explorer) for a list of
-feeds deployed on CoreDAO.
+### Mainnet
 
-See [app.switchboard.xyz](https://app.switchboard.xyz) to create your own
-CoreDAO feeds.
+| Account              | Address                                      |
+| -------------------- | -------------------------------------------- |
+| Program ID           | `0x73d6C66874e570f058834cAA666b2c352F1C792D` |
+| Permissioned Queue   | `0x1e373Ac0a299E6CCfE6bd333025E5Ebef9Eca2Dd` |
+| Permissionless Queue | `0x628D9A4109FD1B94348b7866923A4b7aae3D61c6` |
 
-## Libraries
+### Testnet
 
-| **Lang** | **Name**                                                                                                                                                                                    | **Description**                                                                |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Solidity | [ISwitchboard.sol](/solidity/ISwitchboard/)                                                                                                                                                 | Solidity module to read Switchboard data feeds                                 |
-| Solidity | [ILegacyOracle.sol](/solidity/ILegacyOracle/)                                                                                                                                               | Solidity module to read Switchboard data feeds using the legacy oracle adapter |
-| JS       | [@switchboard-xyz/evm.js](/javascript/evm.js/) <br />[[npmjs](https://www.npmjs.com/package/@switchboard-xyz/evm.js), [Typedocs](https://docs.switchboard.xyz/api/@switchboard-xyz/evm.js)] | Typescript package to interact with Switchboard V2                             |
+| Account              | Address                                      |
+| -------------------- | -------------------------------------------- |
+| Program ID           | `0xe9F5Ecb00BC437F061DF59d899F00f260740dC48` |
+| Permissionless Queue | ``                                           |
 
-## Example Programs
+## Clients
 
-- [read-feed](/contracts/read-feed/): Read a Switchboard feed on Evm chains
-- [read-feed-aggregator-v3](/contracts/read-feed-aggregator-v3/): Read a
-  Switchboard feed on Evm chains
+| **Lang**   | **Name**                                     | **Description**                                                                   |
+| ---------- | -------------------------------------------- | --------------------------------------------------------------------------------- |
+| Solidity   | [ISwitchboard](solidity/ISwitchboard)        | A Solidity contract to read a Switchboard data feed.                              |
+| Solidity   | [ILegacyOracle](solidity/ILegacyOracle)      | A Solidity contract to read a Switchboard data feed with a legacy oracle adapter. |
+| Javascript | [@switchboard-xyz/evm.js](javascript/evm.js) | A Typescript client to interact with Switchboard on EVM chains.                   |
+
+## Example Contracts
+
+| **Lang** | **Name**                                                     | **Description**                                                                 |
+| -------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| Solidity | [feed-parser](contracts/read-feed)                           | An example Solidity contract demonstrating how to read a Switchboard data feed. |
+| Solidity | [read-feed-aggregator-v3](contracts/read-feed-aggregator-v3) | An example Solidity contract demonstrating how to read a Switchboard data feed. |
 
 ## Troubleshooting
 
