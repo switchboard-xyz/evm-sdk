@@ -1,11 +1,12 @@
 <div align="center">
 
-![Switchboard Logo](https://github.com/switchboard-xyz/sbv2-core/raw/main/website/static/img/icons/switchboard/avatar.png)
+<!-- commonheader -->
 
-# ILegacyOracle
+<!-- commonheaderstop -->
 
-> A Solidity contract to read a Switchboard data feed with a legacy oracle
-> adapter.
+# ISwitchboard.sol
+
+> A Solidity contract to read a Switchboard data feed.
 
 </div>
 
