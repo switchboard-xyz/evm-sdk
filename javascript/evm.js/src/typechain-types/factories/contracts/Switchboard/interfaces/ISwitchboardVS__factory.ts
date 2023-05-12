@@ -26,7 +26,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "NodeAccountInit",
+    name: "QuoteAccountInit",
     type: "event",
   },
   {
@@ -45,7 +45,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "NodeGC",
+    name: "QuoteGC",
     type: "event",
   },
   {
@@ -64,7 +64,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "NodeHeartbeat",
+    name: "QuoteHeartbeat",
     type: "event",
   },
   {
@@ -89,7 +89,7 @@ const _abi = [
         type: "uint256",
       },
     ],
-    name: "NodePayoutEvent",
+    name: "QuotePayoutEvent",
     type: "event",
   },
   {
@@ -153,7 +153,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "nodeAuthority",
+        name: "quoteAuthority",
         type: "address",
       },
     ],

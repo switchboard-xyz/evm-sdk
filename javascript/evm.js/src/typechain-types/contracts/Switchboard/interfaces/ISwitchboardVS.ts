@@ -53,63 +53,65 @@ export interface ISwitchboardVSInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "validate", data: BytesLike): Result;
 
   events: {
-    "NodeAccountInit(address,address)": EventFragment;
-    "NodeGC(address,address)": EventFragment;
-    "NodeHeartbeat(address,address)": EventFragment;
-    "NodePayoutEvent(address,address,uint256)": EventFragment;
+    "QuoteAccountInit(address,address)": EventFragment;
+    "QuoteGC(address,address)": EventFragment;
+    "QuoteHeartbeat(address,address)": EventFragment;
+    "QuotePayoutEvent(address,address,uint256)": EventFragment;
     "QuoteVerifyRequest(address,address,address)": EventFragment;
     "ServiceQueueAccountInit(address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "NodeAccountInit"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NodeGC"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NodeHeartbeat"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NodePayoutEvent"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "QuoteAccountInit"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "QuoteGC"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "QuoteHeartbeat"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "QuotePayoutEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteVerifyRequest"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ServiceQueueAccountInit"): EventFragment;
 }
 
-export interface NodeAccountInitEventObject {
+export interface QuoteAccountInitEventObject {
   authority: string;
   accountAddress: string;
 }
-export type NodeAccountInitEvent = TypedEvent<
+export type QuoteAccountInitEvent = TypedEvent<
   [string, string],
-  NodeAccountInitEventObject
+  QuoteAccountInitEventObject
 >;
 
-export type NodeAccountInitEventFilter = TypedEventFilter<NodeAccountInitEvent>;
+export type QuoteAccountInitEventFilter =
+  TypedEventFilter<QuoteAccountInitEvent>;
 
-export interface NodeGCEventObject {
+export interface QuoteGCEventObject {
   nodeAddress: string;
   queue: string;
 }
-export type NodeGCEvent = TypedEvent<[string, string], NodeGCEventObject>;
+export type QuoteGCEvent = TypedEvent<[string, string], QuoteGCEventObject>;
 
-export type NodeGCEventFilter = TypedEventFilter<NodeGCEvent>;
+export type QuoteGCEventFilter = TypedEventFilter<QuoteGCEvent>;
 
-export interface NodeHeartbeatEventObject {
+export interface QuoteHeartbeatEventObject {
   nodeAddress: string;
   authority: string;
 }
-export type NodeHeartbeatEvent = TypedEvent<
+export type QuoteHeartbeatEvent = TypedEvent<
   [string, string],
-  NodeHeartbeatEventObject
+  QuoteHeartbeatEventObject
 >;
 
-export type NodeHeartbeatEventFilter = TypedEventFilter<NodeHeartbeatEvent>;
+export type QuoteHeartbeatEventFilter = TypedEventFilter<QuoteHeartbeatEvent>;
 
-export interface NodePayoutEventEventObject {
+export interface QuotePayoutEventEventObject {
   nodeAddress: string;
   quoteAddress: string;
   amount: BigNumber;
 }
-export type NodePayoutEventEvent = TypedEvent<
+export type QuotePayoutEventEvent = TypedEvent<
   [string, string, BigNumber],
-  NodePayoutEventEventObject
+  QuotePayoutEventEventObject
 >;
 
-export type NodePayoutEventEventFilter = TypedEventFilter<NodePayoutEventEvent>;
+export type QuotePayoutEventEventFilter =
+  TypedEventFilter<QuotePayoutEventEvent>;
 
 export interface QuoteVerifyRequestEventObject {
   queueAddress: string;
@@ -168,7 +170,7 @@ export interface ISwitchboardVS extends BaseContract {
     ): Promise<ContractTransaction>;
 
     validate(
-      nodeAuthority: PromiseOrValue<string>,
+      quoteAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[string]>;
   };
@@ -178,7 +180,7 @@ export interface ISwitchboardVS extends BaseContract {
   ): Promise<ContractTransaction>;
 
   validate(
-    nodeAuthority: PromiseOrValue<string>,
+    quoteAuthority: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<string>;
 
@@ -186,49 +188,49 @@ export interface ISwitchboardVS extends BaseContract {
     generateAddress(overrides?: CallOverrides): Promise<string>;
 
     validate(
-      nodeAuthority: PromiseOrValue<string>,
+      quoteAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
   };
 
   filters: {
-    "NodeAccountInit(address,address)"(
+    "QuoteAccountInit(address,address)"(
       authority?: PromiseOrValue<string> | null,
       accountAddress?: PromiseOrValue<string> | null
-    ): NodeAccountInitEventFilter;
-    NodeAccountInit(
+    ): QuoteAccountInitEventFilter;
+    QuoteAccountInit(
       authority?: PromiseOrValue<string> | null,
       accountAddress?: PromiseOrValue<string> | null
-    ): NodeAccountInitEventFilter;
+    ): QuoteAccountInitEventFilter;
 
-    "NodeGC(address,address)"(
+    "QuoteGC(address,address)"(
       nodeAddress?: PromiseOrValue<string> | null,
       queue?: PromiseOrValue<string> | null
-    ): NodeGCEventFilter;
-    NodeGC(
+    ): QuoteGCEventFilter;
+    QuoteGC(
       nodeAddress?: PromiseOrValue<string> | null,
       queue?: PromiseOrValue<string> | null
-    ): NodeGCEventFilter;
+    ): QuoteGCEventFilter;
 
-    "NodeHeartbeat(address,address)"(
+    "QuoteHeartbeat(address,address)"(
       nodeAddress?: PromiseOrValue<string> | null,
       authority?: PromiseOrValue<string> | null
-    ): NodeHeartbeatEventFilter;
-    NodeHeartbeat(
+    ): QuoteHeartbeatEventFilter;
+    QuoteHeartbeat(
       nodeAddress?: PromiseOrValue<string> | null,
       authority?: PromiseOrValue<string> | null
-    ): NodeHeartbeatEventFilter;
+    ): QuoteHeartbeatEventFilter;
 
-    "NodePayoutEvent(address,address,uint256)"(
+    "QuotePayoutEvent(address,address,uint256)"(
       nodeAddress?: PromiseOrValue<string> | null,
       quoteAddress?: PromiseOrValue<string> | null,
       amount?: PromiseOrValue<BigNumberish> | null
-    ): NodePayoutEventEventFilter;
-    NodePayoutEvent(
+    ): QuotePayoutEventEventFilter;
+    QuotePayoutEvent(
       nodeAddress?: PromiseOrValue<string> | null,
       quoteAddress?: PromiseOrValue<string> | null,
       amount?: PromiseOrValue<BigNumberish> | null
-    ): NodePayoutEventEventFilter;
+    ): QuotePayoutEventEventFilter;
 
     "QuoteVerifyRequest(address,address,address)"(
       queueAddress?: PromiseOrValue<string> | null,
@@ -257,7 +259,7 @@ export interface ISwitchboardVS extends BaseContract {
     ): Promise<BigNumber>;
 
     validate(
-      nodeAuthority: PromiseOrValue<string>,
+      quoteAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -268,7 +270,7 @@ export interface ISwitchboardVS extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     validate(
-      nodeAuthority: PromiseOrValue<string>,
+      quoteAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

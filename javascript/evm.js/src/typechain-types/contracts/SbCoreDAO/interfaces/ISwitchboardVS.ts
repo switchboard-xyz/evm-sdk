@@ -129,7 +129,7 @@ export interface ISwitchboardVS extends BaseContract {
     ): Promise<ContractTransaction>;
 
     validate(
-      nodeAuthority: PromiseOrValue<string>,
+      quoteAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[string]>;
   };
@@ -154,7 +154,7 @@ export interface ISwitchboardVS extends BaseContract {
   ): Promise<ContractTransaction>;
 
   validate(
-    nodeAuthority: PromiseOrValue<string>,
+    quoteAuthority: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<string>;
 
@@ -177,7 +177,7 @@ export interface ISwitchboardVS extends BaseContract {
     ): Promise<void>;
 
     validate(
-      nodeAuthority: PromiseOrValue<string>,
+      quoteAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
   };
@@ -205,7 +205,7 @@ export interface ISwitchboardVS extends BaseContract {
     ): Promise<BigNumber>;
 
     validate(
-      nodeAuthority: PromiseOrValue<string>,
+      quoteAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -231,7 +231,7 @@ export interface ISwitchboardVS extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     validate(
-      nodeAuthority: PromiseOrValue<string>,
+      quoteAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

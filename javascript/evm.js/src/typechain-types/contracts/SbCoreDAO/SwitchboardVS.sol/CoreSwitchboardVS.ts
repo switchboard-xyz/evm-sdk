@@ -34,26 +34,25 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     "SERVICE_QUEUE_PERMISSION()": FunctionFragment;
     "USAGE_PERMISSION()": FunctionFragment;
     "addMrEnclave(address,bytes32)": FunctionFragment;
-    "createNode(address,address,address)": FunctionFragment;
-    "createServiceQueue(address,uint256,uint256,uint256,uint256,uint256,bool,bool,address,bool)": FunctionFragment;
+    "createQuote(address,address,address)": FunctionFragment;
+    "createServiceQueue(address,uint256,uint256,uint256,uint256,uint256,bool,bool,bool)": FunctionFragment;
     "failQuote(address,address,uint256)": FunctionFragment;
     "forceOverrideVerify(address,address)": FunctionFragment;
     "generateAddress()": FunctionFragment;
-    "getNodeIdx(address)": FunctionFragment;
+    "getQuoteIdx(address)": FunctionFragment;
     "hasMrEnclave(address,bytes32)": FunctionFragment;
     "hasPermission(address,address,uint256)": FunctionFragment;
     "heartbeat(address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
-    "nodeAuthorityToQuoteAddress(address)": FunctionFragment;
-    "nodeExists(address)": FunctionFragment;
-    "nodes(address)": FunctionFragment;
     "oracleQueueSettings(address)": FunctionFragment;
     "permissions(address,address)": FunctionFragment;
     "queueExists(address)": FunctionFragment;
     "queues(address)": FunctionFragment;
+    "quoteAuthorityToQuoteAddress(address)": FunctionFragment;
     "quoteExists(address)": FunctionFragment;
     "quotes(address)": FunctionFragment;
     "removeMrEnclave(address,bytes32)": FunctionFragment;
+    "reverify(address)": FunctionFragment;
     "setPermission(address,address,uint256,bool)": FunctionFragment;
     "setQueueConfig(address,address,uint256,uint256,uint256,uint256,uint256,bool,bool)": FunctionFragment;
     "switchboard()": FunctionFragment;
@@ -69,26 +68,25 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
       | "SERVICE_QUEUE_PERMISSION"
       | "USAGE_PERMISSION"
       | "addMrEnclave"
-      | "createNode"
+      | "createQuote"
       | "createServiceQueue"
       | "failQuote"
       | "forceOverrideVerify"
       | "generateAddress"
-      | "getNodeIdx"
+      | "getQuoteIdx"
       | "hasMrEnclave"
       | "hasPermission"
       | "heartbeat"
       | "initialize"
-      | "nodeAuthorityToQuoteAddress"
-      | "nodeExists"
-      | "nodes"
       | "oracleQueueSettings"
       | "permissions"
       | "queueExists"
       | "queues"
+      | "quoteAuthorityToQuoteAddress"
       | "quoteExists"
       | "quotes"
       | "removeMrEnclave"
+      | "reverify"
       | "setPermission"
       | "setQueueConfig"
       | "switchboard"
@@ -115,7 +113,7 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "createNode",
+    functionFragment: "createQuote",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -133,7 +131,6 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<boolean>,
       PromiseOrValue<boolean>,
-      PromiseOrValue<string>,
       PromiseOrValue<boolean>
     ]
   ): string;
@@ -154,7 +151,7 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getNodeIdx",
+    functionFragment: "getQuoteIdx",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -178,18 +175,6 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "nodeAuthorityToQuoteAddress",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "nodeExists",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "nodes",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "oracleQueueSettings",
     values: [PromiseOrValue<string>]
   ): string;
@@ -206,6 +191,10 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "quoteAuthorityToQuoteAddress",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "quoteExists",
     values: [PromiseOrValue<string>]
   ): string;
@@ -216,6 +205,10 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "removeMrEnclave",
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "reverify",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setPermission",
@@ -283,7 +276,10 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     functionFragment: "addMrEnclave",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "createNode", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "createQuote",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "createServiceQueue",
     data: BytesLike
@@ -297,7 +293,10 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     functionFragment: "generateAddress",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getNodeIdx", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getQuoteIdx",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "hasMrEnclave",
     data: BytesLike
@@ -308,12 +307,6 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "heartbeat", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "nodeAuthorityToQuoteAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "nodeExists", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "nodes", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "oracleQueueSettings",
     data: BytesLike
@@ -328,6 +321,10 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "queues", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "quoteAuthorityToQuoteAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "quoteExists",
     data: BytesLike
   ): Result;
@@ -336,6 +333,7 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     functionFragment: "removeMrEnclave",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "reverify", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setPermission",
     data: BytesLike
@@ -361,19 +359,19 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
 
   events: {
     "Initialized(uint8)": EventFragment;
-    "NodeAccountInit(address,address)": EventFragment;
-    "NodeGC(address,address)": EventFragment;
-    "NodeHeartbeat(address,address)": EventFragment;
-    "NodePayoutEvent(address,address,uint256)": EventFragment;
+    "QuoteAccountInit(address,address)": EventFragment;
+    "QuoteGC(address,address)": EventFragment;
+    "QuoteHeartbeat(address,address)": EventFragment;
+    "QuotePayoutEvent(address,uint256)": EventFragment;
     "QuoteVerifyRequest(address,address,address)": EventFragment;
     "ServiceQueueAccountInit(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NodeAccountInit"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NodeGC"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NodeHeartbeat"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NodePayoutEvent"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "QuoteAccountInit"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "QuoteGC"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "QuoteHeartbeat"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "QuotePayoutEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteVerifyRequest"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ServiceQueueAccountInit"): EventFragment;
 }
@@ -385,47 +383,48 @@ export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
 
 export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
-export interface NodeAccountInitEventObject {
+export interface QuoteAccountInitEventObject {
   authority: string;
   accountAddress: string;
 }
-export type NodeAccountInitEvent = TypedEvent<
+export type QuoteAccountInitEvent = TypedEvent<
   [string, string],
-  NodeAccountInitEventObject
+  QuoteAccountInitEventObject
 >;
 
-export type NodeAccountInitEventFilter = TypedEventFilter<NodeAccountInitEvent>;
+export type QuoteAccountInitEventFilter =
+  TypedEventFilter<QuoteAccountInitEvent>;
 
-export interface NodeGCEventObject {
-  nodeAddress: string;
+export interface QuoteGCEventObject {
+  quoteAddress: string;
   queue: string;
 }
-export type NodeGCEvent = TypedEvent<[string, string], NodeGCEventObject>;
+export type QuoteGCEvent = TypedEvent<[string, string], QuoteGCEventObject>;
 
-export type NodeGCEventFilter = TypedEventFilter<NodeGCEvent>;
+export type QuoteGCEventFilter = TypedEventFilter<QuoteGCEvent>;
 
-export interface NodeHeartbeatEventObject {
-  nodeAddress: string;
+export interface QuoteHeartbeatEventObject {
+  quoteAddress: string;
   authority: string;
 }
-export type NodeHeartbeatEvent = TypedEvent<
+export type QuoteHeartbeatEvent = TypedEvent<
   [string, string],
-  NodeHeartbeatEventObject
+  QuoteHeartbeatEventObject
 >;
 
-export type NodeHeartbeatEventFilter = TypedEventFilter<NodeHeartbeatEvent>;
+export type QuoteHeartbeatEventFilter = TypedEventFilter<QuoteHeartbeatEvent>;
 
-export interface NodePayoutEventEventObject {
-  nodeAddress: string;
+export interface QuotePayoutEventEventObject {
   quoteAddress: string;
   amount: BigNumber;
 }
-export type NodePayoutEventEvent = TypedEvent<
-  [string, string, BigNumber],
-  NodePayoutEventEventObject
+export type QuotePayoutEventEvent = TypedEvent<
+  [string, BigNumber],
+  QuotePayoutEventEventObject
 >;
 
-export type NodePayoutEventEventFilter = TypedEventFilter<NodePayoutEventEvent>;
+export type QuotePayoutEventEventFilter =
+  TypedEventFilter<QuotePayoutEventEvent>;
 
 export interface QuoteVerifyRequestEventObject {
   queueAddress: string;
@@ -491,7 +490,7 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    createNode(
+    createQuote(
       _authority: PromiseOrValue<string>,
       _queueAddress: PromiseOrValue<string>,
       _owner: PromiseOrValue<string>,
@@ -502,12 +501,11 @@ export interface CoreSwitchboardVS extends BaseContract {
       _authority: PromiseOrValue<string>,
       _maxSize: PromiseOrValue<BigNumberish>,
       _reward: PromiseOrValue<BigNumberish>,
-      _nodeTimeout: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
       _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
       _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       _requireUsagePermissions: PromiseOrValue<boolean>,
-      _verifierQueueAddress: PromiseOrValue<string>,
       _enableContentHash: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -515,13 +513,13 @@ export interface CoreSwitchboardVS extends BaseContract {
     failQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
-      nodeIdx: PromiseOrValue<BigNumberish>,
+      quoteIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     forceOverrideVerify(
       _queue: PromiseOrValue<string>,
-      _node: PromiseOrValue<string>,
+      _quote: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -529,8 +527,8 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    getNodeIdx(
-      nodeAddress: PromiseOrValue<string>,
+    getQuoteIdx(
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -548,7 +546,7 @@ export interface CoreSwitchboardVS extends BaseContract {
     ): Promise<[boolean]>;
 
     heartbeat(
-      nodeAddress: PromiseOrValue<string>,
+      quoteAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -556,29 +554,6 @@ export interface CoreSwitchboardVS extends BaseContract {
       _switchboard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    nodeAuthorityToQuoteAddress(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    nodeExists(
-      nodeAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    nodes(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [string, number, BigNumber, string, string] & {
-        authority: string;
-        numRows: number;
-        lastHeartbeat: BigNumber;
-        queueAddress: string;
-        owner: string;
-      }
-    >;
 
     oracleQueueSettings(
       arg0: PromiseOrValue<string>,
@@ -612,7 +587,6 @@ export interface CoreSwitchboardVS extends BaseContract {
         boolean,
         boolean,
         boolean,
-        string,
         BigNumber,
         BigNumber,
         BigNumber
@@ -626,15 +600,19 @@ export interface CoreSwitchboardVS extends BaseContract {
         requireAuthorityHeartbeatPermission: boolean;
         requireUsagePermissions: boolean;
         enableContentHash: boolean;
-        verifierQueueAddress: string;
-        nodeTimeout: BigNumber;
+        quoteTimeout: BigNumber;
         gcIdx: BigNumber;
         currIdx: BigNumber;
       }
     >;
 
+    quoteAuthorityToQuoteAddress(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     quoteExists(
-      nodeAddress: PromiseOrValue<string>,
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
@@ -642,19 +620,37 @@ export interface CoreSwitchboardVS extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [string, string, string, number, BigNumber, BigNumber] & {
+      [
+        string,
+        string,
+        string,
+        number,
+        BigNumber,
+        BigNumber,
+        number,
+        BigNumber,
+        string
+      ] & {
         queueAddress: string;
         authority: string;
         quoteBuffer: string;
         verificationStatus: number;
         verificationTimestamp: BigNumber;
         validUntil: BigNumber;
+        numRows: number;
+        lastHeartbeat: BigNumber;
+        owner: string;
       }
     >;
 
     removeMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    reverify(
+      quoteAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -671,7 +667,7 @@ export interface CoreSwitchboardVS extends BaseContract {
       _authority: PromiseOrValue<string>,
       _maxSize: PromiseOrValue<BigNumberish>,
       _reward: PromiseOrValue<BigNumberish>,
-      _nodeTimeout: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
       _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
       _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
@@ -696,7 +692,7 @@ export interface CoreSwitchboardVS extends BaseContract {
     verifyQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
-      nodeIdx: PromiseOrValue<BigNumberish>,
+      quoteIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -716,7 +712,7 @@ export interface CoreSwitchboardVS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  createNode(
+  createQuote(
     _authority: PromiseOrValue<string>,
     _queueAddress: PromiseOrValue<string>,
     _owner: PromiseOrValue<string>,
@@ -727,12 +723,11 @@ export interface CoreSwitchboardVS extends BaseContract {
     _authority: PromiseOrValue<string>,
     _maxSize: PromiseOrValue<BigNumberish>,
     _reward: PromiseOrValue<BigNumberish>,
-    _nodeTimeout: PromiseOrValue<BigNumberish>,
+    _quoteTimeout: PromiseOrValue<BigNumberish>,
     _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
     _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
     _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
     _requireUsagePermissions: PromiseOrValue<boolean>,
-    _verifierQueueAddress: PromiseOrValue<string>,
     _enableContentHash: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -740,13 +735,13 @@ export interface CoreSwitchboardVS extends BaseContract {
   failQuote(
     verifierAddress: PromiseOrValue<string>,
     quoteAddress: PromiseOrValue<string>,
-    nodeIdx: PromiseOrValue<BigNumberish>,
+    quoteIdx: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   forceOverrideVerify(
     _queue: PromiseOrValue<string>,
-    _node: PromiseOrValue<string>,
+    _quote: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -754,8 +749,8 @@ export interface CoreSwitchboardVS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  getNodeIdx(
-    nodeAddress: PromiseOrValue<string>,
+  getQuoteIdx(
+    quoteAddress: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -773,7 +768,7 @@ export interface CoreSwitchboardVS extends BaseContract {
   ): Promise<boolean>;
 
   heartbeat(
-    nodeAddress: PromiseOrValue<string>,
+    quoteAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -781,29 +776,6 @@ export interface CoreSwitchboardVS extends BaseContract {
     _switchboard: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  nodeAuthorityToQuoteAddress(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  nodeExists(
-    nodeAddress: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  nodes(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<
-    [string, number, BigNumber, string, string] & {
-      authority: string;
-      numRows: number;
-      lastHeartbeat: BigNumber;
-      queueAddress: string;
-      owner: string;
-    }
-  >;
 
   oracleQueueSettings(
     arg0: PromiseOrValue<string>,
@@ -835,7 +807,6 @@ export interface CoreSwitchboardVS extends BaseContract {
       boolean,
       boolean,
       boolean,
-      string,
       BigNumber,
       BigNumber,
       BigNumber
@@ -849,15 +820,19 @@ export interface CoreSwitchboardVS extends BaseContract {
       requireAuthorityHeartbeatPermission: boolean;
       requireUsagePermissions: boolean;
       enableContentHash: boolean;
-      verifierQueueAddress: string;
-      nodeTimeout: BigNumber;
+      quoteTimeout: BigNumber;
       gcIdx: BigNumber;
       currIdx: BigNumber;
     }
   >;
 
+  quoteAuthorityToQuoteAddress(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   quoteExists(
-    nodeAddress: PromiseOrValue<string>,
+    quoteAddress: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
@@ -865,19 +840,37 @@ export interface CoreSwitchboardVS extends BaseContract {
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
-    [string, string, string, number, BigNumber, BigNumber] & {
+    [
+      string,
+      string,
+      string,
+      number,
+      BigNumber,
+      BigNumber,
+      number,
+      BigNumber,
+      string
+    ] & {
       queueAddress: string;
       authority: string;
       quoteBuffer: string;
       verificationStatus: number;
       verificationTimestamp: BigNumber;
       validUntil: BigNumber;
+      numRows: number;
+      lastHeartbeat: BigNumber;
+      owner: string;
     }
   >;
 
   removeMrEnclave(
     queueAddress: PromiseOrValue<string>,
     mrEnclave: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  reverify(
+    quoteAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -894,7 +887,7 @@ export interface CoreSwitchboardVS extends BaseContract {
     _authority: PromiseOrValue<string>,
     _maxSize: PromiseOrValue<BigNumberish>,
     _reward: PromiseOrValue<BigNumberish>,
-    _nodeTimeout: PromiseOrValue<BigNumberish>,
+    _quoteTimeout: PromiseOrValue<BigNumberish>,
     _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
     _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
     _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
@@ -919,7 +912,7 @@ export interface CoreSwitchboardVS extends BaseContract {
   verifyQuote(
     verifierAddress: PromiseOrValue<string>,
     quoteAddress: PromiseOrValue<string>,
-    nodeIdx: PromiseOrValue<BigNumberish>,
+    quoteIdx: PromiseOrValue<BigNumberish>,
     timestamp: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -939,7 +932,7 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    createNode(
+    createQuote(
       _authority: PromiseOrValue<string>,
       _queueAddress: PromiseOrValue<string>,
       _owner: PromiseOrValue<string>,
@@ -950,12 +943,11 @@ export interface CoreSwitchboardVS extends BaseContract {
       _authority: PromiseOrValue<string>,
       _maxSize: PromiseOrValue<BigNumberish>,
       _reward: PromiseOrValue<BigNumberish>,
-      _nodeTimeout: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
       _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
       _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       _requireUsagePermissions: PromiseOrValue<boolean>,
-      _verifierQueueAddress: PromiseOrValue<string>,
       _enableContentHash: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -963,20 +955,20 @@ export interface CoreSwitchboardVS extends BaseContract {
     failQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
-      nodeIdx: PromiseOrValue<BigNumberish>,
+      quoteIdx: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     forceOverrideVerify(
       _queue: PromiseOrValue<string>,
-      _node: PromiseOrValue<string>,
+      _quote: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     generateAddress(overrides?: CallOverrides): Promise<string>;
 
-    getNodeIdx(
-      nodeAddress: PromiseOrValue<string>,
+    getQuoteIdx(
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -994,7 +986,7 @@ export interface CoreSwitchboardVS extends BaseContract {
     ): Promise<boolean>;
 
     heartbeat(
-      nodeAddress: PromiseOrValue<string>,
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1002,29 +994,6 @@ export interface CoreSwitchboardVS extends BaseContract {
       _switchboard: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    nodeAuthorityToQuoteAddress(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    nodeExists(
-      nodeAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    nodes(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [string, number, BigNumber, string, string] & {
-        authority: string;
-        numRows: number;
-        lastHeartbeat: BigNumber;
-        queueAddress: string;
-        owner: string;
-      }
-    >;
 
     oracleQueueSettings(
       arg0: PromiseOrValue<string>,
@@ -1058,7 +1027,6 @@ export interface CoreSwitchboardVS extends BaseContract {
         boolean,
         boolean,
         boolean,
-        string,
         BigNumber,
         BigNumber,
         BigNumber
@@ -1072,15 +1040,19 @@ export interface CoreSwitchboardVS extends BaseContract {
         requireAuthorityHeartbeatPermission: boolean;
         requireUsagePermissions: boolean;
         enableContentHash: boolean;
-        verifierQueueAddress: string;
-        nodeTimeout: BigNumber;
+        quoteTimeout: BigNumber;
         gcIdx: BigNumber;
         currIdx: BigNumber;
       }
     >;
 
+    quoteAuthorityToQuoteAddress(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     quoteExists(
-      nodeAddress: PromiseOrValue<string>,
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -1088,19 +1060,37 @@ export interface CoreSwitchboardVS extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [string, string, string, number, BigNumber, BigNumber] & {
+      [
+        string,
+        string,
+        string,
+        number,
+        BigNumber,
+        BigNumber,
+        number,
+        BigNumber,
+        string
+      ] & {
         queueAddress: string;
         authority: string;
         quoteBuffer: string;
         verificationStatus: number;
         verificationTimestamp: BigNumber;
         validUntil: BigNumber;
+        numRows: number;
+        lastHeartbeat: BigNumber;
+        owner: string;
       }
     >;
 
     removeMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    reverify(
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1117,7 +1107,7 @@ export interface CoreSwitchboardVS extends BaseContract {
       _authority: PromiseOrValue<string>,
       _maxSize: PromiseOrValue<BigNumberish>,
       _reward: PromiseOrValue<BigNumberish>,
-      _nodeTimeout: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
       _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
       _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
@@ -1142,7 +1132,7 @@ export interface CoreSwitchboardVS extends BaseContract {
     verifyQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
-      nodeIdx: PromiseOrValue<BigNumberish>,
+      quoteIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -1154,43 +1144,41 @@ export interface CoreSwitchboardVS extends BaseContract {
     "Initialized(uint8)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;
 
-    "NodeAccountInit(address,address)"(
+    "QuoteAccountInit(address,address)"(
       authority?: PromiseOrValue<string> | null,
       accountAddress?: PromiseOrValue<string> | null
-    ): NodeAccountInitEventFilter;
-    NodeAccountInit(
+    ): QuoteAccountInitEventFilter;
+    QuoteAccountInit(
       authority?: PromiseOrValue<string> | null,
       accountAddress?: PromiseOrValue<string> | null
-    ): NodeAccountInitEventFilter;
+    ): QuoteAccountInitEventFilter;
 
-    "NodeGC(address,address)"(
-      nodeAddress?: PromiseOrValue<string> | null,
+    "QuoteGC(address,address)"(
+      quoteAddress?: PromiseOrValue<string> | null,
       queue?: PromiseOrValue<string> | null
-    ): NodeGCEventFilter;
-    NodeGC(
-      nodeAddress?: PromiseOrValue<string> | null,
+    ): QuoteGCEventFilter;
+    QuoteGC(
+      quoteAddress?: PromiseOrValue<string> | null,
       queue?: PromiseOrValue<string> | null
-    ): NodeGCEventFilter;
+    ): QuoteGCEventFilter;
 
-    "NodeHeartbeat(address,address)"(
-      nodeAddress?: PromiseOrValue<string> | null,
+    "QuoteHeartbeat(address,address)"(
+      quoteAddress?: PromiseOrValue<string> | null,
       authority?: PromiseOrValue<string> | null
-    ): NodeHeartbeatEventFilter;
-    NodeHeartbeat(
-      nodeAddress?: PromiseOrValue<string> | null,
+    ): QuoteHeartbeatEventFilter;
+    QuoteHeartbeat(
+      quoteAddress?: PromiseOrValue<string> | null,
       authority?: PromiseOrValue<string> | null
-    ): NodeHeartbeatEventFilter;
+    ): QuoteHeartbeatEventFilter;
 
-    "NodePayoutEvent(address,address,uint256)"(
-      nodeAddress?: PromiseOrValue<string> | null,
+    "QuotePayoutEvent(address,uint256)"(
       quoteAddress?: PromiseOrValue<string> | null,
       amount?: PromiseOrValue<BigNumberish> | null
-    ): NodePayoutEventEventFilter;
-    NodePayoutEvent(
-      nodeAddress?: PromiseOrValue<string> | null,
+    ): QuotePayoutEventEventFilter;
+    QuotePayoutEvent(
       quoteAddress?: PromiseOrValue<string> | null,
       amount?: PromiseOrValue<BigNumberish> | null
-    ): NodePayoutEventEventFilter;
+    ): QuotePayoutEventEventFilter;
 
     "QuoteVerifyRequest(address,address,address)"(
       queueAddress?: PromiseOrValue<string> | null,
@@ -1226,7 +1214,7 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    createNode(
+    createQuote(
       _authority: PromiseOrValue<string>,
       _queueAddress: PromiseOrValue<string>,
       _owner: PromiseOrValue<string>,
@@ -1237,12 +1225,11 @@ export interface CoreSwitchboardVS extends BaseContract {
       _authority: PromiseOrValue<string>,
       _maxSize: PromiseOrValue<BigNumberish>,
       _reward: PromiseOrValue<BigNumberish>,
-      _nodeTimeout: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
       _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
       _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       _requireUsagePermissions: PromiseOrValue<boolean>,
-      _verifierQueueAddress: PromiseOrValue<string>,
       _enableContentHash: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1250,13 +1237,13 @@ export interface CoreSwitchboardVS extends BaseContract {
     failQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
-      nodeIdx: PromiseOrValue<BigNumberish>,
+      quoteIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     forceOverrideVerify(
       _queue: PromiseOrValue<string>,
-      _node: PromiseOrValue<string>,
+      _quote: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1264,8 +1251,8 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    getNodeIdx(
-      nodeAddress: PromiseOrValue<string>,
+    getQuoteIdx(
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1283,28 +1270,13 @@ export interface CoreSwitchboardVS extends BaseContract {
     ): Promise<BigNumber>;
 
     heartbeat(
-      nodeAddress: PromiseOrValue<string>,
+      quoteAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     initialize(
       _switchboard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    nodeAuthorityToQuoteAddress(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    nodeExists(
-      nodeAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    nodes(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     oracleQueueSettings(
@@ -1328,8 +1300,13 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    quoteAuthorityToQuoteAddress(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     quoteExists(
-      nodeAddress: PromiseOrValue<string>,
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1341,6 +1318,11 @@ export interface CoreSwitchboardVS extends BaseContract {
     removeMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    reverify(
+      quoteAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1357,7 +1339,7 @@ export interface CoreSwitchboardVS extends BaseContract {
       _authority: PromiseOrValue<string>,
       _maxSize: PromiseOrValue<BigNumberish>,
       _reward: PromiseOrValue<BigNumberish>,
-      _nodeTimeout: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
       _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
       _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
@@ -1382,7 +1364,7 @@ export interface CoreSwitchboardVS extends BaseContract {
     verifyQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
-      nodeIdx: PromiseOrValue<BigNumberish>,
+      quoteIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1407,7 +1389,7 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    createNode(
+    createQuote(
       _authority: PromiseOrValue<string>,
       _queueAddress: PromiseOrValue<string>,
       _owner: PromiseOrValue<string>,
@@ -1418,12 +1400,11 @@ export interface CoreSwitchboardVS extends BaseContract {
       _authority: PromiseOrValue<string>,
       _maxSize: PromiseOrValue<BigNumberish>,
       _reward: PromiseOrValue<BigNumberish>,
-      _nodeTimeout: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
       _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
       _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       _requireUsagePermissions: PromiseOrValue<boolean>,
-      _verifierQueueAddress: PromiseOrValue<string>,
       _enableContentHash: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -1431,13 +1412,13 @@ export interface CoreSwitchboardVS extends BaseContract {
     failQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
-      nodeIdx: PromiseOrValue<BigNumberish>,
+      quoteIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     forceOverrideVerify(
       _queue: PromiseOrValue<string>,
-      _node: PromiseOrValue<string>,
+      _quote: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1445,8 +1426,8 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    getNodeIdx(
-      nodeAddress: PromiseOrValue<string>,
+    getQuoteIdx(
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1464,28 +1445,13 @@ export interface CoreSwitchboardVS extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     heartbeat(
-      nodeAddress: PromiseOrValue<string>,
+      quoteAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     initialize(
       _switchboard: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    nodeAuthorityToQuoteAddress(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    nodeExists(
-      nodeAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    nodes(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     oracleQueueSettings(
@@ -1509,8 +1475,13 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    quoteAuthorityToQuoteAddress(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     quoteExists(
-      nodeAddress: PromiseOrValue<string>,
+      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1522,6 +1493,11 @@ export interface CoreSwitchboardVS extends BaseContract {
     removeMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    reverify(
+      quoteAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1538,7 +1514,7 @@ export interface CoreSwitchboardVS extends BaseContract {
       _authority: PromiseOrValue<string>,
       _maxSize: PromiseOrValue<BigNumberish>,
       _reward: PromiseOrValue<BigNumberish>,
-      _nodeTimeout: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
       _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
       _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
@@ -1563,7 +1539,7 @@ export interface CoreSwitchboardVS extends BaseContract {
     verifyQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
-      nodeIdx: PromiseOrValue<BigNumberish>,
+      quoteIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

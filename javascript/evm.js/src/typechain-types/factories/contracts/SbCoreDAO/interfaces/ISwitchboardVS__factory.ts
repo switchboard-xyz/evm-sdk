@@ -84,7 +84,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "nodeAuthority",
+        name: "quoteAuthority",
         type: "address",
       },
     ],
