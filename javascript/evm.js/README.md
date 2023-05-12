@@ -1,36 +1,13 @@
 <div align="center">
-  <a href="#">
-    <img src="https://github.com/switchboard-xyz/sbv2-core/raw/main/website/static/img/icons/switchboard/avatar.png" />
-  </a>
 
-  <h1>@switchboard-xyz/evm.js</h1>
+![Switchboard Logo](https://github.com/switchboard-xyz/sbv2-core/raw/main/website/static/img/icons/switchboard/avatar.png)
 
-  <p>A Typescript client to interact with Switchboard V2 on EVM chains.</p>
+# @switchboard-xyz/evm.js
 
-  <p>
-	  <a href="https://www.npmjs.com/package/@switchboard-xyz/evm.js">
-      <img alt="NPM Badge" src="https://img.shields.io/github/package-json/v/switchboard-xyz/sbv2-evm?color=red&filename=javascript%2Fevm.js%2Fpackage.json&label=%40switchboard-xyz%2Fevm.js&logo=npm" />
-    </a>
-  </p>
+> A Typescript client to interact with Switchboard on NEAR.
 
-  <p>
-    <a href="https://discord.gg/switchboardxyz">
-      <img alt="Discord" src="https://img.shields.io/discord/841525135311634443?color=blueviolet&logo=discord&logoColor=white" />
-    </a>
-    <a href="https://twitter.com/switchboardxyz">
-      <img alt="Twitter" src="https://img.shields.io/twitter/follow/switchboardxyz?label=Follow+Switchboard" />
-    </a>
-  </p>
+[![NPM Badge](https://img.shields.io/github/package-json/v/switchboard-xyz/sbv2-evm?color=red&filename=javascript%2Fevm.js%2Fpackage.json&label=%40switchboard-xyz%2Fevm.js&logo=npm)](https://www.npmjs.com/package/@switchboard-xyz/evm.js)
 
-  <h4>
-    <strong>Npm: </strong><a href="https://www.npmjs.com/package/@switchboard-xyz/evm.js">npmjs.com/package/@switchboard-xyz/evm.js</a>
-  </h4>
-  <h4>
-    <strong>Typedocs: </strong><a href="https://docs.switchboard.xyz/api/@switchboard-xyz/evm.js">docs.switchboard.xyz/api/@switchboard-xyz/evm.js</a>
-  </h4>
-  <h4>
-    <strong>Sbv2 EVM SDK: </strong><a href="https://github.com/switchboard-xyz/sbv2-evm">github.com/switchboard-xyz/sbv2-evm</a>
-  </h4>
 </div>
 
 ## Install
@@ -41,9 +18,14 @@ npm i --save @switchboard-xyz/evm.js
 
 ## Usage
 
+**Directory**
+
+- [Create a Data Feed](#create-a-data-feed)
+- [Create a Job on IPFS](#create-a-job-on-ipfs)
+
 ### Create a Data Feed
 
-```typescript
+```ts
 import { AggregatorAccount, OracleJob } from "@switchboard-xyz/evm.js";
 import { BigNumber, Wallet } from "ethers";
 
@@ -89,13 +71,11 @@ const aggregatorAddress = tx.wait().then((logs) => {
 });
 ```
 
-### Creating Jobs on IPFS
+### Create a Job on IPFS
 
-A set of jobs must be encoded with the
-[following structure](https://ipfs.io/ipfs/bafybeiaprigfe7hakc4hgqyrjtgsbggrpvzfufpufzvpwtzlznyjb5hjw4/%20USD).
-This example uses [web3.storage](https://web3.storage).
+A set of jobs must be encoded with the [following structure](https://ipfs.io/ipfs/bafybeiaprigfe7hakc4hgqyrjtgsbggrpvzfufpufzvpwtzlznyjb5hjw4/%20USD). This example uses [web3.storage](https://web3.storage).
 
-```typescript
+```ts
 const jobs = [
   {
     name: job.name,

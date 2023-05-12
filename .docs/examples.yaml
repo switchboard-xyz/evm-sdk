@@ -1,0 +1,13 @@
+examples:
+  - name: "feed-parser"
+    description:
+      "An example Solidity contract demonstrating how to read a Switchboard data
+      feed."
+    language: "solidity"
+    path: "contracts/read-feed"
+  - name: "read-feed-aggregator-v3"
+    description:
+      "An example Solidity contract demonstrating how to read a Switchboard data
+      feed."
+    language: "solidity"
+    path: "contracts/read-feed-aggregator-v3"
