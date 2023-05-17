@@ -26,6 +26,69 @@ const _abi = [
         type: "address",
       },
     ],
+    name: "AttestationQueueAccountInit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+    ],
+    name: "FunctionAccountInit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "functionAddress",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "funder",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "FunctionFundEvent",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+    ],
     name: "QuoteAccountInit",
     type: "event",
   },
@@ -115,25 +178,6 @@ const _abi = [
       },
     ],
     name: "QuoteVerifyRequest",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "accountAddress",
-        type: "address",
-      },
-    ],
-    name: "ServiceQueueAccountInit",
     type: "event",
   },
 ] as const;

@@ -109,6 +109,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "heartbeat(address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "latestResult(address)": FunctionFragment;
+    "nonce()": FunctionFragment;
     "oracleExists(address)": FunctionFragment;
     "oracles(address)": FunctionFragment;
     "permissions(address,address)": FunctionFragment;
@@ -148,6 +149,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "heartbeat"
       | "initialize"
       | "latestResult"
+      | "nonce"
       | "oracleExists"
       | "oracles"
       | "permissions"
@@ -282,6 +284,7 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "latestResult",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(functionFragment: "nonce", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "oracleExists",
     values: [PromiseOrValue<string>]
@@ -453,6 +456,7 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "latestResult",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "nonce", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "oracleExists",
     data: BytesLike
@@ -860,6 +864,8 @@ export interface Switchboard extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    nonce(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     oracleExists(
       oracleAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1162,6 +1168,8 @@ export interface Switchboard extends BaseContract {
     aggregatorAddress: PromiseOrValue<string>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  nonce(overrides?: CallOverrides): Promise<BigNumber>;
 
   oracleExists(
     oracleAddress: PromiseOrValue<string>,
@@ -1467,6 +1475,8 @@ export interface Switchboard extends BaseContract {
     ): Promise<
       [BigNumber, BigNumber] & { value: BigNumber; timestamp: BigNumber }
     >;
+
+    nonce(overrides?: CallOverrides): Promise<BigNumber>;
 
     oracleExists(
       oracleAddress: PromiseOrValue<string>,
@@ -1821,6 +1831,8 @@ export interface Switchboard extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    nonce(overrides?: CallOverrides): Promise<BigNumber>;
+
     oracleExists(
       oracleAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -2043,6 +2055,8 @@ export interface Switchboard extends BaseContract {
       aggregatorAddress: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    nonce(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     oracleExists(
       oracleAddress: PromiseOrValue<string>,

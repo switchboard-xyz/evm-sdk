@@ -26,6 +26,69 @@ const _abi = [
         type: "address",
       },
     ],
+    name: "AttestationQueueAccountInit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+    ],
+    name: "FunctionAccountInit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "functionAddress",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "funder",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "FunctionFundEvent",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+    ],
     name: "QuoteAccountInit",
     type: "event",
   },
@@ -118,35 +181,22 @@ const _abi = [
     type: "event",
   },
   {
-    anonymous: false,
     inputs: [
       {
-        indexed: true,
         internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "accountAddress",
+        name: "quoteAuthority",
         type: "address",
       },
     ],
-    name: "ServiceQueueAccountInit",
-    type: "event",
-  },
-  {
-    inputs: [],
-    name: "generateAddress",
+    name: "getQuoteEnclaveMeasurement",
     outputs: [
       {
-        internalType: "address",
+        internalType: "bytes32",
         name: "",
-        type: "address",
+        type: "bytes32",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
   {

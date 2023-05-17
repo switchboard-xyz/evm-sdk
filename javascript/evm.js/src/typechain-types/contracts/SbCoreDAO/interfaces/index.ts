@@ -5,3 +5,4 @@ import type * as iLegacyOracleSol from "./ILegacyOracle.sol";
 export type { iLegacyOracleSol };
 export type { ISwitchboard } from "./ISwitchboard";
 export type { ISwitchboardVS } from "./ISwitchboardVS";
+export type { IVsEvents } from "./IVsEvents";

@@ -5,4 +5,6 @@ export * as legacyOracleAdapterSol from "./LegacyOracleAdapter.sol";
 export * as switchboardSol from "./Switchboard.sol";
 export * as switchboardV3Sol from "./SwitchboardV3.sol";
 export * as switchboardVsSol from "./SwitchboardVS.sol";
+export * as contracts from "./contracts";
 export * as interfaces from "./interfaces";
+export * as libraries from "./libraries";

@@ -28,23 +28,75 @@ import type {
   PromiseOrValue,
 } from "../../../common";
 
+export declare namespace VsStructs {
+  export type FunctionStruct = {
+    name: PromiseOrValue<string>;
+    authority: PromiseOrValue<string>;
+    quoteAddress: PromiseOrValue<string>;
+    containerRegistry: PromiseOrValue<string>;
+    container: PromiseOrValue<string>;
+    version: PromiseOrValue<BytesLike>;
+    queueAddress: PromiseOrValue<string>;
+    lastExecutionTimestamp: PromiseOrValue<BigNumberish>;
+    nextAllowedTimestamp: PromiseOrValue<BigNumberish>;
+    schedule: PromiseOrValue<string>;
+    balance: PromiseOrValue<BigNumberish>;
+    status: PromiseOrValue<BigNumberish>;
+  };
+
+  export type FunctionStructOutput = [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    BigNumber,
+    BigNumber,
+    string,
+    BigNumber,
+    number
+  ] & {
+    name: string;
+    authority: string;
+    quoteAddress: string;
+    containerRegistry: string;
+    container: string;
+    version: string;
+    queueAddress: string;
+    lastExecutionTimestamp: BigNumber;
+    nextAllowedTimestamp: BigNumber;
+    schedule: string;
+    balance: BigNumber;
+    status: number;
+  };
+}
+
 export interface CoreSwitchboardVSInterface extends utils.Interface {
   functions: {
-    "HEARTBEAT_PERMISSION()": FunctionFragment;
-    "SERVICE_QUEUE_PERMISSION()": FunctionFragment;
-    "USAGE_PERMISSION()": FunctionFragment;
+    "NULL_ADDRESS()": FunctionFragment;
+    "__hasPermission(address,address,uint256)": FunctionFragment;
     "addMrEnclave(address,bytes32)": FunctionFragment;
+    "createAttestationQueue(address,uint256,uint256,uint256,uint256,uint256,bool,bool)": FunctionFragment;
+    "createFunction(address,string,string,string,string,bytes32,address)": FunctionFragment;
     "createQuote(address,address,address)": FunctionFragment;
-    "createServiceQueue(address,uint256,uint256,uint256,uint256,uint256,bool,bool,bool)": FunctionFragment;
+    "escrowFund(address)": FunctionFragment;
+    "escrowWithdraw(address,address,uint256)": FunctionFragment;
     "failQuote(address,address,uint256)": FunctionFragment;
     "forceOverrideVerify(address,address)": FunctionFragment;
-    "generateAddress()": FunctionFragment;
+    "funcs(address)": FunctionFragment;
+    "functionAddresses(uint256)": FunctionFragment;
+    "functionExists(address)": FunctionFragment;
+    "getFunctionsByAuthority(address)": FunctionFragment;
+    "getPermissionCode(uint8)": FunctionFragment;
+    "getQuoteEnclaveMeasurement(address)": FunctionFragment;
     "getQuoteIdx(address)": FunctionFragment;
     "hasMrEnclave(address,bytes32)": FunctionFragment;
     "hasPermission(address,address,uint256)": FunctionFragment;
     "heartbeat(address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
-    "oracleQueueSettings(address)": FunctionFragment;
+    "isQuoteValid(address)": FunctionFragment;
     "permissions(address,address)": FunctionFragment;
     "queueExists(address)": FunctionFragment;
     "queues(address)": FunctionFragment;
@@ -52,33 +104,40 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     "quoteExists(address)": FunctionFragment;
     "quotes(address)": FunctionFragment;
     "removeMrEnclave(address,bytes32)": FunctionFragment;
-    "reverify(address)": FunctionFragment;
     "setPermission(address,address,uint256,bool)": FunctionFragment;
     "setQueueConfig(address,address,uint256,uint256,uint256,uint256,uint256,bool,bool)": FunctionFragment;
     "switchboard()": FunctionFragment;
     "updateQuote(address,address,bytes)": FunctionFragment;
     "validate(address)": FunctionFragment;
-    "verifyQuote(address,address,uint256,uint256)": FunctionFragment;
+    "verifyFunction(address,address,uint256,uint256,bool,bytes32)": FunctionFragment;
+    "verifyQuote(address,address,uint256,uint256,bytes32)": FunctionFragment;
     "version()": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "HEARTBEAT_PERMISSION"
-      | "SERVICE_QUEUE_PERMISSION"
-      | "USAGE_PERMISSION"
+      | "NULL_ADDRESS"
+      | "__hasPermission"
       | "addMrEnclave"
+      | "createAttestationQueue"
+      | "createFunction"
       | "createQuote"
-      | "createServiceQueue"
+      | "escrowFund"
+      | "escrowWithdraw"
       | "failQuote"
       | "forceOverrideVerify"
-      | "generateAddress"
+      | "funcs"
+      | "functionAddresses"
+      | "functionExists"
+      | "getFunctionsByAuthority"
+      | "getPermissionCode"
+      | "getQuoteEnclaveMeasurement"
       | "getQuoteIdx"
       | "hasMrEnclave"
       | "hasPermission"
       | "heartbeat"
       | "initialize"
-      | "oracleQueueSettings"
+      | "isQuoteValid"
       | "permissions"
       | "queueExists"
       | "queues"
@@ -86,31 +145,56 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
       | "quoteExists"
       | "quotes"
       | "removeMrEnclave"
-      | "reverify"
       | "setPermission"
       | "setQueueConfig"
       | "switchboard"
       | "updateQuote"
       | "validate"
+      | "verifyFunction"
       | "verifyQuote"
       | "version"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "HEARTBEAT_PERMISSION",
+    functionFragment: "NULL_ADDRESS",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "SERVICE_QUEUE_PERMISSION",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "USAGE_PERMISSION",
-    values?: undefined
+    functionFragment: "__hasPermission",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "addMrEnclave",
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createAttestationQueue",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<boolean>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createFunction",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "createQuote",
@@ -121,17 +205,15 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "createServiceQueue",
+    functionFragment: "escrowFund",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "escrowWithdraw",
     values: [
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<boolean>,
-      PromiseOrValue<boolean>,
-      PromiseOrValue<boolean>
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
     ]
   ): string;
   encodeFunctionData(
@@ -147,8 +229,28 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "generateAddress",
-    values?: undefined
+    functionFragment: "funcs",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "functionAddresses",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "functionExists",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getFunctionsByAuthority",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPermissionCode",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getQuoteEnclaveMeasurement",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getQuoteIdx",
@@ -175,7 +277,7 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "oracleQueueSettings",
+    functionFragment: "isQuoteValid",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -205,10 +307,6 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "removeMrEnclave",
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "reverify",
-    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setPermission",
@@ -250,26 +348,34 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "verifyFunction",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "verifyQuote",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BytesLike>
     ]
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
-    functionFragment: "HEARTBEAT_PERMISSION",
+    functionFragment: "NULL_ADDRESS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "SERVICE_QUEUE_PERMISSION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "USAGE_PERMISSION",
+    functionFragment: "__hasPermission",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -277,11 +383,20 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "createQuote",
+    functionFragment: "createAttestationQueue",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "createServiceQueue",
+    functionFragment: "createFunction",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createQuote",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "escrowFund", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "escrowWithdraw",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "failQuote", data: BytesLike): Result;
@@ -289,8 +404,25 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     functionFragment: "forceOverrideVerify",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "funcs", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "generateAddress",
+    functionFragment: "functionAddresses",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "functionExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getFunctionsByAuthority",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getPermissionCode",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getQuoteEnclaveMeasurement",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -308,7 +440,7 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "heartbeat", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "oracleQueueSettings",
+    functionFragment: "isQuoteValid",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -333,7 +465,6 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
     functionFragment: "removeMrEnclave",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "reverify", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setPermission",
     data: BytesLike
@@ -352,29 +483,76 @@ export interface CoreSwitchboardVSInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "validate", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "verifyFunction",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "verifyQuote",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
 
   events: {
+    "AttestationQueueAccountInit(address,address)": EventFragment;
+    "FunctionAccountInit(address,address)": EventFragment;
+    "FunctionFundEvent(address,address,uint256)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "QuoteAccountInit(address,address)": EventFragment;
     "QuoteGC(address,address)": EventFragment;
     "QuoteHeartbeat(address,address)": EventFragment;
-    "QuotePayoutEvent(address,uint256)": EventFragment;
+    "QuotePayoutEvent(address,address,uint256)": EventFragment;
     "QuoteVerifyRequest(address,address,address)": EventFragment;
-    "ServiceQueueAccountInit(address,address)": EventFragment;
   };
 
+  getEvent(
+    nameOrSignatureOrTopic: "AttestationQueueAccountInit"
+  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FunctionAccountInit"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FunctionFundEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteAccountInit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteGC"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteHeartbeat"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuotePayoutEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteVerifyRequest"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ServiceQueueAccountInit"): EventFragment;
 }
+
+export interface AttestationQueueAccountInitEventObject {
+  authority: string;
+  accountAddress: string;
+}
+export type AttestationQueueAccountInitEvent = TypedEvent<
+  [string, string],
+  AttestationQueueAccountInitEventObject
+>;
+
+export type AttestationQueueAccountInitEventFilter =
+  TypedEventFilter<AttestationQueueAccountInitEvent>;
+
+export interface FunctionAccountInitEventObject {
+  authority: string;
+  accountAddress: string;
+}
+export type FunctionAccountInitEvent = TypedEvent<
+  [string, string],
+  FunctionAccountInitEventObject
+>;
+
+export type FunctionAccountInitEventFilter =
+  TypedEventFilter<FunctionAccountInitEvent>;
+
+export interface FunctionFundEventEventObject {
+  functionAddress: string;
+  funder: string;
+  amount: BigNumber;
+}
+export type FunctionFundEventEvent = TypedEvent<
+  [string, string, BigNumber],
+  FunctionFundEventEventObject
+>;
+
+export type FunctionFundEventEventFilter =
+  TypedEventFilter<FunctionFundEventEvent>;
 
 export interface InitializedEventObject {
   version: number;
@@ -396,7 +574,7 @@ export type QuoteAccountInitEventFilter =
   TypedEventFilter<QuoteAccountInitEvent>;
 
 export interface QuoteGCEventObject {
-  quoteAddress: string;
+  nodeAddress: string;
   queue: string;
 }
 export type QuoteGCEvent = TypedEvent<[string, string], QuoteGCEventObject>;
@@ -404,7 +582,7 @@ export type QuoteGCEvent = TypedEvent<[string, string], QuoteGCEventObject>;
 export type QuoteGCEventFilter = TypedEventFilter<QuoteGCEvent>;
 
 export interface QuoteHeartbeatEventObject {
-  quoteAddress: string;
+  nodeAddress: string;
   authority: string;
 }
 export type QuoteHeartbeatEvent = TypedEvent<
@@ -415,11 +593,12 @@ export type QuoteHeartbeatEvent = TypedEvent<
 export type QuoteHeartbeatEventFilter = TypedEventFilter<QuoteHeartbeatEvent>;
 
 export interface QuotePayoutEventEventObject {
+  nodeAddress: string;
   quoteAddress: string;
   amount: BigNumber;
 }
 export type QuotePayoutEventEvent = TypedEvent<
-  [string, BigNumber],
+  [string, string, BigNumber],
   QuotePayoutEventEventObject
 >;
 
@@ -438,18 +617,6 @@ export type QuoteVerifyRequestEvent = TypedEvent<
 
 export type QuoteVerifyRequestEventFilter =
   TypedEventFilter<QuoteVerifyRequestEvent>;
-
-export interface ServiceQueueAccountInitEventObject {
-  authority: string;
-  accountAddress: string;
-}
-export type ServiceQueueAccountInitEvent = TypedEvent<
-  [string, string],
-  ServiceQueueAccountInitEventObject
->;
-
-export type ServiceQueueAccountInitEventFilter =
-  TypedEventFilter<ServiceQueueAccountInitEvent>;
 
 export interface CoreSwitchboardVS extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -478,16 +645,42 @@ export interface CoreSwitchboardVS extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    HEARTBEAT_PERMISSION(overrides?: CallOverrides): Promise<[BigNumber]>;
+    NULL_ADDRESS(overrides?: CallOverrides): Promise<[string]>;
 
-    SERVICE_QUEUE_PERMISSION(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    USAGE_PERMISSION(overrides?: CallOverrides): Promise<[BigNumber]>;
+    __hasPermission(
+      granter: PromiseOrValue<string>,
+      grantee: PromiseOrValue<string>,
+      permission: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     addMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    createAttestationQueue(
+      _authority: PromiseOrValue<string>,
+      _maxSize: PromiseOrValue<BigNumberish>,
+      _reward: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
+      _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
+      _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
+      _requireUsagePermissions: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    createFunction(
+      _authority: PromiseOrValue<string>,
+      _name: PromiseOrValue<string>,
+      _containerRegistry: PromiseOrValue<string>,
+      _container: PromiseOrValue<string>,
+      _schedule: PromiseOrValue<string>,
+      _version: PromiseOrValue<BytesLike>,
+      _verifierQueue: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     createQuote(
@@ -497,16 +690,15 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    createServiceQueue(
-      _authority: PromiseOrValue<string>,
-      _maxSize: PromiseOrValue<BigNumberish>,
-      _reward: PromiseOrValue<BigNumberish>,
-      _quoteTimeout: PromiseOrValue<BigNumberish>,
-      _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
-      _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
-      _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
-      _requireUsagePermissions: PromiseOrValue<boolean>,
-      _enableContentHash: PromiseOrValue<boolean>,
+    escrowFund(
+      accountAddress: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    escrowWithdraw(
+      recipient: PromiseOrValue<string>,
+      functionAddress: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -523,9 +715,63 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    generateAddress(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    funcs(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        BigNumber,
+        BigNumber,
+        string,
+        BigNumber,
+        number
+      ] & {
+        name: string;
+        authority: string;
+        quoteAddress: string;
+        containerRegistry: string;
+        container: string;
+        version: string;
+        queueAddress: string;
+        lastExecutionTimestamp: BigNumber;
+        nextAllowedTimestamp: BigNumber;
+        schedule: string;
+        balance: BigNumber;
+        status: number;
+      }
+    >;
+
+    functionAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    functionExists(
+      functionAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    getFunctionsByAuthority(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[], VsStructs.FunctionStructOutput[]]>;
+
+    getPermissionCode(
+      p: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getQuoteEnclaveMeasurement(
+      quoteAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     getQuoteIdx(
       quoteAddress: PromiseOrValue<string>,
@@ -555,12 +801,10 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    oracleQueueSettings(
-      arg0: PromiseOrValue<string>,
+    isQuoteValid(
+      _quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<
-      [boolean, string] & { v3Enabled: boolean; serviceQueue: string }
-    >;
+    ): Promise<[boolean]>;
 
     permissions(
       arg0: PromiseOrValue<string>,
@@ -586,7 +830,6 @@ export interface CoreSwitchboardVS extends BaseContract {
         BigNumber,
         boolean,
         boolean,
-        boolean,
         BigNumber,
         BigNumber,
         BigNumber
@@ -599,7 +842,6 @@ export interface CoreSwitchboardVS extends BaseContract {
         allowAuthorityOverrideAfter: BigNumber;
         requireAuthorityHeartbeatPermission: boolean;
         requireUsagePermissions: boolean;
-        enableContentHash: boolean;
         quoteTimeout: BigNumber;
         gcIdx: BigNumber;
         currIdx: BigNumber;
@@ -624,33 +866,30 @@ export interface CoreSwitchboardVS extends BaseContract {
         string,
         string,
         string,
+        string,
         number,
         BigNumber,
         BigNumber,
-        number,
-        BigNumber,
-        string
+        string,
+        boolean,
+        BigNumber
       ] & {
-        queueAddress: string;
         authority: string;
+        owner: string;
+        queueAddress: string;
         quoteBuffer: string;
         verificationStatus: number;
         verificationTimestamp: BigNumber;
         validUntil: BigNumber;
-        numRows: number;
+        mrEnclave: string;
+        isOnQueue: boolean;
         lastHeartbeat: BigNumber;
-        owner: string;
       }
     >;
 
     removeMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    reverify(
-      quoteAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -689,27 +928,64 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    verifyFunction(
+      functionAddress: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     verifyQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
       quoteIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
+      mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     version(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
-  HEARTBEAT_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
+  NULL_ADDRESS(overrides?: CallOverrides): Promise<string>;
 
-  SERVICE_QUEUE_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
-
-  USAGE_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
+  __hasPermission(
+    granter: PromiseOrValue<string>,
+    grantee: PromiseOrValue<string>,
+    permission: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   addMrEnclave(
     queueAddress: PromiseOrValue<string>,
     mrEnclave: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  createAttestationQueue(
+    _authority: PromiseOrValue<string>,
+    _maxSize: PromiseOrValue<BigNumberish>,
+    _reward: PromiseOrValue<BigNumberish>,
+    _quoteTimeout: PromiseOrValue<BigNumberish>,
+    _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+    _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
+    _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
+    _requireUsagePermissions: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  createFunction(
+    _authority: PromiseOrValue<string>,
+    _name: PromiseOrValue<string>,
+    _containerRegistry: PromiseOrValue<string>,
+    _container: PromiseOrValue<string>,
+    _schedule: PromiseOrValue<string>,
+    _version: PromiseOrValue<BytesLike>,
+    _verifierQueue: PromiseOrValue<string>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   createQuote(
@@ -719,16 +995,15 @@ export interface CoreSwitchboardVS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  createServiceQueue(
-    _authority: PromiseOrValue<string>,
-    _maxSize: PromiseOrValue<BigNumberish>,
-    _reward: PromiseOrValue<BigNumberish>,
-    _quoteTimeout: PromiseOrValue<BigNumberish>,
-    _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
-    _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
-    _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
-    _requireUsagePermissions: PromiseOrValue<boolean>,
-    _enableContentHash: PromiseOrValue<boolean>,
+  escrowFund(
+    accountAddress: PromiseOrValue<string>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  escrowWithdraw(
+    recipient: PromiseOrValue<string>,
+    functionAddress: PromiseOrValue<string>,
+    amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -745,9 +1020,63 @@ export interface CoreSwitchboardVS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  generateAddress(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  funcs(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      BigNumber,
+      BigNumber,
+      string,
+      BigNumber,
+      number
+    ] & {
+      name: string;
+      authority: string;
+      quoteAddress: string;
+      containerRegistry: string;
+      container: string;
+      version: string;
+      queueAddress: string;
+      lastExecutionTimestamp: BigNumber;
+      nextAllowedTimestamp: BigNumber;
+      schedule: string;
+      balance: BigNumber;
+      status: number;
+    }
+  >;
+
+  functionAddresses(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  functionExists(
+    functionAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  getFunctionsByAuthority(
+    user: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<[string[], VsStructs.FunctionStructOutput[]]>;
+
+  getPermissionCode(
+    p: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getQuoteEnclaveMeasurement(
+    quoteAuthority: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   getQuoteIdx(
     quoteAddress: PromiseOrValue<string>,
@@ -777,10 +1106,10 @@ export interface CoreSwitchboardVS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  oracleQueueSettings(
-    arg0: PromiseOrValue<string>,
+  isQuoteValid(
+    _quoteAddress: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<[boolean, string] & { v3Enabled: boolean; serviceQueue: string }>;
+  ): Promise<boolean>;
 
   permissions(
     arg0: PromiseOrValue<string>,
@@ -806,7 +1135,6 @@ export interface CoreSwitchboardVS extends BaseContract {
       BigNumber,
       boolean,
       boolean,
-      boolean,
       BigNumber,
       BigNumber,
       BigNumber
@@ -819,7 +1147,6 @@ export interface CoreSwitchboardVS extends BaseContract {
       allowAuthorityOverrideAfter: BigNumber;
       requireAuthorityHeartbeatPermission: boolean;
       requireUsagePermissions: boolean;
-      enableContentHash: boolean;
       quoteTimeout: BigNumber;
       gcIdx: BigNumber;
       currIdx: BigNumber;
@@ -844,33 +1171,30 @@ export interface CoreSwitchboardVS extends BaseContract {
       string,
       string,
       string,
+      string,
       number,
       BigNumber,
       BigNumber,
-      number,
-      BigNumber,
-      string
+      string,
+      boolean,
+      BigNumber
     ] & {
-      queueAddress: string;
       authority: string;
+      owner: string;
+      queueAddress: string;
       quoteBuffer: string;
       verificationStatus: number;
       verificationTimestamp: BigNumber;
       validUntil: BigNumber;
-      numRows: number;
+      mrEnclave: string;
+      isOnQueue: boolean;
       lastHeartbeat: BigNumber;
-      owner: string;
     }
   >;
 
   removeMrEnclave(
     queueAddress: PromiseOrValue<string>,
     mrEnclave: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  reverify(
-    quoteAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -909,26 +1233,63 @@ export interface CoreSwitchboardVS extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  verifyFunction(
+    functionAddress: PromiseOrValue<string>,
+    delegatedSignerAddress: PromiseOrValue<string>,
+    observedTime: PromiseOrValue<BigNumberish>,
+    nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+    isFailure: PromiseOrValue<boolean>,
+    mrEnclave: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   verifyQuote(
     verifierAddress: PromiseOrValue<string>,
     quoteAddress: PromiseOrValue<string>,
     quoteIdx: PromiseOrValue<BigNumberish>,
     timestamp: PromiseOrValue<BigNumberish>,
+    mrEnclave: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   version(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
-    HEARTBEAT_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
+    NULL_ADDRESS(overrides?: CallOverrides): Promise<string>;
 
-    SERVICE_QUEUE_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
-
-    USAGE_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
+    __hasPermission(
+      granter: PromiseOrValue<string>,
+      grantee: PromiseOrValue<string>,
+      permission: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     addMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    createAttestationQueue(
+      _authority: PromiseOrValue<string>,
+      _maxSize: PromiseOrValue<BigNumberish>,
+      _reward: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
+      _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
+      _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
+      _requireUsagePermissions: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    createFunction(
+      _authority: PromiseOrValue<string>,
+      _name: PromiseOrValue<string>,
+      _containerRegistry: PromiseOrValue<string>,
+      _container: PromiseOrValue<string>,
+      _schedule: PromiseOrValue<string>,
+      _version: PromiseOrValue<BytesLike>,
+      _verifierQueue: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -939,16 +1300,15 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    createServiceQueue(
-      _authority: PromiseOrValue<string>,
-      _maxSize: PromiseOrValue<BigNumberish>,
-      _reward: PromiseOrValue<BigNumberish>,
-      _quoteTimeout: PromiseOrValue<BigNumberish>,
-      _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
-      _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
-      _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
-      _requireUsagePermissions: PromiseOrValue<boolean>,
-      _enableContentHash: PromiseOrValue<boolean>,
+    escrowFund(
+      accountAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    escrowWithdraw(
+      recipient: PromiseOrValue<string>,
+      functionAddress: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -965,7 +1325,63 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    generateAddress(overrides?: CallOverrides): Promise<string>;
+    funcs(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        BigNumber,
+        BigNumber,
+        string,
+        BigNumber,
+        number
+      ] & {
+        name: string;
+        authority: string;
+        quoteAddress: string;
+        containerRegistry: string;
+        container: string;
+        version: string;
+        queueAddress: string;
+        lastExecutionTimestamp: BigNumber;
+        nextAllowedTimestamp: BigNumber;
+        schedule: string;
+        balance: BigNumber;
+        status: number;
+      }
+    >;
+
+    functionAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    functionExists(
+      functionAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    getFunctionsByAuthority(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[], VsStructs.FunctionStructOutput[]]>;
+
+    getPermissionCode(
+      p: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getQuoteEnclaveMeasurement(
+      quoteAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     getQuoteIdx(
       quoteAddress: PromiseOrValue<string>,
@@ -995,12 +1411,10 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    oracleQueueSettings(
-      arg0: PromiseOrValue<string>,
+    isQuoteValid(
+      _quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<
-      [boolean, string] & { v3Enabled: boolean; serviceQueue: string }
-    >;
+    ): Promise<boolean>;
 
     permissions(
       arg0: PromiseOrValue<string>,
@@ -1026,7 +1440,6 @@ export interface CoreSwitchboardVS extends BaseContract {
         BigNumber,
         boolean,
         boolean,
-        boolean,
         BigNumber,
         BigNumber,
         BigNumber
@@ -1039,7 +1452,6 @@ export interface CoreSwitchboardVS extends BaseContract {
         allowAuthorityOverrideAfter: BigNumber;
         requireAuthorityHeartbeatPermission: boolean;
         requireUsagePermissions: boolean;
-        enableContentHash: boolean;
         quoteTimeout: BigNumber;
         gcIdx: BigNumber;
         currIdx: BigNumber;
@@ -1064,33 +1476,30 @@ export interface CoreSwitchboardVS extends BaseContract {
         string,
         string,
         string,
+        string,
         number,
         BigNumber,
         BigNumber,
-        number,
-        BigNumber,
-        string
+        string,
+        boolean,
+        BigNumber
       ] & {
-        queueAddress: string;
         authority: string;
+        owner: string;
+        queueAddress: string;
         quoteBuffer: string;
         verificationStatus: number;
         verificationTimestamp: BigNumber;
         validUntil: BigNumber;
-        numRows: number;
+        mrEnclave: string;
+        isOnQueue: boolean;
         lastHeartbeat: BigNumber;
-        owner: string;
       }
     >;
 
     removeMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    reverify(
-      quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1129,11 +1538,22 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    verifyFunction(
+      functionAddress: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     verifyQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
       quoteIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
+      mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1141,6 +1561,35 @@ export interface CoreSwitchboardVS extends BaseContract {
   };
 
   filters: {
+    "AttestationQueueAccountInit(address,address)"(
+      authority?: PromiseOrValue<string> | null,
+      accountAddress?: PromiseOrValue<string> | null
+    ): AttestationQueueAccountInitEventFilter;
+    AttestationQueueAccountInit(
+      authority?: PromiseOrValue<string> | null,
+      accountAddress?: PromiseOrValue<string> | null
+    ): AttestationQueueAccountInitEventFilter;
+
+    "FunctionAccountInit(address,address)"(
+      authority?: PromiseOrValue<string> | null,
+      accountAddress?: PromiseOrValue<string> | null
+    ): FunctionAccountInitEventFilter;
+    FunctionAccountInit(
+      authority?: PromiseOrValue<string> | null,
+      accountAddress?: PromiseOrValue<string> | null
+    ): FunctionAccountInitEventFilter;
+
+    "FunctionFundEvent(address,address,uint256)"(
+      functionAddress?: PromiseOrValue<string> | null,
+      funder?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
+    ): FunctionFundEventEventFilter;
+    FunctionFundEvent(
+      functionAddress?: PromiseOrValue<string> | null,
+      funder?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
+    ): FunctionFundEventEventFilter;
+
     "Initialized(uint8)"(version?: null): InitializedEventFilter;
     Initialized(version?: null): InitializedEventFilter;
 
@@ -1154,28 +1603,30 @@ export interface CoreSwitchboardVS extends BaseContract {
     ): QuoteAccountInitEventFilter;
 
     "QuoteGC(address,address)"(
-      quoteAddress?: PromiseOrValue<string> | null,
+      nodeAddress?: PromiseOrValue<string> | null,
       queue?: PromiseOrValue<string> | null
     ): QuoteGCEventFilter;
     QuoteGC(
-      quoteAddress?: PromiseOrValue<string> | null,
+      nodeAddress?: PromiseOrValue<string> | null,
       queue?: PromiseOrValue<string> | null
     ): QuoteGCEventFilter;
 
     "QuoteHeartbeat(address,address)"(
-      quoteAddress?: PromiseOrValue<string> | null,
+      nodeAddress?: PromiseOrValue<string> | null,
       authority?: PromiseOrValue<string> | null
     ): QuoteHeartbeatEventFilter;
     QuoteHeartbeat(
-      quoteAddress?: PromiseOrValue<string> | null,
+      nodeAddress?: PromiseOrValue<string> | null,
       authority?: PromiseOrValue<string> | null
     ): QuoteHeartbeatEventFilter;
 
-    "QuotePayoutEvent(address,uint256)"(
+    "QuotePayoutEvent(address,address,uint256)"(
+      nodeAddress?: PromiseOrValue<string> | null,
       quoteAddress?: PromiseOrValue<string> | null,
       amount?: PromiseOrValue<BigNumberish> | null
     ): QuotePayoutEventEventFilter;
     QuotePayoutEvent(
+      nodeAddress?: PromiseOrValue<string> | null,
       quoteAddress?: PromiseOrValue<string> | null,
       amount?: PromiseOrValue<BigNumberish> | null
     ): QuotePayoutEventEventFilter;
@@ -1190,28 +1641,45 @@ export interface CoreSwitchboardVS extends BaseContract {
       verifier?: PromiseOrValue<string> | null,
       verifiee?: PromiseOrValue<string> | null
     ): QuoteVerifyRequestEventFilter;
-
-    "ServiceQueueAccountInit(address,address)"(
-      authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
-    ): ServiceQueueAccountInitEventFilter;
-    ServiceQueueAccountInit(
-      authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
-    ): ServiceQueueAccountInitEventFilter;
   };
 
   estimateGas: {
-    HEARTBEAT_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
+    NULL_ADDRESS(overrides?: CallOverrides): Promise<BigNumber>;
 
-    SERVICE_QUEUE_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
-
-    USAGE_PERMISSION(overrides?: CallOverrides): Promise<BigNumber>;
+    __hasPermission(
+      granter: PromiseOrValue<string>,
+      grantee: PromiseOrValue<string>,
+      permission: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     addMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    createAttestationQueue(
+      _authority: PromiseOrValue<string>,
+      _maxSize: PromiseOrValue<BigNumberish>,
+      _reward: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
+      _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
+      _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
+      _requireUsagePermissions: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    createFunction(
+      _authority: PromiseOrValue<string>,
+      _name: PromiseOrValue<string>,
+      _containerRegistry: PromiseOrValue<string>,
+      _container: PromiseOrValue<string>,
+      _schedule: PromiseOrValue<string>,
+      _version: PromiseOrValue<BytesLike>,
+      _verifierQueue: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     createQuote(
@@ -1221,16 +1689,15 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    createServiceQueue(
-      _authority: PromiseOrValue<string>,
-      _maxSize: PromiseOrValue<BigNumberish>,
-      _reward: PromiseOrValue<BigNumberish>,
-      _quoteTimeout: PromiseOrValue<BigNumberish>,
-      _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
-      _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
-      _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
-      _requireUsagePermissions: PromiseOrValue<boolean>,
-      _enableContentHash: PromiseOrValue<boolean>,
+    escrowFund(
+      accountAddress: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    escrowWithdraw(
+      recipient: PromiseOrValue<string>,
+      functionAddress: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1247,8 +1714,34 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    generateAddress(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    funcs(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    functionAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    functionExists(
+      functionAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getFunctionsByAuthority(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getPermissionCode(
+      p: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getQuoteEnclaveMeasurement(
+      quoteAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getQuoteIdx(
@@ -1279,8 +1772,8 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    oracleQueueSettings(
-      arg0: PromiseOrValue<string>,
+    isQuoteValid(
+      _quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1318,11 +1811,6 @@ export interface CoreSwitchboardVS extends BaseContract {
     removeMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    reverify(
-      quoteAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1361,11 +1849,22 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    verifyFunction(
+      functionAddress: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     verifyQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
       quoteIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
+      mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1373,20 +1872,42 @@ export interface CoreSwitchboardVS extends BaseContract {
   };
 
   populateTransaction: {
-    HEARTBEAT_PERMISSION(
+    NULL_ADDRESS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    __hasPermission(
+      granter: PromiseOrValue<string>,
+      grantee: PromiseOrValue<string>,
+      permission: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    SERVICE_QUEUE_PERMISSION(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    USAGE_PERMISSION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     addMrEnclave(
       queueAddress: PromiseOrValue<string>,
       mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createAttestationQueue(
+      _authority: PromiseOrValue<string>,
+      _maxSize: PromiseOrValue<BigNumberish>,
+      _reward: PromiseOrValue<BigNumberish>,
+      _quoteTimeout: PromiseOrValue<BigNumberish>,
+      _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
+      _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
+      _requireUsagePermissions: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createFunction(
+      _authority: PromiseOrValue<string>,
+      _name: PromiseOrValue<string>,
+      _containerRegistry: PromiseOrValue<string>,
+      _container: PromiseOrValue<string>,
+      _schedule: PromiseOrValue<string>,
+      _version: PromiseOrValue<BytesLike>,
+      _verifierQueue: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     createQuote(
@@ -1396,16 +1917,15 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    createServiceQueue(
-      _authority: PromiseOrValue<string>,
-      _maxSize: PromiseOrValue<BigNumberish>,
-      _reward: PromiseOrValue<BigNumberish>,
-      _quoteTimeout: PromiseOrValue<BigNumberish>,
-      _maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
-      _allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
-      _requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
-      _requireUsagePermissions: PromiseOrValue<boolean>,
-      _enableContentHash: PromiseOrValue<boolean>,
+    escrowFund(
+      accountAddress: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    escrowWithdraw(
+      recipient: PromiseOrValue<string>,
+      functionAddress: PromiseOrValue<string>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1422,8 +1942,34 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    generateAddress(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    funcs(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    functionAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    functionExists(
+      functionAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getFunctionsByAuthority(
+      user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPermissionCode(
+      p: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getQuoteEnclaveMeasurement(
+      quoteAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getQuoteIdx(
@@ -1454,8 +2000,8 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    oracleQueueSettings(
-      arg0: PromiseOrValue<string>,
+    isQuoteValid(
+      _quoteAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1496,11 +2042,6 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    reverify(
-      quoteAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     setPermission(
       granter: PromiseOrValue<string>,
       grantee: PromiseOrValue<string>,
@@ -1536,11 +2077,22 @@ export interface CoreSwitchboardVS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    verifyFunction(
+      functionAddress: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     verifyQuote(
       verifierAddress: PromiseOrValue<string>,
       quoteAddress: PromiseOrValue<string>,
       quoteIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
+      mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -21,6 +21,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Initializable__factory>;
     getContractFactory(
+      name: "Permissions",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Permissions__factory>;
+    getContractFactory(
       name: "AggregatorV3Interface",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AggregatorV3Interface__factory>;
@@ -33,9 +37,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISwitchboardVS__factory>;
     getContractFactory(
+      name: "IVsEvents",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IVsEvents__factory>;
+    getContractFactory(
       name: "CoreLegacyOracleAdapter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CoreLegacyOracleAdapter__factory>;
+    getContractFactory(
+      name: "ErrorLib",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ErrorLib__factory>;
+    getContractFactory(
+      name: "VsErrorLib",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.VsErrorLib__factory>;
     getContractFactory(
       name: "CoreSwitchboard",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -108,6 +124,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Initializable>;
     getContractAt(
+      name: "Permissions",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Permissions>;
+    getContractAt(
       name: "AggregatorV3Interface",
       address: string,
       signer?: ethers.Signer
@@ -123,10 +144,25 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ISwitchboardVS>;
     getContractAt(
+      name: "IVsEvents",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IVsEvents>;
+    getContractAt(
       name: "CoreLegacyOracleAdapter",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.CoreLegacyOracleAdapter>;
+    getContractAt(
+      name: "ErrorLib",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ErrorLib>;
+    getContractAt(
+      name: "VsErrorLib",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.VsErrorLib>;
     getContractAt(
       name: "CoreSwitchboard",
       address: string,

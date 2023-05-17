@@ -7,8 +7,6 @@ import type {
   BigNumberish,
   BytesLike,
   CallOverrides,
-  ContractTransaction,
-  Overrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -29,17 +27,17 @@ import type {
 
 export interface ISwitchboardVSInterface extends utils.Interface {
   functions: {
-    "generateAddress()": FunctionFragment;
+    "getQuoteEnclaveMeasurement(address)": FunctionFragment;
     "validate(address)": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "generateAddress" | "validate"
+    nameOrSignatureOrTopic: "getQuoteEnclaveMeasurement" | "validate"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "generateAddress",
-    values?: undefined
+    functionFragment: "getQuoteEnclaveMeasurement",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "validate",
@@ -47,27 +45,70 @@ export interface ISwitchboardVSInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "generateAddress",
+    functionFragment: "getQuoteEnclaveMeasurement",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "validate", data: BytesLike): Result;
 
   events: {
+    "AttestationQueueAccountInit(address,address)": EventFragment;
+    "FunctionAccountInit(address,address)": EventFragment;
+    "FunctionFundEvent(address,address,uint256)": EventFragment;
     "QuoteAccountInit(address,address)": EventFragment;
     "QuoteGC(address,address)": EventFragment;
     "QuoteHeartbeat(address,address)": EventFragment;
     "QuotePayoutEvent(address,address,uint256)": EventFragment;
     "QuoteVerifyRequest(address,address,address)": EventFragment;
-    "ServiceQueueAccountInit(address,address)": EventFragment;
   };
 
+  getEvent(
+    nameOrSignatureOrTopic: "AttestationQueueAccountInit"
+  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FunctionAccountInit"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FunctionFundEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteAccountInit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteGC"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteHeartbeat"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuotePayoutEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "QuoteVerifyRequest"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ServiceQueueAccountInit"): EventFragment;
 }
+
+export interface AttestationQueueAccountInitEventObject {
+  authority: string;
+  accountAddress: string;
+}
+export type AttestationQueueAccountInitEvent = TypedEvent<
+  [string, string],
+  AttestationQueueAccountInitEventObject
+>;
+
+export type AttestationQueueAccountInitEventFilter =
+  TypedEventFilter<AttestationQueueAccountInitEvent>;
+
+export interface FunctionAccountInitEventObject {
+  authority: string;
+  accountAddress: string;
+}
+export type FunctionAccountInitEvent = TypedEvent<
+  [string, string],
+  FunctionAccountInitEventObject
+>;
+
+export type FunctionAccountInitEventFilter =
+  TypedEventFilter<FunctionAccountInitEvent>;
+
+export interface FunctionFundEventEventObject {
+  functionAddress: string;
+  funder: string;
+  amount: BigNumber;
+}
+export type FunctionFundEventEvent = TypedEvent<
+  [string, string, BigNumber],
+  FunctionFundEventEventObject
+>;
+
+export type FunctionFundEventEventFilter =
+  TypedEventFilter<FunctionFundEventEvent>;
 
 export interface QuoteAccountInitEventObject {
   authority: string;
@@ -126,18 +167,6 @@ export type QuoteVerifyRequestEvent = TypedEvent<
 export type QuoteVerifyRequestEventFilter =
   TypedEventFilter<QuoteVerifyRequestEvent>;
 
-export interface ServiceQueueAccountInitEventObject {
-  authority: string;
-  accountAddress: string;
-}
-export type ServiceQueueAccountInitEvent = TypedEvent<
-  [string, string],
-  ServiceQueueAccountInitEventObject
->;
-
-export type ServiceQueueAccountInitEventFilter =
-  TypedEventFilter<ServiceQueueAccountInitEvent>;
-
 export interface ISwitchboardVS extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -165,9 +194,10 @@ export interface ISwitchboardVS extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    generateAddress(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    getQuoteEnclaveMeasurement(
+      quoteAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     validate(
       quoteAuthority: PromiseOrValue<string>,
@@ -175,9 +205,10 @@ export interface ISwitchboardVS extends BaseContract {
     ): Promise<[string]>;
   };
 
-  generateAddress(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getQuoteEnclaveMeasurement(
+    quoteAuthority: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   validate(
     quoteAuthority: PromiseOrValue<string>,
@@ -185,7 +216,10 @@ export interface ISwitchboardVS extends BaseContract {
   ): Promise<string>;
 
   callStatic: {
-    generateAddress(overrides?: CallOverrides): Promise<string>;
+    getQuoteEnclaveMeasurement(
+      quoteAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     validate(
       quoteAuthority: PromiseOrValue<string>,
@@ -194,6 +228,35 @@ export interface ISwitchboardVS extends BaseContract {
   };
 
   filters: {
+    "AttestationQueueAccountInit(address,address)"(
+      authority?: PromiseOrValue<string> | null,
+      accountAddress?: PromiseOrValue<string> | null
+    ): AttestationQueueAccountInitEventFilter;
+    AttestationQueueAccountInit(
+      authority?: PromiseOrValue<string> | null,
+      accountAddress?: PromiseOrValue<string> | null
+    ): AttestationQueueAccountInitEventFilter;
+
+    "FunctionAccountInit(address,address)"(
+      authority?: PromiseOrValue<string> | null,
+      accountAddress?: PromiseOrValue<string> | null
+    ): FunctionAccountInitEventFilter;
+    FunctionAccountInit(
+      authority?: PromiseOrValue<string> | null,
+      accountAddress?: PromiseOrValue<string> | null
+    ): FunctionAccountInitEventFilter;
+
+    "FunctionFundEvent(address,address,uint256)"(
+      functionAddress?: PromiseOrValue<string> | null,
+      funder?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
+    ): FunctionFundEventEventFilter;
+    FunctionFundEvent(
+      functionAddress?: PromiseOrValue<string> | null,
+      funder?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
+    ): FunctionFundEventEventFilter;
+
     "QuoteAccountInit(address,address)"(
       authority?: PromiseOrValue<string> | null,
       accountAddress?: PromiseOrValue<string> | null
@@ -242,20 +305,12 @@ export interface ISwitchboardVS extends BaseContract {
       verifier?: PromiseOrValue<string> | null,
       verifiee?: PromiseOrValue<string> | null
     ): QuoteVerifyRequestEventFilter;
-
-    "ServiceQueueAccountInit(address,address)"(
-      authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
-    ): ServiceQueueAccountInitEventFilter;
-    ServiceQueueAccountInit(
-      authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
-    ): ServiceQueueAccountInitEventFilter;
   };
 
   estimateGas: {
-    generateAddress(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    getQuoteEnclaveMeasurement(
+      quoteAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     validate(
@@ -265,8 +320,9 @@ export interface ISwitchboardVS extends BaseContract {
   };
 
   populateTransaction: {
-    generateAddress(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    getQuoteEnclaveMeasurement(
+      quoteAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     validate(

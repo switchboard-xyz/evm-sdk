@@ -99,6 +99,7 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
     "createOracleQueue(string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "escrowFund(address)": FunctionFragment;
     "escrowWithdraw(address,address,uint256)": FunctionFragment;
+    "generateAddress()": FunctionFragment;
     "getAggregatorsByAuthority(address)": FunctionFragment;
     "getCurrentIntervalId(address)": FunctionFragment;
     "getIntervalResult(address,uint80)": FunctionFragment;
@@ -139,6 +140,7 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
       | "createOracleQueue"
       | "escrowFund"
       | "escrowWithdraw"
+      | "generateAddress"
       | "getAggregatorsByAuthority"
       | "getCurrentIntervalId"
       | "getIntervalResult"
@@ -239,6 +241,10 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "generateAddress",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getAggregatorsByAuthority",
@@ -427,6 +433,10 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: "escrowFund", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "escrowWithdraw",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "generateAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -834,6 +844,10 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    generateAddress(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     getAggregatorsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1144,6 +1158,10 @@ export interface CoreSwitchboardV3 extends BaseContract {
     recipient: PromiseOrValue<string>,
     aggregatorAddress: PromiseOrValue<string>,
     amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  generateAddress(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1459,6 +1477,8 @@ export interface CoreSwitchboardV3 extends BaseContract {
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    generateAddress(overrides?: CallOverrides): Promise<string>;
 
     getAggregatorsByAuthority(
       user: PromiseOrValue<string>,
@@ -1838,6 +1858,10 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    generateAddress(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     getAggregatorsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -2066,6 +2090,10 @@ export interface CoreSwitchboardV3 extends BaseContract {
       recipient: PromiseOrValue<string>,
       aggregatorAddress: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    generateAddress(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

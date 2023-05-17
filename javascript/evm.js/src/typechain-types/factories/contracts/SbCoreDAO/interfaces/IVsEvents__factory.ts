@@ -5,9 +5,9 @@
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
 import type {
-  ISwitchboardVS,
-  ISwitchboardVSInterface,
-} from "../../../../contracts/SbCoreDAO/interfaces/ISwitchboardVS";
+  IVsEvents,
+  IVsEventsInterface,
+} from "../../../../contracts/SbCoreDAO/interfaces/IVsEvents";
 
 const _abi = [
   {
@@ -180,112 +180,17 @@ const _abi = [
     name: "QuoteVerifyRequest",
     type: "event",
   },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteAuthority",
-        type: "address",
-      },
-    ],
-    name: "getQuoteEnclaveMeasurement",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "authorityNode",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "recipient",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "permission",
-        type: "uint256",
-      },
-    ],
-    name: "hasPermission",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "authorityNode",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "recipient",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "permission",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "on",
-        type: "bool",
-      },
-    ],
-    name: "setPermission",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteAuthority",
-        type: "address",
-      },
-    ],
-    name: "validate",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
 ] as const;
 
-export class ISwitchboardVS__factory {
+export class IVsEvents__factory {
   static readonly abi = _abi;
-  static createInterface(): ISwitchboardVSInterface {
-    return new utils.Interface(_abi) as ISwitchboardVSInterface;
+  static createInterface(): IVsEventsInterface {
+    return new utils.Interface(_abi) as IVsEventsInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): ISwitchboardVS {
-    return new Contract(address, _abi, signerOrProvider) as ISwitchboardVS;
+  ): IVsEvents {
+    return new Contract(address, _abi, signerOrProvider) as IVsEvents;
   }
 }
