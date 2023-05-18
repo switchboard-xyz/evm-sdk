@@ -6,4 +6,4 @@ export * as contracts from "./contracts";
 export * as interfaces from "./interfaces";
 export * as libraries from "./libraries";
 export { Switchboard__factory } from "./Switchboard__factory";
-export { SwitchboardVS__factory } from "./SwitchboardVS__factory";
+export { SwitchboardAttestationService__factory } from "./SwitchboardAttestationService__factory";

@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as iLegacyOracleSol from "./ILegacyOracle.sol";
-export { ISbEvents__factory } from "./ISbEvents__factory";
+export { IAttestationServiceEvents__factory } from "./IAttestationServiceEvents__factory";
 export { ISwitchboard__factory } from "./ISwitchboard__factory";
-export { ISwitchboardVS__factory } from "./ISwitchboardVS__factory";
-export { IVsEvents__factory } from "./IVsEvents__factory";
+export { ISwitchboardAttestationService__factory } from "./ISwitchboardAttestationService__factory";
+export { ISwitchboardEvents__factory } from "./ISwitchboardEvents__factory";

@@ -111,6 +111,7 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
     "latestResult(address)": FunctionFragment;
     "oracleExists(address)": FunctionFragment;
     "oracles(address)": FunctionFragment;
+    "queueAttestationConfigs(address)": FunctionFragment;
     "queueExists(address)": FunctionFragment;
     "queues(address)": FunctionFragment;
     "saveResults(address[],int256[],address,uint256)": FunctionFragment;
@@ -120,9 +121,10 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
     "setOracleConfig(address,string,address,address)": FunctionFragment;
     "setOraclePermission(address,address,bool)": FunctionFragment;
     "setPermission(address,address,uint256,bool)": FunctionFragment;
+    "setQueueAttestationConfig(address,address,bytes32,bool,bool)": FunctionFragment;
     "setQueueConfig(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "sortResults((int256,uint256,address)[])": FunctionFragment;
-    "switchboardVS()": FunctionFragment;
+    "switchboardAS()": FunctionFragment;
     "version()": FunctionFragment;
   };
 
@@ -152,6 +154,7 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
       | "latestResult"
       | "oracleExists"
       | "oracles"
+      | "queueAttestationConfigs"
       | "queueExists"
       | "queues"
       | "saveResults"
@@ -161,9 +164,10 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
       | "setOracleConfig"
       | "setOraclePermission"
       | "setPermission"
+      | "setQueueAttestationConfig"
       | "setQueueConfig"
       | "sortResults"
-      | "switchboardVS"
+      | "switchboardAS"
       | "version"
   ): FunctionFragment;
 
@@ -291,6 +295,10 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "queueAttestationConfigs",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "queueExists",
     values: [PromiseOrValue<string>]
   ): string;
@@ -369,6 +377,16 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "setQueueAttestationConfig",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<boolean>
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setQueueConfig",
     values: [
       PromiseOrValue<string>,
@@ -385,7 +403,7 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
     values: [CoreSwitchboardV3.ResultStruct[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "switchboardVS",
+    functionFragment: "switchboardAS",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
@@ -475,6 +493,10 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "oracles", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "queueAttestationConfigs",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "queueExists",
     data: BytesLike
   ): Result;
@@ -508,6 +530,10 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setQueueAttestationConfig",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setQueueConfig",
     data: BytesLike
   ): Result;
@@ -516,7 +542,7 @@ export interface CoreSwitchboardV3Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "switchboardVS",
+    functionFragment: "switchboardAS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
@@ -886,7 +912,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
     ): Promise<ContractTransaction>;
 
     initSwitchboardV3(
-      _switchboardVS: PromiseOrValue<string>,
+      _switchboardAS: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -914,6 +940,18 @@ export interface CoreSwitchboardV3 extends BaseContract {
         numRows: number;
         lastHeartbeat: BigNumber;
         queueAddress: string;
+      }
+    >;
+
+    queueAttestationConfigs(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, boolean, boolean] & {
+        attestationQueueAddress: string;
+        mrEnclave: string;
+        requireValidQuote: boolean;
+        requireHeartbeatPermission: boolean;
       }
     >;
 
@@ -1012,6 +1050,15 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setQueueAttestationConfig(
+      _queueAddress: PromiseOrValue<string>,
+      attestationQueueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      requireValidQuote: PromiseOrValue<boolean>,
+      requireHeartbeatPermission: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setQueueConfig(
       _queueAddress: PromiseOrValue<string>,
       _name: PromiseOrValue<string>,
@@ -1028,7 +1075,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[CoreSwitchboardV3.ResultStructOutput[]]>;
 
-    switchboardVS(overrides?: CallOverrides): Promise<[string]>;
+    switchboardAS(overrides?: CallOverrides): Promise<[string]>;
 
     version(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
@@ -1203,7 +1250,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   initSwitchboardV3(
-    _switchboardVS: PromiseOrValue<string>,
+    _switchboardAS: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1231,6 +1278,18 @@ export interface CoreSwitchboardV3 extends BaseContract {
       numRows: number;
       lastHeartbeat: BigNumber;
       queueAddress: string;
+    }
+  >;
+
+  queueAttestationConfigs(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, string, boolean, boolean] & {
+      attestationQueueAddress: string;
+      mrEnclave: string;
+      requireValidQuote: boolean;
+      requireHeartbeatPermission: boolean;
     }
   >;
 
@@ -1329,6 +1388,15 @@ export interface CoreSwitchboardV3 extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setQueueAttestationConfig(
+    _queueAddress: PromiseOrValue<string>,
+    attestationQueueAddress: PromiseOrValue<string>,
+    mrEnclave: PromiseOrValue<BytesLike>,
+    requireValidQuote: PromiseOrValue<boolean>,
+    requireHeartbeatPermission: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setQueueConfig(
     _queueAddress: PromiseOrValue<string>,
     _name: PromiseOrValue<string>,
@@ -1345,7 +1413,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<CoreSwitchboardV3.ResultStructOutput[]>;
 
-  switchboardVS(overrides?: CallOverrides): Promise<string>;
+  switchboardAS(overrides?: CallOverrides): Promise<string>;
 
   version(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1518,7 +1586,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
     ): Promise<void>;
 
     initSwitchboardV3(
-      _switchboardVS: PromiseOrValue<string>,
+      _switchboardAS: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1546,6 +1614,18 @@ export interface CoreSwitchboardV3 extends BaseContract {
         numRows: number;
         lastHeartbeat: BigNumber;
         queueAddress: string;
+      }
+    >;
+
+    queueAttestationConfigs(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, boolean, boolean] & {
+        attestationQueueAddress: string;
+        mrEnclave: string;
+        requireValidQuote: boolean;
+        requireHeartbeatPermission: boolean;
       }
     >;
 
@@ -1644,6 +1724,15 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setQueueAttestationConfig(
+      _queueAddress: PromiseOrValue<string>,
+      attestationQueueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      requireValidQuote: PromiseOrValue<boolean>,
+      requireHeartbeatPermission: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setQueueConfig(
       _queueAddress: PromiseOrValue<string>,
       _name: PromiseOrValue<string>,
@@ -1660,7 +1749,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<CoreSwitchboardV3.ResultStructOutput[]>;
 
-    switchboardVS(overrides?: CallOverrides): Promise<string>;
+    switchboardAS(overrides?: CallOverrides): Promise<string>;
 
     version(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -1894,7 +1983,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
     ): Promise<BigNumber>;
 
     initSwitchboardV3(
-      _switchboardVS: PromiseOrValue<string>,
+      _switchboardAS: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1913,6 +2002,11 @@ export interface CoreSwitchboardV3 extends BaseContract {
     ): Promise<BigNumber>;
 
     oracles(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    queueAttestationConfigs(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1990,6 +2084,15 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setQueueAttestationConfig(
+      _queueAddress: PromiseOrValue<string>,
+      attestationQueueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      requireValidQuote: PromiseOrValue<boolean>,
+      requireHeartbeatPermission: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setQueueConfig(
       _queueAddress: PromiseOrValue<string>,
       _name: PromiseOrValue<string>,
@@ -2006,7 +2109,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    switchboardVS(overrides?: CallOverrides): Promise<BigNumber>;
+    switchboardAS(overrides?: CallOverrides): Promise<BigNumber>;
 
     version(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -2129,7 +2232,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initSwitchboardV3(
-      _switchboardVS: PromiseOrValue<string>,
+      _switchboardAS: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2148,6 +2251,11 @@ export interface CoreSwitchboardV3 extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     oracles(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    queueAttestationConfigs(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2225,6 +2333,15 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setQueueAttestationConfig(
+      _queueAddress: PromiseOrValue<string>,
+      attestationQueueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      requireValidQuote: PromiseOrValue<boolean>,
+      requireHeartbeatPermission: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setQueueConfig(
       _queueAddress: PromiseOrValue<string>,
       _name: PromiseOrValue<string>,
@@ -2241,7 +2358,7 @@ export interface CoreSwitchboardV3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    switchboardVS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    switchboardAS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };

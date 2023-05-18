@@ -10,4 +10,4 @@ export type { interfaces };
 import type * as libraries from "./libraries";
 export type { libraries };
 export type { Switchboard } from "./Switchboard";
-export type { SwitchboardVS } from "./SwitchboardVS";
+export type { SwitchboardAttestationService } from "./SwitchboardAttestationService";

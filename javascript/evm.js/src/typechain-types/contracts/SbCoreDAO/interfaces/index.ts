@@ -3,6 +3,6 @@
 /* eslint-disable */
 import type * as iLegacyOracleSol from "./ILegacyOracle.sol";
 export type { iLegacyOracleSol };
+export type { IAttestationServiceEvents } from "./IAttestationServiceEvents";
 export type { ISwitchboard } from "./ISwitchboard";
-export type { ISwitchboardVS } from "./ISwitchboardVS";
-export type { IVsEvents } from "./IVsEvents";
+export type { ISwitchboardAttestationService } from "./ISwitchboardAttestationService";

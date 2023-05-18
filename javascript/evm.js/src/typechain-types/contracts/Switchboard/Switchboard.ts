@@ -28,7 +28,7 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
-export declare namespace SbStructs {
+export declare namespace SwitchboardStructs {
   export type ResultStruct = {
     value: PromiseOrValue<BigNumberish>;
     timestamp: PromiseOrValue<BigNumberish>;
@@ -44,7 +44,7 @@ export declare namespace SbStructs {
   export type AggregatorStruct = {
     name: PromiseOrValue<string>;
     authority: PromiseOrValue<string>;
-    latestResult: SbStructs.ResultStruct;
+    latestResult: SwitchboardStructs.ResultStruct;
     batchSize: PromiseOrValue<BigNumberish>;
     minUpdateDelaySeconds: PromiseOrValue<BigNumberish>;
     minOracleResults: PromiseOrValue<BigNumberish>;
@@ -59,7 +59,7 @@ export declare namespace SbStructs {
   export type AggregatorStructOutput = [
     string,
     string,
-    SbStructs.ResultStructOutput,
+    SwitchboardStructs.ResultStructOutput,
     BigNumber,
     BigNumber,
     BigNumber,
@@ -72,7 +72,7 @@ export declare namespace SbStructs {
   ] & {
     name: string;
     authority: string;
-    latestResult: SbStructs.ResultStructOutput;
+    latestResult: SwitchboardStructs.ResultStructOutput;
     batchSize: BigNumber;
     minUpdateDelaySeconds: BigNumber;
     minOracleResults: BigNumber;
@@ -113,6 +113,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "oracleExists(address)": FunctionFragment;
     "oracles(address)": FunctionFragment;
     "permissions(address,address)": FunctionFragment;
+    "queueAttestationConfigs(address)": FunctionFragment;
     "queueExists(address)": FunctionFragment;
     "queues(address)": FunctionFragment;
     "saveResults(address[],int256[],address,uint256)": FunctionFragment;
@@ -120,8 +121,9 @@ export interface SwitchboardInterface extends utils.Interface {
     "setAggregatorReadConfig(address,uint256,address,address[],bool,bool)": FunctionFragment;
     "setOracleConfig(address,string,address,address)": FunctionFragment;
     "setPermission(address,address,uint256,bool)": FunctionFragment;
+    "setQueueAttestationConfig(address,address,bytes32,bool,bool)": FunctionFragment;
     "setQueueConfig(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
-    "switchboardVS()": FunctionFragment;
+    "switchboardAS()": FunctionFragment;
     "version()": FunctionFragment;
   };
 
@@ -153,6 +155,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "oracleExists"
       | "oracles"
       | "permissions"
+      | "queueAttestationConfigs"
       | "queueExists"
       | "queues"
       | "saveResults"
@@ -160,8 +163,9 @@ export interface SwitchboardInterface extends utils.Interface {
       | "setAggregatorReadConfig"
       | "setOracleConfig"
       | "setPermission"
+      | "setQueueAttestationConfig"
       | "setQueueConfig"
-      | "switchboardVS"
+      | "switchboardAS"
       | "version"
   ): FunctionFragment;
 
@@ -298,6 +302,10 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "queueAttestationConfigs",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "queueExists",
     values: [PromiseOrValue<string>]
   ): string;
@@ -360,6 +368,16 @@ export interface SwitchboardInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "setQueueAttestationConfig",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<boolean>
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setQueueConfig",
     values: [
       PromiseOrValue<string>,
@@ -372,7 +390,7 @@ export interface SwitchboardInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "switchboardVS",
+    functionFragment: "switchboardAS",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
@@ -467,6 +485,10 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "queueAttestationConfigs",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "queueExists",
     data: BytesLike
   ): Result;
@@ -492,11 +514,15 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setQueueAttestationConfig",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setQueueConfig",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "switchboardVS",
+    functionFragment: "switchboardAS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
@@ -735,7 +761,7 @@ export interface Switchboard extends BaseContract {
       [
         string,
         string,
-        SbStructs.ResultStructOutput,
+        SwitchboardStructs.ResultStructOutput,
         BigNumber,
         BigNumber,
         BigNumber,
@@ -748,7 +774,7 @@ export interface Switchboard extends BaseContract {
       ] & {
         name: string;
         authority: string;
-        latestResult: SbStructs.ResultStructOutput;
+        latestResult: SwitchboardStructs.ResultStructOutput;
         batchSize: BigNumber;
         minUpdateDelaySeconds: BigNumber;
         minOracleResults: BigNumber;
@@ -808,7 +834,7 @@ export interface Switchboard extends BaseContract {
     getAggregatorsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[string[], SbStructs.AggregatorStructOutput[]]>;
+    ): Promise<[string[], SwitchboardStructs.AggregatorStructOutput[]]>;
 
     getCurrentIntervalId(
       aggregatorAddress: PromiseOrValue<string>,
@@ -855,7 +881,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<ContractTransaction>;
 
     initialize(
-      _switchboardVS: PromiseOrValue<string>,
+      _switchboardAS: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -889,6 +915,18 @@ export interface Switchboard extends BaseContract {
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    queueAttestationConfigs(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, boolean, boolean] & {
+        attestationQueueAddress: string;
+        mrEnclave: string;
+        requireValidQuote: boolean;
+        requireHeartbeatPermission: boolean;
+      }
+    >;
 
     queueExists(
       queueAddress: PromiseOrValue<string>,
@@ -969,6 +1007,15 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setQueueAttestationConfig(
+      _queueAddress: PromiseOrValue<string>,
+      attestationQueueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      requireValidQuote: PromiseOrValue<boolean>,
+      requireHeartbeatPermission: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setQueueConfig(
       _queueAddress: PromiseOrValue<string>,
       _name: PromiseOrValue<string>,
@@ -980,7 +1027,7 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    switchboardVS(overrides?: CallOverrides): Promise<[string]>;
+    switchboardAS(overrides?: CallOverrides): Promise<[string]>;
 
     version(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
@@ -1040,7 +1087,7 @@ export interface Switchboard extends BaseContract {
     [
       string,
       string,
-      SbStructs.ResultStructOutput,
+      SwitchboardStructs.ResultStructOutput,
       BigNumber,
       BigNumber,
       BigNumber,
@@ -1053,7 +1100,7 @@ export interface Switchboard extends BaseContract {
     ] & {
       name: string;
       authority: string;
-      latestResult: SbStructs.ResultStructOutput;
+      latestResult: SwitchboardStructs.ResultStructOutput;
       batchSize: BigNumber;
       minUpdateDelaySeconds: BigNumber;
       minOracleResults: BigNumber;
@@ -1113,7 +1160,7 @@ export interface Switchboard extends BaseContract {
   getAggregatorsByAuthority(
     user: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<[string[], SbStructs.AggregatorStructOutput[]]>;
+  ): Promise<[string[], SwitchboardStructs.AggregatorStructOutput[]]>;
 
   getCurrentIntervalId(
     aggregatorAddress: PromiseOrValue<string>,
@@ -1160,7 +1207,7 @@ export interface Switchboard extends BaseContract {
   ): Promise<ContractTransaction>;
 
   initialize(
-    _switchboardVS: PromiseOrValue<string>,
+    _switchboardAS: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1194,6 +1241,18 @@ export interface Switchboard extends BaseContract {
     arg1: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  queueAttestationConfigs(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, string, boolean, boolean] & {
+      attestationQueueAddress: string;
+      mrEnclave: string;
+      requireValidQuote: boolean;
+      requireHeartbeatPermission: boolean;
+    }
+  >;
 
   queueExists(
     queueAddress: PromiseOrValue<string>,
@@ -1274,6 +1333,15 @@ export interface Switchboard extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setQueueAttestationConfig(
+    _queueAddress: PromiseOrValue<string>,
+    attestationQueueAddress: PromiseOrValue<string>,
+    mrEnclave: PromiseOrValue<BytesLike>,
+    requireValidQuote: PromiseOrValue<boolean>,
+    requireHeartbeatPermission: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setQueueConfig(
     _queueAddress: PromiseOrValue<string>,
     _name: PromiseOrValue<string>,
@@ -1285,7 +1353,7 @@ export interface Switchboard extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  switchboardVS(overrides?: CallOverrides): Promise<string>;
+  switchboardAS(overrides?: CallOverrides): Promise<string>;
 
   version(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1345,7 +1413,7 @@ export interface Switchboard extends BaseContract {
       [
         string,
         string,
-        SbStructs.ResultStructOutput,
+        SwitchboardStructs.ResultStructOutput,
         BigNumber,
         BigNumber,
         BigNumber,
@@ -1358,7 +1426,7 @@ export interface Switchboard extends BaseContract {
       ] & {
         name: string;
         authority: string;
-        latestResult: SbStructs.ResultStructOutput;
+        latestResult: SwitchboardStructs.ResultStructOutput;
         batchSize: BigNumber;
         minUpdateDelaySeconds: BigNumber;
         minOracleResults: BigNumber;
@@ -1418,7 +1486,7 @@ export interface Switchboard extends BaseContract {
     getAggregatorsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[string[], SbStructs.AggregatorStructOutput[]]>;
+    ): Promise<[string[], SwitchboardStructs.AggregatorStructOutput[]]>;
 
     getCurrentIntervalId(
       aggregatorAddress: PromiseOrValue<string>,
@@ -1465,7 +1533,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<void>;
 
     initialize(
-      _switchboardVS: PromiseOrValue<string>,
+      _switchboardAS: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1501,6 +1569,18 @@ export interface Switchboard extends BaseContract {
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    queueAttestationConfigs(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, boolean, boolean] & {
+        attestationQueueAddress: string;
+        mrEnclave: string;
+        requireValidQuote: boolean;
+        requireHeartbeatPermission: boolean;
+      }
+    >;
 
     queueExists(
       queueAddress: PromiseOrValue<string>,
@@ -1581,6 +1661,15 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setQueueAttestationConfig(
+      _queueAddress: PromiseOrValue<string>,
+      attestationQueueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      requireValidQuote: PromiseOrValue<boolean>,
+      requireHeartbeatPermission: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setQueueConfig(
       _queueAddress: PromiseOrValue<string>,
       _name: PromiseOrValue<string>,
@@ -1592,7 +1681,7 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    switchboardVS(overrides?: CallOverrides): Promise<string>;
+    switchboardAS(overrides?: CallOverrides): Promise<string>;
 
     version(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -1822,7 +1911,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _switchboardVS: PromiseOrValue<string>,
+      _switchboardAS: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1846,6 +1935,11 @@ export interface Switchboard extends BaseContract {
     permissions(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    queueAttestationConfigs(
+      arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1908,6 +2002,15 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setQueueAttestationConfig(
+      _queueAddress: PromiseOrValue<string>,
+      attestationQueueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      requireValidQuote: PromiseOrValue<boolean>,
+      requireHeartbeatPermission: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setQueueConfig(
       _queueAddress: PromiseOrValue<string>,
       _name: PromiseOrValue<string>,
@@ -1919,7 +2022,7 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    switchboardVS(overrides?: CallOverrides): Promise<BigNumber>;
+    switchboardAS(overrides?: CallOverrides): Promise<BigNumber>;
 
     version(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -2047,7 +2150,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _switchboardVS: PromiseOrValue<string>,
+      _switchboardAS: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2071,6 +2174,11 @@ export interface Switchboard extends BaseContract {
     permissions(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    queueAttestationConfigs(
+      arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -2133,6 +2241,15 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setQueueAttestationConfig(
+      _queueAddress: PromiseOrValue<string>,
+      attestationQueueAddress: PromiseOrValue<string>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      requireValidQuote: PromiseOrValue<boolean>,
+      requireHeartbeatPermission: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setQueueConfig(
       _queueAddress: PromiseOrValue<string>,
       _name: PromiseOrValue<string>,
@@ -2144,7 +2261,7 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    switchboardVS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    switchboardAS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
