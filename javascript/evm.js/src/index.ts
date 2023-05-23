@@ -1,5 +1,10 @@
-export * from "./sbv2.js";
+export * from "./accounts/index.js";
+export { fetchJobsFromIPFS } from "./ipfs.js";
+export { sendTxnWithGas } from "./sendTxnWithGas.js";
 export {
   Switchboard,
+  Switchboard__factory,
   SwitchboardAttestationService,
-} from "./typechain-types/contracts/Switchboard";
+  SwitchboardAttestationService__factory,
+} from "./typechain-types/index.js";
+export * from "./types.js";

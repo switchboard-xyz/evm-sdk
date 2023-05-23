@@ -6,6 +6,7 @@
   "files": [
     "lib",
     "src",
+    "contracts",
     "package.json"
   ],
   "exports": {

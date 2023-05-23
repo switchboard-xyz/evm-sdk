@@ -17,10 +17,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Initializable__factory>;
     getContractFactory(
-      name: "Initializable",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Initializable__factory>;
-    getContractFactory(
       name: "Permissions",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Permissions__factory>;
@@ -65,6 +61,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CoreSwitchboardV3__factory>;
     getContractFactory(
+      name: "SwitchboardV2TEST",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SwitchboardV2TEST__factory>;
+    getContractFactory(
       name: "LegacyOracleAdapter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.LegacyOracleAdapter__factory>;
@@ -108,16 +108,7 @@ declare module "hardhat/types/runtime" {
       name: "SwitchboardAttestationService",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SwitchboardAttestationService__factory>;
-    getContractFactory(
-      name: "SwitchboardV2TEST",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SwitchboardV2TEST__factory>;
 
-    getContractAt(
-      name: "Initializable",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Initializable>;
     getContractAt(
       name: "Initializable",
       address: string,
@@ -179,6 +170,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.CoreSwitchboardV3>;
     getContractAt(
+      name: "SwitchboardV2TEST",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SwitchboardV2TEST>;
+    getContractAt(
       name: "LegacyOracleAdapter",
       address: string,
       signer?: ethers.Signer
@@ -233,11 +229,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SwitchboardAttestationService>;
-    getContractAt(
-      name: "SwitchboardV2TEST",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SwitchboardV2TEST>;
 
     // default types
     getContractFactory(
