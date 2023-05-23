@@ -7,3 +7,5 @@ export interface Job {
 export type EventCallback = (
   e: any
 ) => Promise<void> /** | (() => Promise<void>) */;
+
+export type RawMrEnclave = string | Buffer | Uint8Array | number[];

@@ -1,4 +1,5 @@
 import { SBDecimal } from "../SBDecimal.js";
+import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import { Switchboard } from "../typechain-types/index.js";
 
 import { BigNumber, ContractTransaction } from "ethers";
@@ -20,20 +21,24 @@ export interface OracleInitParams {
   queue: string;
 }
 
+export type OracleData = Awaited<ReturnType<Switchboard["oracles"]>>;
+
 export class OracleAccount {
-  constructor(readonly client: Switchboard, readonly address: string) {}
+  constructor(
+    readonly switchboard: SwitchboardProgram,
+    readonly address: string
+  ) {}
 
   /**
    * Initialize a Oracle
-   * @param client
-   * @param account
+   * @param switchboard the {@linkcode SwitchboardProgram} class
    * @param params Oracle initialization params
    */
-  static async init(
-    client: Switchboard,
+  public static async init(
+    switchboard: SwitchboardProgram,
     params: OracleInitParams
   ): Promise<[OracleAccount, ContractTransaction]> {
-    const tx = await client.createOracle(
+    const tx = await switchboard.sb.createOracle(
       params.name,
       params.authority,
       params.queue
@@ -41,27 +46,35 @@ export class OracleAccount {
 
     const oracleAddress = await tx.wait().then((logs) => {
       const log = logs.logs[0];
-      const sbLog = client.interface.parseLog(log);
+      const sbLog = switchboard.sb.interface.parseLog(log);
       return sbLog.args.accountAddress as string;
     });
-    return [new OracleAccount(client, oracleAddress), tx];
+    return [new OracleAccount(switchboard, oracleAddress), tx];
   }
 
-  async loadData(): Promise<any> {
-    await this.client.oracles(this.address);
+  public async loadData(): Promise<OracleData> {
+    return await this.switchboard.sb.oracles(this.address);
+  }
+
+  public async setConfig(): Promise<ContractTransaction> {
+    throw new Error(`Not implemented yet`);
+  }
+
+  public async escrowWithdraw(): Promise<ContractTransaction> {
+    throw new Error(`Not implemented yet`);
   }
 
   /**
    * Oracle Heartbeat Action
    */
-  async heartbeat(): Promise<ContractTransaction> {
-    return await this.client.heartbeat(this.address);
+  public async heartbeat(): Promise<ContractTransaction> {
+    return await this.switchboard.sb.heartbeat(this.address);
   }
 
   /**
    * Oracle Bulk Save Results Action
    */
-  async saveManyResults(
+  public async saveManyResults(
     params: OracleSaveResultParams
   ): Promise<ContractTransaction> {
     const [aggregatorAddresses, values]: [string[], BigNumber[]] =
@@ -74,7 +87,7 @@ export class OracleAccount {
         [[] as string[], [] as BigNumber[]]
       );
 
-    return await this.client.saveResults(
+    return await this.switchboard.sb.saveResults(
       aggregatorAddresses, // aggregator addresses - mapped to values
       values, // values to save
       params.queueAddress, // queue that all the aggregators are in

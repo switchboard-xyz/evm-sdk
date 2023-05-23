@@ -1,14 +1,14 @@
 import { fetchJobsFromIPFS } from "../ipfs.js";
-import { SBDecimal } from "../SBDecimal.js";
+import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import { Switchboard } from "../typechain-types/index.js";
 import { EventCallback, Job } from "../types.js";
 
-import { BigUtils, OracleJob } from "@switchboard-xyz/common";
-import { Big } from "big.js";
+import { OracleQueueAccount } from "./OracleQueueAccount.js";
+
+import { Big, OracleJob } from "@switchboard-xyz/common";
 import { BigNumber, ContractTransaction } from "ethers";
 
 export interface AggregatorInitParams {
-  address: string;
   authority: string; // owner of aggregator
   name: string;
   queueAddress: string;
@@ -19,23 +19,12 @@ export interface AggregatorInitParams {
   varianceThreshold: number;
   forceReportPeriod: number;
   jobsHash: string;
-  initialValue: BigNumber;
   enableLegacyAdapter: boolean;
 }
 
-export interface AggregatorSetConfigParams {
-  authority: string;
-  name: string;
-  queueAddress: string;
-  batchSize: number;
-  minOracleResults: number;
-  minUpdateDelaySeconds: number;
-  jobsHash: string;
-  varianceThreshold?: Big;
-  forceReportPeriod?: number;
-  minJobResults?: number;
-  enableLegacyAdapter?: boolean;
-}
+export type AggregatorSetConfigParams = Partial<AggregatorInitParams> & {
+  varianceThreshold: number;
+};
 
 export interface AggregatorSetReadConfigParams {
   readCharge?: number;
@@ -45,15 +34,20 @@ export interface AggregatorSetReadConfigParams {
   enableLegacyAdapter?: boolean;
 }
 
-export class AggregatorAccount {
-  constructor(readonly client: Switchboard, readonly address: string) {}
+export type AggregatorData = Awaited<ReturnType<Switchboard["aggregators"]>>;
 
-  async loadData(): Promise<any> {
-    return await this.client.aggregators(this.address);
+export class AggregatorAccount {
+  constructor(
+    readonly switchboard: SwitchboardProgram,
+    readonly address: string
+  ) {}
+
+  public async loadData(): Promise<AggregatorData> {
+    return await this.switchboard.sb.aggregators(this.address);
   }
 
-  async loadJobs(): Promise<Array<OracleJob>> {
-    const { jobsHash } = await this.client.aggregators(this.address);
+  public async loadJobs(): Promise<Array<OracleJob>> {
+    const { jobsHash } = await this.switchboard.sb.aggregators(this.address);
 
     try {
       const res = await fetchJobsFromIPFS(jobsHash);
@@ -67,15 +61,21 @@ export class AggregatorAccount {
 
   /**
    * Initialize an Aggregator
-   * @param client
-   * @param account
+   * @param switchboard the {@linkcode SwitchboardProgram} class
    * @param params AggregatorInitParams initialization params
    */
-  static async init(
-    client: Switchboard,
-    params: AggregatorInitParams
+  public static async init(
+    switchboard: SwitchboardProgram,
+    params: AggregatorInitParams & { initialValue: BigNumber }
   ): Promise<[AggregatorAccount, ContractTransaction]> {
-    const tx = await client.createAggregator(
+    // load queue to make sure it exists
+    const oracleQueue = new OracleQueueAccount(
+      switchboard,
+      params.queueAddress
+    );
+    const queueData = await oracleQueue.loadData();
+
+    const tx = await switchboard.sb.createAggregator(
       params.name,
       params.authority,
       params.batchSize,
@@ -83,7 +83,7 @@ export class AggregatorAccount {
       params.minOracleResults,
       params.jobsHash, // I recommend using https://web3.storage/ for hosting jobs - it's free + fast!
       params.queueAddress,
-      params.varianceThreshold,
+      Math.trunc(params.varianceThreshold * 10 ** 18),
       params.minJobResults,
       params.forceReportPeriod,
       params.enableLegacyAdapter, // AggregatorV3 Interface Support (2x's gas cost)
@@ -94,41 +94,49 @@ export class AggregatorAccount {
 
     const aggregatorAddress = await tx.wait().then((logs) => {
       const log = logs.logs[0];
-      const sbLog = client.interface.parseLog(log);
+      const sbLog = switchboard.sb.interface.parseLog(log);
       return sbLog.args.accountAddress as string;
     });
 
-    return [new AggregatorAccount(client, aggregatorAddress), tx];
+    return [new AggregatorAccount(switchboard, aggregatorAddress), tx];
   }
 
-  async latestValue(): Promise<number> {
+  public async latestValue(): Promise<number> {
     return (
-      await this.client.aggregators(this.address)
+      await this.switchboard.sb.aggregators(this.address)
     ).latestResult.value.toNumber();
   }
 
-  async setConfig(
+  public async setConfig(
     params: AggregatorSetConfigParams
   ): Promise<ContractTransaction> {
-    return this.client.setAggregatorConfig(
+    const aggregator = await this.loadData();
+
+    const oracleQueue = new OracleQueueAccount(
+      this.switchboard,
+      params.queueAddress ?? aggregator.queueAddress
+    );
+    const queueData = await oracleQueue.loadData();
+
+    return this.switchboard.sb.setAggregatorConfig(
       this.address,
-      params.name,
-      params.authority,
-      params.batchSize,
-      params.minUpdateDelaySeconds,
-      params.minOracleResults,
-      params.jobsHash,
-      params.queueAddress,
-      Math.trunc(params.varianceThreshold.toNumber() * 10 ** 18),
+      params.name ?? aggregator.name,
+      params.authority ?? aggregator.authority,
+      params.batchSize ?? aggregator.batchSize,
+      params.minUpdateDelaySeconds ?? aggregator.minUpdateDelaySeconds,
+      params.minOracleResults ?? aggregator.minOracleResults,
+      params.jobsHash ?? aggregator.jobsHash,
+      oracleQueue.address,
+      Math.trunc(params.varianceThreshold * 10 ** 18),
       params.minJobResults,
       params.forceReportPeriod
     );
   }
 
-  async setReadConfig(
+  public async setReadConfig(
     params: AggregatorSetReadConfigParams
   ): Promise<ContractTransaction> {
-    return this.client.setAggregatorReadConfig(
+    return this.switchboard.sb.setAggregatorReadConfig(
       this.address,
       params.readCharge,
       params.rewardEscrow,
@@ -138,7 +146,7 @@ export class AggregatorAccount {
     );
   }
 
-  static watch(
+  public static watch(
     client: Switchboard,
     address: string,
     callback: EventCallback
@@ -151,40 +159,19 @@ export class AggregatorAccount {
     };
   }
 
-  static async shouldReportValue(
-    value: Big,
-    aggregator: any
-  ): Promise<boolean> {
-    if ((aggregator.latestConfirmedRound?.numSuccess ?? 0) === 0) {
-      return true;
-    }
-    const timestamp = Math.round(Date.now() / 1000);
-    const varianceThreshold: Big = new SBDecimal(
-      aggregator.varianceThreshold.value.toString(10),
-      18,
-      false
-    ).toBig();
-    const latestResult: Big = new SBDecimal(
-      aggregator.latestConfirmedRound.result.value.toString(),
-      18,
-      !!aggregator.latestConfirmedRound.result.value
-    ).toBig();
-    const forceReportPeriod = aggregator.forceReportPeriod;
-    const lastTimestamp = aggregator.latestConfirmedRound.roundOpenTimestamp;
-    if (lastTimestamp.add(forceReportPeriod).lt(timestamp)) {
-      return true;
-    }
+  public async escrowFund(): Promise<ContractTransaction> {
+    throw new Error(`Not implemented yet`);
+  }
 
-    let diff = BigUtils.safeDiv(latestResult, value);
-    if (diff.abs().gt(1)) {
-      diff = BigUtils.safeDiv(value, latestResult);
-    }
-    // I dont want to think about variance percentage when values cross 0.
-    // Changes the scale of what we consider a "percentage".
-    if (diff.lt(0)) {
-      return true;
-    }
-    const change = new Big(1).minus(diff);
-    return change.gt(varianceThreshold);
+  public async escrowWithdraw(): Promise<ContractTransaction> {
+    throw new Error(`Not implemented yet`);
+  }
+
+  public async getCurrentIntervalId(): Promise<number> {
+    throw new Error(`Not implemented yet`);
+  }
+
+  public async getIntervalResult(): Promise<[BigNumber, BigNumber, BigNumber]> {
+    throw new Error(`Not implemented yet`);
   }
 }
