@@ -1,5 +1,4 @@
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
-import { SwitchboardAttestationService } from "../typechain-types/index.js";
 import {
   FunctionData,
   ISwitchboardProgram,
@@ -24,6 +23,22 @@ export class FunctionAccount {
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
+
+  public async loadData(): Promise<FunctionData> {
+    return await this.switchboard.vs.funcs(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[FunctionAccount, FunctionData]> {
+    const functionAccount = new FunctionAccount(switchboard, address);
+    const functionData = await functionAccount.loadData();
+    return [functionAccount, functionData];
+  }
 
   /**
    * Initialize a Function
@@ -55,17 +70,11 @@ export class FunctionAccount {
       ],
       options
     );
-
-    const functionAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
+    const functionAddress = await switchboard.pollTxnForVsEvent(
+      tx,
+      "accountAddress"
+    );
     return [new FunctionAccount(switchboard, functionAddress), tx];
-  }
-
-  public async loadData(): Promise<FunctionData> {
-    return await this.switchboard.vs.funcs(this.address);
   }
 
   public async verify(options?: TransactionOptions): Promise<boolean> {

@@ -1,11 +1,12 @@
-import { PERMISSIONS } from "../const.js";
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   CreateAggregator,
   CreateOracle,
   EnablePermissions,
   ISwitchboardProgram,
+  OracleQueueAttestationConfig,
   OracleQueueData,
+  PermissionStatus,
+  RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
@@ -40,6 +41,22 @@ export class OracleQueueAccount {
     readonly address: string
   ) {}
 
+  async loadData(): Promise<OracleQueueData> {
+    return await this.switchboard.sb.queues(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[OracleQueueAccount, OracleQueueData]> {
+    const oracleQueueAccount = new OracleQueueAccount(switchboard, address);
+    const queue = await oracleQueueAccount.loadData();
+    return [oracleQueueAccount, queue];
+  }
+
   /**
    * Initialize an OracleQueueAccount
    * @param switchboard the {@linkcode SwitchboardProgram} class
@@ -62,11 +79,10 @@ export class OracleQueueAccount {
       ],
       options
     );
-    const queueAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
+    const queueAddress = await switchboard.pollTxnForSbEvent(
+      tx,
+      "accountAddress"
+    );
     return [new OracleQueueAccount(switchboard, queueAddress), tx];
   }
 
@@ -90,12 +106,43 @@ export class OracleQueueAccount {
     return tx;
   }
 
-  async loadData(): Promise<OracleQueueData> {
-    return await this.switchboard.sb.queues(this.address);
-  }
-
   public async getOracleIdx(oracleAddress: string): Promise<number> {
     return (await this.switchboard.sb.getOracleIdx(oracleAddress)).toNumber();
+  }
+
+  public async getAttestationConfig(): Promise<OracleQueueAttestationConfig> {
+    const attestationConfig = await this.switchboard.sb.queueAttestationConfigs(
+      this.address
+    );
+    return attestationConfig;
+  }
+
+  public async setAttestationConfig(
+    params: {
+      attestationQueueAddress: string;
+      mrEnclaves?: Array<RawMrEnclave>;
+      requireValidQuote?: boolean;
+      requireHeartbeatPermission?: boolean;
+    },
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
+    const currentAttestationConfig = await this.getAttestationConfig();
+    const tx = await this.switchboard.sendSbTxn(
+      "setQueueAttestationConfig",
+      [
+        this.address,
+        params.attestationQueueAddress,
+        params.mrEnclaves,
+        params.requireValidQuote !== undefined
+          ? params.requireValidQuote
+          : currentAttestationConfig.requireValidQuote,
+        params.requireHeartbeatPermission !== undefined
+          ? params.requireHeartbeatPermission
+          : currentAttestationConfig.requireHeartbeatPermission,
+      ],
+      options
+    );
+    return tx;
   }
 
   /**
@@ -132,9 +179,9 @@ export class OracleQueueAccount {
     ) {
       const setPermTx = await Permissions.set(
         this.switchboard,
-        this.address,
+        this,
         oracleAccount.address,
-        PERMISSIONS.heartbeatPermissions,
+        PermissionStatus.PERMIT_ORACLE_HEARTBEAT,
         true,
         {
           ...options,
@@ -182,9 +229,9 @@ export class OracleQueueAccount {
     ) {
       const setPermTx = await Permissions.set(
         this.switchboard,
-        this.address,
+        this,
         aggregatorAccount.address,
-        PERMISSIONS.usagePermissions,
+        PermissionStatus.PERMIT_ORACLE_QUEUE_USAGE,
         true,
         {
           ...options,

@@ -1,5 +1,4 @@
 import { fetchJobsFromIPFS } from "../ipfs.js";
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   AggregatorData,
   EventCallback,
@@ -47,6 +46,18 @@ export class AggregatorAccount {
 
   public async loadData(): Promise<AggregatorData> {
     return await this.switchboard.sb.aggregators(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[AggregatorAccount, AggregatorData]> {
+    const aggregatorAccount = new AggregatorAccount(switchboard, address);
+    const aggregator = await aggregatorAccount.loadData();
+    return [aggregatorAccount, aggregator];
   }
 
   public async loadJobs(): Promise<Array<OracleJob>> {
@@ -99,13 +110,10 @@ export class AggregatorAccount {
       ],
       options
     );
-
-    const aggregatorAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
-
+    const aggregatorAddress = await switchboard.pollTxnForSbEvent(
+      tx,
+      "accountAddress"
+    );
     return [new AggregatorAccount(switchboard, aggregatorAddress), tx];
   }
 

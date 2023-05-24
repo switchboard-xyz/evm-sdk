@@ -1,4 +1,8 @@
-import { Authority, EnablePermissions, ISwitchboardProgram } from "./types.js";
+import {
+  Authority,
+  EnablePermissions,
+  type ISwitchboardProgram,
+} from "./types.js";
 
 import { Signer } from "ethers";
 

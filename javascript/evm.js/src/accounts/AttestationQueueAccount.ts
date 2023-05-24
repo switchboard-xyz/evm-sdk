@@ -1,20 +1,20 @@
-import { PERMISSIONS } from "../const.js";
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   AttestationQueueData,
   CreateFunction,
   CreateQuote,
   EnablePermissions,
   ISwitchboardProgram,
+  PermissionStatus,
   RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
-import { getAuthoritySigner } from "../utils.js";
+import { Permissions } from "./Permissions.js";
+import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
 import { FunctionAccount } from "./FunctionAccount.js";
 import { QuoteAccount } from "./QuoteAccount.js";
 
-import { ContractTransaction, Signer } from "ethers";
+import { ContractTransaction } from "ethers";
 
 export interface AttestationQueueInitParams {
   authority: string;
@@ -35,6 +35,25 @@ export class AttestationQueueAccount {
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
+
+  public async loadData(): Promise<AttestationQueueData> {
+    return await this.switchboard.vs.queues(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[AttestationQueueAccount, AttestationQueueData]> {
+    const attestationQueueAccount = new AttestationQueueAccount(
+      switchboard,
+      address
+    );
+    const attestationQueue = await attestationQueueAccount.loadData();
+    return [attestationQueueAccount, attestationQueue];
+  }
 
   /**
    * Initialize an OracleQueueAccount
@@ -60,11 +79,10 @@ export class AttestationQueueAccount {
       ],
       options
     );
-    const queueAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
+    const queueAddress = await switchboard.pollTxnForVsEvent(
+      tx,
+      "accountAddress"
+    );
     return [new AttestationQueueAccount(switchboard, queueAddress), tx];
   }
 
@@ -93,10 +111,6 @@ export class AttestationQueueAccount {
       options
     );
     return tx;
-  }
-
-  public async loadData(): Promise<AttestationQueueData> {
-    return await this.switchboard.vs.queues(this.address);
   }
 
   public async hasMrEnclave(mrEnclave: RawMrEnclave): Promise<boolean> {
@@ -146,16 +160,19 @@ export class AttestationQueueAccount {
     if (
       typeof enable === "boolean" ? enable : enable.queueAuthority !== undefined
     ) {
-      const queueAuthoritySb =
-        typeof enable !== "boolean" && "queueAuthority" in enable
-          ? this.switchboard.connect(enable.queueAuthority).sb
-          : this.switchboard.sb;
-      await queueAuthoritySb.setPermission(
-        this.address,
+      const setPermTx = await Permissions.set(
+        this.switchboard,
+        this,
         functionAccount.address,
-        PERMISSIONS.servicePermissions,
-        true
+        PermissionStatus.PERMIT_ATTESTATION_QUEUE_USAGE,
+        true,
+        {
+          ...options,
+          signer: getQueueSigner(enable),
+        }
       );
+
+      await setPermTx.wait();
     }
 
     return functionAccount;

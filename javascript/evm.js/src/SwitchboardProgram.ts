@@ -15,7 +15,13 @@ import {
 } from "./types.js";
 
 import { Provider } from "@ethersproject/providers";
-import { Contract, providers, Signer, Wallet } from "ethers";
+import {
+  Contract,
+  ContractTransaction,
+  providers,
+  Signer,
+  Wallet,
+} from "ethers";
 
 export function getWallet(privateKey: string, rpc: string) {
   const provider = new providers.JsonRpcProvider(rpc);
@@ -133,6 +139,40 @@ export class SwitchboardProgram implements ISwitchboardProgram {
 
     return await sendTxnWithOptions(this.vs, methodName, args, options);
   };
+
+  /**
+   * Poll a Switchboard.sol txn for an emitted event field
+   * @param tx the contract transaction to poll
+   * @param field an optional field name to
+   */
+  public async pollTxnForSbEvent<T>(
+    tx: ContractTransaction,
+    field?: string
+  ): Promise<T> {
+    const eventResult = await tx.wait().then((logs) => {
+      const log = logs.logs[0];
+      const sbLog = this.sb.interface.parseLog(log);
+      return (field ? sbLog.args[field] : sbLog.args) as T;
+    });
+    return eventResult;
+  }
+
+  /**
+   * Poll a SwitchboardAttestationService.sol txn for an emitted event field
+   * @param tx the contract transaction to poll
+   * @param field an optional field name to
+   */
+  public async pollTxnForVsEvent<T>(
+    tx: ContractTransaction,
+    field?: string
+  ): Promise<T> {
+    const eventResult = await tx.wait().then((logs) => {
+      const log = logs.logs[0];
+      const sbLog = this.vs.interface.parseLog(log);
+      return (field ? sbLog.args[field] : sbLog.args) as T;
+    });
+    return eventResult;
+  }
 
   public async fetchAggregatorAccounts(
     authority: string

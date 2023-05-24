@@ -11,10 +11,11 @@ import {
   type BigNumber,
   type Contract,
   type ContractTransaction,
+  type PayableOverrides,
   type Signer,
 } from "ethers";
 
-export type TransactionOptions = {
+export type TransactionOptions = Partial<PayableOverrides> & {
   gasFactor?: number;
   simulate?: boolean;
   signer?: Signer;
@@ -49,6 +50,8 @@ export type MethodNames<T extends Contract> = Extract<
   CallStaticMethodNames<T>
 >;
 
+export type ContractEvents<T extends Contract> = {};
+
 export type SwitchboardMethods = MethodNames<Switchboard>;
 
 export type SwitchboardAttestationMethods =
@@ -63,6 +66,13 @@ export type SendTransactionMethod = <
   args: Parameters<T[K]>,
   options: TransactionOptions | undefined
 ) => Promise<ContractTransaction>;
+
+export type PollTxnForEventFieldFn = {
+  // If field is provided, assume were extracting a string unless specified
+  <T = string>(tx: ContractTransaction, field: T): Promise<T>;
+  // If field is not provided, require a type assertion
+  <T>(tx: ContractTransaction, field?: undefined): Promise<T>;
+};
 
 export type SendContractMethod<T extends Contract> = (
   methodName: MethodNames<T>,
@@ -81,6 +91,9 @@ export interface ISwitchboardProgram {
 
   sendSbTxn: SendContractMethod<Switchboard>;
   sendVsTxn: SendContractMethod<SwitchboardAttestationService>;
+
+  pollTxnForSbEvent: PollTxnForEventFieldFn;
+  pollTxnForVsEvent: PollTxnForEventFieldFn;
 }
 
 export interface Job {
@@ -118,6 +131,10 @@ export type EnablePermissions = boolean | { queueAuthority: Signer };
 
 export type OracleQueueData = Awaited<ReturnType<Switchboard["queues"]>>;
 
+export type OracleQueueAttestationConfig = Awaited<
+  ReturnType<Switchboard["queueAttestationConfigs"]>
+>;
+
 export type AttestationQueueData = Awaited<
   ReturnType<SwitchboardAttestationService["queues"]>
 >;
@@ -133,3 +150,16 @@ export type FunctionData = Awaited<
 export type QuoteData = Awaited<
   ReturnType<SwitchboardAttestationService["quotes"]>
 >;
+
+export enum PermissionStatus {
+  PERMIT_ORACLE_HEARTBEAT = 1 << 0,
+  PERMIT_ORACLE_QUEUE_USAGE = 1 << 1,
+  PERMIT_ATTESTATION_QUEUE_USAGE = 1 << 2,
+}
+
+export enum VerificationStatus {
+  VERIFICATION_PENDING = 0,
+  VERIFICATION_FAILURE = 1,
+  VERIFICATION_SUCCESS = 2,
+  VERIFICATION_OVERRIDE = 3,
+}

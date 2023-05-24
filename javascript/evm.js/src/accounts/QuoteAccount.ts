@@ -1,14 +1,15 @@
-import { sendTxnWithOptions } from "../sendTxnWithOptions.js";
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
+import { parseMrEnclave } from "../parseMrEnclave.js";
 import {
   ISwitchboardProgram,
   QuoteData,
   RawMrEnclave,
   TransactionOptions,
+  VerificationStatus,
 } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
+import { sleep } from "@switchboard-xyz/common";
 import { ContractTransaction } from "ethers";
 
 export interface QuoteInitParams {
@@ -21,6 +22,22 @@ export class QuoteAccount {
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
+
+  public async loadData(): Promise<QuoteData> {
+    return await this.switchboard.vs.quotes(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[QuoteAccount, QuoteData]> {
+    const quoteAccount = new QuoteAccount(switchboard, address);
+    const quote = await quoteAccount.loadData();
+    return [quoteAccount, quote];
+  }
 
   /**
    * Initialize a Quote
@@ -37,17 +54,11 @@ export class QuoteAccount {
       [params.authority, params.attestationQueue, params.owner],
       options
     );
-
-    const quoteAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
+    const quoteAddress = await switchboard.pollTxnForVsEvent(
+      tx,
+      "accountAddress"
+    );
     return [new QuoteAccount(switchboard, quoteAddress), tx];
-  }
-
-  public async loadData(): Promise<QuoteData> {
-    return await this.switchboard.vs.quotes(this.address);
   }
 
   /** Returns the attestationQueue address for the given verified Quote */
@@ -82,7 +93,11 @@ export class QuoteAccount {
     const quoteData = await this.loadData();
     const tx = await this.switchboard.sendVsTxn(
       "updateQuote",
-      [quoteData.authority, quoteData.queueAddress, quoteBuffer],
+      [
+        quoteData.authority,
+        quoteData.queueAddress,
+        parseMrEnclave(quoteBuffer),
+      ],
       options
     );
 
@@ -118,5 +133,117 @@ export class QuoteAccount {
 
   public async getQuoteEnclaveMeasurement(): Promise<Uint8Array> {
     throw new Error(`Not implemented yet`);
+  }
+
+  public static async authorityToAddress(
+    switchboard: ISwitchboardProgram,
+    authority: string
+  ): Promise<QuoteAccount> {
+    const address = await switchboard.vs.quoteAuthorityToQuoteAddress(
+      authority
+    );
+    return new QuoteAccount(switchboard, address);
+  }
+
+  public static async initAndAwaitVerification(
+    switchboard: ISwitchboardProgram,
+    authority: string,
+    attestationQueueAddress: string,
+    quoteBuffer: RawMrEnclave,
+    options?: TransactionOptions,
+    retryCount = 3
+  ): Promise<QuoteAccount> {
+    const quoteAccount = await QuoteAccount.authorityToAddress(
+      switchboard,
+      authority
+    );
+    const attestationQueueAccount = new AttestationQueueAccount(
+      switchboard,
+      attestationQueueAddress
+    );
+    const attestationQueue = await attestationQueueAccount.loadData();
+
+    let sendQuoteTx = false;
+    let quote: QuoteData;
+    try {
+      quote = await quoteAccount.loadData();
+      if (quote.queueAddress !== attestationQueueAccount.address) {
+        throw new Error(
+          `Incorrect AttestationQueue provided, expected ${quote.queueAddress}, received ${attestationQueueAccount.address}`
+        );
+      }
+
+      if (
+        quote.verificationStatus !== VerificationStatus.VERIFICATION_SUCCESS
+      ) {
+        sendQuoteTx = true;
+      }
+    } catch {
+      sendQuoteTx = true;
+    }
+
+    if (sendQuoteTx) {
+      const sendTx = await quoteAccount.updateQuote(quoteBuffer, {
+        ...options,
+        value: attestationQueue.reward,
+      });
+
+      await sendTx.wait();
+    }
+
+    const finalQuoteState = await quoteAccount.pollVerification(retryCount);
+    const verificationStatus = finalQuoteState.verificationStatus;
+    if (
+      verificationStatus !== VerificationStatus.VERIFICATION_SUCCESS &&
+      verificationStatus !== VerificationStatus.VERIFICATION_OVERRIDE
+    ) {
+      throw new Error(`Quote was not verified successfully`);
+    }
+
+    return quoteAccount;
+  }
+
+  public async pollVerification(retryCount = 3): Promise<QuoteData> {
+    let quote = await this.loadData();
+
+    let continuePoll = true;
+    const pollStart = Date.now();
+    const retrySeconds = 20;
+
+    while (continuePoll && Date.now() - pollStart < 1000 * retrySeconds) {
+      try {
+        quote = await this.loadData();
+
+        switch (quote.verificationStatus) {
+          case VerificationStatus.VERIFICATION_SUCCESS:
+          case VerificationStatus.VERIFICATION_OVERRIDE: {
+            continuePoll = false;
+            break;
+          }
+          case VerificationStatus.VERIFICATION_FAILURE: {
+            continuePoll = false;
+            throw new Error("Oracle SGX measurement has failed verification");
+          }
+          default: {
+            await sleep(2000);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        // continue
+      }
+    }
+
+    if (continuePoll) {
+      if (retryCount <= 0) {
+        throw new Error(
+          `Retry limit exceeded, failed to verify the quote successfully`
+        );
+      }
+
+      return this.pollVerification(--retryCount);
+    }
+
+    return quote;
   }
 }

@@ -1,5 +1,4 @@
 export * from "./accounts/index.js";
-export * from "./const.js";
 export { fetchJobsFromIPFS } from "./ipfs.js";
 export * from "./SBDecimal.js";
 export { sendTxnWithOptions } from "./sendTxnWithOptions.js";
