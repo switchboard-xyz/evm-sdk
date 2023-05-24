@@ -25,6 +25,22 @@ export class FunctionAccount {
     readonly address: string
   ) {}
 
+  public async loadData(): Promise<FunctionData> {
+    return await this.switchboard.vs.funcs(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[FunctionAccount, FunctionData]> {
+    const functionAccount = new FunctionAccount(switchboard, address);
+    const functionData = await functionAccount.loadData();
+    return [functionAccount, functionData];
+  }
+
   /**
    * Initialize a Function
    * @param switchboard the {@linkcode SwitchboardProgram} class
@@ -60,10 +76,6 @@ export class FunctionAccount {
       "accountAddress"
     );
     return [new FunctionAccount(switchboard, functionAddress), tx];
-  }
-
-  public async loadData(): Promise<FunctionData> {
-    return await this.switchboard.vs.funcs(this.address);
   }
 
   public async verify(options?: TransactionOptions): Promise<boolean> {

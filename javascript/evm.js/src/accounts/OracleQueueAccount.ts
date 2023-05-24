@@ -39,6 +39,22 @@ export class OracleQueueAccount {
     readonly address: string
   ) {}
 
+  async loadData(): Promise<OracleQueueData> {
+    return await this.switchboard.sb.queues(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[OracleQueueAccount, OracleQueueData]> {
+    const oracleQueueAccount = new OracleQueueAccount(switchboard, address);
+    const queue = await oracleQueueAccount.loadData();
+    return [oracleQueueAccount, queue];
+  }
+
   /**
    * Initialize an OracleQueueAccount
    * @param switchboard the {@linkcode SwitchboardProgram} class
@@ -86,10 +102,6 @@ export class OracleQueueAccount {
       options
     );
     return tx;
-  }
-
-  async loadData(): Promise<OracleQueueData> {
-    return await this.switchboard.sb.queues(this.address);
   }
 
   public async getOracleIdx(oracleAddress: string): Promise<number> {

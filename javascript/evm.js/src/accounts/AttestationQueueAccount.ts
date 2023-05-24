@@ -8,10 +8,10 @@ import {
   RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
+import { Permissions } from "./Permissions.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
 import { FunctionAccount } from "./FunctionAccount.js";
-import { Permissions } from "./Permissions.js";
 import { QuoteAccount } from "./QuoteAccount.js";
 
 import { ContractTransaction } from "ethers";
@@ -35,6 +35,25 @@ export class AttestationQueueAccount {
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
+
+  public async loadData(): Promise<AttestationQueueData> {
+    return await this.switchboard.vs.queues(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[AttestationQueueAccount, AttestationQueueData]> {
+    const attestationQueueAccount = new AttestationQueueAccount(
+      switchboard,
+      address
+    );
+    const attestationQueue = await attestationQueueAccount.loadData();
+    return [attestationQueueAccount, attestationQueue];
+  }
 
   /**
    * Initialize an OracleQueueAccount
@@ -92,10 +111,6 @@ export class AttestationQueueAccount {
       options
     );
     return tx;
-  }
-
-  public async loadData(): Promise<AttestationQueueData> {
-    return await this.switchboard.vs.queues(this.address);
   }
 
   public async hasMrEnclave(mrEnclave: RawMrEnclave): Promise<boolean> {

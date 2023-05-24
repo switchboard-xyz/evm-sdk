@@ -48,6 +48,18 @@ export class AggregatorAccount {
     return await this.switchboard.sb.aggregators(this.address);
   }
 
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[AggregatorAccount, AggregatorData]> {
+    const aggregatorAccount = new AggregatorAccount(switchboard, address);
+    const aggregator = await aggregatorAccount.loadData();
+    return [aggregatorAccount, aggregator];
+  }
+
   public async loadJobs(): Promise<Array<OracleJob>> {
     const { jobsHash } = await this.switchboard.sb.aggregators(this.address);
 

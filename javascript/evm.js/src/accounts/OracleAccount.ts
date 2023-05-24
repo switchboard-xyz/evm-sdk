@@ -29,6 +29,22 @@ export class OracleAccount {
     readonly address: string
   ) {}
 
+  public async loadData(): Promise<OracleData> {
+    return await this.switchboard.sb.oracles(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[OracleAccount, OracleData]> {
+    const oracleAccount = new OracleAccount(switchboard, address);
+    const oracle = await oracleAccount.loadData();
+    return [oracleAccount, oracle];
+  }
+
   /**
    * Initialize a Oracle
    * @param switchboard the {@linkcode SwitchboardProgram} class
@@ -49,10 +65,6 @@ export class OracleAccount {
       "accountAddress"
     );
     return [new OracleAccount(switchboard, oracleAddress), tx];
-  }
-
-  public async loadData(): Promise<OracleData> {
-    return await this.switchboard.sb.oracles(this.address);
   }
 
   public async setConfig(

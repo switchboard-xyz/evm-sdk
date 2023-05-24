@@ -23,6 +23,22 @@ export class QuoteAccount {
     readonly address: string
   ) {}
 
+  public async loadData(): Promise<QuoteData> {
+    return await this.switchboard.vs.quotes(this.address);
+  }
+
+  /**
+   * Load and fetch the account data
+   */
+  public static async load(
+    switchboard: ISwitchboardProgram,
+    address: string
+  ): Promise<[QuoteAccount, QuoteData]> {
+    const quoteAccount = new QuoteAccount(switchboard, address);
+    const quote = await quoteAccount.loadData();
+    return [quoteAccount, quote];
+  }
+
   /**
    * Initialize a Quote
    * @param switchboard the {@linkcode SwitchboardProgram} class
@@ -43,10 +59,6 @@ export class QuoteAccount {
       "accountAddress"
     );
     return [new QuoteAccount(switchboard, quoteAddress), tx];
-  }
-
-  public async loadData(): Promise<QuoteData> {
-    return await this.switchboard.vs.quotes(this.address);
   }
 
   /** Returns the attestationQueue address for the given verified Quote */
