@@ -10,3 +10,4 @@ export {
   SwitchboardAttestationService__factory,
 } from "./typechain-types/index.js";
 export * from "./types.js";
+export * from "./SBDecimal.js";
