@@ -1,5 +1,6 @@
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import { SwitchboardAttestationService } from "../typechain-types/index.js";
+import { FunctionData } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
@@ -12,12 +13,7 @@ export interface FunctionInitParams {
   container: string;
   schedule: string;
   version: string;
-  attestationQueue: string;
 }
-
-export type FunctionData = Awaited<
-  ReturnType<SwitchboardAttestationService["funcs"]>
->;
 
 export class FunctionAccount {
   constructor(
@@ -32,7 +28,7 @@ export class FunctionAccount {
    */
   public static async init(
     switchboard: SwitchboardProgram,
-    params: FunctionInitParams
+    params: FunctionInitParams & { attestationQueue: string }
   ): Promise<[FunctionAccount, ContractTransaction]> {
     // load queue to make sure it exists
     const attestationQueue = new AttestationQueueAccount(

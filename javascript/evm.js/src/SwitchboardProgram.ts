@@ -1,8 +1,5 @@
-import {
-  AggregatorAccount,
-  AggregatorData,
-} from "./accounts/AggregatorAccount.js";
-import { FunctionAccount, FunctionData } from "./accounts/FunctionAccount.js";
+import { AggregatorAccount } from "./accounts/AggregatorAccount.js";
+import { FunctionAccount } from "./accounts/FunctionAccount.js";
 import {
   Switchboard,
   Switchboard__factory,
@@ -10,6 +7,7 @@ import {
   SwitchboardAttestationService__factory,
 } from "./typechain-types/index.js";
 import { type EstimateGasFunctions, sendTxnWithGas } from "./sendTxnWithGas.js";
+import { AggregatorData, FunctionData } from "./types.js";
 
 import { Provider } from "@ethersproject/providers";
 import { Contract, providers, Signer, Wallet } from "ethers";
@@ -64,7 +62,21 @@ export class SwitchboardProgram {
     public readonly vs?: SwitchboardAttestationService
   ) {}
 
-  public async load(
+  private _addressPromise: Promise<string> | undefined = undefined;
+
+  get address() {
+    if (this._addressPromise) {
+      return this._addressPromise;
+    }
+
+    this._addressPromise = this.sb.signer.getAddress().catch((err) => {
+      this._addressPromise = undefined;
+      return undefined;
+    });
+    return this._addressPromise;
+  }
+
+  public static async load(
     signerOrProvider: Signer | Provider,
     switchboardAddress: string
   ): Promise<SwitchboardProgram> {

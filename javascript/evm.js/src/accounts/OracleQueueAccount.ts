@@ -1,7 +1,16 @@
+import { PERMISSIONS } from "../const.js";
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
-import { Switchboard } from "../typechain-types/index.js";
+import {
+  CreateAggregator,
+  CreateOracle,
+  EnablePermissions,
+  OracleQueueData,
+} from "../types.js";
 
-import { ContractTransaction } from "ethers";
+import { AggregatorAccount } from "./AggregatorAccount.js";
+import { OracleAccount } from "./OracleAccount.js";
+
+import { BigNumber, ContractTransaction } from "ethers";
 
 export interface OracleQueueInitParams {
   authority: string;
@@ -20,8 +29,6 @@ export interface OracleQueueSetConfigsParams {
   maxSize: number;
   unpermissionedFeedsEnabled: boolean;
 }
-
-export type OracleQueueData = Awaited<ReturnType<Switchboard["queues"]>>;
 
 export class OracleQueueAccount {
   constructor(
@@ -74,5 +81,115 @@ export class OracleQueueAccount {
 
   public async getOracleIdx(oracleAddress: string): Promise<number> {
     throw new Error(`Not implemented yet`);
+  }
+
+  /**
+   * Create an {@linkcode OracleAccount} and enable its heartbeat permissions
+   */
+  public async createOracle(
+    params?: CreateOracle,
+    enable: EnablePermissions = true
+  ): Promise<OracleAccount> {
+    // verify it exists
+    const queueData = await this.loadData();
+
+    let authority: string | undefined = undefined;
+    if (params && "authority" in params) {
+      authority = params.authority;
+    } else if (params && "signer" in params) {
+      authority = await params.signer.getAddress();
+    } else {
+      authority = await this.switchboard.address;
+    }
+    if (!authority) {
+      throw new Error(
+        `You need to provide an authority or a signer to create an oracle`
+      );
+    }
+    const [oracleAccount] = await OracleAccount.init(
+      params && "signer" in params
+        ? this.switchboard.connect(params.signer)
+        : this.switchboard,
+      {
+        name: params?.name ?? "",
+        authority: authority,
+        queueAddress: this.address,
+      }
+    );
+
+    const shouldEnable =
+      typeof enable === "boolean"
+        ? enable
+        : enable.queueAuthority !== undefined;
+    if (shouldEnable) {
+      const queueAuthoritySb =
+        typeof enable !== "boolean" && "queueAuthority" in enable
+          ? this.switchboard.connect(enable.queueAuthority).sb
+          : this.switchboard.sb;
+      await queueAuthoritySb.setPermission(
+        this.address,
+        oracleAccount.address,
+        PERMISSIONS.heartbeatPermissions,
+        true
+      );
+    }
+
+    return oracleAccount;
+  }
+
+  /**
+   * Create an {@linkcode AggregatorAccount} and enable its queueUsage permissions
+   */
+  public async createAggregator(
+    params: CreateAggregator,
+    enable: EnablePermissions = true
+  ): Promise<AggregatorAccount> {
+    // verify it exists
+    const queueData = await this.loadData();
+
+    let authority: string | undefined = undefined;
+    if (params && "authority" in params) {
+      authority = params.authority;
+    } else if (params && "signer" in params) {
+      authority = await params.signer.getAddress();
+    } else {
+      authority = await this.switchboard.address;
+    }
+    if (!authority) {
+      throw new Error(
+        `You need to provide an authority or a signer to create an aggregator`
+      );
+    }
+
+    const [aggregatorAccount] = await AggregatorAccount.init(
+      params && "signer" in params
+        ? this.switchboard.connect(params.signer)
+        : this.switchboard,
+      {
+        ...params,
+        authority: authority,
+        queueAddress: this.address,
+        initialValue: BigNumber.from(0),
+      }
+    );
+
+    const shouldEnable =
+      typeof enable === "boolean"
+        ? enable
+        : enable.queueAuthority !== undefined;
+    if (shouldEnable) {
+      const queueAuthoritySb =
+        typeof enable !== "boolean" && "queueAuthority" in enable
+          ? this.switchboard.connect(enable.queueAuthority).sb
+          : this.switchboard.sb;
+      await queueAuthoritySb.setPermission(
+        this.address,
+        aggregatorAccount.address,
+        PERMISSIONS.usagePermissions,
+        true
+      );
+    }
+
+    return aggregatorAccount;
   }
 }

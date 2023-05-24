@@ -1,6 +1,5 @@
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
-import { SwitchboardAttestationService } from "../typechain-types/index.js";
-import { RawMrEnclave } from "../types.js";
+import { QuoteData, RawMrEnclave } from "../types.js";
 
 import { ContractTransaction } from "ethers";
 
@@ -9,10 +8,6 @@ export interface QuoteInitParams {
   authority: string;
   queue: string;
 }
-
-export type QuoteData = Awaited<
-  ReturnType<SwitchboardAttestationService["quotes"]>
->;
 
 export class QuoteAccount {
   constructor(

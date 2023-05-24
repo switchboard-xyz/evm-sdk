@@ -1,6 +1,7 @@
 import { SBDecimal } from "../SBDecimal.js";
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import { Switchboard } from "../typechain-types/index.js";
+import { OracleData } from "../types.js";
 
 import { BigNumber, ContractTransaction } from "ethers";
 
@@ -16,12 +17,9 @@ export interface OracleSaveResultParams {
 }
 
 export interface OracleInitParams {
-  name: string;
+  name?: string;
   authority: string;
-  queue: string;
 }
-
-export type OracleData = Awaited<ReturnType<Switchboard["oracles"]>>;
 
 export class OracleAccount {
   constructor(
@@ -36,12 +34,12 @@ export class OracleAccount {
    */
   public static async init(
     switchboard: SwitchboardProgram,
-    params: OracleInitParams
+    params: OracleInitParams & { queueAddress: string }
   ): Promise<[OracleAccount, ContractTransaction]> {
     const tx = await switchboard.sb.createOracle(
-      params.name,
+      params.name ?? "",
       params.authority,
-      params.queue
+      params.queueAddress
     );
 
     const oracleAddress = await tx.wait().then((logs) => {

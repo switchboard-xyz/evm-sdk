@@ -1,11 +1,10 @@
 import { fetchJobsFromIPFS } from "../ipfs.js";
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
-import { Switchboard } from "../typechain-types/index.js";
-import { EventCallback, Job } from "../types.js";
+import { AggregatorData, EventCallback, Job } from "../types.js";
 
 import { OracleQueueAccount } from "./OracleQueueAccount.js";
 
-import { Big, OracleJob } from "@switchboard-xyz/common";
+import { OracleJob } from "@switchboard-xyz/common";
 import { BigNumber, ContractTransaction } from "ethers";
 
 export interface AggregatorInitParams {
@@ -33,8 +32,6 @@ export interface AggregatorSetReadConfigParams {
   limitReadsToWhitelist?: boolean;
   enableLegacyAdapter?: boolean;
 }
-
-export type AggregatorData = Awaited<ReturnType<Switchboard["aggregators"]>>;
 
 export class AggregatorAccount {
   constructor(
@@ -147,14 +144,20 @@ export class AggregatorAccount {
   }
 
   public static watch(
-    client: Switchboard,
+    switchboard: SwitchboardProgram,
     address: string,
     callback: EventCallback
   ): { stop: () => void } {
-    const sb = client.on(client.filters.AggregatorUpdate(address), callback);
+    const sb = switchboard.sb.on(
+      switchboard.sb.filters.AggregatorUpdate(address),
+      callback
+    );
     return {
       stop: () => {
-        sb.removeListener(client.filters.AggregatorUpdate(address), callback);
+        sb.removeListener(
+          switchboard.sb.filters.AggregatorUpdate(address),
+          callback
+        );
       },
     };
   }

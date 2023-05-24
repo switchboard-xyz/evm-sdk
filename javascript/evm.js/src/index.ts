@@ -1,6 +1,8 @@
 export * from "./accounts/index.js";
+export * from "./const.js";
 export { fetchJobsFromIPFS } from "./ipfs.js";
 export { sendTxnWithGas } from "./sendTxnWithGas.js";
+export * from "./SwitchboardProgram.js";
 export {
   Switchboard,
   Switchboard__factory,

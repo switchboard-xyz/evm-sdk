@@ -1,9 +1,6 @@
-export { AggregatorAccount, AggregatorData } from "./AggregatorAccount.js";
-export {
-  AttestationQueueAccount,
-  AttestationQueueData,
-} from "./AttestationQueueAccount.js";
-export { FunctionAccount, FunctionData } from "./FunctionAccount.js";
-export { OracleAccount, OracleData } from "./OracleAccount.js";
-export { OracleQueueAccount, OracleQueueData } from "./OracleQueueAccount.js";
-export { QuoteAccount, QuoteData } from "./QuoteAccount.js";
+export { AggregatorAccount } from "./AggregatorAccount.js";
+export { AttestationQueueAccount } from "./AttestationQueueAccount.js";
+export { FunctionAccount } from "./FunctionAccount.js";
+export { OracleAccount } from "./OracleAccount.js";
+export { OracleQueueAccount } from "./OracleQueueAccount.js";
+export { QuoteAccount } from "./QuoteAccount.js";

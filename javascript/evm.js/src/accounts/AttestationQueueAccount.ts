@@ -1,6 +1,13 @@
+import { PERMISSIONS } from "../const.js";
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
-import { SwitchboardAttestationService } from "../typechain-types/index.js";
-import { RawMrEnclave } from "../types.js";
+import {
+  AttestationQueueData,
+  CreateFunction,
+  EnablePermissions,
+  RawMrEnclave,
+} from "../types.js";
+
+import { FunctionAccount } from "./FunctionAccount.js";
 
 import { ContractTransaction } from "ethers";
 
@@ -17,10 +24,6 @@ export interface AttestationQueueInitParams {
 
 export type AttestationQueueSetConfigsParams =
   Partial<AttestationQueueInitParams>;
-
-export type AttestationQueueData = Awaited<
-  ReturnType<SwitchboardAttestationService["queues"]>
->;
 
 export class AttestationQueueAccount {
   constructor(
@@ -94,5 +97,59 @@ export class AttestationQueueAccount {
     mrEnclave: RawMrEnclave
   ): Promise<ContractTransaction> {
     throw new Error(`Not implemented yet`);
+  }
+
+  /**
+   * Create an {@linkcode FunctionAccount} and enable its serviceQueue permissions
+   */
+  public async createFunction(
+    params: CreateFunction,
+    enable: EnablePermissions = true
+  ): Promise<FunctionAccount> {
+    // verify it exists
+    const queueData = await this.loadData();
+
+    let authority: string | undefined = undefined;
+    if (params && "authority" in params) {
+      authority = params.authority;
+    } else if (params && "signer" in params) {
+      authority = await params.signer.getAddress();
+    } else {
+      authority = await this.switchboard.address;
+    }
+    if (!authority) {
+      throw new Error(
+        `You need to provide an authority or a signer to create an aggregator`
+      );
+    }
+
+    const [functionAccount] = await FunctionAccount.init(
+      params && "signer" in params
+        ? this.switchboard.connect(params.signer)
+        : this.switchboard,
+      {
+        ...params,
+        attestationQueue: this.address,
+      }
+    );
+
+    const shouldEnable =
+      typeof enable === "boolean"
+        ? enable
+        : enable.queueAuthority !== undefined;
+    if (shouldEnable) {
+      const queueAuthoritySb =
+        typeof enable !== "boolean" && "queueAuthority" in enable
+          ? this.switchboard.connect(enable.queueAuthority).sb
+          : this.switchboard.sb;
+      await queueAuthoritySb.setPermission(
+        this.address,
+        functionAccount.address,
+        PERMISSIONS.servicePermissions,
+        true
+      );
+    }
+
+    return functionAccount;
   }
 }
