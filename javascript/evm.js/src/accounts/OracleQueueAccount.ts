@@ -3,8 +3,10 @@ import {
   CreateOracle,
   EnablePermissions,
   ISwitchboardProgram,
+  OracleQueueAttestationConfig,
   OracleQueueData,
   PermissionStatus,
+  RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
@@ -106,6 +108,41 @@ export class OracleQueueAccount {
 
   public async getOracleIdx(oracleAddress: string): Promise<number> {
     return (await this.switchboard.sb.getOracleIdx(oracleAddress)).toNumber();
+  }
+
+  public async getAttestationConfig(): Promise<OracleQueueAttestationConfig> {
+    const attestationConfig = await this.switchboard.sb.queueAttestationConfigs(
+      this.address
+    );
+    return attestationConfig;
+  }
+
+  public async setAttestationConfig(
+    params: {
+      attestationQueueAddress: string;
+      mrEnclaves?: Array<RawMrEnclave>;
+      requireValidQuote?: boolean;
+      requireHeartbeatPermission?: boolean;
+    },
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
+    const currentAttestationConfig = await this.getAttestationConfig();
+    const tx = await this.switchboard.sendSbTxn(
+      "setQueueAttestationConfig",
+      [
+        this.address,
+        params.attestationQueueAddress,
+        params.mrEnclaves,
+        params.requireValidQuote !== undefined
+          ? params.requireValidQuote
+          : currentAttestationConfig.requireValidQuote,
+        params.requireHeartbeatPermission !== undefined
+          ? params.requireHeartbeatPermission
+          : currentAttestationConfig.requireHeartbeatPermission,
+      ],
+      options
+    );
+    return tx;
   }
 
   /**

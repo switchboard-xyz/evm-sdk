@@ -131,6 +131,10 @@ export type EnablePermissions = boolean | { queueAuthority: Signer };
 
 export type OracleQueueData = Awaited<ReturnType<Switchboard["queues"]>>;
 
+export type OracleQueueAttestationConfig = Awaited<
+  ReturnType<Switchboard["queueAttestationConfigs"]>
+>;
+
 export type AttestationQueueData = Awaited<
   ReturnType<SwitchboardAttestationService["queues"]>
 >;

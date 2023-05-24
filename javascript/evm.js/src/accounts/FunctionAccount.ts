@@ -1,5 +1,4 @@
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
-import { SwitchboardAttestationService } from "../typechain-types/index.js";
 import {
   FunctionData,
   ISwitchboardProgram,
