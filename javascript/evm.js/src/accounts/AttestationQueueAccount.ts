@@ -8,10 +8,10 @@ import {
   RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
-import { Permissions } from "./Permissions.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
 import { FunctionAccount } from "./FunctionAccount.js";
+import { Permissions } from "./Permissions.js";
 import { QuoteAccount } from "./QuoteAccount.js";
 
 import { ContractTransaction } from "ethers";

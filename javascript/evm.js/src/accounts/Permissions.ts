@@ -1,8 +1,9 @@
 import { ISwitchboardProgram, TransactionOptions } from "../types.js";
 
-import { BigNumber, ContractTransaction } from "ethers";
-import { OracleQueueAccount } from "./OracleQueueAccount.js";
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
+import { OracleQueueAccount } from "./OracleQueueAccount.js";
+
+import { BigNumber, ContractTransaction } from "ethers";
 
 export interface PermissionInitParams {
   grantee: string;
