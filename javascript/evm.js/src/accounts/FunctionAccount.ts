@@ -1,6 +1,10 @@
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import { SwitchboardAttestationService } from "../typechain-types/index.js";
-import { FunctionData } from "../types.js";
+import {
+  FunctionData,
+  ISwitchboardProgram,
+  TransactionOptions,
+} from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
@@ -17,7 +21,7 @@ export interface FunctionInitParams {
 
 export class FunctionAccount {
   constructor(
-    readonly switchboard: SwitchboardProgram,
+    readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
 
@@ -27,8 +31,9 @@ export class FunctionAccount {
    * @param params Function initialization params
    */
   public static async init(
-    switchboard: SwitchboardProgram,
-    params: FunctionInitParams & { attestationQueue: string }
+    switchboard: ISwitchboardProgram,
+    params: FunctionInitParams & { attestationQueue: string },
+    options?: TransactionOptions
   ): Promise<[FunctionAccount, ContractTransaction]> {
     // load queue to make sure it exists
     const attestationQueue = new AttestationQueueAccount(
@@ -37,14 +42,18 @@ export class FunctionAccount {
     );
     const queueData = await attestationQueue.loadData();
 
-    const tx = await switchboard.vs.createFunction(
-      params.authority,
-      params.name,
-      params.containerRegistry,
-      params.container,
-      params.schedule,
-      params.version,
-      attestationQueue.address
+    const tx = await switchboard.sendVsTxn(
+      "createFunction",
+      [
+        params.authority,
+        params.name,
+        params.containerRegistry,
+        params.container,
+        params.schedule,
+        params.version,
+        attestationQueue.address,
+      ],
+      options
     );
 
     const functionAddress = await tx.wait().then((logs) => {
@@ -59,15 +68,19 @@ export class FunctionAccount {
     return await this.switchboard.vs.funcs(this.address);
   }
 
-  public async verify(): Promise<boolean> {
+  public async verify(options?: TransactionOptions): Promise<boolean> {
     throw new Error(`Not implemented yet`);
   }
 
-  public async escrowFund(): Promise<ContractTransaction> {
+  public async escrowFund(
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
     throw new Error(`Not implemented yet`);
   }
 
-  public async escrowWithdraw(): Promise<ContractTransaction> {
+  public async escrowWithdraw(
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
     throw new Error(`Not implemented yet`);
   }
 }

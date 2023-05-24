@@ -1,4 +1,5 @@
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
+import { ISwitchboardProgram, TransactionOptions } from "../types.js";
 
 import { BigNumber, ContractTransaction } from "ethers";
 
@@ -18,23 +19,23 @@ export class Permissions {
    * @param params Oracle initialization params
    */
   public static async set(
-    switchboard: SwitchboardProgram,
+    switchboard: ISwitchboardProgram,
     granter: string,
     grantee: string,
     permission: number,
-    enable?: boolean
+    enable?: boolean,
+    options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await switchboard.sb.setPermission(
-      grantee,
-      granter,
-      BigNumber.from(permission),
-      enable ?? false
+    const tx = await switchboard.sendSbTxn(
+      "setPermission",
+      [granter, grantee, BigNumber.from(permission), enable],
+      options
     );
     return tx;
   }
 
   public static async has(
-    switchboard: SwitchboardProgram,
+    switchboard: ISwitchboardProgram,
     granter: string,
     grantee: string,
     permission: number

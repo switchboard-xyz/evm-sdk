@@ -5,8 +5,11 @@ import {
   CreateFunction,
   CreateQuote,
   EnablePermissions,
+  ISwitchboardProgram,
   RawMrEnclave,
+  TransactionOptions,
 } from "../types.js";
+import { getAuthoritySigner } from "../utils.js";
 
 import { FunctionAccount } from "./FunctionAccount.js";
 import { QuoteAccount } from "./QuoteAccount.js";
@@ -29,7 +32,7 @@ export type AttestationQueueSetConfigsParams =
 
 export class AttestationQueueAccount {
   constructor(
-    readonly switchboard: SwitchboardProgram,
+    readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
 
@@ -39,18 +42,23 @@ export class AttestationQueueAccount {
    * @param params AttestationQueueAccount initialization params
    */
   public static async init(
-    switchboard: SwitchboardProgram,
-    params: AttestationQueueInitParams
+    switchboard: ISwitchboardProgram,
+    params: AttestationQueueInitParams,
+    options?: TransactionOptions
   ): Promise<[AttestationQueueAccount, ContractTransaction]> {
-    const tx = await switchboard.vs.createAttestationQueue(
-      params.authority,
-      params.maxSize,
-      params.reward,
-      params.quoteTimeout,
-      params.maxQuoteVerificationAge,
-      params.allowAuthorityOverrideAfter,
-      params.requireAuthorityHeartbeatPermission,
-      params.requireUsagePermissions
+    const tx = await switchboard.sendVsTxn(
+      "createAttestationQueue",
+      [
+        params.authority,
+        params.maxSize,
+        params.reward,
+        params.quoteTimeout,
+        params.maxQuoteVerificationAge,
+        params.allowAuthorityOverrideAfter,
+        params.requireAuthorityHeartbeatPermission,
+        params.requireUsagePermissions,
+      ],
+      options
     );
     const queueAddress = await tx.wait().then((logs) => {
       const log = logs.logs[0];
@@ -61,24 +69,30 @@ export class AttestationQueueAccount {
   }
 
   public async setConfigs(
-    params: AttestationQueueSetConfigsParams
+    params: AttestationQueueSetConfigsParams,
+    options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const queue = await this.loadData();
-    return await this.switchboard.vs.setQueueConfig(
-      this.address,
-      params.authority ?? queue.authority,
-      params.maxSize ?? queue.maxSize,
-      params.reward ?? queue.reward,
-      params.quoteTimeout ?? queue.quoteTimeout,
-      params.maxQuoteVerificationAge ?? queue.maxQuoteVerificationAge,
-      params.allowAuthorityOverrideAfter ?? queue.allowAuthorityOverrideAfter,
-      params.requireAuthorityHeartbeatPermission
-        ? params.requireAuthorityHeartbeatPermission
-        : queue.requireAuthorityHeartbeatPermission,
-      params.requireUsagePermissions
-        ? params.requireUsagePermissions
-        : queue.requireUsagePermissions
+    const tx = await this.switchboard.sendVsTxn(
+      "setQueueConfig",
+      [
+        this.address,
+        params.authority ?? queue.authority,
+        params.maxSize ?? queue.maxSize,
+        params.reward ?? queue.reward,
+        params.quoteTimeout ?? queue.quoteTimeout,
+        params.maxQuoteVerificationAge ?? queue.maxQuoteVerificationAge,
+        params.allowAuthorityOverrideAfter ?? queue.allowAuthorityOverrideAfter,
+        params.requireAuthorityHeartbeatPermission
+          ? params.requireAuthorityHeartbeatPermission
+          : queue.requireAuthorityHeartbeatPermission,
+        params.requireUsagePermissions
+          ? params.requireUsagePermissions
+          : queue.requireUsagePermissions,
+      ],
+      options
     );
+    return tx;
   }
 
   public async loadData(): Promise<AttestationQueueData> {
@@ -90,13 +104,15 @@ export class AttestationQueueAccount {
   }
 
   public async addMrEnclave(
-    mrEnclave: RawMrEnclave
+    mrEnclave: RawMrEnclave,
+    options?: TransactionOptions
   ): Promise<ContractTransaction> {
     throw new Error(`Not implemented yet`);
   }
 
   public async removeMrEnclave(
-    mrEnclave: RawMrEnclave
+    mrEnclave: RawMrEnclave,
+    options?: TransactionOptions
   ): Promise<ContractTransaction> {
     throw new Error(`Not implemented yet`);
   }
@@ -106,47 +122,30 @@ export class AttestationQueueAccount {
    */
   public async createFunction(
     params: CreateFunction,
-    enable: EnablePermissions = true
+    enable: EnablePermissions = true,
+    options?: TransactionOptions
   ): Promise<FunctionAccount> {
     // verify it exists
     await this.loadData();
 
-    const isAuthoritySigner =
-      params &&
-      "authority" in params &&
-      typeof params.authority !== "string" &&
-      Signer.isSigner(params.authority);
+    const [switchboard, authority, authoritySigner] = await getAuthoritySigner(
+      this.switchboard,
+      params
+    );
 
-    let authority: string | undefined = undefined;
-    if (params && "authority" in params) {
-      if (typeof params.authority === "string") {
-        authority = params.authority;
-      } else if (Signer.isSigner(params.authority)) {
-        authority = await (params.authority as Signer).getAddress();
-      }
-    } else {
-      authority = await this.switchboard.address;
-    }
-    if (!authority) {
-      throw new Error(
-        `You need to provide an 'authority' as a string or a signer to create a function`
-      );
-    }
+    const [functionAccount] = await FunctionAccount.init(
+      switchboard,
+      {
+        ...params,
+        authority: authority,
+        attestationQueue: this.address,
+      },
+      { ...options, signer: authoritySigner }
+    );
 
-    const switchboard = isAuthoritySigner
-      ? this.switchboard.connect(params.authority as Signer)
-      : this.switchboard;
-
-    const [functionAccount] = await FunctionAccount.init(switchboard, {
-      ...params,
-      attestationQueue: this.address,
-    });
-
-    const shouldEnable =
-      typeof enable === "boolean"
-        ? enable
-        : enable.queueAuthority !== undefined;
-    if (shouldEnable) {
+    if (
+      typeof enable === "boolean" ? enable : enable.queueAuthority !== undefined
+    ) {
       const queueAuthoritySb =
         typeof enable !== "boolean" && "queueAuthority" in enable
           ? this.switchboard.connect(enable.queueAuthority).sb
@@ -165,40 +164,27 @@ export class AttestationQueueAccount {
   /**
    * Create an {@linkcode QuoteAccount} and enable its serviceQueue permissions
    */
-  public async createQuote(params: CreateQuote): Promise<QuoteAccount> {
+  public async createQuote(
+    params: CreateQuote,
+    options?: TransactionOptions
+  ): Promise<QuoteAccount> {
     // verify it exists
     await this.loadData();
 
-    const isAuthoritySigner =
-      params &&
-      "authority" in params &&
-      typeof params.authority !== "string" &&
-      Signer.isSigner(params.authority);
+    const [switchboard, authority, authoritySigner] = await getAuthoritySigner(
+      this.switchboard,
+      params
+    );
 
-    let authority: string | undefined = undefined;
-    if (params && "authority" in params) {
-      if (typeof params.authority === "string") {
-        authority = params.authority;
-      } else if (Signer.isSigner(params.authority)) {
-        authority = await (params.authority as Signer).getAddress();
-      }
-    } else {
-      authority = await this.switchboard.address;
-    }
-    if (!authority) {
-      throw new Error(
-        `You need to provide an 'authority' as a string or a signer to create a quote`
-      );
-    }
-
-    const switchboard = isAuthoritySigner
-      ? this.switchboard.connect(params.authority as Signer)
-      : this.switchboard;
-
-    const [quoteAccount] = await QuoteAccount.init(switchboard, {
-      ...params,
-      attestationQueue: this.address,
-    });
+    const [quoteAccount] = await QuoteAccount.init(
+      switchboard,
+      {
+        ...params,
+        authority: authority,
+        attestationQueue: this.address,
+      },
+      { ...options, signer: authoritySigner }
+    );
 
     return quoteAccount;
   }

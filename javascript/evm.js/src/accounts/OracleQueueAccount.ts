@@ -4,13 +4,17 @@ import {
   CreateAggregator,
   CreateOracle,
   EnablePermissions,
+  ISwitchboardProgram,
   OracleQueueData,
+  TransactionOptions,
 } from "../types.js";
+import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
 import { AggregatorAccount } from "./AggregatorAccount.js";
 import { OracleAccount } from "./OracleAccount.js";
+import { Permissions } from "./Permissions.js";
 
-import { BigNumber, ContractTransaction, Signer } from "ethers";
+import { BigNumber, ContractTransaction } from "ethers";
 
 export interface OracleQueueInitParams {
   authority: string;
@@ -32,7 +36,7 @@ export interface OracleQueueSetConfigsParams {
 
 export class OracleQueueAccount {
   constructor(
-    readonly switchboard: SwitchboardProgram,
+    readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
 
@@ -42,16 +46,21 @@ export class OracleQueueAccount {
    * @param params OracleQueueAccount initialization params
    */
   static async init(
-    switchboard: SwitchboardProgram,
-    params: OracleQueueInitParams
+    switchboard: ISwitchboardProgram,
+    params: OracleQueueInitParams,
+    options?: TransactionOptions
   ): Promise<[OracleQueueAccount, ContractTransaction]> {
-    const tx = await switchboard.sb.createOracleQueue(
-      params.name,
-      params.authority,
-      params.unpermissionedFeedsEnabled,
-      params.maxSize,
-      params.reward,
-      params.oracleTimeout
+    const tx = await switchboard.sendSbTxn(
+      "createOracleQueue",
+      [
+        params.name,
+        params.authority,
+        params.unpermissionedFeedsEnabled,
+        params.maxSize,
+        params.reward,
+        params.oracleTimeout,
+      ],
+      options
     );
     const queueAddress = await tx.wait().then((logs) => {
       const log = logs.logs[0];
@@ -62,17 +71,23 @@ export class OracleQueueAccount {
   }
 
   async setConfig(
-    params: OracleQueueSetConfigsParams
+    params: OracleQueueSetConfigsParams,
+    options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    return await this.switchboard.sb.setQueueConfig(
-      this.address,
-      params.name,
-      params.authority,
-      params.unpermissionedFeedsEnabled,
-      params.maxSize,
-      params.reward,
-      params.oracleTimeout
+    const tx = await this.switchboard.sendSbTxn(
+      "setQueueConfig",
+      [
+        this.address,
+        params.name,
+        params.authority,
+        params.unpermissionedFeedsEnabled,
+        params.maxSize,
+        params.reward,
+        params.oracleTimeout,
+      ],
+      options
     );
+    return tx;
   }
 
   async loadData(): Promise<OracleQueueData> {
@@ -80,7 +95,7 @@ export class OracleQueueAccount {
   }
 
   public async getOracleIdx(oracleAddress: string): Promise<number> {
-    throw new Error(`Not implemented yet`);
+    return (await this.switchboard.sb.getOracleIdx(oracleAddress)).toNumber();
   }
 
   /**
@@ -88,58 +103,45 @@ export class OracleQueueAccount {
    */
   public async createOracle(
     params?: CreateOracle,
-    enable: EnablePermissions = true
+    enable: EnablePermissions = true,
+    options?: TransactionOptions
   ): Promise<OracleAccount> {
     // verify it exists
     const queueData = await this.loadData();
 
-    const isAuthoritySigner =
-      params &&
-      "authority" in params &&
-      typeof params.authority !== "string" &&
-      Signer.isSigner(params.authority);
+    const [switchboard, authority, authoritySigner] = await getAuthoritySigner(
+      this.switchboard,
+      params
+    );
 
-    let authority: string | undefined = undefined;
-    if (params && "authority" in params) {
-      if (typeof params.authority === "string") {
-        authority = params.authority;
-      } else if (Signer.isSigner(params.authority)) {
-        authority = await (params.authority as Signer).getAddress();
+    const [oracleAccount] = await OracleAccount.init(
+      switchboard,
+      {
+        name: params?.name ?? "",
+        authority: authority,
+        queueAddress: this.address,
+      },
+      {
+        ...options,
+        signer: authoritySigner,
       }
-    } else {
-      authority = await this.switchboard.address;
-    }
-    if (!authority) {
-      throw new Error(
-        `You need to provide an 'authority' as a string or a signer to create an oracle`
-      );
-    }
+    );
 
-    const switchboard = isAuthoritySigner
-      ? this.switchboard.connect(params.authority as Signer)
-      : this.switchboard;
-
-    const [oracleAccount] = await OracleAccount.init(switchboard, {
-      name: params?.name ?? "",
-      authority: authority,
-      queueAddress: this.address,
-    });
-
-    const shouldEnable =
-      typeof enable === "boolean"
-        ? enable
-        : enable.queueAuthority !== undefined;
-    if (shouldEnable) {
-      const queueAuthoritySb =
-        typeof enable !== "boolean" && "queueAuthority" in enable
-          ? this.switchboard.connect(enable.queueAuthority).sb
-          : this.switchboard.sb;
-      await queueAuthoritySb.setPermission(
+    if (
+      typeof enable === "boolean" ? enable : enable.queueAuthority !== undefined
+    ) {
+      const setPermTx = await Permissions.set(
+        this.switchboard,
         this.address,
         oracleAccount.address,
         PERMISSIONS.heartbeatPermissions,
-        true
+        true,
+        {
+          ...options,
+          signer: getQueueSigner(enable),
+        }
       );
+      await setPermTx.wait();
     }
 
     return oracleAccount;
@@ -150,59 +152,47 @@ export class OracleQueueAccount {
    */
   public async createAggregator(
     params: CreateAggregator,
-    enable: EnablePermissions = true
+    enable: EnablePermissions = true,
+    options?: TransactionOptions
   ): Promise<AggregatorAccount> {
     // verify it exists
     const queueData = await this.loadData();
 
-    const isAuthoritySigner =
-      params &&
-      "authority" in params &&
-      typeof params.authority !== "string" &&
-      Signer.isSigner(params.authority);
+    const [switchboard, authority, authoritySigner] = await getAuthoritySigner(
+      this.switchboard,
+      params
+    );
 
-    let authority: string | undefined = undefined;
-    if (params && "authority" in params) {
-      if (typeof params.authority === "string") {
-        authority = params.authority;
-      } else if (Signer.isSigner(params.authority)) {
-        authority = await (params.authority as Signer).getAddress();
+    const [aggregatorAccount] = await AggregatorAccount.init(
+      switchboard,
+      {
+        ...params,
+        authority: authority,
+        queueAddress: this.address,
+        initialValue: BigNumber.from(0),
+      },
+      {
+        ...options,
+        signer: authoritySigner,
       }
-    } else {
-      authority = await this.switchboard.address;
-    }
-    if (!authority) {
-      throw new Error(
-        `You need to provide an 'authority' as a string or a signer to create an aggregator`
-      );
-    }
+    );
 
-    const switchboard = isAuthoritySigner
-      ? this.switchboard.connect(params.authority as Signer)
-      : this.switchboard;
-
-    const [aggregatorAccount] = await AggregatorAccount.init(switchboard, {
-      ...params,
-      authority: authority,
-      queueAddress: this.address,
-      initialValue: BigNumber.from(0),
-    });
-
-    const shouldEnable =
-      typeof enable === "boolean"
-        ? enable
-        : enable.queueAuthority !== undefined;
-    if (shouldEnable) {
-      const queueAuthoritySb =
-        typeof enable !== "boolean" && "queueAuthority" in enable
-          ? this.switchboard.connect(enable.queueAuthority).sb
-          : this.switchboard.sb;
-      await queueAuthoritySb.setPermission(
+    if (
+      typeof enable === "boolean" ? enable : enable.queueAuthority !== undefined
+    ) {
+      const setPermTx = await Permissions.set(
+        this.switchboard,
         this.address,
         aggregatorAccount.address,
         PERMISSIONS.usagePermissions,
-        true
+        true,
+        {
+          ...options,
+          signer: getQueueSigner(enable),
+        }
       );
+
+      await setPermTx.wait();
     }
 
     return aggregatorAccount;

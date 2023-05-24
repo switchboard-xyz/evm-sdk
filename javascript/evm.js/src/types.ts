@@ -1,46 +1,74 @@
 import { type AggregatorInitParams } from "./accounts/AggregatorAccount.js";
 import { type FunctionInitParams } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
-import { QuoteInitParams } from "./accounts/QuoteAccount.js";
+import { type QuoteInitParams } from "./accounts/QuoteAccount.js";
 import {
   type Switchboard,
-  SwitchboardAttestationService,
+  type SwitchboardAttestationService,
 } from "./typechain-types/index.js";
 
-import { type BigNumber, Contract, type Signer } from "ethers";
-
-export type ContractMethodKeys<T extends Contract> = {
-  [K in keyof T]: K extends keyof T["estimateGas"] ? K : never;
-}[keyof T];
-
-export interface Job {
-  name: string;
-  data: string;
-  weight: number;
-}
-
-export type SwitchboardMethods = ContractMethodKeys<Switchboard>;
-
-export type SwitchboardAttestationMethods =
-  ContractMethodKeys<SwitchboardAttestationService>;
-
-export type SendTransactionMethod = <T extends Contract>(
-  contract: T,
-  methodName: ContractMethodKeys<T>,
-  args: Parameters<T[keyof T]>,
-  options: TransactionOptions | undefined
-) => Promise<ReturnType<T[keyof T]>>;
+import {
+  type BigNumber,
+  type Contract,
+  type ContractTransaction,
+  type Signer,
+} from "ethers";
 
 export type TransactionOptions = {
   gasFactor?: number;
   simulate?: boolean;
+  signer?: Signer;
 };
 
-export type SendContractMethod<T extends Contract> = (
-  methodName: ContractMethodKeys<T>,
-  args: Parameters<T[keyof T]>,
+export type FunctionMethodNames<T extends Contract> = {
+  [K in keyof T["functions"]]: T["functions"][K] extends (
+    ...args: Parameters<T["functions"][K]>
+  ) => Promise<ContractTransaction>
+    ? K
+    : never;
+}[keyof T["functions"]];
+
+export type EstimateGasMethodNames<T extends Contract> = {
+  [K in keyof T["estimateGas"]]: T["estimateGas"][K] extends (
+    ...args: Parameters<T["estimateGas"][K]>
+  ) => Promise<BigNumber>
+    ? K
+    : never;
+}[keyof T["estimateGas"]];
+
+export type CallStaticMethodNames<T extends Contract> = {
+  [K in keyof T["callStatic"]]: T["callStatic"][K] extends (
+    ...args: Parameters<T["callStatic"][K]>
+  ) => ReturnType<T["callStatic"][K]>
+    ? K
+    : never;
+}[keyof T["callStatic"]];
+
+export type MethodNames<T extends Contract> = Extract<
+  Extract<FunctionMethodNames<T>, EstimateGasMethodNames<T>>,
+  CallStaticMethodNames<T>
+>;
+
+export type SwitchboardMethods = MethodNames<Switchboard>;
+
+export type SwitchboardAttestationMethods =
+  MethodNames<SwitchboardAttestationService>;
+
+export type SendTransactionMethod = <
+  T extends Contract,
+  K extends MethodNames<T>
+>(
+  contract: T,
+  methodName: K,
+  args: Parameters<T[K]>,
   options: TransactionOptions | undefined
-) => Promise<ReturnType<T[keyof T]>>;
+) => Promise<ContractTransaction>;
+
+export type SendContractMethod<T extends Contract> = (
+  methodName: MethodNames<T>,
+  args: Parameters<T[MethodNames<T>]>,
+  options: TransactionOptions | undefined
+) => Promise<ContractTransaction>;
 
 export interface ISwitchboardProgram {
   sb: Switchboard;
@@ -49,8 +77,16 @@ export interface ISwitchboardProgram {
   address: Promise<string>;
   connect(signer: Signer): ISwitchboardProgram;
 
+  hasAttestationService: () => void;
+
   sendSbTxn: SendContractMethod<Switchboard>;
   sendVsTxn: SendContractMethod<SwitchboardAttestationService>;
+}
+
+export interface Job {
+  name: string;
+  data: string;
+  weight: number;
 }
 
 export type EventCallback = (
@@ -59,7 +95,7 @@ export type EventCallback = (
 
 export type RawMrEnclave = string | Buffer | Uint8Array | number[];
 
-type Authority = { authority: string | Signer };
+export type Authority = { authority: string | Signer };
 
 export type CreateOracle = Exclude<OracleInitParams, "authority"> & Authority;
 

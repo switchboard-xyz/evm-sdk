@@ -1,6 +1,12 @@
 import { fetchJobsFromIPFS } from "../ipfs.js";
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
-import { AggregatorData, EventCallback, Job } from "../types.js";
+import {
+  AggregatorData,
+  EventCallback,
+  ISwitchboardProgram,
+  Job,
+  TransactionOptions,
+} from "../types.js";
 
 import { OracleQueueAccount } from "./OracleQueueAccount.js";
 
@@ -35,7 +41,7 @@ export interface AggregatorSetReadConfigParams {
 
 export class AggregatorAccount {
   constructor(
-    readonly switchboard: SwitchboardProgram,
+    readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
 
@@ -62,8 +68,9 @@ export class AggregatorAccount {
    * @param params AggregatorInitParams initialization params
    */
   public static async init(
-    switchboard: SwitchboardProgram,
-    params: AggregatorInitParams & { initialValue: BigNumber }
+    switchboard: ISwitchboardProgram,
+    params: AggregatorInitParams & { initialValue: BigNumber },
+    options?: TransactionOptions
   ): Promise<[AggregatorAccount, ContractTransaction]> {
     // load queue to make sure it exists
     const oracleQueue = new OracleQueueAccount(
@@ -72,21 +79,25 @@ export class AggregatorAccount {
     );
     const queueData = await oracleQueue.loadData();
 
-    const tx = await switchboard.sb.createAggregator(
-      params.name,
-      params.authority,
-      params.batchSize,
-      params.minUpdateDelaySeconds,
-      params.minOracleResults,
-      params.jobsHash, // I recommend using https://web3.storage/ for hosting jobs - it's free + fast!
-      params.queueAddress,
-      Math.trunc(params.varianceThreshold * 10 ** 18),
-      params.minJobResults,
-      params.forceReportPeriod,
-      params.enableLegacyAdapter, // AggregatorV3 Interface Support (2x's gas cost)
-      {
-        value: params.initialValue ?? 0,
-      }
+    const tx = await switchboard.sendSbTxn(
+      "createAggregator",
+      [
+        params.name,
+        params.authority,
+        params.batchSize,
+        params.minUpdateDelaySeconds,
+        params.minOracleResults,
+        params.jobsHash, // I recommend using https://web3.storage/ for hosting jobs - it's free + fast!
+        params.queueAddress,
+        Math.trunc(params.varianceThreshold * 10 ** 18),
+        params.minJobResults,
+        params.forceReportPeriod,
+        params.enableLegacyAdapter, // AggregatorV3 Interface Support (2x's gas cost)
+        {
+          value: params.initialValue ?? 0,
+        },
+      ],
+      options
     );
 
     const aggregatorAddress = await tx.wait().then((logs) => {
@@ -105,7 +116,8 @@ export class AggregatorAccount {
   }
 
   public async setConfig(
-    params: AggregatorSetConfigParams
+    params: AggregatorSetConfigParams,
+    options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const aggregator = await this.loadData();
 
@@ -115,36 +127,49 @@ export class AggregatorAccount {
     );
     const queueData = await oracleQueue.loadData();
 
-    return this.switchboard.sb.setAggregatorConfig(
-      this.address,
-      params.name ?? aggregator.name,
-      params.authority ?? aggregator.authority,
-      params.batchSize ?? aggregator.batchSize,
-      params.minUpdateDelaySeconds ?? aggregator.minUpdateDelaySeconds,
-      params.minOracleResults ?? aggregator.minOracleResults,
-      params.jobsHash ?? aggregator.jobsHash,
-      oracleQueue.address,
-      Math.trunc(params.varianceThreshold * 10 ** 18),
-      params.minJobResults,
-      params.forceReportPeriod
+    const tx = await this.switchboard.sendSbTxn(
+      "setAggregatorConfig",
+      [
+        this.address,
+        params.name ?? aggregator.name,
+        params.authority ?? aggregator.authority,
+        params.batchSize ?? aggregator.batchSize,
+        params.minUpdateDelaySeconds ?? aggregator.minUpdateDelaySeconds,
+        params.minOracleResults ?? aggregator.minOracleResults,
+        params.jobsHash ?? aggregator.jobsHash,
+        oracleQueue.address,
+        Math.trunc(params.varianceThreshold * 10 ** 18),
+        params.minJobResults,
+        params.forceReportPeriod,
+      ],
+      options
     );
+
+    return tx;
   }
 
   public async setReadConfig(
-    params: AggregatorSetReadConfigParams
+    params: AggregatorSetReadConfigParams,
+    options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    return this.switchboard.sb.setAggregatorReadConfig(
-      this.address,
-      params.readCharge,
-      params.rewardEscrow,
-      params.readWhitelist,
-      params.limitReadsToWhitelist,
-      params.enableLegacyAdapter
+    const tx = await this.switchboard.sendSbTxn(
+      "setAggregatorReadConfig",
+      [
+        this.address,
+        params.readCharge,
+        params.rewardEscrow,
+        params.readWhitelist,
+        params.limitReadsToWhitelist,
+        params.enableLegacyAdapter,
+      ],
+      options
     );
+
+    return tx;
   }
 
   public static watch(
-    switchboard: SwitchboardProgram,
+    switchboard: ISwitchboardProgram,
     address: string,
     callback: EventCallback
   ): { stop: () => void } {
@@ -162,11 +187,15 @@ export class AggregatorAccount {
     };
   }
 
-  public async escrowFund(): Promise<ContractTransaction> {
+  public async escrowFund(
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
     throw new Error(`Not implemented yet`);
   }
 
-  public async escrowWithdraw(): Promise<ContractTransaction> {
+  public async escrowWithdraw(
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
     throw new Error(`Not implemented yet`);
   }
 
