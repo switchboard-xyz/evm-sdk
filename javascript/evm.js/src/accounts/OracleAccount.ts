@@ -1,5 +1,4 @@
 import { SBDecimal } from "../SBDecimal.js";
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   ISwitchboardProgram,
   OracleData,

@@ -1,5 +1,4 @@
 import { fetchJobsFromIPFS } from "../ipfs.js";
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   AggregatorData,
   EventCallback,

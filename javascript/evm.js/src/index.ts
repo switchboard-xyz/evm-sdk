@@ -1,6 +1,6 @@
 export * from "./accounts/index.js";
-export * from "./const.js";
 export { fetchJobsFromIPFS } from "./ipfs.js";
+export * from "./SBDecimal.js";
 export { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 export * from "./SwitchboardProgram.js";
 export {
@@ -10,4 +10,3 @@ export {
   SwitchboardAttestationService__factory,
 } from "./typechain-types/index.js";
 export * from "./types.js";
-export * from "./SBDecimal.js";

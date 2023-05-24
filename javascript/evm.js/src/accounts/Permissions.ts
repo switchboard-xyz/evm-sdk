@@ -1,4 +1,3 @@
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import { ISwitchboardProgram, TransactionOptions } from "../types.js";
 
 import { BigNumber, ContractTransaction } from "ethers";

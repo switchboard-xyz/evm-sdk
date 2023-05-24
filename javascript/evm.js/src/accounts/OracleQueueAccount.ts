@@ -1,11 +1,10 @@
-import { PERMISSIONS } from "../const.js";
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   CreateAggregator,
   CreateOracle,
   EnablePermissions,
   ISwitchboardProgram,
   OracleQueueData,
+  PermissionStatus,
   TransactionOptions,
 } from "../types.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
@@ -134,7 +133,7 @@ export class OracleQueueAccount {
         this.switchboard,
         this.address,
         oracleAccount.address,
-        PERMISSIONS.heartbeatPermissions,
+        PermissionStatus.PERMIT_ORACLE_HEARTBEAT,
         true,
         {
           ...options,
@@ -184,7 +183,7 @@ export class OracleQueueAccount {
         this.switchboard,
         this.address,
         aggregatorAccount.address,
-        PERMISSIONS.usagePermissions,
+        PermissionStatus.PERMIT_ORACLE_QUEUE_USAGE,
         true,
         {
           ...options,

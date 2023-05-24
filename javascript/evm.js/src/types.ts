@@ -11,10 +11,11 @@ import {
   type BigNumber,
   type Contract,
   type ContractTransaction,
+  type PayableOverrides,
   type Signer,
 } from "ethers";
 
-export type TransactionOptions = {
+export type TransactionOptions = Partial<PayableOverrides> & {
   gasFactor?: number;
   simulate?: boolean;
   signer?: Signer;
@@ -133,3 +134,16 @@ export type FunctionData = Awaited<
 export type QuoteData = Awaited<
   ReturnType<SwitchboardAttestationService["quotes"]>
 >;
+
+export enum PermissionStatus {
+  PERMIT_ORACLE_HEARTBEAT = 1 << 0,
+  PERMIT_ORACLE_QUEUE_USAGE = 1 << 1,
+  PERMIT_ATTESTATION_QUEUE_USAGE = 1 << 2,
+}
+
+export enum VerificationStatus {
+  VERIFICATION_PENDING = 0,
+  VERIFICATION_FAILURE = 1,
+  VERIFICATION_SUCCESS = 2,
+  VERIFICATION_OVERRIDE = 3,
+}

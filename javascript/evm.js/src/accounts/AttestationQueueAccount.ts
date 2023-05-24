@@ -1,11 +1,10 @@
-import { PERMISSIONS } from "../const.js";
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   AttestationQueueData,
   CreateFunction,
   CreateQuote,
   EnablePermissions,
   ISwitchboardProgram,
+  PermissionStatus,
   RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
@@ -14,7 +13,7 @@ import { getAuthoritySigner } from "../utils.js";
 import { FunctionAccount } from "./FunctionAccount.js";
 import { QuoteAccount } from "./QuoteAccount.js";
 
-import { ContractTransaction, Signer } from "ethers";
+import { ContractTransaction } from "ethers";
 
 export interface AttestationQueueInitParams {
   authority: string;
@@ -153,7 +152,7 @@ export class AttestationQueueAccount {
       await queueAuthoritySb.setPermission(
         this.address,
         functionAccount.address,
-        PERMISSIONS.servicePermissions,
+        PermissionStatus.PERMIT_ATTESTATION_QUEUE_USAGE,
         true
       );
     }

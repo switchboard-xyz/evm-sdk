@@ -19,6 +19,7 @@ export class ArbitrumProgram extends SwitchboardProgram {
     args,
     options
   ) => {
+    console.info(`Overriding arbitrum program sendSbTxn impl`);
     return await sendTxnWithOptions(this.sb, methodName, args, options);
   };
 
@@ -28,6 +29,8 @@ export class ArbitrumProgram extends SwitchboardProgram {
     options
   ) => {
     this.hasAttestationService();
+
+    console.info(`Overriding arbitrum program sendVsTxn impl`);
 
     return await sendTxnWithOptions(this.vs, methodName, args, options);
   };
