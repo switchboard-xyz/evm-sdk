@@ -28,17 +28,18 @@ export type SendTransactionMethod = <T extends Contract>(
   contract: T,
   methodName: ContractMethodKeys<T>,
   args: Parameters<T[keyof T]>,
-  options?: TransactionOptions
+  options: TransactionOptions | undefined
 ) => Promise<ReturnType<T[keyof T]>>;
 
 export type TransactionOptions = {
   gasFactor?: number;
+  simulate?: boolean;
 };
 
 export type SendContractMethod<T extends Contract> = (
   methodName: ContractMethodKeys<T>,
   args: Parameters<T[keyof T]>,
-  options?: TransactionOptions
+  options: TransactionOptions | undefined
 ) => Promise<ReturnType<T[keyof T]>>;
 
 export interface ISwitchboardProgram {

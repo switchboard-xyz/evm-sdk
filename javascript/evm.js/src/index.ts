@@ -1,7 +1,7 @@
 export * from "./accounts/index.js";
 export * from "./const.js";
 export { fetchJobsFromIPFS } from "./ipfs.js";
-export { sendTxnWithOptions } from "./sendTxnWithGas.js";
+export { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 export * from "./SwitchboardProgram.js";
 export {
   Switchboard,

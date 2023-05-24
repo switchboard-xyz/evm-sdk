@@ -6,7 +6,7 @@ import {
   SwitchboardAttestationService,
   SwitchboardAttestationService__factory,
 } from "./typechain-types/index.js";
-import { sendTxnWithOptions } from "./sendTxnWithGas.js";
+import { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 import {
   AggregatorData,
   FunctionData,
@@ -108,7 +108,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
     );
   }
 
-  private hasAttestationService() {
+  hasAttestationService() {
     if (this.vs === undefined) {
       throw new Error(
         `You need to provide the attestation service address when initializing the SwitchboardProgram class in order to use this method`
