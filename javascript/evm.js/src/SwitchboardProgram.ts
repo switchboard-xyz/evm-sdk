@@ -6,8 +6,13 @@ import {
   SwitchboardAttestationService,
   SwitchboardAttestationService__factory,
 } from "./typechain-types/index.js";
-import { type EstimateGasFunctions, sendTxnWithGas } from "./sendTxnWithGas.js";
-import { AggregatorData, FunctionData } from "./types.js";
+import { sendTxnWithOptions } from "./sendTxnWithGas.js";
+import {
+  AggregatorData,
+  FunctionData,
+  ISwitchboardProgram,
+  SendContractMethod,
+} from "./types.js";
 
 import { Provider } from "@ethersproject/providers";
 import { Contract, providers, Signer, Wallet } from "ethers";
@@ -56,7 +61,7 @@ export function getSwitchboardAttestationService(
  * );
  * ```
  */
-export class SwitchboardProgram {
+export class SwitchboardProgram implements ISwitchboardProgram {
   constructor(
     public readonly sb: Switchboard,
     public readonly vs?: SwitchboardAttestationService
@@ -111,29 +116,23 @@ export class SwitchboardProgram {
     }
   }
 
-  public async sendSbTxnWithGas<
-    K extends keyof T & keyof EstimateGasFunctions,
-    T extends Contract = Switchboard
-  >(
-    gasFactor: number,
-    methodName: K,
-    ...args: Parameters<T[K]>
-  ): Promise<ReturnType<T[K]>> {
-    return await sendTxnWithGas(this.sb, gasFactor, methodName as any, ...args);
-  }
+  sendSbTxn: SendContractMethod<Switchboard> = async (
+    methodName,
+    args,
+    options
+  ) => {
+    return await sendTxnWithOptions(this.sb, methodName, args, options);
+  };
 
-  public async sendVsTxnWithGas<
-    K extends keyof T & keyof EstimateGasFunctions,
-    T extends Contract = SwitchboardAttestationService
-  >(
-    gasFactor: number,
-    methodName: K,
-    ...args: Parameters<T[K]>
-  ): Promise<ReturnType<T[K]>> {
+  sendVsTxn: SendContractMethod<SwitchboardAttestationService> = async (
+    methodName,
+    args,
+    options
+  ) => {
     this.hasAttestationService();
 
-    return await sendTxnWithGas(this.vs, gasFactor, methodName as any, ...args);
-  }
+    return await sendTxnWithOptions(this.vs, methodName, args, options);
+  };
 
   public async fetchAggregatorAccounts(
     authority: string

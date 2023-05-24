@@ -1,31 +1,29 @@
-import { BigNumber, Contract, ContractFunction } from "ethers";
+import { SendTransactionMethod } from "./types";
 
-export type EstimateGasFunctions = Record<string, ContractFunction<BigNumber>>;
-
-export async function sendTxnWithGas<
-  T extends Contract,
-  K extends keyof T & keyof EstimateGasFunctions
->(
-  contract: T,
-  gasFactor: number,
-  methodName: K,
-  ...args: Parameters<T[K]>
-): Promise<ReturnType<T[K]>> {
+export const sendTxnWithOptions: SendTransactionMethod = async (
+  contract,
+  methodName,
+  args,
+  options
+) => {
   const method = contract[methodName];
-  const estimateGasMethod =
-    contract.estimateGas[methodName as keyof EstimateGasFunctions];
+  const estimateGasMethod = contract["estimateGas"][methodName as string];
 
   if (
     !((method as any) instanceof Function) ||
     !(estimateGasMethod instanceof Function)
   ) {
     throw new Error(
-      `The method ${methodName} does not exist on the provided contract.`
+      `The method ${
+        methodName as string
+      } does not exist on the provided contract.`
     );
   }
 
   const gasEstimate = await estimateGasMethod(...(args as unknown[]));
-  const gasLimit = Math.floor(gasEstimate.toNumber() * (gasFactor ?? 1));
+  const gasLimit = Math.floor(
+    gasEstimate.toNumber() * (options?.gasFactor ?? 1)
+  );
 
   const overrides = {
     gasLimit: gasLimit,
@@ -34,4 +32,4 @@ export async function sendTxnWithGas<
   const result = await method(...args, overrides);
 
   return result;
-}
+};
