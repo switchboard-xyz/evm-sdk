@@ -99,6 +99,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "createOracleQueue(string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "escrowFund(address)": FunctionFragment;
     "escrowWithdraw(address,address,uint256)": FunctionFragment;
+    "garbageCollect(address)": FunctionFragment;
     "getAggregatorsByAuthority(address)": FunctionFragment;
     "getCurrentIntervalId(address)": FunctionFragment;
     "getIntervalResult(address,uint80)": FunctionFragment;
@@ -121,7 +122,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "setAggregatorReadConfig(address,uint256,address,address[],bool,bool)": FunctionFragment;
     "setOracleConfig(address,string,address,address)": FunctionFragment;
     "setPermission(address,address,uint256,bool)": FunctionFragment;
-    "setQueueAttestationConfig(address,address,bytes32,bool,bool)": FunctionFragment;
+    "setQueueAttestationConfig(address,address,bytes32[],bool,bool)": FunctionFragment;
     "setQueueConfig(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "switchboardAS()": FunctionFragment;
     "version()": FunctionFragment;
@@ -141,6 +142,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "createOracleQueue"
       | "escrowFund"
       | "escrowWithdraw"
+      | "garbageCollect"
       | "getAggregatorsByAuthority"
       | "getCurrentIntervalId"
       | "getIntervalResult"
@@ -243,6 +245,10 @@ export interface SwitchboardInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "garbageCollect",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getAggregatorsByAuthority",
@@ -372,7 +378,7 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>,
+      PromiseOrValue<BytesLike>[],
       PromiseOrValue<boolean>,
       PromiseOrValue<boolean>
     ]
@@ -438,6 +444,10 @@ export interface SwitchboardInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "escrowFund", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "escrowWithdraw",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "garbageCollect",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -831,6 +841,11 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    garbageCollect(
+      oracleAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     getAggregatorsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -920,9 +935,8 @@ export interface Switchboard extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [string, string, boolean, boolean] & {
+      [string, boolean, boolean] & {
         attestationQueueAddress: string;
-        mrEnclave: string;
         requireValidQuote: boolean;
         requireHeartbeatPermission: boolean;
       }
@@ -1010,7 +1024,7 @@ export interface Switchboard extends BaseContract {
     setQueueAttestationConfig(
       _queueAddress: PromiseOrValue<string>,
       attestationQueueAddress: PromiseOrValue<string>,
-      mrEnclave: PromiseOrValue<BytesLike>,
+      mrEnclaves: PromiseOrValue<BytesLike>[],
       requireValidQuote: PromiseOrValue<boolean>,
       requireHeartbeatPermission: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1157,6 +1171,11 @@ export interface Switchboard extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  garbageCollect(
+    oracleAddress: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   getAggregatorsByAuthority(
     user: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -1246,9 +1265,8 @@ export interface Switchboard extends BaseContract {
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
-    [string, string, boolean, boolean] & {
+    [string, boolean, boolean] & {
       attestationQueueAddress: string;
-      mrEnclave: string;
       requireValidQuote: boolean;
       requireHeartbeatPermission: boolean;
     }
@@ -1336,7 +1354,7 @@ export interface Switchboard extends BaseContract {
   setQueueAttestationConfig(
     _queueAddress: PromiseOrValue<string>,
     attestationQueueAddress: PromiseOrValue<string>,
-    mrEnclave: PromiseOrValue<BytesLike>,
+    mrEnclaves: PromiseOrValue<BytesLike>[],
     requireValidQuote: PromiseOrValue<boolean>,
     requireHeartbeatPermission: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1483,6 +1501,11 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    garbageCollect(
+      oracleAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     getAggregatorsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1574,9 +1597,8 @@ export interface Switchboard extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [string, string, boolean, boolean] & {
+      [string, boolean, boolean] & {
         attestationQueueAddress: string;
-        mrEnclave: string;
         requireValidQuote: boolean;
         requireHeartbeatPermission: boolean;
       }
@@ -1664,7 +1686,7 @@ export interface Switchboard extends BaseContract {
     setQueueAttestationConfig(
       _queueAddress: PromiseOrValue<string>,
       attestationQueueAddress: PromiseOrValue<string>,
-      mrEnclave: PromiseOrValue<BytesLike>,
+      mrEnclaves: PromiseOrValue<BytesLike>[],
       requireValidQuote: PromiseOrValue<boolean>,
       requireHeartbeatPermission: PromiseOrValue<boolean>,
       overrides?: CallOverrides
@@ -1867,6 +1889,11 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    garbageCollect(
+      oracleAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     getAggregatorsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -2005,7 +2032,7 @@ export interface Switchboard extends BaseContract {
     setQueueAttestationConfig(
       _queueAddress: PromiseOrValue<string>,
       attestationQueueAddress: PromiseOrValue<string>,
-      mrEnclave: PromiseOrValue<BytesLike>,
+      mrEnclaves: PromiseOrValue<BytesLike>[],
       requireValidQuote: PromiseOrValue<boolean>,
       requireHeartbeatPermission: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2103,6 +2130,11 @@ export interface Switchboard extends BaseContract {
       recipient: PromiseOrValue<string>,
       aggregatorAddress: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    garbageCollect(
+      oracleAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2244,7 +2276,7 @@ export interface Switchboard extends BaseContract {
     setQueueAttestationConfig(
       _queueAddress: PromiseOrValue<string>,
       attestationQueueAddress: PromiseOrValue<string>,
-      mrEnclave: PromiseOrValue<BytesLike>,
+      mrEnclaves: PromiseOrValue<BytesLike>[],
       requireValidQuote: PromiseOrValue<boolean>,
       requireHeartbeatPermission: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

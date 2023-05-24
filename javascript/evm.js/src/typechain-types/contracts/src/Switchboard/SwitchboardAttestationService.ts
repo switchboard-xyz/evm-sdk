@@ -88,6 +88,7 @@ export interface SwitchboardAttestationServiceInterface
     "funcs(address)": FunctionFragment;
     "functionAddresses(uint256)": FunctionFragment;
     "functionExists(address)": FunctionFragment;
+    "garbageCollect(address)": FunctionFragment;
     "getFunctionsByAuthority(address)": FunctionFragment;
     "getPermissionCode(uint8)": FunctionFragment;
     "getQuoteEnclaveMeasurement(address)": FunctionFragment;
@@ -127,6 +128,7 @@ export interface SwitchboardAttestationServiceInterface
       | "funcs"
       | "functionAddresses"
       | "functionExists"
+      | "garbageCollect"
       | "getFunctionsByAuthority"
       | "getPermissionCode"
       | "getQuoteEnclaveMeasurement"
@@ -227,6 +229,10 @@ export interface SwitchboardAttestationServiceInterface
   ): string;
   encodeFunctionData(
     functionFragment: "functionExists",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "garbageCollect",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -392,6 +398,10 @@ export interface SwitchboardAttestationServiceInterface
   ): Result;
   decodeFunctionResult(
     functionFragment: "functionExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "garbageCollect",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -728,6 +738,11 @@ export interface SwitchboardAttestationService extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    garbageCollect(
+      quoteAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     getFunctionsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1023,6 +1038,11 @@ export interface SwitchboardAttestationService extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  garbageCollect(
+    quoteAddress: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   getFunctionsByAuthority(
     user: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -1317,6 +1337,11 @@ export interface SwitchboardAttestationService extends BaseContract {
       functionAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    garbageCollect(
+      quoteAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     getFunctionsByAuthority(
       user: PromiseOrValue<string>,
@@ -1667,6 +1692,11 @@ export interface SwitchboardAttestationService extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    garbageCollect(
+      quoteAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     getFunctionsByAuthority(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1883,6 +1913,11 @@ export interface SwitchboardAttestationService extends BaseContract {
     functionExists(
       functionAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    garbageCollect(
+      quoteAddress: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     getFunctionsByAuthority(

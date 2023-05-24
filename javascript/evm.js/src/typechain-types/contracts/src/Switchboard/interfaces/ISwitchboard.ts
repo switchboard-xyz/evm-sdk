@@ -238,12 +238,12 @@ export interface ISwitchboard extends BaseContract {
 
   functions: {
     getCurrentIntervalId(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     getIntervalResult(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       round: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
@@ -255,18 +255,18 @@ export interface ISwitchboard extends BaseContract {
     >;
 
     latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
 
   getCurrentIntervalId(
-    aggregatorAddress: PromiseOrValue<string>,
+    aggregatorId: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   getIntervalResult(
-    aggregatorAddress: PromiseOrValue<string>,
+    aggregatorId: PromiseOrValue<string>,
     round: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<
@@ -278,18 +278,18 @@ export interface ISwitchboard extends BaseContract {
   >;
 
   latestResult(
-    aggregatorAddress: PromiseOrValue<string>,
+    aggregatorId: PromiseOrValue<string>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
     getCurrentIntervalId(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getIntervalResult(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       round: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
@@ -301,7 +301,7 @@ export interface ISwitchboard extends BaseContract {
     >;
 
     latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber] & { value: BigNumber; timestamp: BigNumber }
@@ -409,36 +409,36 @@ export interface ISwitchboard extends BaseContract {
 
   estimateGas: {
     getCurrentIntervalId(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getIntervalResult(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       round: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     getCurrentIntervalId(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getIntervalResult(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       round: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     latestResult(
-      aggregatorAddress: PromiseOrValue<string>,
+      aggregatorId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

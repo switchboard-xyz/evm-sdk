@@ -14,7 +14,7 @@
 ## Getting Started
 
 To get started, clone the
-[sbv2-near](https://github.com/switchboard-xyz/sbv2-evm) repository.
+[sbv2-evm](https://github.com/switchboard-xyz/sbv2-evm) repository.
 
 ```bash
 git clone https://github.com/switchboard-xyz/sbv2-evm

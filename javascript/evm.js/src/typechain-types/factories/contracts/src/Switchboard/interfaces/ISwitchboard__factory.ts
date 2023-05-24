@@ -233,7 +233,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "aggregatorAddress",
+        name: "aggregatorId",
         type: "address",
       },
     ],
@@ -252,7 +252,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "aggregatorAddress",
+        name: "aggregatorId",
         type: "address",
       },
       {
@@ -286,7 +286,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "aggregatorAddress",
+        name: "aggregatorId",
         type: "address",
       },
     ],
