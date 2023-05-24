@@ -1,6 +1,7 @@
 import { type AggregatorInitParams } from "./accounts/AggregatorAccount.js";
 import { type FunctionInitParams } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
+import { QuoteInitParams } from "./accounts/QuoteAccount.js";
 import {
   type Switchboard,
   SwitchboardAttestationService,
@@ -20,7 +21,8 @@ export type EventCallback = (
 
 export type RawMrEnclave = string | Buffer | Uint8Array | number[];
 
-type Authority = { authority: string } | { signer: Signer };
+type Authority = { authority: string | Signer };
+type Owner = { owner: string | Signer };
 
 export type CreateOracle = Exclude<OracleInitParams, "authority"> & Authority;
 
@@ -32,6 +34,12 @@ export type CreateAggregator = Exclude<
 
 export type CreateFunction = Exclude<FunctionInitParams, "authority"> &
   Authority;
+
+export type CreateQuote = Exclude<
+  Exclude<QuoteInitParams, "authority">,
+  "owner"
+> &
+  Authority & { owner: string };
 
 export type EnablePermissions = boolean | { queueAuthority: Signer };
 

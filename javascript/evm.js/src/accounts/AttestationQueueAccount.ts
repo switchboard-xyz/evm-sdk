@@ -3,13 +3,15 @@ import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   AttestationQueueData,
   CreateFunction,
+  CreateQuote,
   EnablePermissions,
   RawMrEnclave,
 } from "../types.js";
 
 import { FunctionAccount } from "./FunctionAccount.js";
+import { QuoteAccount } from "./QuoteAccount.js";
 
-import { ContractTransaction } from "ethers";
+import { ContractTransaction, Signer } from "ethers";
 
 export interface AttestationQueueInitParams {
   authority: string;
@@ -107,31 +109,38 @@ export class AttestationQueueAccount {
     enable: EnablePermissions = true
   ): Promise<FunctionAccount> {
     // verify it exists
-    const queueData = await this.loadData();
+    await this.loadData();
+
+    const isAuthoritySigner =
+      params &&
+      "authority" in params &&
+      typeof params.authority !== "string" &&
+      Signer.isSigner(params.authority);
 
     let authority: string | undefined = undefined;
     if (params && "authority" in params) {
-      authority = params.authority;
-    } else if (params && "signer" in params) {
-      authority = await params.signer.getAddress();
+      if (typeof params.authority === "string") {
+        authority = params.authority;
+      } else if (Signer.isSigner(params.authority)) {
+        authority = await (params.authority as Signer).getAddress();
+      }
     } else {
       authority = await this.switchboard.address;
     }
     if (!authority) {
       throw new Error(
-        `You need to provide an authority or a signer to create an aggregator`
+        `You need to provide an 'authority' as a string or a signer to create a function`
       );
     }
 
-    const [functionAccount] = await FunctionAccount.init(
-      params && "signer" in params
-        ? this.switchboard.connect(params.signer)
-        : this.switchboard,
-      {
-        ...params,
-        attestationQueue: this.address,
-      }
-    );
+    const switchboard = isAuthoritySigner
+      ? this.switchboard.connect(params.authority as Signer)
+      : this.switchboard;
+
+    const [functionAccount] = await FunctionAccount.init(switchboard, {
+      ...params,
+      attestationQueue: this.address,
+    });
 
     const shouldEnable =
       typeof enable === "boolean"
@@ -151,5 +160,46 @@ export class AttestationQueueAccount {
     }
 
     return functionAccount;
+  }
+
+  /**
+   * Create an {@linkcode QuoteAccount} and enable its serviceQueue permissions
+   */
+  public async createQuote(params: CreateQuote): Promise<QuoteAccount> {
+    // verify it exists
+    await this.loadData();
+
+    const isAuthoritySigner =
+      params &&
+      "authority" in params &&
+      typeof params.authority !== "string" &&
+      Signer.isSigner(params.authority);
+
+    let authority: string | undefined = undefined;
+    if (params && "authority" in params) {
+      if (typeof params.authority === "string") {
+        authority = params.authority;
+      } else if (Signer.isSigner(params.authority)) {
+        authority = await (params.authority as Signer).getAddress();
+      }
+    } else {
+      authority = await this.switchboard.address;
+    }
+    if (!authority) {
+      throw new Error(
+        `You need to provide an 'authority' as a string or a signer to create a quote`
+      );
+    }
+
+    const switchboard = isAuthoritySigner
+      ? this.switchboard.connect(params.authority as Signer)
+      : this.switchboard;
+
+    const [quoteAccount] = await QuoteAccount.init(switchboard, {
+      ...params,
+      attestationQueue: this.address,
+    });
+
+    return quoteAccount;
   }
 }

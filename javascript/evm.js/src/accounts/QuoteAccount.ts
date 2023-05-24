@@ -4,9 +4,8 @@ import { QuoteData, RawMrEnclave } from "../types.js";
 import { ContractTransaction } from "ethers";
 
 export interface QuoteInitParams {
-  name: string;
+  owner: string;
   authority: string;
-  queue: string;
 }
 
 export class QuoteAccount {
@@ -22,20 +21,20 @@ export class QuoteAccount {
    */
   public static async init(
     switchboard: SwitchboardProgram,
-    params: QuoteInitParams
+    params: QuoteInitParams & { attestationQueue: string }
   ): Promise<[QuoteAccount, ContractTransaction]> {
     const tx = await switchboard.vs.createQuote(
-      params.name,
       params.authority,
-      params.queue
+      params.attestationQueue,
+      params.owner
     );
 
-    const oracleAddress = await tx.wait().then((logs) => {
+    const quoteAddress = await tx.wait().then((logs) => {
       const log = logs.logs[0];
       const sbLog = switchboard.sb.interface.parseLog(log);
       return sbLog.args.accountAddress as string;
     });
-    return [new QuoteAccount(switchboard, oracleAddress), tx];
+    return [new QuoteAccount(switchboard, quoteAddress), tx];
   }
 
   public async loadData(): Promise<QuoteData> {
