@@ -50,6 +50,8 @@ export type MethodNames<T extends Contract> = Extract<
   CallStaticMethodNames<T>
 >;
 
+export type ContractEvents<T extends Contract> = {};
+
 export type SwitchboardMethods = MethodNames<Switchboard>;
 
 export type SwitchboardAttestationMethods =
@@ -64,6 +66,13 @@ export type SendTransactionMethod = <
   args: Parameters<T[K]>,
   options: TransactionOptions | undefined
 ) => Promise<ContractTransaction>;
+
+export type PollTxnForEventFieldFn = {
+  // If field is provided, assume were extracting a string unless specified
+  <T = string>(tx: ContractTransaction, field: T): Promise<T>;
+  // If field is not provided, require a type assertion
+  <T>(tx: ContractTransaction, field?: undefined): Promise<T>;
+};
 
 export type SendContractMethod<T extends Contract> = (
   methodName: MethodNames<T>,
@@ -82,6 +91,9 @@ export interface ISwitchboardProgram {
 
   sendSbTxn: SendContractMethod<Switchboard>;
   sendVsTxn: SendContractMethod<SwitchboardAttestationService>;
+
+  pollTxnForSbEvent: PollTxnForEventFieldFn;
+  pollTxnForVsEvent: PollTxnForEventFieldFn;
 }
 
 export interface Job {

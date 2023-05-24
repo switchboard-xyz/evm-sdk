@@ -61,11 +61,10 @@ export class OracleQueueAccount {
       ],
       options
     );
-    const queueAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
+    const queueAddress = await switchboard.pollTxnForSbEvent(
+      tx,
+      "accountAddress"
+    );
     return [new OracleQueueAccount(switchboard, queueAddress), tx];
   }
 
@@ -131,7 +130,7 @@ export class OracleQueueAccount {
     ) {
       const setPermTx = await Permissions.set(
         this.switchboard,
-        this.address,
+        this,
         oracleAccount.address,
         PermissionStatus.PERMIT_ORACLE_HEARTBEAT,
         true,
@@ -181,7 +180,7 @@ export class OracleQueueAccount {
     ) {
       const setPermTx = await Permissions.set(
         this.switchboard,
-        this.address,
+        this,
         aggregatorAccount.address,
         PermissionStatus.PERMIT_ORACLE_QUEUE_USAGE,
         true,

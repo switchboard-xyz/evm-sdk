@@ -38,12 +38,10 @@ export class QuoteAccount {
       [params.authority, params.attestationQueue, params.owner],
       options
     );
-
-    const quoteAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
+    const quoteAddress = await switchboard.pollTxnForVsEvent(
+      tx,
+      "accountAddress"
+    );
     return [new QuoteAccount(switchboard, quoteAddress), tx];
   }
 

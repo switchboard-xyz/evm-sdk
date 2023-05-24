@@ -44,12 +44,10 @@ export class OracleAccount {
       [params.name ?? "", params.authority, params.queueAddress],
       options
     );
-
-    const oracleAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
+    const oracleAddress = await switchboard.pollTxnForSbEvent(
+      tx,
+      "accountAddress"
+    );
     return [new OracleAccount(switchboard, oracleAddress), tx];
   }
 

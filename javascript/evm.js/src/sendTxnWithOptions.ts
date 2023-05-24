@@ -1,13 +1,12 @@
 import { SendTransactionMethod } from "./types";
 
-import { TransactionResponse } from "@ethersproject/providers";
 import {
+  Contract,
   ContractFunction,
   ContractTransaction,
   Overrides,
   Signer,
 } from "ethers";
-import { stdout } from "process";
 
 export const sendTxnWithOptions: SendTransactionMethod = async (
   _contract,
@@ -16,10 +15,11 @@ export const sendTxnWithOptions: SendTransactionMethod = async (
   options
 ): Promise<ContractTransaction> => {
   // update the signer
-  const contract =
-    options && "signer" in options && Signer.isSigner(options.signer)
-      ? _contract.connect(options.signer)
-      : _contract;
+  let contract: Contract = _contract;
+  if (options && "signer" in options && Signer.isSigner(options.signer)) {
+    const signer: Signer = options.signer;
+    contract = _contract.connect(signer);
+  }
 
   const method: ContractFunction<ContractTransaction> =
     contract.functions[methodName as string];

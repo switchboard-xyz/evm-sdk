@@ -8,7 +8,8 @@ import {
   RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
-import { getAuthoritySigner } from "../utils.js";
+import { Permissions } from "./Permissions.js";
+import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
 import { FunctionAccount } from "./FunctionAccount.js";
 import { QuoteAccount } from "./QuoteAccount.js";
@@ -59,11 +60,10 @@ export class AttestationQueueAccount {
       ],
       options
     );
-    const queueAddress = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = switchboard.sb.interface.parseLog(log);
-      return sbLog.args.accountAddress as string;
-    });
+    const queueAddress = await switchboard.pollTxnForVsEvent(
+      tx,
+      "accountAddress"
+    );
     return [new AttestationQueueAccount(switchboard, queueAddress), tx];
   }
 
@@ -145,16 +145,19 @@ export class AttestationQueueAccount {
     if (
       typeof enable === "boolean" ? enable : enable.queueAuthority !== undefined
     ) {
-      const queueAuthoritySb =
-        typeof enable !== "boolean" && "queueAuthority" in enable
-          ? this.switchboard.connect(enable.queueAuthority).sb
-          : this.switchboard.sb;
-      await queueAuthoritySb.setPermission(
-        this.address,
+      const setPermTx = await Permissions.set(
+        this.switchboard,
+        this,
         functionAccount.address,
         PermissionStatus.PERMIT_ATTESTATION_QUEUE_USAGE,
-        true
+        true,
+        {
+          ...options,
+          signer: getQueueSigner(enable),
+        }
       );
+
+      await setPermTx.wait();
     }
 
     return functionAccount;
