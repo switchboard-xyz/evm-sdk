@@ -92,7 +92,7 @@ export function getSwitchboardAttestationService(
  * );
  *
  * // Send a transaction to Switchboard
- * const tx = await switchboard.sendSbTxn("createOracleQueue", [
+ * const tx = await switchboardProgram.sendSbTxn("createOracleQueue", [
  *      name,
  *      authority,
  *      unpermissionedFeedsEnabled,
@@ -149,7 +149,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @returns Promise<SwitchboardProgram>
    *
    * ```typescript
-   * const switchboardProgram = await SwitchboardProgram.load(mySignerOrProvider, 'mySwitchboardAddress');
+   * const switchboardProgram = await SwitchboardProgram.load(mySignerOrProvider, '0xMySwitchboardAddress');
    * ```
    */
   public static async load(

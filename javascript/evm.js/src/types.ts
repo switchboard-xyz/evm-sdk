@@ -140,7 +140,7 @@ export type SendContractMethod<T extends Contract> = (
  * );
  *
  * // Send a transaction to Switchboard
- * const tx = await switchboard.sendSbTxn("createOracleQueue", [
+ * const tx = await switchboardProgram.sendSbTxn("createOracleQueue", [
  *      name,
  *      authority,
  *      unpermissionedFeedsEnabled,
