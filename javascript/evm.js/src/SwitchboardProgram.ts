@@ -6,6 +6,7 @@ import {
   SwitchboardAttestationService,
   SwitchboardAttestationService__factory,
 } from "./typechain-types/index.js";
+import { parseMrEnclave } from "./parseMrEnclave.js";
 import { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 import {
   AggregatorData,
@@ -22,7 +23,6 @@ import {
   Signer,
   Wallet,
 } from "ethers";
-import { parseMrEnclave } from "./parseMrEnclave.js";
 
 /**
  * Creates and returns a Wallet using a private key and a JSON-RPC provider
