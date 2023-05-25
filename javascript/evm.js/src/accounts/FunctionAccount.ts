@@ -24,7 +24,12 @@ export interface FunctionInitParams {
 
 /**
  * @class FunctionAccount
- * @description Class for interacting with Function Accounts in the Switchboard Attestation Service
+ * @description Class for interacting with Function Accounts in the {@linkcode SwitchboardAttestationService} contract.
+ *
+ * @example
+ * ```typescript
+ * const functionAccount = new FunctionAccount(switchboardProgram, '0xYourFunctionAccountAddress');
+ * ```
  */
 export class FunctionAccount {
   constructor(

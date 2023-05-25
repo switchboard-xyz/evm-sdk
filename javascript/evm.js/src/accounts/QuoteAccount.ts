@@ -23,10 +23,12 @@ export interface QuoteInitParams {
 }
 
 /**
- * A class representing a QuoteAccount in the {@linkcode SwitchboardProgram}
+ * A class representing a QuoteAccount in the {@linkcode SwitchboardAttestationService} contract.
  *
- * @property switchboard - Instance of the {@linkcode SwitchboardProgram} class
- * @property address - Address of the QuoteAccount
+ * @example
+ * ```typescript
+ * const quoteAccount = new QuoteAccount(switchboardProgram, '0xYourQuoteAccountAddress');
+ * ```
  */
 export class QuoteAccount {
   constructor(

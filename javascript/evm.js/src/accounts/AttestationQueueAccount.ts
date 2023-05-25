@@ -63,10 +63,10 @@ export type AttestationQueueSetConfigsParams =
   Partial<AttestationQueueInitParams>;
 
 /**
- * Class for Attestation Queue Account
+ * Class for Attestation Queue Account in the {@linkcode SwitchboardAttestationService} contract.
  *
  * @example
- * const attestationQueueAccount = new AttestationQueueAccount(switchboardProgram, 'account_address');
+ * const attestationQueueAccount = new AttestationQueueAccount(switchboardProgram, '0xYourAttestationQueueAddress');
  */
 export class AttestationQueueAccount {
   constructor(

@@ -13,31 +13,83 @@ import { OracleJob } from "@switchboard-xyz/common";
 import { BigNumber, ContractTransaction } from "ethers";
 
 /**
- * Initialization parameters for the Aggregator.
+ * AggregatorInitParams defines the parameters required to initialize an Aggregator.
+ * The Aggregator combines data from various oracles to provide a more reliable and secure data feed.
+ *
+ * @example
+ * ```
+ * const aggregatorInitParams = {
+ *  authority: '0xYourAuthority',
+ *  name: 'MyAggregator',
+ *  queueAddress: '0xQueueAddress',
+ *  batchSize: 10,
+ *  minOracleResults: 5,
+ *  minJobResults: 3,
+ *  minUpdateDelaySeconds: 60,
+ *  varianceThreshold: 0.05,
+ *  forceReportPeriod: 600,
+ *  jobsHash: '0xJobHash',
+ *  enableLegacyAdapter: false
+ * };
+ * ```
  */
 export interface AggregatorInitParams {
-  authority: string; // owner of aggregator
+  // The owner of the Aggregator.
+  authority: string;
+  // The name of the Aggregator.
   name: string;
+  // The address of the queue that will fulfill update requests.
   queueAddress: string;
+  // The number of oracles to pull from the queue per batch.
   batchSize: number;
+  // The minimum number of oracle results to be gathered from Oracles.
   minOracleResults: number;
+  // The minimum number of job results to be accepted.
   minJobResults: number;
+  // The minimum delay between updates in seconds.
   minUpdateDelaySeconds: number;
+  // The acceptable level of variance in results.
   varianceThreshold: number;
+  // The time period after which reporting is forced. Only applicable if varianceThreshold is greater than 0.
   forceReportPeriod: number;
+  // The hash of the jobs to be processed.
   jobsHash: string;
+  // If true, allows for backward compatibility with the sacrifice of extra gas usage.
   enableLegacyAdapter: boolean;
 }
 
 /**
- * Parameters to set configurations for the Aggregator.
+ * AggregatorSetConfigParams defines the parameters to configure an Aggregator.
+ * It is a partial set of AggregatorInitParams, allowing you to modify specific configurations.
+ * Variance threshold is required to indicate the level of variance tolerated.
+ *
+ * @example
+ * ```
+ * const aggregatorConfigParams = {
+ *  varianceThreshold: 0.05,
+ *  minUpdateDelaySeconds: 120
+ * };
+ * ```
  */
 export type AggregatorSetConfigParams = Partial<AggregatorInitParams> & {
   varianceThreshold: number;
 };
 
 /**
- * Parameters to set read configurations for the Aggregator.
+ * AggregatorSetReadConfigParams defines parameters to set read configurations for an Aggregator.
+ * This allows you to modify the charge for reading data, set up a reward escrow, manage the read whitelist,
+ * limit reads to whitelist and enable or disable legacy adapter.
+ *
+ * @example
+ * ```
+ * const aggregatorReadConfigParams = {
+ *  readCharge: 100,
+ *  rewardEscrow: '0xRewardEscrowAddress',
+ *  readWhitelist: ['0xWhitelistedAddress1', '0xWhitelistedAddress2'],
+ *  limitReadsToWhitelist: true,
+ *  enableLegacyAdapter: false
+ * };
+ * ```
  */
 export interface AggregatorSetReadConfigParams {
   readCharge?: number;
@@ -48,10 +100,16 @@ export interface AggregatorSetReadConfigParams {
 }
 
 /**
- * An account class for Aggregator.
+ * Class for interacting with Aggregator Accounts in the {@linkcode Switchboard} contract.
+ *
  * @example
  * ```typescript
- * const aggregatorAccount = new AggregatorAccount(switchboardProgram, '0xYourAccountAddress');
+ * // Instantiate an AggregatorAccount
+ * const aggregatorAccount = new AggregatorAccount(switchboardProgram, '0xYourAggregatorAccountAddress');
+ *
+ * // Use the AggregatorAccount
+ * const name = aggregatorAccount.name;
+ * const jobs = await aggregatorAccount.getJobs();
  * ```
  */
 export class AggregatorAccount {

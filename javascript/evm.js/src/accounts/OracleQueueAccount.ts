@@ -30,7 +30,8 @@ export interface OracleQueueInitParams {
 }
 
 /**
- * An account class for OracleQueue.
+ * An account class for an OracleQueue in the {@linkcode Switchboard} contract.
+ *
  * @example
  * ```typescript
  * const oracleQueueAccount = new OracleQueueAccount(switchboardProgram, '0xYourAccountAddress');

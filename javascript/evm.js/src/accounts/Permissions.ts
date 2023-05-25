@@ -17,7 +17,7 @@ export interface PermissionInitParams {
 
 /**
  * @class Permissions
- * @description Class for interacting with Permissions in the Switchboard.sol and SwitchboardAttestationService.sol contracts.
+ * @description Class for interacting with Permissions in the {@linkcode Switchboard} and {@linkcode SwitchboardAttestationService} contracts.
  */
 export class Permissions {
   private constructor() {}

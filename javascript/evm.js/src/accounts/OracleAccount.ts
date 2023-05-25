@@ -52,7 +52,7 @@ export interface OracleInitParams {
 }
 
 /**
- * Represents an oracle account in the Switchboard network.
+ * Represents an Oracle Account in the {@linkcode Switchboard} contract.
  *
  * @example
  * const oracle = new OracleAccount(switchboard, "0xOracleAddress");
