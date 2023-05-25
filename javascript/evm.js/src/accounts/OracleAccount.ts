@@ -7,34 +7,84 @@ import {
 
 import { BigNumber, ContractTransaction } from "ethers";
 
+/**
+ * Parameters for saving the result of a query.
+ *
+ * @example
+ * const saveResultParams: SaveResultParams = {
+ *   value: someSBDecimalInstance,
+ *   aggregatorAddress: "0xAggregatorAddress",
+ * };
+ */
 export interface SaveResultParams {
   value: SBDecimal;
   aggregatorAddress: string;
 }
 
+/**
+ * Parameters for an oracle to save multiple results.
+ *
+ * @example
+ * const oracleSaveResultParams: OracleSaveResultParams = {
+ *   data: [saveResultParams1, saveResultParams2],
+ *   oracleIdx: 0,
+ *   queueAddress: "0xQueueAddress",
+ * };
+ */
 export interface OracleSaveResultParams {
   data: SaveResultParams[];
   oracleIdx: number;
   queueAddress: string;
 }
 
+/**
+ * Initialization parameters for an oracle.
+ *
+ * @example
+ * const oracleInitParams: OracleInitParams = {
+ *   name: "OracleName",
+ *   authority: "0xAuthorityAddress",
+ * };
+ */
 export interface OracleInitParams {
   name?: string;
   authority: string;
 }
 
+/**
+ * Represents an oracle account in the Switchboard network.
+ *
+ * @example
+ * const oracle = new OracleAccount(switchboard, "0xOracleAddress");
+ */
 export class OracleAccount {
   constructor(
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
 
+  /**
+   * Load data from the oracle.
+   *
+   * @example
+   * const data = await oracle.loadData();
+   *
+   * @returns A Promise that resolves to the data of the oracle.
+   */
   public async loadData(): Promise<OracleData> {
     return await this.switchboard.sb.oracles(this.address);
   }
 
   /**
-   * Load and fetch the account data
+   * Static method to load an oracle account.
+   *
+   * @param switchboard - An instance of the {@linkcode SwitchboardProgram}.
+   * @param address - The address of the oracle.
+   *
+   * @example
+   * const [oracleAccount, oracleData] = await OracleAccount.load(switchboard, "0xOracleAddress");
+   *
+   * @returns A Promise that resolves to an array containing the oracle account and its data.
    */
   public static async load(
     switchboard: ISwitchboardProgram,
@@ -46,9 +96,20 @@ export class OracleAccount {
   }
 
   /**
-   * Initialize a Oracle
-   * @param switchboard the {@linkcode SwitchboardProgram} class
-   * @param params Oracle initialization params
+   * Initialize an oracle.
+   *
+   * @param switchboard - An instance of the {@linkcode SwitchboardProgram}.
+   * @param params - Initialization parameters for the oracle.
+   * @param options - Transaction options.
+   *
+   * @example
+   * const [oracleAccount, txReceipt] = await OracleAccount.init(switchboard, {
+   *   name: "NewOracle",
+   *   authority: "0xAuthorityAddress",
+   *   queueAddress: "0xQueueAddress",
+   * }, transactionOptions);
+   *
+   * @returns A Promise that resolves to an array containing the oracle account and the transaction receipt.
    */
   public static async init(
     switchboard: ISwitchboardProgram,
@@ -67,12 +128,34 @@ export class OracleAccount {
     return [new OracleAccount(switchboard, oracleAddress), tx];
   }
 
+  /**
+   * Set configuration of the oracle. (Not yet implemented)
+   *
+   * @param options - Transaction options.
+   *
+   * @example
+   * // Once implemented
+   * const txReceipt = await oracle.setConfig(transactionOptions);
+   *
+   * @returns A Promise that resolves to the transaction receipt.
+   */
   public async setConfig(
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     throw new Error(`Not implemented yet`);
   }
 
+  /**
+   * Withdraw from the oracle's escrow. (Not yet implemented)
+   *
+   * @param options - Transaction options.
+   *
+   * @example
+   * // Once implemented
+   * const txReceipt = await oracle.escrowWithdraw(transactionOptions);
+   *
+   * @returns A Promise that resolves to the transaction receipt.
+   */
   public async escrowWithdraw(
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
@@ -80,7 +163,14 @@ export class OracleAccount {
   }
 
   /**
-   * Oracle Heartbeat Action
+   * Send a heartbeat transaction from the oracle.
+   *
+   * @param options - Transaction options.
+   *
+   * @example
+   * const txReceipt = await oracle.heartbeat(transactionOptions);
+   *
+   * @returns A Promise that resolves to the transaction receipt.
    */
   public async heartbeat(
     options?: TransactionOptions
@@ -96,6 +186,14 @@ export class OracleAccount {
 
   /**
    * Oracle Bulk Save Results Action
+   *
+   * @param params - Parameters for saving multiple results.
+   * @param options - Transaction options.
+   *
+   * @example
+   * const txReceipt = await oracle.saveManyResults(oracleSaveResultParams, transactionOptions);
+   *
+   * @returns A Promise that resolves to the transaction receipt.
    */
   public async saveManyResults(
     params: OracleSaveResultParams,

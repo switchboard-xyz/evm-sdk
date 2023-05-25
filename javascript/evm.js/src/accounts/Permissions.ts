@@ -4,6 +4,10 @@ import { BigNumber, ContractTransaction } from "ethers";
 import { OracleQueueAccount } from "./OracleQueueAccount.js";
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
+/**
+ * @interface PermissionInitParams
+ * @description Interface for the Permission initialization parameters
+ */
 export interface PermissionInitParams {
   grantee: string;
   granter: string;
@@ -11,16 +15,29 @@ export interface PermissionInitParams {
   enable?: boolean;
 }
 
+/**
+ * @class Permissions
+ * @description Class for interacting with Permissions in the Switchboard.sol and SwitchboardAttestationService.sol contracts.
+ */
 export class Permissions {
   private constructor() {}
 
   /**
-   * Set permissions between a granter and grantee
-   * @param switchboard the {@linkcode SwitchboardProgram} class
-   * @param granter The account granting permissions
-   * @param grantee the account being granted permissions
-   * @param permission the type of permissions to grant
-   * @param enable whether to enable the permissions
+   * @async
+   * @function set
+   * @description Static method to set permissions between a granter and a grantee
+   *
+   * @param switchboard - Instance of the {@linkcode SwitchboardProgram} class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   * @param permission - The type of permissions to grant
+   * @param [enable] - Whether to enable the permissions
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to the ContractTransaction
+   *
+   * @example
+   * const contractTransaction = await Permissions.set(switchboard, granter, grantee, permission, enable, options);
    */
   public static async set(
     switchboard: ISwitchboardProgram,
@@ -52,12 +69,19 @@ export class Permissions {
   }
 
   /**
-   * Determines whether a given grantee and granter have a set of permissions
-   * @param switchboard the {@linkcode SwitchboardProgram} class
-   * @param granter The account granting permissions
-   * @param grantee the account being granted permissions
-   * @param permission the type of permissions to grant
-   * @param enable whether to enable the permissions
+   * @async
+   * @function has
+   * @description Static method to determine whether a given grantee and granter have a set of permissions
+   *
+   * @param switchboard - Instance of the {@linkcode SwitchboardProgram} class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   * @param permission - The type of permissions to check
+   *
+   * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the grantee and granter have the set of permissions
+   *
+   * @example
+   * const hasPermissions = await Permissions.has(switchboard, granter, grantee, permission);
    */
   public static async has(
     switchboard: ISwitchboardProgram,
@@ -83,12 +107,21 @@ export class Permissions {
   }
 
   /**
-   * Set permissions between a granter and grantee
-   * @param switchboard the {@linkcode SwitchboardProgram} class
-   * @param granter The account granting permissions, typically the {@linkcode OracleQueueAccount}
-   * @param grantee the account being granted permissions
-   * @param permission the type of permissions to grant
-   * @param enable whether to enable the permissions
+   * @async
+   * @function setSwitchboardPermissions
+   * @description Static method to set permissions between a granter and a grantee
+   *
+   * @param switchboard - Instance of the Switchboard Program class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   * @param permission - The type of permissions to grant
+   * @param [enable] - Whether to enable the permissions
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to the ContractTransaction
+   *
+   * @example
+   * const contractTransaction = await Permissions.setSwitchboardPermissions(switchboard, granter, grantee, permission, enable, options);
    */
   public static async setSwitchboardPermissions(
     switchboard: ISwitchboardProgram,
@@ -106,6 +139,21 @@ export class Permissions {
     return tx;
   }
 
+  /**
+   * @async
+   * @function hasSwitchboardPermissions
+   * @description Static method to determine whether a given grantee and granter have a set of permissions in Switchboard
+   *
+   * @param switchboard - Instance of the Switchboard Program class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   * @param permission - The type of permissions to check
+   *
+   * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the grantee and granter have the set of permissions in Switchboard
+   *
+   * @example
+   * const hasPermissions = await Permissions.hasSwitchboardPermissions(switchboard, granter, grantee, permission);
+   */
   public static async hasSwitchboardPermissions(
     switchboard: ISwitchboardProgram,
     granter: string,
@@ -121,12 +169,21 @@ export class Permissions {
   }
 
   /**
-   * Set permissions between a granter and grantee
-   * @param switchboard the {@linkcode SwitchboardProgram} class
-   * @param granter The account granting permissions, typically the {@linkcode AttestationQueueAccount}
-   * @param grantee the account being granted permissions
-   * @param permission the type of permissions to grant
-   * @param enable whether to enable the permissions
+   * @async
+   * @function setAttestationPermissions
+   * @description Static method to set permissions between a granter and a grantee in Attestation
+   *
+   * @param switchboard - Instance of the Switchboard Program class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   * @param permission - The type of permissions to grant
+   * @param [enable] - Whether to enable the permissions
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to the ContractTransaction
+   *
+   * @example
+   * const contractTransaction = await Permissions.setAttestationPermissions(switchboard, granter, grantee, permission, enable, options);
    */
   public static async setAttestationPermissions(
     switchboard: ISwitchboardProgram,
@@ -144,6 +201,21 @@ export class Permissions {
     return tx;
   }
 
+  /**
+   * @async
+   * @function hasAttestationPermissions
+   * @description Static method to determine whether a given grantee and granter have a set of permissions in Attestation
+   *
+   * @param switchboard - Instance of the Switchboard Program class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   * @param permission - The type of permissions to check
+   *
+   * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the grantee and granter have the set of permissions in Attestation
+   *
+   * @example
+   * const hasPermissions = await Permissions.hasAttestationPermissions(switchboard, granter, grantee, permission);
+   */
   public static async hasAttestationPermissions(
     switchboard: ISwitchboardProgram,
     granter: string,

@@ -1,6 +1,6 @@
 import { BigUtils } from "@switchboard-xyz/common";
 import Big from "big.js";
-import * as ethers from "ethers";
+import ethers from "ethers";
 
 export class SBDecimal {
   constructor(

@@ -16,32 +16,86 @@ import { QuoteAccount } from "./QuoteAccount.js";
 
 import { ContractTransaction } from "ethers";
 
+/**
+ * Parameters to initialize an {@linkcode AttestationQueueAccount}.
+ *
+ * @example
+ * const params: AttestationQueueInitParams = {
+ *   authority: 'authority_string',
+ *   maxSize: 10,
+ *   reward: 50,
+ *   quoteTimeout: 60000,
+ *   maxQuoteVerificationAge: 3600000,
+ *   allowAuthorityOverrideAfter: 7200000,
+ *   requireAuthorityHeartbeatPermission: true,
+ *   requireUsagePermissions: false
+ * };
+ */
 export interface AttestationQueueInitParams {
+  // The authority for the attestation queue.
   authority: string;
+  // The maximum size of the attestation queue.
   maxSize: number;
+  // The reward for providing attestations.
   reward: number;
+  // The timeout for quotes in the attestation queue.
   quoteTimeout: number;
+  // The maximum age of a quote for it to be valid.
   maxQuoteVerificationAge: number;
+  // The amount of time after which the authority can be overridden.
   allowAuthorityOverrideAfter: number;
+  // If true, requires authority's heartbeat permission.
   requireAuthorityHeartbeatPermission: boolean;
+  // If true, requires usage permissions.
   requireUsagePermissions: boolean;
 }
 
+/**
+ * A partial version of {@link AttestationQueueInitParams}
+ *
+ * @example
+ * const setConfigsParams: AttestationQueueSetConfigsParams = {
+ *   maxSize: 15,
+ *   reward: 100
+ * };
+ */
 export type AttestationQueueSetConfigsParams =
   Partial<AttestationQueueInitParams>;
 
+/**
+ * Class for Attestation Queue Account
+ *
+ * @example
+ * const attestationQueueAccount = new AttestationQueueAccount(switchboardProgram, 'account_address');
+ */
 export class AttestationQueueAccount {
   constructor(
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
 
+  /**
+   * Method to load AttestationQueueData
+   *
+   * @returns {Promise<AttestationQueueData>} Promise that resolves to AttestationQueueData
+   *
+   * @example
+   * const data = await attestationQueueAccount.loadData();
+   */
   public async loadData(): Promise<AttestationQueueData> {
     return await this.switchboard.vs.queues(this.address);
   }
 
   /**
-   * Load and fetch the account data
+   * Method to load and fetch the account data
+   *
+   * @param switchboard - The switchboard program instance
+   * @param address - The account address
+   *
+   * @returns {Promise<[AttestationQueueAccount, AttestationQueueData]>} Promise that resolves to a tuple with AttestationQueueAccount and AttestationQueueData
+   *
+   * @example
+   * const [account, data] = await AttestationQueueAccount.load(switchboardProgram, 'account_address');
    */
   public static async load(
     switchboard: ISwitchboardProgram,
@@ -56,9 +110,16 @@ export class AttestationQueueAccount {
   }
 
   /**
-   * Initialize an OracleQueueAccount
-   * @param switchboard the {@linkcode SwitchboardProgram} class
-   * @param params AttestationQueueAccount initialization params
+   * Method to initialize an AttestationQueueAccount
+   *
+   * @param switchboard - The switchboard program instance
+   * @param params - Initialization parameters
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<[AttestationQueueAccount, ContractTransaction]>} Promise that resolves to a tuple with AttestationQueueAccount and ContractTransaction
+   *
+   * @example
+   * const [account, transaction] = await AttestationQueueAccount.init(switchboardProgram, params, options);
    */
   public static async init(
     switchboard: ISwitchboardProgram,
@@ -86,6 +147,17 @@ export class AttestationQueueAccount {
     return [new AttestationQueueAccount(switchboard, queueAddress), tx];
   }
 
+  /**
+   * Method to set configuration for the AttestationQueueAccount
+   *
+   * @param params - Configuration parameters
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
+   *
+   * @example
+   * const transaction = await attestationQueueAccount.setConfigs(params, options);
+   */
   public async setConfigs(
     params: AttestationQueueSetConfigsParams,
     options?: TransactionOptions
@@ -113,10 +185,31 @@ export class AttestationQueueAccount {
     return tx;
   }
 
+  /**
+   * Method to check if the MrEnclave exists
+   *
+   * @param mrEnclave - The MrEnclave instance to check
+   *
+   * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the MrEnclave exists
+   *
+   * @example
+   * const hasEnclave = await attestationQueueAccount.hasMrEnclave(rawMrEnclave);
+   */
   public async hasMrEnclave(mrEnclave: RawMrEnclave): Promise<boolean> {
     throw new Error(`Not implemented yet`);
   }
 
+  /**
+   * Method to add a new MrEnclave
+   *
+   * @param mrEnclave - The MrEnclave instance to add
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
+   *
+   * @example
+   * const transaction = await attestationQueueAccount.addMrEnclave(rawMrEnclave, options);
+   */
   public async addMrEnclave(
     mrEnclave: RawMrEnclave,
     options?: TransactionOptions
@@ -124,6 +217,17 @@ export class AttestationQueueAccount {
     throw new Error(`Not implemented yet`);
   }
 
+  /**
+   * Method to remove an existing MrEnclave
+   *
+   * @param mrEnclave - The MrEnclave instance to remove
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
+   *
+   * @example
+   * const transaction = await attestationQueueAccount.removeMrEnclave(rawMrEnclave, options);
+   */
   public async removeMrEnclave(
     mrEnclave: RawMrEnclave,
     options?: TransactionOptions
@@ -132,7 +236,16 @@ export class AttestationQueueAccount {
   }
 
   /**
-   * Create an {@linkcode FunctionAccount} and enable its serviceQueue permissions
+   * Method to create a {@linkcode FunctionAccount} and optionally enable its serviceQueue permissions
+   *
+   * @param params - Parameters required to create the function
+   * @param [enable=true] - Flag to enable serviceQueue permissions (default is true)
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<FunctionAccount>} Promise that resolves to FunctionAccount
+   *
+   * @example
+   * const functionAccount = await attestationQueueAccount.createFunction(createFunctionParams, true, options);
    */
   public async createFunction(
     params: CreateFunction,
@@ -179,7 +292,15 @@ export class AttestationQueueAccount {
   }
 
   /**
-   * Create an {@linkcode QuoteAccount} and enable its serviceQueue permissions
+   * Method to create a {@linkcode QuoteAccount} and optionally enable its serviceQueue permissions
+   *
+   * @param params - Parameters required to create the quote
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
+   *
+   * @example
+   * const quoteAccount = await attestationQueueAccount.createQuote(createQuoteParams, options);
    */
   public async createQuote(
     params: CreateQuote,

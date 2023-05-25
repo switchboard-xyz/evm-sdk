@@ -12,23 +12,50 @@ import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 import { sleep } from "@switchboard-xyz/common";
 import { ContractTransaction } from "ethers";
 
+/**
+ * Defines the parameters for initializing a quote
+ */
 export interface QuoteInitParams {
+  // The address of the owner of the quote
   owner: string;
+  // The address of the authority for the quote
   authority: string;
 }
 
+/**
+ * A class representing a QuoteAccount in the {@linkcode SwitchboardProgram}
+ *
+ * @property switchboard - Instance of the {@linkcode SwitchboardProgram} class
+ * @property address - Address of the QuoteAccount
+ */
 export class QuoteAccount {
   constructor(
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
 
+  /**
+   * Method to load the data of the QuoteAccount
+   *
+   * @returns {Promise<QuoteData>} Promise that resolves to QuoteData
+   *
+   * @example
+   * const quoteData = await quoteAccount.loadData();
+   */
   public async loadData(): Promise<QuoteData> {
     return await this.switchboard.vs.quotes(this.address);
   }
 
   /**
-   * Load and fetch the account data
+   * Static method to load and fetch the account data
+   *
+   * @param switchboard - Instance of the {@linkcode SwitchboardProgram} class
+   * @param address - Address of the QuoteAccount
+   *
+   * @returns {Promise<[QuoteAccount, QuoteData]>} Promise that resolves to tuple of QuoteAccount and QuoteData
+   *
+   * @example
+   * const [quoteAccount, quoteData] = await QuoteAccount.load(switchboard, address);
    */
   public static async load(
     switchboard: ISwitchboardProgram,
@@ -40,9 +67,16 @@ export class QuoteAccount {
   }
 
   /**
-   * Initialize a Quote
-   * @param switchboard the {@linkcode SwitchboardProgram} class
-   * @param params Quote initialization params
+   * Static method to initialize a Quote
+   *
+   * @param switchboard - Instance of the {@linkcode SwitchboardProgram} class
+   * @param params - Quote initialization parameters
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<[QuoteAccount, ContractTransaction]>} Promise that resolves to tuple of QuoteAccount and ContractTransaction
+   *
+   * @example
+   * const [quoteAccount, contractTransaction] = await QuoteAccount.init(switchboard, params, options);
    */
   public static async init(
     switchboard: ISwitchboardProgram,
@@ -61,7 +95,14 @@ export class QuoteAccount {
     return [new QuoteAccount(switchboard, quoteAddress), tx];
   }
 
-  /** Returns the attestationQueue address for the given verified Quote */
+  /**
+   * Method to return the attestationQueue address for the given verified Quote
+   *
+   * @returns {Promise<string>} Promise that resolves to attestationQueue address
+   *
+   * @example
+   * const attestationQueueAddress = await quoteAccount.validate();
+   */
   public async validate(): Promise<string> {
     this.switchboard.hasAttestationService();
 
@@ -69,10 +110,28 @@ export class QuoteAccount {
     return await this.switchboard.vs.validate(quoteData.authority);
   }
 
+  /**
+   * Method to check if the quote is valid
+   *
+   * @returns {Promise<boolean>} Promise that resolves to boolean value indicating whether the quote is valid
+   *
+   * @example
+   * const isValid = await quoteAccount.isQuoteValid();
+   */
   public async isQuoteValid(): Promise<boolean> {
     throw new Error(`Not implemented yet`);
   }
 
+  /**
+   * Method to force an override verification
+   *
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
+   *
+   * @example
+   * const contractTransaction = await quoteAccount.forceOverrideVerify(options);
+   */
   public async forceOverrideVerify(
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
@@ -86,6 +145,17 @@ export class QuoteAccount {
     return tx;
   }
 
+  /**
+   * Method to update the quote
+   *
+   * @param quoteBuffer - RawMrEnclave data
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
+   *
+   * @example
+   * const contractTransaction = await quoteAccount.updateQuote(quoteBuffer, options);
+   */
   public async updateQuote(
     quoteBuffer: RawMrEnclave,
     options?: TransactionOptions
@@ -104,6 +174,19 @@ export class QuoteAccount {
     return tx;
   }
 
+  /**
+   * Method to verify the quote
+   *
+   * @param verifierAddress - Address of the verifier
+   * @param mrEnclave - RawMrEnclave data
+   * @param [quoteIdx] - Quote index
+   * @param [options] - Transaction options
+   *
+   * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
+   *
+   * @example
+   * const contractTransaction = await quoteAccount.verifyQuote(verifierAddress, mrEnclave, quoteIdx, options);
+   */
   public async verifyQuote(
     verifierAddress: string,
     mrEnclave: RawMrEnclave,
@@ -131,10 +214,29 @@ export class QuoteAccount {
     return tx;
   }
 
+  /**
+   * Method to get the quote enclave measurement
+   *
+   * @returns {Promise<Uint8Array>} Promise that resolves to Uint8Array
+   *
+   * @example
+   * const measurement = await quoteAccount.getQuoteEnclaveMeasurement();
+   */
   public async getQuoteEnclaveMeasurement(): Promise<Uint8Array> {
     throw new Error(`Not implemented yet`);
   }
 
+  /**
+   * Static method to get the {@linkcode QuoteAccount} for the given authority
+   *
+   * @param switchboard - Instance of the Switchboard Program class
+   * @param authority - Address of the authority
+   *
+   * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
+   *
+   * @example
+   * const quoteAccount = await QuoteAccount.authorityToAddress(switchboard, authority);
+   */
   public static async authorityToAddress(
     switchboard: ISwitchboardProgram,
     authority: string
@@ -145,6 +247,21 @@ export class QuoteAccount {
     return new QuoteAccount(switchboard, address);
   }
 
+  /**
+   * Static method to initialize and await for the quote verification
+   *
+   * @param switchboard - Instance of the Switchboard Program class
+   * @param authority - Address of the authority
+   * @param attestationQueueAddress - Attestation Queue Address
+   * @param quoteBuffer - RawMrEnclave data
+   * @param options - Transaction options
+   * @param [retryCount=3] - Number of retries for the operation
+   *
+   * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
+   *
+   * @example
+   * const quoteAccount = await QuoteAccount.initAndAwaitVerification(switchboard, authority, attestationQueueAddress, quoteBuffer, options, retryCount);
+   */
   public static async initAndAwaitVerification(
     switchboard: ISwitchboardProgram,
     authority: string,
@@ -203,6 +320,18 @@ export class QuoteAccount {
     return quoteAccount;
   }
 
+  /**
+   * @async
+   * @function pollVerification
+   * @description Method to poll for the quote verification
+   *
+   * @param {number} [retryCount=3] - Number of retries for the operation
+   *
+   * @returns {Promise<QuoteData>} Promise that resolves to QuoteData
+   *
+   * @example
+   * const quoteData = await quoteAccount.pollVerification(retryCount);
+   */
   public async pollVerification(retryCount = 3): Promise<QuoteData> {
     let quote = await this.loadData();
 
