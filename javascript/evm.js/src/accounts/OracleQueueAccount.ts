@@ -19,6 +19,17 @@ import { BigNumber, ContractTransaction } from "ethers";
 
 /**
  * Initialization parameters for the OracleQueue.
+ *
+ * ```typescript
+ * {
+ *   authority: '0xMyAuthority',
+ *   name: 'my queue',
+ *   oracleTimeout: 3600,
+ *   reward: 10000000,
+ *   unpermissionedFeedsEnabled: true,
+ *   maxSize: 100
+ * }
+ * ```
  */
 export interface OracleQueueInitParams {
   authority: string;
@@ -32,7 +43,7 @@ export interface OracleQueueInitParams {
 /**
  * An account class for an OracleQueue in the {@link Switchboard} contract.
  *
- * @example
+ *
  * ```typescript
  * const oracleQueueAccount = new OracleQueueAccount(switchboardProgram, '0xYourAccountAddress');
  * ```
@@ -47,12 +58,21 @@ export interface OracleQueueSetConfigsParams {
 }
 
 /**
- * OracleQueue contract represents an account of OracleQueue in the Switchboard network.
+ * Represents an Oracle Queue account in the Switchboard network.
+ *
+ * ```typescript
+ * // Instantiate an OracleQueueAccount
+ * const oracleQueueAccount = new OracleQueueAccount(switchboardProgram, '0xYourOracleQueueAddress');
+ *
+ * // Load the data
+ * const queue = await oracleQueueAccount.loadData();
+ * const name = queue.name;
+ * ```
  */
 export class OracleQueueAccount {
   /**
    * Constructor of OracleQueueAccount
-   * @param switchboard the instance of Switchboard contract
+   * @param switchboard the instance of Switchboard program
    * @param address address of the OracleQueueAccount
    */
   constructor(
@@ -60,6 +80,16 @@ export class OracleQueueAccount {
     readonly address: string
   ) {}
 
+  /**
+   * Loads the OracleQueues's data.
+   *
+   * ```typescript
+   * const data = await oracleQueueAccount.loadData();
+   * console.log(data);
+   * ```
+   *
+   * @returns - The data associated with this OracleQueue account.
+   */
   async loadData(): Promise<OracleQueueData> {
     return await this.switchboard.sb.queues(this.address);
   }
@@ -68,7 +98,7 @@ export class OracleQueueAccount {
    * Load and fetch the account data
    * @param switchboard the {@link SwitchboardProgram} class
    * @param address address of the OracleQueueAccount
-   * @example
+   *
    * ```typescript
    * const [oracleQueueAccount, oracleQueueData] = await OracleQueueAccount.load(switchboardProgram, '0xYourAccountAddress');
    * ```
@@ -86,12 +116,12 @@ export class OracleQueueAccount {
    * Initialize an OracleQueueAccount
    * @param switchboard the {@link SwitchboardProgram} class
    * @param params OracleQueueAccount initialization params
-   * @example
+   *
    * ```typescript
-   * const [oracleQueueAccount, transaction] = await OracleQueueAccount.init(switchboardProgram, initParams);
+   * const [oracleQueueAccount, transaction] = await OracleQueueAccount.create(switchboardProgram, initParams);
    * ```
    */
-  static async init(
+  static async create(
     switchboard: ISwitchboardProgram,
     params: OracleQueueInitParams,
     options?: TransactionOptions
@@ -117,7 +147,7 @@ export class OracleQueueAccount {
 
   /**
    * Set the configurations for the OracleQueueAccount
-   * @example
+   *
    * ```typescript
    * const transaction = await oracleQueueAccount.setConfig(configParams);
    * ```
@@ -144,7 +174,7 @@ export class OracleQueueAccount {
 
   /**
    * Get the index of the oracle in the queue
-   * @example
+   *
    * ```typescript
    * const oracleIndex = await oracleQueueAccount.getOracleIdx('0xOracleAddress');
    * ```
@@ -155,7 +185,7 @@ export class OracleQueueAccount {
 
   /**
    * Get the attestation configuration of the OracleQueue
-   * @example
+   *
    * ```typescript
    * const attestationConfig = await oracleQueueAccount.getAttestationConfig();
    * ```
@@ -169,7 +199,7 @@ export class OracleQueueAccount {
 
   /**
    * Set the attestation configuration of the OracleQueue
-   * @example
+   *
    * ```typescript
    * const transaction = await oracleQueueAccount.setAttestationConfig(attestationConfigParams);
    * ```
@@ -204,7 +234,7 @@ export class OracleQueueAccount {
 
   /**
    * Create an {@link OracleAccount} and enable its heartbeat permissions
-   * @example
+   *
    * ```typescript
    * const oracleAccount = await oracleQueueAccount.createOracle(createOracleParams);
    * ```
@@ -222,7 +252,7 @@ export class OracleQueueAccount {
       params
     );
 
-    const [oracleAccount] = await OracleAccount.init(
+    const [oracleAccount] = await OracleAccount.create(
       switchboard,
       {
         name: params?.name ?? "",
@@ -257,7 +287,7 @@ export class OracleQueueAccount {
 
   /**
    * Create an {@link AggregatorAccount} and enable its queueUsage permissions
-   * @example
+   *
    * ```typescript
    * const aggregatorAccount = await oracleQueueAccount.createAggregator(createAggregatorParams);
    * ```
@@ -275,7 +305,7 @@ export class OracleQueueAccount {
       params
     );
 
-    const [aggregatorAccount] = await AggregatorAccount.init(
+    const [aggregatorAccount] = await AggregatorAccount.create(
       switchboard,
       {
         ...params,

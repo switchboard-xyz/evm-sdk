@@ -36,7 +36,7 @@ export class Permissions {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to the ContractTransaction
    *
-   * @example
+   *
    * const contractTransaction = await Permissions.set(switchboard, granter, grantee, permission, enable, options);
    */
   public static async set(
@@ -80,7 +80,7 @@ export class Permissions {
    *
    * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the grantee and granter have the set of permissions
    *
-   * @example
+   *
    * const hasPermissions = await Permissions.has(switchboard, granter, grantee, permission);
    */
   public static async has(
@@ -120,7 +120,7 @@ export class Permissions {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to the ContractTransaction
    *
-   * @example
+   *
    * const contractTransaction = await Permissions.setSwitchboardPermissions(switchboard, granter, grantee, permission, enable, options);
    */
   public static async setSwitchboardPermissions(
@@ -151,7 +151,7 @@ export class Permissions {
    *
    * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the grantee and granter have the set of permissions in Switchboard
    *
-   * @example
+   *
    * const hasPermissions = await Permissions.hasSwitchboardPermissions(switchboard, granter, grantee, permission);
    */
   public static async hasSwitchboardPermissions(
@@ -182,7 +182,7 @@ export class Permissions {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to the ContractTransaction
    *
-   * @example
+   *
    * const contractTransaction = await Permissions.setAttestationPermissions(switchboard, granter, grantee, permission, enable, options);
    */
   public static async setAttestationPermissions(
@@ -213,7 +213,7 @@ export class Permissions {
    *
    * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the grantee and granter have the set of permissions in Attestation
    *
-   * @example
+   *
    * const hasPermissions = await Permissions.hasAttestationPermissions(switchboard, granter, grantee, permission);
    */
   public static async hasAttestationPermissions(

@@ -5,16 +5,17 @@ import {
   TransactionOptions,
 } from "../types.js";
 
-import { BigNumber, ContractTransaction } from "ethers";
+import { BigNumber, BigNumberish, ContractTransaction } from "ethers";
 
 /**
  * Parameters for saving the result of a query.
  *
- * @example
+ * ```typescript
  * const saveResultParams: SaveResultParams = {
  *   value: someSBDecimalInstance,
  *   aggregatorAddress: "0xAggregatorAddress",
  * };
+ * ```
  */
 export interface SaveResultParams {
   value: SBDecimal;
@@ -24,12 +25,13 @@ export interface SaveResultParams {
 /**
  * Parameters for an oracle to save multiple results.
  *
- * @example
+ * ```typescript
  * const oracleSaveResultParams: OracleSaveResultParams = {
  *   data: [saveResultParams1, saveResultParams2],
  *   oracleIdx: 0,
  *   queueAddress: "0xQueueAddress",
  * };
+ * ```
  */
 export interface OracleSaveResultParams {
   data: SaveResultParams[];
@@ -40,11 +42,12 @@ export interface OracleSaveResultParams {
 /**
  * Initialization parameters for an oracle.
  *
- * @example
+ * ```typescript
  * const oracleInitParams: OracleInitParams = {
  *   name: "OracleName",
  *   authority: "0xAuthorityAddress",
  * };
+ * ```
  */
 export interface OracleInitParams {
   name?: string;
@@ -52,12 +55,23 @@ export interface OracleInitParams {
 }
 
 /**
- * Represents an Oracle Account in the {@link Switchboard} contract.
+ * Represents an Oracle Account in the Switchboard.sol contract.
  *
- * @example
- * const oracle = new OracleAccount(switchboard, "0xOracleAddress");
+ * ```typescript
+ * // Instantiate an OracleAccount
+ * const oracleAccount = new OracleAccount(switchboardProgram, '0xYourOracleAddress');
+ *
+ * // Load the data
+ * const oracle = await oracleAccount.loadData();
+ * const name = oracle.name;
+ * ```
  */
 export class OracleAccount {
+  /**
+   * Constructor of OracleQueueAccount
+   * @param switchboard the instance of Switchboard program
+   * @param address address of the OracleAccount
+   */
   constructor(
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
@@ -66,8 +80,9 @@ export class OracleAccount {
   /**
    * Load data from the oracle.
    *
-   * @example
+   * ```typescript
    * const data = await oracle.loadData();
+   * ```
    *
    * @returns A Promise that resolves to the data of the oracle.
    */
@@ -81,8 +96,9 @@ export class OracleAccount {
    * @param switchboard - An instance of the {@link SwitchboardProgram}.
    * @param address - The address of the oracle.
    *
-   * @example
+   * ```typescript
    * const [oracleAccount, oracleData] = await OracleAccount.load(switchboard, "0xOracleAddress");
+   * ```
    *
    * @returns A Promise that resolves to an array containing the oracle account and its data.
    */
@@ -102,16 +118,17 @@ export class OracleAccount {
    * @param params - Initialization parameters for the oracle.
    * @param options - Transaction options.
    *
-   * @example
-   * const [oracleAccount, txReceipt] = await OracleAccount.init(switchboard, {
+   * ```typescript
+   * const [oracleAccount, txReceipt] = await OracleAccount.create(switchboard, {
    *   name: "NewOracle",
    *   authority: "0xAuthorityAddress",
    *   queueAddress: "0xQueueAddress",
    * }, transactionOptions);
+   * ```
    *
    * @returns A Promise that resolves to an array containing the oracle account and the transaction receipt.
    */
-  public static async init(
+  public static async create(
     switchboard: ISwitchboardProgram,
     params: OracleInitParams & { queueAddress: string },
     options?: TransactionOptions
@@ -131,35 +148,32 @@ export class OracleAccount {
   /**
    * Set configuration of the oracle. (Not yet implemented)
    *
+   * @param params - The new oracle config.
    * @param options - Transaction options.
    *
-   * @example
+   * ```typescript
    * // Once implemented
    * const txReceipt = await oracle.setConfig(transactionOptions);
+   * ```
    *
    * @returns A Promise that resolves to the transaction receipt.
    */
   public async setConfig(
+    params: Partial<OracleInitParams>,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    throw new Error(`Not implemented yet`);
-  }
-
-  /**
-   * Withdraw from the oracle's escrow. (Not yet implemented)
-   *
-   * @param options - Transaction options.
-   *
-   * @example
-   * // Once implemented
-   * const txReceipt = await oracle.escrowWithdraw(transactionOptions);
-   *
-   * @returns A Promise that resolves to the transaction receipt.
-   */
-  public async escrowWithdraw(
-    options?: TransactionOptions
-  ): Promise<ContractTransaction> {
-    throw new Error(`Not implemented yet`);
+    const oracle = await this.loadData();
+    const tx = await this.switchboard.sendSbTxn(
+      "setOracleConfig",
+      [
+        this.address,
+        params.name ?? oracle.name,
+        params.authority ?? oracle.authority,
+        oracle.queueAddress,
+      ],
+      options
+    );
+    return tx;
   }
 
   /**
@@ -167,8 +181,9 @@ export class OracleAccount {
    *
    * @param options - Transaction options.
    *
-   * @example
+   * ```typescript
    * const txReceipt = await oracle.heartbeat(transactionOptions);
+   * ```
    *
    * @returns A Promise that resolves to the transaction receipt.
    */
@@ -190,8 +205,9 @@ export class OracleAccount {
    * @param params - Parameters for saving multiple results.
    * @param options - Transaction options.
    *
-   * @example
+   * ```typescript
    * const txReceipt = await oracle.saveManyResults(oracleSaveResultParams, transactionOptions);
+   * ```
    *
    * @returns A Promise that resolves to the transaction receipt.
    */

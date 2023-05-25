@@ -11,7 +11,7 @@ import ethers from "ethers";
  * @property {number} scale - The exponent in base 10.
  * @property {boolean} neg - Indicates whether the number is negative.
  *
- * ```ts
+ * ```typescript
  * // Creating an instance of SBDecimal
  * let sbDec = new SBDecimal('123', 2, false);
  * console.log(sbDec); // SBDecimal { mantissa: '123', scale: 2, neg: false }
@@ -47,7 +47,7 @@ export class SBDecimal {
    *
    * @returns {Big} - The Big representation of the SBDecimal.
    *
-   * ```ts
+   * ```typescript
    * const sbDec = new SBDecimal('123', 2, false);
    * const big = sbDec.toBig();
    * ```
@@ -70,7 +70,7 @@ export class SBDecimal {
    *
    * @returns {ethers.BigNumber} - The BigNumber representation of the SBDecimal.
    *
-   * ```ts
+   * ```typescript
    * const sbDec = new SBDecimal('123', 2, false);
    * const bigNum = sbDec.toBigNumber();
    * ```
@@ -91,7 +91,7 @@ export class SBDecimal {
    * @param {Big} val - The Big number to convert into a SBDecimal.
    * @returns {SBDecimal} - The created SBDecimal object.
    *
-   * ```ts
+   * ```typescript
    * const big = new Big(123.45);
    * const sbDec = SBDecimal.fromBig(big);
    * ```
@@ -118,7 +118,7 @@ export class SBDecimal {
    * @param {Object} obj - The object to convert into a SBDecimal.
    * @returns {SBDecimal} - The created SBDecimal object.
    *
-   * ```ts
+   * ```typescript
    * const obj = {mantissa: '123', scale: 2, neg: false};
    * const sbDec = SBDecimal.fromObj(obj);
    * ```

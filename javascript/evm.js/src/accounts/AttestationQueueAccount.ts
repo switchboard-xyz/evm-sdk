@@ -17,11 +17,12 @@ import { QuoteAccount } from "./QuoteAccount.js";
 import { ContractTransaction } from "ethers";
 
 import { type SwitchboardAttestationService } from "../typechain-types/index.js";
+import { parseMrEnclave } from "../parseMrEnclave.js";
 
 /**
  * Parameters to initialize an {AttestationQueueAccount}.
  *
- * @example
+ * ```typescript
  * const params: AttestationQueueInitParams = {
  *   authority: 'authority_string',
  *   maxSize: 10,
@@ -32,6 +33,7 @@ import { type SwitchboardAttestationService } from "../typechain-types/index.js"
  *   requireAuthorityHeartbeatPermission: true,
  *   requireUsagePermissions: false
  * };
+ * ```
  */
 export interface AttestationQueueInitParams {
   // The authority for the attestation queue.
@@ -55,20 +57,27 @@ export interface AttestationQueueInitParams {
 /**
  * A partial version of {@link AttestationQueueInitParams}
  *
- * @example
+ * ```typescript
  * const setConfigsParams: AttestationQueueSetConfigsParams = {
  *   maxSize: 15,
  *   reward: 100
  * };
+ * ```
  */
 export type AttestationQueueSetConfigsParams =
   Partial<AttestationQueueInitParams>;
 
 /**
- * Class for Attestation Queue Account in the {@link SwitchboardAttestationService} contract.
+ * Represents an Attestation Queue Account in the SwitchboardAttestationService.sol contract.
  *
- * @example
+ * ```typescript
+ * // Instantiate an AttestationQueueAccount
  * const attestationQueueAccount = new AttestationQueueAccount(switchboardProgram, '0xYourAttestationQueueAddress');
+ *
+ * // Load the data
+ * const attestationQueue = await attestationQueueAccount.loadData();
+ * const name = attestationQueue.name;
+ * ```
  */
 export class AttestationQueueAccount {
   constructor(
@@ -81,8 +90,9 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<AttestationQueueData>} Promise that resolves to AttestationQueueData
    *
-   * @example
+   * ```typescript
    * const data = await attestationQueueAccount.loadData();
+   * ```
    */
   public async loadData(): Promise<AttestationQueueData> {
     return await this.switchboard.vs.queues(this.address);
@@ -96,8 +106,9 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<[AttestationQueueAccount, AttestationQueueData]>} Promise that resolves to a tuple with AttestationQueueAccount and AttestationQueueData
    *
-   * @example
+   * ```typescript
    * const [account, data] = await AttestationQueueAccount.load(switchboardProgram, 'account_address');
+   * ```
    */
   public static async load(
     switchboard: ISwitchboardProgram,
@@ -120,10 +131,11 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<[AttestationQueueAccount, ContractTransaction]>} Promise that resolves to a tuple with AttestationQueueAccount and ContractTransaction
    *
-   * @example
+   * ```typescript
    * const [account, transaction] = await AttestationQueueAccount.init(switchboardProgram, params, options);
+   * ```
    */
-  public static async init(
+  public static async create(
     switchboard: ISwitchboardProgram,
     params: AttestationQueueInitParams,
     options?: TransactionOptions
@@ -157,8 +169,9 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
-   * @example
+   * ```typescript
    * const transaction = await attestationQueueAccount.setConfigs(params, options);
+   * ```
    */
   public async setConfigs(
     params: AttestationQueueSetConfigsParams,
@@ -194,11 +207,15 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the MrEnclave exists
    *
-   * @example
+   * ```typescript
    * const hasEnclave = await attestationQueueAccount.hasMrEnclave(rawMrEnclave);
+   * ```
    */
   public async hasMrEnclave(mrEnclave: RawMrEnclave): Promise<boolean> {
-    throw new Error(`Not implemented yet`);
+    return await this.switchboard.vs.hasMrEnclave(
+      this.address,
+      parseMrEnclave(mrEnclave)
+    );
   }
 
   /**
@@ -209,14 +226,20 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
-   * @example
+   * ```typescript
    * const transaction = await attestationQueueAccount.addMrEnclave(rawMrEnclave, options);
+   * ```
    */
   public async addMrEnclave(
     mrEnclave: RawMrEnclave,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    throw new Error(`Not implemented yet`);
+    const tx = await this.switchboard.sendVsTxn(
+      "addMrEnclave",
+      [this.address, mrEnclave],
+      options
+    );
+    return tx;
   }
 
   /**
@@ -227,18 +250,24 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
-   * @example
+   * ```typescript
    * const transaction = await attestationQueueAccount.removeMrEnclave(rawMrEnclave, options);
+   * ```
    */
   public async removeMrEnclave(
     mrEnclave: RawMrEnclave,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    throw new Error(`Not implemented yet`);
+    const tx = await this.switchboard.sendVsTxn(
+      "removeMrEnclave",
+      [this.address, mrEnclave],
+      options
+    );
+    return tx;
   }
 
   /**
-   * Method to create a {FunctionAccount} and optionally enable its serviceQueue permissions
+   * Method to create a FunctionAccount and optionally enable its serviceQueue permissions
    *
    * @param params - Parameters required to create the function
    * @param [enable=true] - Flag to enable serviceQueue permissions (default is true)
@@ -246,8 +275,9 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<FunctionAccount>} Promise that resolves to FunctionAccount
    *
-   * @example
+   * ```typescript
    * const functionAccount = await attestationQueueAccount.createFunction(createFunctionParams, true, options);
+   * ```
    */
   public async createFunction(
     params: CreateFunction,
@@ -262,7 +292,7 @@ export class AttestationQueueAccount {
       params
     );
 
-    const [functionAccount] = await FunctionAccount.init(
+    const [functionAccount] = await FunctionAccount.create(
       switchboard,
       {
         ...params,
@@ -301,8 +331,9 @@ export class AttestationQueueAccount {
    *
    * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
    *
-   * @example
+   * ```typescript
    * const quoteAccount = await attestationQueueAccount.createQuote(createQuoteParams, options);
+   * ```
    */
   public async createQuote(
     params: CreateQuote,
@@ -316,7 +347,7 @@ export class AttestationQueueAccount {
       params
     );
 
-    const [quoteAccount] = await QuoteAccount.init(
+    const [quoteAccount] = await QuoteAccount.create(
       switchboard,
       {
         ...params,

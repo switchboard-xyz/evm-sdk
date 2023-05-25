@@ -14,6 +14,13 @@ import { ContractTransaction } from "ethers";
 
 /**
  * Defines the parameters for initializing a quote
+ *
+ * ```typescript
+ * {
+ *   owner: '0xMyOwner',
+ *   authority: '0xMyAuthority'
+ * }
+ * ```
  */
 export interface QuoteInitParams {
   // The address of the owner of the quote
@@ -25,12 +32,30 @@ export interface QuoteInitParams {
 /**
  * A class representing a QuoteAccount in the {@link SwitchboardAttestationService} contract.
  *
- * @example
+ *
  * ```typescript
  * const quoteAccount = new QuoteAccount(switchboardProgram, '0xYourQuoteAccountAddress');
  * ```
  */
+
+/**
+ * Class for interacting with Quote Accounts in the SwitchboardAttestationService.sol contract.
+ *
+ * ```typescript
+ * // Instantiate an QuoteAccount
+ * const quoteAccount = new QuoteAccount(switchboardProgram, '0xYourQuoteAccountAddress');
+ *
+ * // Load the data
+ * const quote = await quoteAccount.loadData();
+ * const name = quote.name;
+ * ```
+ */
 export class QuoteAccount {
+  /**
+   * Constructor of QuoteAccount
+   * @param switchboard the instance of Switchboard program
+   * @param address address of the QuoteAccount
+   */
   constructor(
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
@@ -41,8 +66,9 @@ export class QuoteAccount {
    *
    * @returns {Promise<QuoteData>} Promise that resolves to QuoteData
    *
-   * @example
+   * ```typescript
    * const quoteData = await quoteAccount.loadData();
+   * ```
    */
   public async loadData(): Promise<QuoteData> {
     return await this.switchboard.vs.quotes(this.address);
@@ -56,8 +82,9 @@ export class QuoteAccount {
    *
    * @returns {Promise<[QuoteAccount, QuoteData]>} Promise that resolves to tuple of QuoteAccount and QuoteData
    *
-   * @example
+   * ```typescript
    * const [quoteAccount, quoteData] = await QuoteAccount.load(switchboard, address);
+   * ```
    */
   public static async load(
     switchboard: ISwitchboardProgram,
@@ -77,10 +104,11 @@ export class QuoteAccount {
    *
    * @returns {Promise<[QuoteAccount, ContractTransaction]>} Promise that resolves to tuple of QuoteAccount and ContractTransaction
    *
-   * @example
-   * const [quoteAccount, contractTransaction] = await QuoteAccount.init(switchboard, params, options);
+   * ```typescript
+   * const [quoteAccount, contractTransaction] = await QuoteAccount.create(switchboard, params, options);
+   * ```
    */
-  public static async init(
+  public static async create(
     switchboard: ISwitchboardProgram,
     params: QuoteInitParams & { attestationQueue: string },
     options?: TransactionOptions
@@ -102,8 +130,9 @@ export class QuoteAccount {
    *
    * @returns {Promise<string>} Promise that resolves to attestationQueue address
    *
-   * @example
+   * ```typescript
    * const attestationQueueAddress = await quoteAccount.validate();
+   * ```
    */
   public async validate(): Promise<string> {
     this.switchboard.hasAttestationService();
@@ -117,11 +146,12 @@ export class QuoteAccount {
    *
    * @returns {Promise<boolean>} Promise that resolves to boolean value indicating whether the quote is valid
    *
-   * @example
+   * ```typescript
    * const isValid = await quoteAccount.isQuoteValid();
+   * ```
    */
   public async isQuoteValid(): Promise<boolean> {
-    throw new Error(`Not implemented yet`);
+    return await this.switchboard.vs.isQuoteValid(this.address);
   }
 
   /**
@@ -131,8 +161,9 @@ export class QuoteAccount {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
-   * @example
+   * ```typescript
    * const contractTransaction = await quoteAccount.forceOverrideVerify(options);
+   * ```
    */
   public async forceOverrideVerify(
     options?: TransactionOptions
@@ -155,8 +186,9 @@ export class QuoteAccount {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
-   * @example
+   * ```typescript
    * const contractTransaction = await quoteAccount.updateQuote(quoteBuffer, options);
+   * ```
    */
   public async updateQuote(
     quoteBuffer: RawMrEnclave,
@@ -186,8 +218,9 @@ export class QuoteAccount {
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
-   * @example
+   * ```typescript
    * const contractTransaction = await quoteAccount.verifyQuote(verifierAddress, mrEnclave, quoteIdx, options);
+   * ```
    */
   public async verifyQuote(
     verifierAddress: string,
@@ -217,18 +250,6 @@ export class QuoteAccount {
   }
 
   /**
-   * Method to get the quote enclave measurement
-   *
-   * @returns {Promise<Uint8Array>} Promise that resolves to Uint8Array
-   *
-   * @example
-   * const measurement = await quoteAccount.getQuoteEnclaveMeasurement();
-   */
-  public async getQuoteEnclaveMeasurement(): Promise<Uint8Array> {
-    throw new Error(`Not implemented yet`);
-  }
-
-  /**
    * Static method to get the {@link QuoteAccount} for the given authority
    *
    * @param switchboard - Instance of the Switchboard Program class
@@ -236,8 +257,9 @@ export class QuoteAccount {
    *
    * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
    *
-   * @example
+   * ```typescript
    * const quoteAccount = await QuoteAccount.authorityToAddress(switchboard, authority);
+   * ```
    */
   public static async authorityToAddress(
     switchboard: ISwitchboardProgram,
@@ -261,8 +283,9 @@ export class QuoteAccount {
    *
    * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
    *
-   * @example
+   * ```typescript
    * const quoteAccount = await QuoteAccount.initAndAwaitVerification(switchboard, authority, attestationQueueAddress, quoteBuffer, options, retryCount);
+   * ```
    */
   public static async initAndAwaitVerification(
     switchboard: ISwitchboardProgram,
@@ -323,16 +346,15 @@ export class QuoteAccount {
   }
 
   /**
-   * @async
-   * @function pollVerification
-   * @description Method to poll for the quote verification
+   * Method to poll for the quote verification
    *
-   * @param {number} [retryCount=3] - Number of retries for the operation
+   * @param [retryCount=3] - Number of retries for the operation
    *
    * @returns {Promise<QuoteData>} Promise that resolves to QuoteData
    *
-   * @example
+   * ```typescript
    * const quoteData = await quoteAccount.pollVerification(retryCount);
+   * ```
    */
   public async pollVerification(retryCount = 3): Promise<QuoteData> {
     let quote = await this.loadData();

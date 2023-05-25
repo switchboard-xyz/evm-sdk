@@ -10,13 +10,13 @@ import {
 import { OracleQueueAccount } from "./OracleQueueAccount.js";
 
 import { OracleJob } from "@switchboard-xyz/common";
-import { BigNumber, ContractTransaction } from "ethers";
+import { BigNumber, BigNumberish, ContractTransaction } from "ethers";
 
 /**
  * AggregatorInitParams defines the parameters required to initialize an Aggregator.
  * The Aggregator combines data from various oracles to provide a more reliable and secure data feed.
  *
- * ```ts
+ * ```typescript
  * const aggregatorInitParams = {
  *  authority: '0xYourAuthority',
  *  name: 'MyAggregator',
@@ -62,8 +62,7 @@ export interface AggregatorInitParams {
  * It is a partial set of AggregatorInitParams, allowing you to modify specific configurations.
  * Variance threshold is required to indicate the level of variance tolerated.
  *
- * @example
- * ```
+ * ```typescript
  * const aggregatorConfigParams = {
  *  varianceThreshold: 0.05,
  *  minUpdateDelaySeconds: 120
@@ -79,8 +78,7 @@ export type AggregatorSetConfigParams = Partial<AggregatorInitParams> & {
  * This allows you to modify the charge for reading data, set up a reward escrow, manage the read whitelist,
  * limit reads to whitelist and enable or disable legacy adapter.
  *
- * @example
- * ```
+ * ```typescript
  * const aggregatorReadConfigParams = {
  *  readCharge: 100,
  *  rewardEscrow: '0xRewardEscrowAddress',
@@ -99,19 +97,29 @@ export interface AggregatorSetReadConfigParams {
 }
 
 /**
- * Class for interacting with Aggregator Accounts in the {@link Switchboard} contract.
+ * Class for interacting with Aggregator Accounts in the Switchboard.sol contract.
  *
- * @example
  * ```typescript
  * // Instantiate an AggregatorAccount
  * const aggregatorAccount = new AggregatorAccount(switchboardProgram, '0xYourAggregatorAccountAddress');
  *
- * // Use the AggregatorAccount
- * const name = aggregatorAccount.name;
+ * // Load the data
+ * const aggregator = await aggregatorAccount.loadData();
+ * const name = aggregator.name;
+ *
+ * // Get latest result
+ * const result = await aggregatorAccount.latestValue();
+ *
+ * // Load the jobs
  * const jobs = await aggregatorAccount.getJobs();
  * ```
  */
 export class AggregatorAccount {
+  /**
+   * Constructor of AggregatorAccount
+   * @param switchboard the instance of Switchboard program
+   * @param address address of the AggregatorAccount
+   */
   constructor(
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
@@ -120,7 +128,6 @@ export class AggregatorAccount {
   /**
    * Loads the Aggregator's data.
    *
-   * @example
    * ```typescript
    * const data = await aggregatorAccount.loadData();
    * console.log(data);
@@ -161,21 +168,20 @@ export class AggregatorAccount {
   }
 
   /**
-   * Initializes a new AggregatorAccount.
+   * Create a new AggregatorAccount.
    *
    * @param switchboard - An instance of the {@link SwitchboardProgram}.
    * @param params - The initialization parameters for this Aggregator.
    * @param options - (Optional) Transaction options.
    *
-   * @example
    * ```typescript
    * const initParams: AggregatorInitParams = {...};
-   * const [aggregatorAccount, tx] = await AggregatorAccount.init(switchboardProgram, initParams);
+   * const [aggregatorAccount, tx] = await AggregatorAccount.create(switchboardProgram, initParams);
    * ```
    *
    * @returns - A new AggregatorAccount instance and the ContractTransaction.
    */
-  public static async init(
+  public static async create(
     switchboard: ISwitchboardProgram,
     params: AggregatorInitParams & { initialValue: BigNumber },
     options?: TransactionOptions
@@ -217,7 +223,7 @@ export class AggregatorAccount {
   /**
    * Gets the latest value from the Aggregator account.
    *
-   * @example
+   *
    * ```typescript
    * const latestValue = await aggregatorAccount.latestValue();
    * console.log(latestValue);
@@ -237,7 +243,6 @@ export class AggregatorAccount {
    * @param params - The new configuration parameters.
    * @param options - (Optional) Transaction options.
    *
-   * @example
    * ```typescript
    * const configParams: AggregatorSetConfigParams = {...};
    * const tx = await aggregatorAccount.setConfig(configParams);
@@ -284,7 +289,6 @@ export class AggregatorAccount {
    * @param params - The new read configuration parameters.
    * @param options - (Optional) Transaction options.
    *
-   * @example
    * ```typescript
    * const readConfigParams: AggregatorSetReadConfigParams = {...};
    * const tx = await aggregatorAccount.setReadConfig(readConfigParams);
@@ -319,7 +323,6 @@ export class AggregatorAccount {
    * @param address - The address of the Aggregator account to watch.
    * @param callback - The callback function to call when an event occurs.
    *
-   * @example
    * ```typescript
    * const watchHandle = AggregatorAccount.watch(switchboardProgram, 'account_address', (event) => {
    *   console.log(event);
@@ -350,45 +353,59 @@ export class AggregatorAccount {
   }
 
   /**
-   * Escrow funds for the Aggregator account.
+   * Fund the escrow of the Aggregator Account
    *
+   * @param fundAmount - The amount of ETH to deposit into an Aggregator's lease escrow.
    * @param options - (Optional) Transaction options.
    *
-   * @example
    * ```typescript
-   * const tx = await aggregatorAccount.escrowFund();
+   * const tx = await aggregatorAccount.escrowFund(100000);
    * ```
    *
    * @returns - The ContractTransaction.
    */
   public async escrowFund(
+    fundAmount: BigNumberish,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    throw new Error(`Not implemented yet`);
+    const tx = await this.switchboard.sendSbTxn("escrowFund", [this.address], {
+      ...options,
+      value: fundAmount,
+    });
+    return tx;
   }
 
   /**
-   * Withdraw funds from the Aggregator account's escrow.
+   * Withdraw from the escrow of the Aggregator Account
    *
+   * @parm withdrawAmount - The amount of ETH to remove from an Aggregator's lease escrow.
+   * @parm withdrawAddress - The account to send the withdrawed funds to.
    * @param options - (Optional) Transaction options.
    *
-   * @example
    * ```typescript
-   * const tx = await aggregatorAccount.escrowWithdraw();
+   * const tx = await aggregatorAccount.escrowWithdraw(100000, '0xMyWithdrawWallet');
    * ```
    *
    * @returns - The ContractTransaction.
    */
   public async escrowWithdraw(
+    withdrawAmount: BigNumberish,
+    withdrawAddress: string,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    throw new Error(`Not implemented yet`);
+    // TODO: Check aggregator authority == msg.sender
+    // TODO: Check aggregator has enough funds
+    const tx = await this.switchboard.sendSbTxn(
+      "escrowWithdraw",
+      [withdrawAddress, this.address, withdrawAmount],
+      options
+    );
+    return tx;
   }
 
   /**
    * Get the latest result from an aggregator to access historical data
    *
-   * @example
    * ```typescript
    * const intervalId = await aggregatorAccount.getCurrentIntervalId();
    * console.log(intervalId);
@@ -405,7 +422,6 @@ export class AggregatorAccount {
    *
    * @param _intervalId - an optional intervalId to fetch a value for. If not provided then the latest result is used.
    *
-   * @example
    * ```typescript
    * const [value, timestamp, medianTimestamp] = await aggregatorAccount.getIntervalResult();
    * console.log(value, timestamp, medianTimestamp);

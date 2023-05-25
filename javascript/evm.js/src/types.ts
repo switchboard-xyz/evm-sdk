@@ -1,5 +1,11 @@
-import { type AggregatorInitParams } from "./accounts/AggregatorAccount.js";
-import { type FunctionInitParams } from "./accounts/FunctionAccount.js";
+import {
+  AggregatorAccount,
+  type AggregatorInitParams,
+} from "./accounts/AggregatorAccount.js";
+import {
+  FunctionAccount,
+  type FunctionInitParams,
+} from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
 import { type QuoteInitParams } from "./accounts/QuoteAccount.js";
 import {
@@ -125,7 +131,7 @@ export type SendContractMethod<T extends Contract> = (
  *
  * This class provides methods to send transactions, poll events, fetch accounts, and more. It requires a `Signer` or `Provider` instance and the address of the Switchboard contract to instantiate.
  *
- * ```ts
+ * ```typescript
  * // Instantiate SwitchboardProgram
  * const signer = new ethers.Wallet(privateKey);
  * const switchboardProgram = await SwitchboardProgram.load(
@@ -154,19 +160,159 @@ export type SendContractMethod<T extends Contract> = (
  * ```
  */
 export interface ISwitchboardProgram {
+  // An instance of the {@link Switchboard} contract.
   sb: Switchboard;
+  // An instance of the {@link SwitchboardAttestationService} contract.
   vs?: SwitchboardAttestationService;
 
+  /**
+   * A getter that returns a promise which resolves to the address of the signer.
+   * If the address has already been fetched, it will be returned from the cache.
+   * @returns Promise<string>
+   *
+   * ```typescript
+   * const signerAddress = await switchboard.address;
+   * ```
+   */
   address: Promise<string>;
+  /**
+   * Returns a new instance of the SwitchboardProgram with a new signer.
+   * @param signer - The new signer
+   * @returns SwitchboardProgram
+   *
+   * ```typescript
+   * const newSwitchboardProgram = switchboardProgram.connect(newSigner);
+   * ```
+   */
   connect(signer: Signer): ISwitchboardProgram;
 
+  /**
+   * Checks if the SwitchboardProgram instance has an AttestationService.
+   * Throws an error if the AttestationService is undefined.
+   * @throws Error - if the AttestationService is undefined
+   */
   hasAttestationService: () => void;
 
+  /**
+   * Sends a transaction to the Switchboard.sol contract
+   * @param methodName - The name of the contract method to be called
+   * @param args - The arguments to pass to the contract method
+   * @param options - The options to pass to the contract method
+   * @returns Promise<ContractTransaction>
+   *
+   * ```typescript
+   * const transaction = await switchboardProgram.sendSbTxn('methodName', args, options);
+   * ```
+   */
   sendSbTxn: SendContractMethod<Switchboard>;
+  /**
+   * Sends a transaction to the SwitchboardAttestationService.sol contract
+   * @param methodName - The name of the contract method to be called
+   * @param args - The arguments to pass to the contract method
+   * @param options - The options to pass to the contract method
+   * @returns Promise<ContractTransaction>
+   *
+   * ```typescript
+   * const transaction = await switchboardProgram.sendVsTxn('methodName', args, options);
+   * ```
+   */
   sendVsTxn: SendContractMethod<SwitchboardAttestationService>;
 
+  /**
+   * Polls a Switchboard contract transaction for an emitted event field
+   * @param tx - The contract transaction to poll
+   * @param field - An optional field name to extract from the event
+   * @returns Promise<T>
+   *
+   * ```typescript
+   * const accountAddress: string = await switchboardProgram.pollTxnForSbEvent(tx, 'accountAddress');
+   * ```
+   */
   pollTxnForSbEvent: PollTxnForEventFieldFn;
+  /**
+   * Polls a SwitchboardAttestationService contract transaction for an emitted event field
+   * @param tx - The contract transaction to poll
+   * @param field - An optional field name to extract from the event
+   * @returns Promise<T>
+   *
+   * ```typescript
+   * const accountAddress = await switchboardProgram.pollTxnForVsEvent(tx, 'accountAddress');
+   * ```
+   */
   pollTxnForVsEvent: PollTxnForEventFieldFn;
+
+  /**
+   * Fetches Aggregator accounts for a given authority
+   * @param authority - The authority for which to fetch the aggregator accounts
+   * @returns Promise<AggregatorAccount[]>
+   *
+   * ```typescript
+   * const aggregatorAccounts = await switchboardProgram.fetchAggregatorAccounts('myAuthority');
+   * ```
+   */
+  fetchAggregatorAccounts: (authority: string) => Promise<AggregatorAccount[]>;
+  /**
+   * Fetches an array of AggregatorData instances for a given authority.
+   * @param authority - The public key of the authority for which to fetch the AggregatorData.
+   * @returns An array of AggregatorData instances.
+   *
+   * ```typescript
+   * // Fetch all aggregator data for a given authority
+   * const authority = '0xabc123...'; // the public key of the authority
+   * const aggregatorData = await switchboardProgram.fetchAggregators(authority);
+   *
+   * // Now you can loop through the aggregatorData array to access individual data.
+   * for (const data of aggregatorData) {
+   *    console.log(data);
+   * }
+   * ```
+   */
+  fetchAggregators: (authority: string) => Promise<AggregatorData[]>;
+  /**
+   * Fetches an array of FunctionAccount instances for a given authority.
+   * @param authority - The public key of the authority for which to fetch FunctionAccount instances.
+   * @returns An array of FunctionAccount instances.
+   *
+   * ```typescript
+   * // Fetch all function accounts for a given authority
+   * const authority = '0xabc123...'; // the public key of the authority
+   * const functionAccounts = await switchboardProgram.fetchFunctionAccounts(authority);
+   *
+   * // Now you can loop through the functionAccounts array to access individual accounts.
+   * for (const account of functionAccounts) {
+   *    console.log(account);
+   * }
+   * ```
+   */
+  fetchFunctionAccounts: (authority: string) => Promise<FunctionAccount[]>;
+  /**
+   * Fetches an array of FunctionData instances for a given authority.
+   * @param authority - The public key of the authority for which to fetch FunctionData.
+   * @returns An array of FunctionData instances.
+   *
+   * ```typescript
+   * // Fetch all function data for a given authority
+   * const authority = '0xabc123...'; // the public key of the authority
+   * const functionData = await switchboardProgram.fetchFunctions(authority);
+   *
+   * // Now you can loop through the functionData array to access individual data.
+   * for (const data of functionData) {
+   *    console.log(data);
+   * }
+   * ```
+   */
+  fetchFunctions: (authority: string) => Promise<FunctionData[]>;
+
+  /**
+   * Fetch the MrEnclave measurement for a given quote authority address.
+   * @param quoteAuthority - The address of the quote authority to fetch a measurement for.
+   * @returns A quote authorities MrEnclave measurement
+   *
+   * ```typescript
+   * const mrEnclave = await switchboardProgram.getQuoteAuthorityMrEnclave('0xMyQuoteAuthority');
+   * ```
+   */
+  getQuoteAuthorityMrEnclave: (quoteAuthority: string) => Promise<Uint8Array>;
 }
 
 /**
@@ -235,7 +381,7 @@ export type EnablePermissions = boolean | { queueAuthority: Signer };
 
 /**
  * OracleQueueData is a type that represents the data for an {@link OracleQueueAccount}.
- * ```ts
+ * ```typescript
  * [
  *   'Queue1',
  *   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
@@ -267,7 +413,7 @@ export type OracleQueueAttestationConfig = Awaited<
 
 /**
  * AttestationQueueData is a type that represents the data for an {@link AttestationQueueAccount}.
- * ```ts
+ * ```typescript
  * [
  *   '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
  *   BigNumber { value: "180" },
@@ -300,7 +446,7 @@ export type AttestationQueueData = Awaited<
 
 /**
  * OracleData is a type that represents the data for an {@link OracleAccount}.
- * ```ts
+ * ```typescript
  * [
  *   '',
  *   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
@@ -319,7 +465,7 @@ export type OracleData = Awaited<ReturnType<Switchboard["oracles"]>>;
 
 /**
  * AggregatorData is a type that represents the data for an {@link AggregatorAccount}.
- * ```ts
+ * ```typescript
  * [
  *   'switchboard_feed',
  *   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
@@ -373,7 +519,7 @@ export type FunctionData = Awaited<
 
 /**
  * QuoteData is a type that represents the data for a {@link QuoteAccount}.
- * ```ts
+ * ```typescript
  * [
  *   '0x90F79bf6EB2c4f870365E785982E1f101E93b906',
  *   '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',

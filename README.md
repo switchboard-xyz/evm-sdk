@@ -30,9 +30,31 @@ pnpm build
 
 ## Addresses
 
+### Arbitrum
+
+The following addresses can be used with the Switchboard deployment on Arbitrum
+
+#### Mainnet
+
+| Account              | Address                                      |
+| -------------------- | -------------------------------------------- |
+| Program ID           | `0xd54579539E1334E856b983745DA26BEc3efB3C4D` |
+| Attestation Service  | `0x316fBe540C719970E6427ccD8590d7E0a2814C5D` |
+| Permissionless Queue | `0x127f24013CaADF770F4b514c86344dD4f38d80c2` |
+
+#### Testnet (Goerli)
+
+| Account              | Address                                      |
+| -------------------- | -------------------------------------------- |
+| Program ID           | `0x2802f459D1515257b73fAaa6dD9512E7cDE04592` |
+| Attestation Service  | `0xFC8e90254194B038F2e233129202f096a8507e80` |
+| Permissionless Queue | `0x3E1A13b2d6E0665A32d8638eA216A16953E8a9aF` |
+
+### CoreDAO
+
 The following addresses can be used with the Switchboard deployment on Coredao
 
-### Mainnet
+#### Mainnet
 
 | Account              | Address                                      |
 | -------------------- | -------------------------------------------- |
@@ -40,7 +62,7 @@ The following addresses can be used with the Switchboard deployment on Coredao
 | Permissioned Queue   | `0x1e373Ac0a299E6CCfE6bd333025E5Ebef9Eca2Dd` |
 | Permissionless Queue | `0x628D9A4109FD1B94348b7866923A4b7aae3D61c6` |
 
-### Testnet
+#### Testnet
 
 | Account              | Address                                      |
 | -------------------- | -------------------------------------------- |

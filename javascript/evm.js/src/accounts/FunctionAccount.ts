@@ -2,16 +2,27 @@ import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import {
   FunctionData,
   ISwitchboardProgram,
+  RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
-import { ContractTransaction } from "ethers";
+import { BigNumberish, ContractTransaction } from "ethers";
 
 /**
- * @interface FunctionInitParams
- * @description Interface for the Function Account initialization parameters
+ * Interface for the Function Account initialization parameters
+ *
+ * ```typescript
+ * {
+ *   authority: '0xMyAuthority',
+ *   name: 'my function',
+ *   containerRegistry: 'https://container_registry.com',
+ *   container: 'container-id',
+ *   schedule: '* * * * *',
+ *   version: '1'
+ * }
+ * ```
  */
 export interface FunctionInitParams {
   authority: string;
@@ -23,46 +34,73 @@ export interface FunctionInitParams {
 }
 
 /**
- * @class FunctionAccount
- * @description Class for interacting with Function Accounts in the {@link SwitchboardAttestationService} contract.
+ * Interface to verify a FunctionAccount
  *
- * @example
  * ```typescript
+ * {
+ *   delegatedSignerAddress: '0xMyDelegatedSigner',
+ *   observedTime: 1337,
+ *   nextAllowedTimestamp: 13337,
+ *   isFailure: false,
+ *   mrEnclave: [0,0,0,0,0]
+ * }
+ * ```
+ */
+export interface FunctionVerifyParams {
+  delegatedSignerAddress: string;
+  observedTime: number;
+  nextAllowedTimestamp: number;
+  isFailure: boolean;
+  mrEnclave: RawMrEnclave;
+}
+
+/**
+ * Class for interacting with Function Accounts in the SwitchboardAttestationService.sol contract.
+ *
+ * ```typescript
+ * // Instantiate an FunctionAccount
  * const functionAccount = new FunctionAccount(switchboardProgram, '0xYourFunctionAccountAddress');
+ *
+ * // Load the data
+ * const function = await functionAccount.loadData();
+ * const name = function.name;
  * ```
  */
 export class FunctionAccount {
+  /**
+   * Constructor of FunctionAccount
+   * @param switchboard the instance of Switchboard program
+   * @param address address of the FunctionAccount
+   */
   constructor(
     readonly switchboard: ISwitchboardProgram,
     readonly address: string
   ) {}
 
   /**
-   * @async
-   * @function loadData
-   * @description Load Function Account data
+   * Load Function Account data
    *
    * @returns {Promise<FunctionData>} Promise that resolves to FunctionData
    *
-   * @example
+   * ```typescript
    * const functionData = await functionAccount.loadData();
+   * ```
    */
   public async loadData(): Promise<FunctionData> {
     return await this.switchboard.vs.funcs(this.address);
   }
 
   /**
-   * @async
-   * @function load
-   * @description Static method to load and fetch the account data
+   * Static method to load and fetch the account data
    *
    * @param {ISwitchboardProgram} switchboard - Instance of the Switchboard Program class
    * @param {string} address - Address of the Function Account
    *
    * @returns {Promise<[FunctionAccount, FunctionData]>} Promise that resolves to a tuple containing the FunctionAccount and the FunctionData
    *
-   * @example
+   * ```typescript
    * const [functionAccount, functionData] = await FunctionAccount.load(switchboard, address);
+   * ```
    */
   public static async load(
     switchboard: ISwitchboardProgram,
@@ -74,9 +112,7 @@ export class FunctionAccount {
   }
 
   /**
-   * @async
-   * @function init
-   * @description Static method to initialize a Function Account
+   * Static method to initialize a Function Account
    *
    * @param {ISwitchboardProgram} switchboard - Instance of the Switchboard Program class
    * @param {FunctionInitParams & { attestationQueue: string }} params - Function initialization params
@@ -84,10 +120,11 @@ export class FunctionAccount {
    *
    * @returns {Promise<[FunctionAccount, ContractTransaction]>} Promise that resolves to a tuple containing the FunctionAccount and the ContractTransaction
    *
-   * @example
-   * const [functionAccount, contractTransaction] = await FunctionAccount.init(switchboard, params, options);
+   * ```typescript
+   * const [functionAccount, contractTransaction] = await FunctionAccount.create(switchboard, params, options);
+   * ```
    */
-  public static async init(
+  public static async create(
     switchboard: ISwitchboardProgram,
     params: FunctionInitParams & { attestationQueue: string },
     options?: TransactionOptions
@@ -120,54 +157,83 @@ export class FunctionAccount {
   }
 
   /**
-   * @async
-   * @function verify
-   * @description Verify the Function Account
+   * Verify the Function Account
    *
    * @param {TransactionOptions} [options] - Transaction options
    *
    * @returns {Promise<boolean>} Promise that resolves to a boolean indicating whether the verification was successful
    *
-   * @example
+   * ```typescript
    * const isVerified = await functionAccount.verify(options);
+   * ```
    */
-  public async verify(options?: TransactionOptions): Promise<boolean> {
-    throw new Error(`Not implemented yet`);
+  public async verify(
+    params: FunctionVerifyParams,
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
+    const tx = await this.switchboard.sendVsTxn(
+      "verifyFunction",
+      [
+        this.address,
+        params.delegatedSignerAddress,
+        params.observedTime,
+        params.nextAllowedTimestamp,
+        params.isFailure,
+        params.mrEnclave,
+      ],
+      options
+    );
+    return tx;
   }
 
   /**
-   * @async
-   * @function escrowFund
-   * @description Fund the escrow of the Function Account
+   * Fund the escrow of the Function Account
    *
-   * @param {TransactionOptions} [options] - Transaction options
+   * @param fundAmount - The amount of ETH to deposit into a Function's escrow.
+   * @param options - (Optional) Transaction options.
    *
-   * @returns {Promise<ContractTransaction>} Promise that resolves to the ContractTransaction
+   * ```typescript
+   * const tx = await functionAccount.escrowFund(100000);
+   * ```
    *
-   * @example
-   * const contractTransaction = await functionAccount.escrowFund(options);
+   * @returns - The ContractTransaction.
    */
   public async escrowFund(
+    fundAmount: BigNumberish,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    throw new Error(`Not implemented yet`);
+    const tx = await this.switchboard.sendVsTxn("escrowFund", [this.address], {
+      ...options,
+      value: fundAmount,
+    });
+    return tx;
   }
 
   /**
-   * @async
-   * @function escrowWithdraw
-   * @description Withdraw from the escrow of the Function Account
+   * Withdraw from the escrow of the Function Account
    *
-   * @param {TransactionOptions} [options] - Transaction options
+   * @parm withdrawAmount - The amount of ETH to remove from a Function's escrow.
+   * @parm withdrawAddress - The account to send the withdrawed funds to.
+   * @param options - (Optional) Transaction options.
    *
-   * @returns {Promise<ContractTransaction>} Promise that resolves to the ContractTransaction
+   * ```typescript
+   * const tx = await functionAccount.escrowWithdraw(100000, '0xMyWithdrawWallet');
+   * ```
    *
-   * @example
-   * const contractTransaction = await functionAccount.escrowWithdraw(options);
+   * @returns - The ContractTransaction.
    */
   public async escrowWithdraw(
+    withdrawAmount: BigNumberish,
+    withdrawAddress: string,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    throw new Error(`Not implemented yet`);
+    // TODO: Check function authority == msg.sender
+    // TODO: Check function has enough funds
+    const tx = await this.switchboard.sendSbTxn(
+      "escrowWithdraw",
+      [withdrawAddress, this.address, withdrawAmount],
+      options
+    );
+    return tx;
   }
 }
