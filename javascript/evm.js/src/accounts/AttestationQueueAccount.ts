@@ -16,8 +16,10 @@ import { QuoteAccount } from "./QuoteAccount.js";
 
 import { ContractTransaction } from "ethers";
 
+import { type SwitchboardAttestationService } from "../typechain-types/index.js";
+
 /**
- * Parameters to initialize an {@linkcode AttestationQueueAccount}.
+ * Parameters to initialize an {AttestationQueueAccount}.
  *
  * @example
  * const params: AttestationQueueInitParams = {
@@ -63,7 +65,7 @@ export type AttestationQueueSetConfigsParams =
   Partial<AttestationQueueInitParams>;
 
 /**
- * Class for Attestation Queue Account in the {@linkcode SwitchboardAttestationService} contract.
+ * Class for Attestation Queue Account in the {@link SwitchboardAttestationService} contract.
  *
  * @example
  * const attestationQueueAccount = new AttestationQueueAccount(switchboardProgram, '0xYourAttestationQueueAddress');
@@ -236,7 +238,7 @@ export class AttestationQueueAccount {
   }
 
   /**
-   * Method to create a {@linkcode FunctionAccount} and optionally enable its serviceQueue permissions
+   * Method to create a {FunctionAccount} and optionally enable its serviceQueue permissions
    *
    * @param params - Parameters required to create the function
    * @param [enable=true] - Flag to enable serviceQueue permissions (default is true)
@@ -292,7 +294,7 @@ export class AttestationQueueAccount {
   }
 
   /**
-   * Method to create a {@linkcode QuoteAccount} and optionally enable its serviceQueue permissions
+   * Method to create a {QuoteAccount} and optionally enable its serviceQueue permissions
    *
    * @param params - Parameters required to create the quote
    * @param [options] - Transaction options

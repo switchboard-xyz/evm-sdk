@@ -52,7 +52,7 @@ export interface OracleInitParams {
 }
 
 /**
- * Represents an Oracle Account in the {@linkcode Switchboard} contract.
+ * Represents an Oracle Account in the {@link Switchboard} contract.
  *
  * @example
  * const oracle = new OracleAccount(switchboard, "0xOracleAddress");
@@ -78,7 +78,7 @@ export class OracleAccount {
   /**
    * Static method to load an oracle account.
    *
-   * @param switchboard - An instance of the {@linkcode SwitchboardProgram}.
+   * @param switchboard - An instance of the {@link SwitchboardProgram}.
    * @param address - The address of the oracle.
    *
    * @example
@@ -98,7 +98,7 @@ export class OracleAccount {
   /**
    * Initialize an oracle.
    *
-   * @param switchboard - An instance of the {@linkcode SwitchboardProgram}.
+   * @param switchboard - An instance of the {@link SwitchboardProgram}.
    * @param params - Initialization parameters for the oracle.
    * @param options - Transaction options.
    *

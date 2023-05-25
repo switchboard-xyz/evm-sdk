@@ -23,7 +23,7 @@ export interface QuoteInitParams {
 }
 
 /**
- * A class representing a QuoteAccount in the {@linkcode SwitchboardAttestationService} contract.
+ * A class representing a QuoteAccount in the {@link SwitchboardAttestationService} contract.
  *
  * @example
  * ```typescript
@@ -51,7 +51,7 @@ export class QuoteAccount {
   /**
    * Static method to load and fetch the account data
    *
-   * @param switchboard - Instance of the {@linkcode SwitchboardProgram} class
+   * @param switchboard - Instance of the {@link SwitchboardProgram} class
    * @param address - Address of the QuoteAccount
    *
    * @returns {Promise<[QuoteAccount, QuoteData]>} Promise that resolves to tuple of QuoteAccount and QuoteData
@@ -71,7 +71,7 @@ export class QuoteAccount {
   /**
    * Static method to initialize a Quote
    *
-   * @param switchboard - Instance of the {@linkcode SwitchboardProgram} class
+   * @param switchboard - Instance of the {@link SwitchboardProgram} class
    * @param params - Quote initialization parameters
    * @param [options] - Transaction options
    *
@@ -229,7 +229,7 @@ export class QuoteAccount {
   }
 
   /**
-   * Static method to get the {@linkcode QuoteAccount} for the given authority
+   * Static method to get the {@link QuoteAccount} for the given authority
    *
    * @param switchboard - Instance of the Switchboard Program class
    * @param authority - Address of the authority

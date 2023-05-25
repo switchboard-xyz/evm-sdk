@@ -17,7 +17,7 @@ export interface PermissionInitParams {
 
 /**
  * @class Permissions
- * @description Class for interacting with Permissions in the {@linkcode Switchboard} and {@linkcode SwitchboardAttestationService} contracts.
+ * @description Class for interacting with Permissions in the {@link Switchboard} and {@link SwitchboardAttestationService} contracts.
  */
 export class Permissions {
   private constructor() {}
@@ -27,7 +27,7 @@ export class Permissions {
    * @function set
    * @description Static method to set permissions between a granter and a grantee
    *
-   * @param switchboard - Instance of the {@linkcode SwitchboardProgram} class
+   * @param switchboard - Instance of the {@link SwitchboardProgram} class
    * @param granter - The account granting permissions
    * @param grantee - The account being granted permissions
    * @param permission - The type of permissions to grant
@@ -73,7 +73,7 @@ export class Permissions {
    * @function has
    * @description Static method to determine whether a given grantee and granter have a set of permissions
    *
-   * @param switchboard - Instance of the {@linkcode SwitchboardProgram} class
+   * @param switchboard - Instance of the {@link SwitchboardProgram} class
    * @param granter - The account granting permissions
    * @param grantee - The account being granted permissions
    * @param permission - The type of permissions to check

@@ -30,7 +30,7 @@ export interface OracleQueueInitParams {
 }
 
 /**
- * An account class for an OracleQueue in the {@linkcode Switchboard} contract.
+ * An account class for an OracleQueue in the {@link Switchboard} contract.
  *
  * @example
  * ```typescript
@@ -66,7 +66,7 @@ export class OracleQueueAccount {
 
   /**
    * Load and fetch the account data
-   * @param switchboard the {@linkcode SwitchboardProgram} class
+   * @param switchboard the {@link SwitchboardProgram} class
    * @param address address of the OracleQueueAccount
    * @example
    * ```typescript
@@ -84,7 +84,7 @@ export class OracleQueueAccount {
 
   /**
    * Initialize an OracleQueueAccount
-   * @param switchboard the {@linkcode SwitchboardProgram} class
+   * @param switchboard the {@link SwitchboardProgram} class
    * @param params OracleQueueAccount initialization params
    * @example
    * ```typescript
@@ -203,7 +203,7 @@ export class OracleQueueAccount {
   }
 
   /**
-   * Create an {@linkcode OracleAccount} and enable its heartbeat permissions
+   * Create an {@link OracleAccount} and enable its heartbeat permissions
    * @example
    * ```typescript
    * const oracleAccount = await oracleQueueAccount.createOracle(createOracleParams);
@@ -256,7 +256,7 @@ export class OracleQueueAccount {
   }
 
   /**
-   * Create an {@linkcode AggregatorAccount} and enable its queueUsage permissions
+   * Create an {@link AggregatorAccount} and enable its queueUsage permissions
    * @example
    * ```typescript
    * const aggregatorAccount = await oracleQueueAccount.createAggregator(createAggregatorParams);

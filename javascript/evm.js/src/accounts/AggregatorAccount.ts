@@ -100,7 +100,7 @@ export interface AggregatorSetReadConfigParams {
 }
 
 /**
- * Class for interacting with Aggregator Accounts in the {@linkcode Switchboard} contract.
+ * Class for interacting with Aggregator Accounts in the {@link Switchboard} contract.
  *
  * @example
  * ```typescript
@@ -164,7 +164,7 @@ export class AggregatorAccount {
   /**
    * Initializes a new AggregatorAccount.
    *
-   * @param switchboard - An instance of the {@linkcode SwitchboardProgram}.
+   * @param switchboard - An instance of the {@link SwitchboardProgram}.
    * @param params - The initialization parameters for this Aggregator.
    * @param options - (Optional) Transaction options.
    *

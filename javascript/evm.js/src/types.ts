@@ -228,43 +228,43 @@ export type CreateQuote = Exclude<
 export type EnablePermissions = boolean | { queueAuthority: Signer };
 
 /**
- * OracleQueueData is a type that represents the data for an {@linkcode OracleQueueAccount}.
+ * OracleQueueData is a type that represents the data for an {@link OracleQueueAccount}.
  */
 export type OracleQueueData = Awaited<ReturnType<Switchboard["queues"]>>;
 
 /**
- * OracleQueueAttestationConfig is a type that represents the attestation config for an {@linkcode OracleQueueAccount}.
+ * OracleQueueAttestationConfig is a type that represents the attestation config for an {@link OracleQueueAccount}.
  */
 export type OracleQueueAttestationConfig = Awaited<
   ReturnType<Switchboard["queueAttestationConfigs"]>
 >;
 
 /**
- * AttestationQueueData is a type that represents the data for an {@linkcode AttestationQueueAccount}.
+ * AttestationQueueData is a type that represents the data for an {@link AttestationQueueAccount}.
  */
 export type AttestationQueueData = Awaited<
   ReturnType<SwitchboardAttestationService["queues"]>
 >;
 
 /**
- * OracleData is a type that represents the data for an {@linkcode OracleAccount}.
+ * OracleData is a type that represents the data for an {@link OracleAccount}.
  */
 export type OracleData = Awaited<ReturnType<Switchboard["oracles"]>>;
 
 /**
- * AggregatorData is a type that represents the data for an {@linkcode AggregatorAccount}.
+ * AggregatorData is a type that represents the data for an {@link AggregatorAccount}.
  */
 export type AggregatorData = Awaited<ReturnType<Switchboard["aggregators"]>>;
 
 /**
- * FunctionData is a type that represents the data for a {@linkcode FunctionAccount}.
+ * FunctionData is a type that represents the data for a {@link FunctionAccount}.
  */
 export type FunctionData = Awaited<
   ReturnType<SwitchboardAttestationService["funcs"]>
 >;
 
 /**
- * QuoteData is a type that represents the data for a {@linkcode QuoteAccount}.
+ * QuoteData is a type that represents the data for a {@link QuoteAccount}.
  */
 export type QuoteData = Awaited<
   ReturnType<SwitchboardAttestationService["quotes"]>

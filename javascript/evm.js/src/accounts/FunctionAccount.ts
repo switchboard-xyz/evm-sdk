@@ -24,7 +24,7 @@ export interface FunctionInitParams {
 
 /**
  * @class FunctionAccount
- * @description Class for interacting with Function Accounts in the {@linkcode SwitchboardAttestationService} contract.
+ * @description Class for interacting with Function Accounts in the {@link SwitchboardAttestationService} contract.
  *
  * @example
  * ```typescript

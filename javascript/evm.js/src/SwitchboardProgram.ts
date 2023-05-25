@@ -78,7 +78,7 @@ export function getSwitchboardAttestationService(
 }
 
 /**
- * The SwitchboardProgram class provides a high-level API to interact with the Switchboard and SwitchboardAttestationService smart contracts on the EVM.
+ * The SwitchboardProgram class provides a high-level API to interact with the {@link Switchboard} and {@link SwitchboardAttestationService} smart contracts on the EVM.
  *
  * This class provides methods to send transactions, poll events, fetch accounts, and more. It requires a `Signer` or `Provider` instance and the address of the Switchboard contract to instantiate.
  *
@@ -92,14 +92,16 @@ export function getSwitchboardAttestationService(
  * );
  *
  * // Send a transaction to Switchboard
- * const methodName = 'methodName'; // replace with actual method name
- * const args = [arg1, arg2]; // replace with actual arguments
- * const options = {}; // transaction options
- * const txResponse = await switchboardProgram.sendSbTxn(methodName, args, options);
- *
- * // Poll a transaction for an emitted event field
- * const field = 'eventName'; // replace with actual event field name
- * const eventResult = await switchboardProgram.pollTxnForSbEvent(txResponse, field);
+ * const tx = await switchboard.sendSbTxn("createOracleQueue",
+ *    [
+ *      name,
+ *      authority,
+ *      unpermissionedFeedsEnabled,
+ *      maxSize,
+ *      reward,
+ *      oracleTimeout,
+ *    ]
+ * );
  *
  * // Fetch all aggregator data for a given authority
  * const authority = '0xabc123...'; // the public key of the authority
