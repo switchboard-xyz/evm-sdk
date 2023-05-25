@@ -1,13 +1,19 @@
 snippets:
   - name: "Load Switchboard Program"
-    description: "load-program.ts"
-    filename: "create-feed.ts"
+    description: ""
+    filename: "load-program.ts"
   - name: "Create a Queue"
     description: ""
     filename: "create-queue.ts"
   - name: "Add an Oracle"
     description: ""
     filename: "add-an-oracle.ts"
+  - name: "Create a Job on IPFS"
+    description:
+      "A set of jobs must be encoded with the [following
+      structure](https://ipfs.io/ipfs/bafybeiaprigfe7hakc4hgqyrjtgsbggrpvzfufpufzvpwtzlznyjb5hjw4/%20USD).
+      This example uses [web3.storage](https://web3.storage)."
+    filename: "create-job-ipfs.ts"
   - name: "Create a Data Feed"
     description: ""
     filename: "create-a-data-feed.ts"
@@ -19,9 +25,3 @@ snippets:
       "Setup a websocket listener to invoke a callback whenever an aggregator is
       updated"
     filename: "watch-data-feed.ts"
-  - name: "Create a Job on IPFS"
-    description:
-      "A set of jobs must be encoded with the [following
-      structure](https://ipfs.io/ipfs/bafybeiaprigfe7hakc4hgqyrjtgsbggrpvzfufpufzvpwtzlznyjb5hjw4/%20USD).
-      This example uses [web3.storage](https://web3.storage)."
-    filename: "create-job-ipfs.ts"

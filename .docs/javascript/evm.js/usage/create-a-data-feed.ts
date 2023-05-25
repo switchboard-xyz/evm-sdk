@@ -1,31 +1,30 @@
-import { QueueAccount } from "@switchboard-xyz/solana.js";
-import { OracleJob } from "@switchboard-xyz/common";
+import { OracleQueueAccount } from "@switchboard-xyz/evm.js";
 
-const queueAccount = new QueueAccount(program, queuePubkey);
+const oracleQueueAccount = new OracleQueueAccount(
+  switchboardProgram,
+  queueAddress
+);
 
-const [aggregatorAccount, aggregatorInitSignatures] =
-  await queueAccount.createFeed({
-    batchSize: 1,
-    minRequiredOracleResults: 1,
-    minRequiredJobResults: 1,
+const aggregatorAccount = await oracleQueueAccount.createAggregator(
+  {
+    authority: "0xYourAuthority",
+    name: "MyAggregator",
+    queueAddress: "0xQueueAddress",
+    batchSize: 10,
+    minOracleResults: 5,
+    minJobResults: 3,
     minUpdateDelaySeconds: 60,
-    fundAmount: 2.5, // deposit 2.5 wSOL into the leaseAccount escrow
-    jobs: [
-      { pubkey: jobAccount.publicKey },
-      {
-        weight: 2,
-        data: OracleJob.encodeDelimited(
-          OracleJob.fromObject({
-            tasks: [
-              {
-                valueTask: {
-                  value: 1,
-                },
-              },
-            ],
-          })
-        ).finish(),
-      },
-    ],
-  });
+    varianceThreshold: 0.05,
+    forceReportPeriod: 600,
+    jobsHash: "0xJobHash",
+    enableLegacyAdapter: false,
+    initialValue: 0,
+  },
+  // enable the oracle queue usage permissions (requires msg.sender to be queueAuthority)
+  true,
+  // you can also explicitly provide the queueAuthority signer
+  {
+    signer: queueAuthoritySigner,
+  }
+);
 const aggregator = await aggregatorAccount.loadData();

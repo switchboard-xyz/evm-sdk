@@ -20,46 +20,63 @@ npm i --save @switchboard-xyz/evm.js
 
 **Directory**
 
+- [Load Switchboard Program](#load-switchboard-program)
 - [Create a Queue](#create-a-queue)
 - [Add an Oracle](#add-an-oracle)
+- [Create a Job on IPFS](#create-a-job-on-ipfs)
 - [Create a Data Feed](#create-a-data-feed)
 - [Read a Data Feed](#read-a-data-feed)
 - [Watch Data Feed](#watch-data-feed)
-- [Create a Job on IPFS](#create-a-job-on-ipfs)
+
+### Load Switchboard Program
+
+```ts
+import ethers from "ethers";
+import { SwitchboardProgram } from "@switchboard-xyz/evm.js";
+
+// Instantiate SwitchboardProgram
+const signer = new ethers.Wallet(privateKey);
+const switchboardProgram = await SwitchboardProgram.load(
+  signer, // Signer instance
+  "0x73d6C66874e570f058834cAA666b2c352F1C792D" // Switchboard contract address
+);
+
+// Send a transaction to Switchboard
+const tx = await switchboard.sendSbTxn("createOracleQueue", [
+  name,
+  authority,
+  unpermissionedFeedsEnabled,
+  maxSize,
+  reward,
+  oracleTimeout,
+]);
+
+// Fetch all aggregator data for a given authority
+const authority = "0xabc123..."; // the public key of the authority
+const aggregatorData = await switchboardProgram.fetchAggregators(authority);
+
+// Connect a new signer to SwitchboardProgram
+const newSigner = new ethers.Wallet(newPrivateKey);
+const newSwitchboardProgram = switchboardProgram.connect(newSigner);
+```
 
 ### Create a Queue
 
 ```ts
 import { OracleQueueAccount } from "@switchboard-xyz/evm.js";
 
-const oracleQueueAccount = new OracleQueueAccount(
+const [oracleQueueAccount, tx] = await OracleQueueAccount.create(
   switchboardProgram,
-  queueAddress
-);
-
-const aggregatorAccount = await oracleQueueAccount.createAggregator(
   {
-    authority: "0xYourAuthority",
-    name: "MyAggregator",
-    queueAddress: "0xQueueAddress",
-    batchSize: 10,
-    minOracleResults: 5,
-    minJobResults: 3,
-    minUpdateDelaySeconds: 60,
-    varianceThreshold: 0.05,
-    forceReportPeriod: 600,
-    jobsHash: "0xJobHash",
-    enableLegacyAdapter: false,
-    initialValue: 0,
-  },
-  // enable the oracle queue usage permissions (requires msg.sender to be queueAuthority)
-  true,
-  // you can also explicitly provide the queueAuthority signer
-  {
-    signer: queueAuthoritySigner,
+    authority: "0xMyAuthority",
+    name: "my queue",
+    oracleTimeout: 3600,
+    reward: 10000000,
+    unpermissionedFeedsEnabled: true,
+    maxSize: 100,
   }
 );
-const aggregator = await aggregatorAccount.loadData();
+const oracleQueue = await oracleQueueAccount.loadData();
 ```
 
 ### Add an Oracle
@@ -87,76 +104,6 @@ const oracleAccount = await oracleQueueAccount.createOracle(
 const oracle = await oracleAccount.loadData();
 
 await oracleAccount.heartbeat();
-```
-
-### Create a Data Feed
-
-```ts
-import { QueueAccount } from "@switchboard-xyz/solana.js";
-import { OracleJob } from "@switchboard-xyz/common";
-
-const queueAccount = new QueueAccount(program, queuePubkey);
-
-const [aggregatorAccount, aggregatorInitSignatures] =
-  await queueAccount.createFeed({
-    batchSize: 1,
-    minRequiredOracleResults: 1,
-    minRequiredJobResults: 1,
-    minUpdateDelaySeconds: 60,
-    fundAmount: 2.5, // deposit 2.5 wSOL into the leaseAccount escrow
-    jobs: [
-      { pubkey: jobAccount.publicKey },
-      {
-        weight: 2,
-        data: OracleJob.encodeDelimited(
-          OracleJob.fromObject({
-            tasks: [
-              {
-                valueTask: {
-                  value: 1,
-                },
-              },
-            ],
-          })
-        ).finish(),
-      },
-    ],
-  });
-const aggregator = await aggregatorAccount.loadData();
-```
-
-### Read a Data Feed
-
-After the oracles respond, read the feed result
-
-```ts
-import { AggregatorAccount } from "@switchboard-xyz/evm.js";
-
-const aggregatorAccount = new AggregatorAccount(
-  switchboardProgram,
-  aggregatorAddress
-);
-const result: number = await aggregatorAccount.latestValue();
-console.log(result);
-```
-
-### Watch Data Feed
-
-Setup a websocket listener to invoke a callback whenever an aggregator is updated
-
-```ts
-import { AggregatorAccount } from "@switchboard-xyz/evm.js";
-
-const watchHandle = AggregatorAccount.watch(
-  switchboardProgram,
-  "0xAggregatorAccountAddress",
-  (event) => {
-    console.log(event);
-  }
-);
-
-// To stop watching
-watchHandle.stop();
 ```
 
 ### Create a Job on IPFS
@@ -206,4 +153,73 @@ const content = new File([JSON.stringify(jobs)], "", {
 const cid = await client.put([content], {
   wrapWithDirectory: false,
 });
+```
+
+### Create a Data Feed
+
+```ts
+import { OracleQueueAccount } from "@switchboard-xyz/evm.js";
+
+const oracleQueueAccount = new OracleQueueAccount(
+  switchboardProgram,
+  queueAddress
+);
+
+const aggregatorAccount = await oracleQueueAccount.createAggregator(
+  {
+    authority: "0xYourAuthority",
+    name: "MyAggregator",
+    queueAddress: "0xQueueAddress",
+    batchSize: 10,
+    minOracleResults: 5,
+    minJobResults: 3,
+    minUpdateDelaySeconds: 60,
+    varianceThreshold: 0.05,
+    forceReportPeriod: 600,
+    jobsHash: "0xJobHash",
+    enableLegacyAdapter: false,
+    initialValue: 0,
+  },
+  // enable the oracle queue usage permissions (requires msg.sender to be queueAuthority)
+  true,
+  // you can also explicitly provide the queueAuthority signer
+  {
+    signer: queueAuthoritySigner,
+  }
+);
+const aggregator = await aggregatorAccount.loadData();
+```
+
+### Read a Data Feed
+
+After the oracles respond, read the feed result
+
+```ts
+import { AggregatorAccount } from "@switchboard-xyz/evm.js";
+
+const aggregatorAccount = new AggregatorAccount(
+  switchboardProgram,
+  aggregatorAddress
+);
+const result: number = await aggregatorAccount.latestValue();
+console.log(result);
+```
+
+### Watch Data Feed
+
+Setup a websocket listener to invoke a callback whenever an aggregator is updated
+
+```ts
+import { AggregatorAccount } from "@switchboard-xyz/evm.js";
+
+const watchHandle = AggregatorAccount.watch(
+  switchboardProgram,
+  "0xAggregatorAccountAddress",
+  (event) => {
+    console.log(event);
+  }
+);
+
+// To stop watching
+watchHandle.stop();
 ```

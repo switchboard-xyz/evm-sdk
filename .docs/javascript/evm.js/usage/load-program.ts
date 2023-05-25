@@ -10,17 +10,16 @@ const switchboardProgram = await SwitchboardProgram.load(
 
 // Send a transaction to Switchboard
 const tx = await switchboard.sendSbTxn("createOracleQueue", [
-     name,
-     authority,
-     unpermissionedFeedsEnabled,
-     maxSize,
-     reward,
-     oracleTimeout,
-   ]
-);
+  name,
+  authority,
+  unpermissionedFeedsEnabled,
+  maxSize,
+  reward,
+  oracleTimeout,
+]);
 
 // Fetch all aggregator data for a given authority
-const authority = '0xabc123...'; // the public key of the authority
+const authority = "0xabc123..."; // the public key of the authority
 const aggregatorData = await switchboardProgram.fetchAggregators(authority);
 
 // Connect a new signer to SwitchboardProgram

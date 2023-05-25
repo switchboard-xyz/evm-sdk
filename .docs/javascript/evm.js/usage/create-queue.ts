@@ -1,30 +1,14 @@
 import { OracleQueueAccount } from "@switchboard-xyz/evm.js";
 
-const oracleQueueAccount = new OracleQueueAccount(
+const [oracleQueueAccount, tx] = await OracleQueueAccount.create(
   switchboardProgram,
-  queueAddress
-);
-
-const aggregatorAccount = await oracleQueueAccount.createAggregator(
   {
-    authority: "0xYourAuthority",
-    name: "MyAggregator",
-    queueAddress: "0xQueueAddress",
-    batchSize: 10,
-    minOracleResults: 5,
-    minJobResults: 3,
-    minUpdateDelaySeconds: 60,
-    varianceThreshold: 0.05,
-    forceReportPeriod: 600,
-    jobsHash: "0xJobHash",
-    enableLegacyAdapter: false,
-    initialValue: 0,
-  },
-  // enable the oracle queue usage permissions (requires msg.sender to be queueAuthority)
-  true,
-  // you can also explicitly provide the queueAuthority signer
-  {
-    signer: queueAuthoritySigner,
+    authority: "0xMyAuthority",
+    name: "my queue",
+    oracleTimeout: 3600,
+    reward: 10000000,
+    unpermissionedFeedsEnabled: true,
+    maxSize: 100,
   }
 );
-const aggregator = await aggregatorAccount.loadData();
+const oracleQueue = await oracleQueueAccount.loadData();
