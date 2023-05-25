@@ -16,8 +16,7 @@ import { BigNumber, ContractTransaction } from "ethers";
  * AggregatorInitParams defines the parameters required to initialize an Aggregator.
  * The Aggregator combines data from various oracles to provide a more reliable and secure data feed.
  *
- * @example
- * ```
+ * ```ts
  * const aggregatorInitParams = {
  *  authority: '0xYourAuthority',
  *  name: 'MyAggregator',

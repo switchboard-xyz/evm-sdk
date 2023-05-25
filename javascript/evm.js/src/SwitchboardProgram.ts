@@ -26,14 +26,14 @@ import {
 /**
  * Creates and returns a Wallet using a private key and a JSON-RPC provider
  * @param privateKey - The private key of the wallet
- * @param rpc - The JSON-RPC provider
+ * @param rpcUrl - The RPC url.
  * @returns Wallet
  *
  * @example
- * const wallet = getWallet('myPrivateKey', 'myRpcProvider');
+ * const wallet = getWallet('0xMyPrivateKey', 'https://rpc.com');
  */
-export function getWallet(privateKey: string, rpc: string) {
-  const provider = new providers.JsonRpcProvider(rpc);
+export function getWallet(privateKey: string, rpcUrl: string) {
+  const provider = new providers.JsonRpcProvider(rpcUrl);
   return new Wallet(privateKey, provider);
 }
 
@@ -44,7 +44,7 @@ export function getWallet(privateKey: string, rpc: string) {
  * @returns Switchboard instance
  *
  * @example
- * const switchboard = getSwitchboard('myContractAddress', mySignerOrProvider);
+ * const switchboard = getSwitchboard('0xSwitchboardSolContractAddress', mySignerOrProvider);
  */
 export function getSwitchboard(
   address: string,
@@ -58,13 +58,13 @@ export function getSwitchboard(
 }
 
 /**
- * Creates and returns a SwitchboardAttestationService instance
+ * Creates and returns a {@link SwitchboardAttestationService} instance
  * @param address - The contract address of the SwitchboardAttestationService
  * @param signerOrProvider - The signer or provider used to interact with the contract
  * @returns SwitchboardAttestationService instance
  *
  * @example
- * const attestationService = getSwitchboardAttestationService('myContractAddress', mySignerOrProvider);
+ * const attestationService = getSwitchboardAttestationService('0xSwitchboardAttestationContractAddress', mySignerOrProvider);
  */
 export function getSwitchboardAttestationService(
   address: string,
@@ -82,7 +82,6 @@ export function getSwitchboardAttestationService(
  *
  * This class provides methods to send transactions, poll events, fetch accounts, and more. It requires a `Signer` or `Provider` instance and the address of the Switchboard contract to instantiate.
  *
- * @example
  * ```ts
  * // Instantiate SwitchboardProgram
  * const signer = new ethers.Wallet(privateKey);
@@ -92,8 +91,7 @@ export function getSwitchboardAttestationService(
  * );
  *
  * // Send a transaction to Switchboard
- * const tx = await switchboard.sendSbTxn("createOracleQueue",
- *    [
+ * const tx = await switchboard.sendSbTxn("createOracleQueue", [
  *      name,
  *      authority,
  *      unpermissionedFeedsEnabled,
@@ -111,7 +109,6 @@ export function getSwitchboardAttestationService(
  * const newSigner = new ethers.Wallet(newPrivateKey);
  * const newSwitchboardProgram = switchboardProgram.connect(newSigner);
  * ```
- *
  */
 export class SwitchboardProgram implements ISwitchboardProgram {
   constructor(
@@ -126,8 +123,9 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * If the address has already been fetched, it will be returned from the cache.
    * @returns Promise<string>
    *
-   * @example
+   * ```ts
    * const signerAddress = await switchboard.address;
+   * ```
    */
   get address() {
     if (this._addressPromise) {
@@ -147,8 +145,9 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @param switchboardAddress - The contract address of the Switchboard
    * @returns Promise<SwitchboardProgram>
    *
-   * @example
+   * ```ts
    * const switchboardProgram = await SwitchboardProgram.load(mySignerOrProvider, 'mySwitchboardAddress');
+   * ```
    */
   public static async load(
     signerOrProvider: Signer | Provider,
@@ -174,8 +173,9 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @param signer - The new signer
    * @returns SwitchboardProgram
    *
-   * @example
+   * ```ts
    * const newSwitchboardProgram = switchboardProgram.connect(newSigner);
+   * ```
    */
   public connect(signer: Signer): SwitchboardProgram {
     return new SwitchboardProgram(
@@ -198,14 +198,15 @@ export class SwitchboardProgram implements ISwitchboardProgram {
   }
 
   /**
-   * Sends a transaction to the Switchboard contract
+   * Sends a transaction to the Switchboard.sol contract
    * @param methodName - The name of the contract method to be called
    * @param args - The arguments to pass to the contract method
    * @param options - The options to pass to the contract method
    * @returns Promise<ContractTransaction>
    *
-   * @example
+   * ```ts
    * const transaction = await switchboardProgram.sendSbTxn('methodName', args, options);
+   * ```
    */
   sendSbTxn: SendContractMethod<Switchboard> = async (
     methodName,
@@ -216,14 +217,15 @@ export class SwitchboardProgram implements ISwitchboardProgram {
   };
 
   /**
-   * Sends a transaction to the SwitchboardAttestationService contract
+   * Sends a transaction to the SwitchboardAttestationService.sol contract
    * @param methodName - The name of the contract method to be called
    * @param args - The arguments to pass to the contract method
    * @param options - The options to pass to the contract method
    * @returns Promise<ContractTransaction>
    *
-   * @example
+   * ```ts
    * const transaction = await switchboardProgram.sendVsTxn('methodName', args, options);
+   * ```
    */
   sendVsTxn: SendContractMethod<SwitchboardAttestationService> = async (
     methodName,
@@ -241,8 +243,9 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @param field - An optional field name to extract from the event
    * @returns Promise<T>
    *
-   * @example
-   * const eventField = await switchboardProgram.pollTxnForSbEvent(tx, 'fieldName');
+   * ```ts
+   * const accountAddress: string = await switchboardProgram.pollTxnForSbEvent(tx, 'accountAddress');
+   * ```
    */
   public async pollTxnForSbEvent<T>(
     tx: ContractTransaction,
@@ -262,8 +265,9 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @param field - An optional field name to extract from the event
    * @returns Promise<T>
    *
-   * @example
-   * const eventField = await switchboardProgram.pollTxnForVsEvent(tx, 'fieldName');
+   * ```ts
+   * const accountAddress = await switchboardProgram.pollTxnForVsEvent(tx, 'accountAddress');
+   * ```
    */
   public async pollTxnForVsEvent<T>(
     tx: ContractTransaction,
@@ -282,8 +286,9 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @param authority - The authority for which to fetch the aggregator accounts
    * @returns Promise<AggregatorAccount[]>
    *
-   * @example
+   * ```ts
    * const aggregatorAccounts = await switchboardProgram.fetchAggregatorAccounts('myAuthority');
+   * ```
    */
   public async fetchAggregatorAccounts(
     authority: string
@@ -309,7 +314,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @param authority - The public key of the authority for which to fetch the AggregatorData.
    * @returns An array of AggregatorData instances.
    *
-   * @example
+   * ```ts
    * // Fetch all aggregator data for a given authority
    * const authority = '0xabc123...'; // the public key of the authority
    * const aggregatorData = await switchboardProgram.fetchAggregators(authority);
@@ -318,6 +323,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * for (const data of aggregatorData) {
    *    console.log(data);
    * }
+   * ```
    */
   public async fetchAggregators(authority: string): Promise<AggregatorData[]> {
     const aggregatorAccounts = await this.fetchAggregatorAccounts(authority);
@@ -334,7 +340,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @param authority - The public key of the authority for which to fetch FunctionAccount instances.
    * @returns An array of FunctionAccount instances.
    *
-   * @example
+   * ```ts
    * // Fetch all function accounts for a given authority
    * const authority = '0xabc123...'; // the public key of the authority
    * const functionAccounts = await switchboardProgram.fetchFunctionAccounts(authority);
@@ -343,6 +349,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * for (const account of functionAccounts) {
    *    console.log(account);
    * }
+   * ```
    */
   public async fetchFunctionAccounts(
     authority: string
@@ -370,7 +377,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * @param authority - The public key of the authority for which to fetch FunctionData.
    * @returns An array of FunctionData instances.
    *
-   * @example
+   * ```ts
    * // Fetch all function data for a given authority
    * const authority = '0xabc123...'; // the public key of the authority
    * const functionData = await switchboardProgram.fetchFunctions(authority);
@@ -379,6 +386,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * for (const data of functionData) {
    *    console.log(data);
    * }
+   * ```
    */
   public async fetchFunctions(authority: string): Promise<FunctionData[]> {
     const functionAccounts = await this.fetchFunctionAccounts(authority);

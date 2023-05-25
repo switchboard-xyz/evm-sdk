@@ -5,6 +5,36 @@ const hexRegex = /^(0x|0X)?[a-fA-F0-9]{64}/g;
 const base64Regex =
   /^(?:[A-Za-z\d+\/]{4})*(?:[A-Za-z\d+\/]{3}=|[A-Za-z\d+\/]{2}==)?/g;
 
+/**
+ * This function parses the input "mrEnclave" which can be of type RawMrEnclave (string, Buffer, Uint8Array, number[]) and converts it into Uint8Array format.
+ * The function checks the type and format of the input and accordingly converts it into Uint8Array.
+ *
+ * If the input is a string, the function checks if it is a string of bytes, a hexadecimal string, or a base64 string and converts accordingly.
+ * If none of these match, it assumes the input to be utf-8 and converts it.
+ *
+ * If the input is an instance of Buffer or Uint8Array, it simply converts to Uint8Array.
+ *
+ * If none of these types match, it assumes the input to be an array of numbers and converts it to Uint8Array.
+ *
+ * Finally, it ensures that the output Uint8Array is always 32 bytes.
+ *
+ * @param mrEnclave - The RawMrEnclave input which can be of type string, Buffer, Uint8Array or number[]
+ * @returns A Uint8Array converted from the input.
+ *
+ * ```typescript
+ * let hexString = '0x1A';
+ * let uint8ArrayFromHexString = parseMrEnclave(hexString);
+ * console.log(uint8ArrayFromHexString); // Uint8Array(...)
+ *
+ * let buffer = Buffer.from('Hello, World!');
+ * let uint8ArrayFromBuffer = parseMrEnclave(buffer);
+ * console.log(uint8ArrayFromBuffer); // Uint8Array(...)
+ *
+ * let byteArray = new Uint8Array([1, 2, 3]);
+ * let uint8ArrayFromByteArray = parseMrEnclave(byteArray);
+ * console.log(uint8ArrayFromByteArray); // Uint8Array(...)
+ * ```
+ */
 export function parseMrEnclave(mrEnclave: RawMrEnclave): Uint8Array {
   let myUint8Array: Uint8Array;
 

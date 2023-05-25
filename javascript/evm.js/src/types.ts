@@ -20,8 +20,11 @@ import {
  * PayableOverrides and includes optional properties for gasFactor, simulate and signer.
  */
 export type TransactionOptions = Partial<PayableOverrides> & {
+  // an optional multiplier to modify the gasEstimation
   gasFactor?: number;
+  // simulate the tx before sending
   simulate?: boolean;
+  // the msg.sender for the tx
   signer?: Signer;
 };
 
@@ -118,11 +121,10 @@ export type SendContractMethod<T extends Contract> = (
 ) => Promise<ContractTransaction>;
 
 /**
- * The SwitchboardProgram class provides a high-level API to interact with the Switchboard and SwitchboardAttestationService smart contracts on the EVM.
+ * The SwitchboardProgram class provides a high-level API to interact with the {@link Switchboard} and {@link SwitchboardAttestationService} smart contracts on the EVM.
  *
  * This class provides methods to send transactions, poll events, fetch accounts, and more. It requires a `Signer` or `Provider` instance and the address of the Switchboard contract to instantiate.
  *
- * @example
  * ```ts
  * // Instantiate SwitchboardProgram
  * const signer = new ethers.Wallet(privateKey);
@@ -132,14 +134,15 @@ export type SendContractMethod<T extends Contract> = (
  * );
  *
  * // Send a transaction to Switchboard
- * const methodName = 'methodName'; // replace with actual method name
- * const args = [arg1, arg2]; // replace with actual arguments
- * const options = {}; // transaction options
- * const txResponse = await switchboardProgram.sendSbTxn(methodName, args, options);
- *
- * // Poll a transaction for an emitted event field
- * const field = 'eventName'; // replace with actual event field name
- * const eventResult = await switchboardProgram.pollTxnForSbEvent(txResponse, field);
+ * const tx = await switchboard.sendSbTxn("createOracleQueue", [
+ *      name,
+ *      authority,
+ *      unpermissionedFeedsEnabled,
+ *      maxSize,
+ *      reward,
+ *      oracleTimeout,
+ *    ]
+ * );
  *
  * // Fetch all aggregator data for a given authority
  * const authority = '0xabc123...'; // the public key of the authority
@@ -149,7 +152,6 @@ export type SendContractMethod<T extends Contract> = (
  * const newSigner = new ethers.Wallet(newPrivateKey);
  * const newSwitchboardProgram = switchboardProgram.connect(newSigner);
  * ```
- *
  */
 export interface ISwitchboardProgram {
   sb: Switchboard;
@@ -171,8 +173,11 @@ export interface ISwitchboardProgram {
  * Job is an interface that represents a job with a name, data, and weight.
  */
 export interface Job {
+  // the name of the job for easier identification
   name: string;
+  // the serialized {@linkcode OracleJob}
   data: string;
+  // the job weight for the weighted median calculation of Aggregator job responses
   weight: number;
 }
 
@@ -189,9 +194,14 @@ export type EventCallback = (
 export type RawMrEnclave = string | Buffer | Uint8Array | number[];
 
 /**
+ * Represents an account that will optionally sign the tx.
+ */
+export type OptionalSigner = string | Signer;
+
+/**
  * Authority is a type that represents an authority, which can be a string or a Signer.
  */
-export type Authority = { authority: string | Signer };
+export type Authority = { authority: OptionalSigner };
 
 /**
  * CreateOracle is a type that represents parameters to create an Oracle with an Authority.
@@ -216,11 +226,7 @@ export type CreateFunction = Exclude<FunctionInitParams, "authority"> &
 /**
  * CreateQuote is a type that represents parameters to create a Quote with an Authority and owner.
  */
-export type CreateQuote = Exclude<
-  Exclude<QuoteInitParams, "authority">,
-  "owner"
-> &
-  Authority & { owner: string };
+export type CreateQuote = Exclude<QuoteInitParams, "authority"> & Authority;
 
 /**
  * EnablePermissions is a type that can be a boolean or a queueAuthority as a Signer.
@@ -229,6 +235,26 @@ export type EnablePermissions = boolean | { queueAuthority: Signer };
 
 /**
  * OracleQueueData is a type that represents the data for an {@link OracleQueueAccount}.
+ * ```ts
+ * [
+ *   'Queue1',
+ *   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+ *   true,
+ *   BigNumber { value: "32" },
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "180" },
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "0" },
+ *   name: 'Queue1',
+ *   authority: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+ *   unpermissionedFeedsEnabled: true,
+ *   maxSize: BigNumber { value: "32" },
+ *   reward: BigNumber { value: "0" },
+ *   oracleTimeout: BigNumber { value: "180" },
+ *   gcIdx: BigNumber { value: "0" },
+ *   currIdx: BigNumber { value: "0" }
+ * ]
+ * ```
  */
 export type OracleQueueData = Awaited<ReturnType<Switchboard["queues"]>>;
 
@@ -241,6 +267,32 @@ export type OracleQueueAttestationConfig = Awaited<
 
 /**
  * AttestationQueueData is a type that represents the data for an {@link AttestationQueueAccount}.
+ * ```ts
+ * [
+ *   '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
+ *   BigNumber { value: "180" },
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "604800" },
+ *   BigNumber { value: "1" },
+ *   false,
+ *   false,
+ *   BigNumber { value: "3000000" },
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "0" },
+ *   authority: '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
+ *   maxSize: BigNumber { value: "180" },
+ *   reward: BigNumber { value: "0" },
+ *   lastHeartbeat: BigNumber { value: "0" },
+ *   maxQuoteVerificationAge: BigNumber { value: "604800" },
+ *   allowAuthorityOverrideAfter: BigNumber { value: "1" },
+ *   requireAuthorityHeartbeatPermission: false,
+ *   requireUsagePermissions: false,
+ *   quoteTimeout: BigNumber { value: "3000000" },
+ *   gcIdx: BigNumber { value: "0" },
+ *   currIdx: BigNumber { value: "0" }
+ * ]
+ * ```
  */
 export type AttestationQueueData = Awaited<
   ReturnType<SwitchboardAttestationService["queues"]>
@@ -248,11 +300,67 @@ export type AttestationQueueData = Awaited<
 
 /**
  * OracleData is a type that represents the data for an {@link OracleAccount}.
+ * ```ts
+ * [
+ *   '',
+ *   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+ *   0,
+ *   BigNumber { value: "0" },
+ *   '0xF688A2F2828f0F8E6E2214f462892a3cd3ceC8a3',
+ *   name: '',
+ *   authority: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+ *   numRows: 0,
+ *   lastHeartbeat: BigNumber { value: "0" },
+ *   queueAddress: '0xF688A2F2828f0F8E6E2214f462892a3cd3ceC8a3'
+ * ]
+ * ```
  */
 export type OracleData = Awaited<ReturnType<Switchboard["oracles"]>>;
 
 /**
  * AggregatorData is a type that represents the data for an {@link AggregatorAccount}.
+ * ```ts
+ * [
+ *   'switchboard_feed',
+ *   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+ *   [
+ *     BigNumber { value: "0" },
+ *     BigNumber { value: "0" },
+ *     '0x0000000000000000000000000000000000000000',
+ *     value: BigNumber { value: "0" },
+ *     timestamp: BigNumber { value: "0" },
+ *     oracleAddress: '0x0000000000000000000000000000000000000000'
+ *   ],
+ *   BigNumber { value: "1" },
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "1" },
+ *   '',
+ *   '0xfF5C1DD2A7cA6a4d76a902DaC6B0Fc99BcD54563',
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "1685024425" },
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "0" },
+ *   name: 'switchboard_feed',
+ *   authority: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+ *   latestResult: [
+ *     BigNumber { value: "0" },
+ *     BigNumber { value: "0" },
+ *     '0x0000000000000000000000000000000000000000',
+ *     value: BigNumber { value: "0" },
+ *     timestamp: BigNumber { value: "0" },
+ *     oracleAddress: '0x0000000000000000000000000000000000000000'
+ *   ],
+ *   batchSize: BigNumber { value: "1" },
+ *   minUpdateDelaySeconds: BigNumber { value: "0" },
+ *   minOracleResults: BigNumber { value: "1" },
+ *   jobsHash: '',
+ *   queueAddress: '0xfF5C1DD2A7cA6a4d76a902DaC6B0Fc99BcD54563',
+ *   balanceLeftForInterval: BigNumber { value: "0" },
+ *   nextIntervalRefreshTime: BigNumber { value: "1685024425" },
+ *   intervalId: BigNumber { value: "0" },
+ *   balance: BigNumber { value: "0" }
+ * ]
+ * ```
  */
 export type AggregatorData = Awaited<ReturnType<Switchboard["aggregators"]>>;
 
@@ -265,6 +373,30 @@ export type FunctionData = Awaited<
 
 /**
  * QuoteData is a type that represents the data for a {@link QuoteAccount}.
+ * ```ts
+ * [
+ *   '0x90F79bf6EB2c4f870365E785982E1f101E93b906',
+ *   '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
+ *   '0x19ef1517eEFE5A6278e8290455D6d530Ee82Dcb9',
+ *   '0x',
+ *   1,
+ *   BigNumber { value: "0" },
+ *   BigNumber { value: "0" },
+ *   '0x0000000000000000000000000000000000000000000000000000000000000000',
+ *   false,
+ *   BigNumber { value: "0" },
+ *   authority: '0x90F79bf6EB2c4f870365E785982E1f101E93b906',
+ *   owner: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
+ *   queueAddress: '0x19ef1517eEFE5A6278e8290455D6d530Ee82Dcb9',
+ *   quoteBuffer: '0x',
+ *   verificationStatus: 1,
+ *   verificationTimestamp: BigNumber { value: "0" },
+ *   validUntil: BigNumber { value: "0" },
+ *   mrEnclave: '0x0000000000000000000000000000000000000000000000000000000000000000',
+ *   isOnQueue: false,
+ *   lastHeartbeat: BigNumber { value: "0" }
+ * ]
+ * ```
  */
 export type QuoteData = Awaited<
   ReturnType<SwitchboardAttestationService["quotes"]>
