@@ -24,6 +24,23 @@ import {
 /**
  * TransactionOptions is a type that allows the user to specify a subset of
  * PayableOverrides and includes optional properties for gasFactor, simulate and signer.
+ *
+ * ```typescript
+ * {
+ *   // an optional multiplier to modify the gasEstimation
+ *   gasFactor: 1.1,
+ *   // simulate the tx before sending
+ *   simulate: true,
+ *   // the new msg.sender for the tx
+ *   signer: myNewSigner,
+ *   // it also supports any fields from ethers PayableOverrides
+ *   gasLimit: 3000000,
+ *   gasPrice: 10000,
+ *   maxFeePerGas: 10000,
+ *   maxPriorityFeePerGas: 1000,
+ *   nonce: 1337
+ * }
+ * ```
  */
 export type TransactionOptions = Partial<PayableOverrides> & {
   // an optional multiplier to modify the gasEstimation
