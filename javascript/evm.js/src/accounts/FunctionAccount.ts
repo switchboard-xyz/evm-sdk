@@ -1,4 +1,4 @@
-import { SwitchboardProgram } from "../SwitchboardProgram.js";
+import { EthersError } from "../errors.js";
 import {
   FunctionData,
   ISwitchboardProgram,
@@ -87,7 +87,9 @@ export class FunctionAccount {
    * ```
    */
   public async loadData(): Promise<FunctionData> {
-    return await this.switchboard.vs.funcs(this.address);
+    return await this.switchboard.vs
+      .funcs(this.address)
+      .catch(EthersError.handleError);
   }
 
   /**

@@ -1,3 +1,4 @@
+import { EthersError } from "../errors.js";
 import { ISwitchboardProgram, TransactionOptions } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
@@ -161,11 +162,9 @@ export class Permissions {
     grantee: string,
     permission: number
   ): Promise<boolean> {
-    const hasPermissions = await switchboard.sb.hasPermission(
-      granter,
-      grantee,
-      BigNumber.from(permission)
-    );
+    const hasPermissions = await switchboard.sb
+      .hasPermission(granter, grantee, BigNumber.from(permission))
+      .catch(EthersError.handleError);
     return hasPermissions;
   }
 
@@ -223,11 +222,9 @@ export class Permissions {
     grantee: string,
     permission: number
   ): Promise<boolean> {
-    const hasPermissions = await switchboard.vs.hasPermission(
-      granter,
-      grantee,
-      BigNumber.from(permission)
-    );
+    const hasPermissions = await switchboard.vs
+      .hasPermission(granter, grantee, BigNumber.from(permission))
+      .catch(EthersError.handleError);
     return hasPermissions;
   }
 }

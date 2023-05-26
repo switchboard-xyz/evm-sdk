@@ -1,9 +1,9 @@
 import {
-  AggregatorAccount,
+  type AggregatorAccount,
   type AggregatorInitParams,
 } from "./accounts/AggregatorAccount.js";
 import {
-  FunctionAccount,
+  type FunctionAccount,
   type FunctionInitParams,
 } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
@@ -13,6 +13,7 @@ import {
   type SwitchboardAttestationService,
 } from "./typechain-types/index.js";
 
+import { type Big } from "@switchboard-xyz/common";
 import {
   type BigNumber,
   type Contract,
@@ -374,10 +375,7 @@ export type CreateOracle = Exclude<OracleInitParams, "authority"> & Authority;
 /**
  * CreateAggregator is a type that represents parameters to create an Aggregator with an Authority.
  */
-export type CreateAggregator = Exclude<
-  AggregatorInitParams & { initialValue: BigNumber },
-  "authority"
-> &
+export type CreateAggregator = Exclude<AggregatorInitParams, "authority"> &
   Authority;
 
 /**
@@ -574,6 +572,14 @@ export enum PermissionStatus {
   PERMIT_ATTESTATION_QUEUE_USAGE = 1 << 2,
 }
 
+export type LatestRawValue = [BigNumber, BigNumber] & {
+  value: BigNumber;
+  timestamp: BigNumber;
+};
+
+export type LatestResult = { result: Big; timestamp: number };
+
+export type LatestResults = Array<LatestResult & { oracleAddress: string }>;
 /**
  * VerificationStatus is an enumeration of possible verification statuses.
  */

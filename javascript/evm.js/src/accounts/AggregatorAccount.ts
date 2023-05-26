@@ -1,11 +1,16 @@
+import { EthersError } from "../errors.js";
 import { fetchJobsFromIPFS } from "../ipfs.js";
 import {
   AggregatorData,
   EventCallback,
   ISwitchboardProgram,
   Job,
+  LatestRawValue,
+  LatestResult,
+  LatestResults,
   TransactionOptions,
 } from "../types.js";
+import { fromBigNumber } from "../utils.js";
 
 import { OracleQueueAccount } from "./OracleQueueAccount.js";
 
@@ -37,8 +42,6 @@ export interface AggregatorInitParams {
   authority: string;
   // The name of the Aggregator.
   name: string;
-  // The address of the queue that will fulfill update requests.
-  queueAddress: string;
   // The number of oracles to pull from the queue per batch.
   batchSize: number;
   // The minimum number of oracle results to be gathered from Oracles.
@@ -54,7 +57,9 @@ export interface AggregatorInitParams {
   // The hash of the jobs to be processed.
   jobsHash: string;
   // If true, allows for backward compatibility with the sacrifice of extra gas usage.
-  enableLegacyAdapter: boolean;
+  // enableLegacyAdapter: boolean;
+  // Whether to enable history on the feed
+  enableHistory: boolean;
 }
 
 /**
@@ -136,7 +141,9 @@ export class AggregatorAccount {
    * @returns - The data associated with this Aggregator account.
    */
   public async loadData(): Promise<AggregatorData> {
-    return await this.switchboard.sb.aggregators(this.address);
+    return await this.switchboard.sb
+      .aggregators(this.address)
+      .catch(EthersError.handleError);
   }
 
   /**
@@ -150,7 +157,9 @@ export class AggregatorAccount {
     address: string
   ): Promise<[AggregatorAccount, AggregatorData]> {
     const aggregatorAccount = new AggregatorAccount(switchboard, address);
-    const aggregator = await aggregatorAccount.loadData();
+    const aggregator = await aggregatorAccount
+      .loadData()
+      .catch(EthersError.handleError);
     return [aggregatorAccount, aggregator];
   }
 
@@ -183,7 +192,10 @@ export class AggregatorAccount {
    */
   public static async create(
     switchboard: ISwitchboardProgram,
-    params: AggregatorInitParams & { initialValue: BigNumber },
+    params: AggregatorInitParams & {
+      // The address of the queue that will fulfill update requests.
+      queueAddress: string;
+    },
     options?: TransactionOptions
   ): Promise<[AggregatorAccount, ContractTransaction]> {
     // load queue to make sure it exists
@@ -206,10 +218,8 @@ export class AggregatorAccount {
         Math.trunc(params.varianceThreshold * 10 ** 18),
         params.minJobResults,
         params.forceReportPeriod,
-        params.enableLegacyAdapter, // AggregatorV3 Interface Support (2x's gas cost)
-        {
-          value: params.initialValue ?? 0,
-        },
+        // params.enableLegacyAdapter, // AggregatorV3 Interface Support (2x's gas cost)
+        params.enableHistory,
       ],
       options
     );
@@ -220,21 +230,56 @@ export class AggregatorAccount {
     return [new AggregatorAccount(switchboard, aggregatorAddress), tx];
   }
 
+  private static convertRawResult(
+    raw:
+      | {
+          value: BigNumber;
+          timestamp: BigNumber;
+        }
+      | LatestRawValue
+  ): LatestResult {
+    const result = fromBigNumber(raw.value);
+    const timestamp = raw.timestamp.toNumber();
+    return { result, timestamp };
+  }
+
   /**
    * Gets the latest value from the Aggregator account.
    *
    *
    * ```typescript
-   * const latestValue = await aggregatorAccount.latestValue();
+   * const latestValue = await aggregatorAccount.fetchLatestValue();
+   * console.log(latestValue.value.toNumber());
+   * ```
+   *
+   * @returns - The latest result stored in the aggregator on-chain.
+   */
+  public async fetchLatestResult(): Promise<LatestResult> {
+    const latestValue: LatestRawValue = await this.switchboard.sb
+      .viewLatestResult(this.address)
+      .catch(EthersError.handleError);
+    return AggregatorAccount.convertRawResult(latestValue);
+  }
+
+  /**
+   * Gets the current set of results for the Aggregator account.
+   *
+   *
+   * ```typescript
+   * const latestResults = await aggregatorAccount.fetchAllResults();
    * console.log(latestValue);
    * ```
    *
-   * @returns - The latest value stored in the aggregator on-chain.
+   * @returns - The list of accepted results stored in the aggregatorResults mapping.
    */
-  public async latestValue(): Promise<number> {
-    return (
-      await this.switchboard.sb.aggregators(this.address)
-    ).latestResult.value.toNumber();
+  public async fetchAllResults(): Promise<LatestResults> {
+    const results = await this.switchboard.sb
+      .viewAggregatorResults(this.address)
+      .catch(EthersError.handleError);
+    return results.map((r) => {
+      const result = AggregatorAccount.convertRawResult(r);
+      return { ...result, oracleAddress: r.oracleAddress };
+    });
   }
 
   /**
@@ -258,7 +303,7 @@ export class AggregatorAccount {
 
     const oracleQueue = new OracleQueueAccount(
       this.switchboard,
-      params.queueAddress ?? aggregator.queueAddress
+      aggregator.queueAddress
     );
     const queueData = await oracleQueue.loadData();
 
@@ -414,7 +459,9 @@ export class AggregatorAccount {
    * @returns - The current interval ID.
    */
   public async getCurrentIntervalId(): Promise<BigNumber> {
-    return await this.switchboard.sb.getCurrentIntervalId(this.address);
+    return await this.switchboard.sb
+      .getCurrentIntervalId(this.address)
+      .catch(EthersError.handleError);
   }
 
   /**
@@ -433,9 +480,8 @@ export class AggregatorAccount {
     _intervalId?: BigNumber | number
   ): Promise<[BigNumber, BigNumber, BigNumber]> {
     const intervalId = _intervalId ?? (await this.getCurrentIntervalId());
-    return await this.switchboard.sb.getIntervalResult(
-      this.address,
-      intervalId
-    );
+    return await this.switchboard.sb
+      .getIntervalResult(this.address, intervalId)
+      .catch(EthersError.handleError);
   }
 }

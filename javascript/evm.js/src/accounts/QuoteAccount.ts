@@ -1,3 +1,4 @@
+import { EthersError } from "../errors.js";
 import { parseMrEnclave } from "../parseMrEnclave.js";
 import {
   ISwitchboardProgram,
@@ -71,7 +72,9 @@ export class QuoteAccount {
    * ```
    */
   public async loadData(): Promise<QuoteData> {
-    return await this.switchboard.vs.quotes(this.address);
+    return await this.switchboard.vs
+      .quotes(this.address)
+      .catch(EthersError.handleError);
   }
 
   /**
@@ -138,7 +141,9 @@ export class QuoteAccount {
     this.switchboard.hasAttestationService();
 
     const quoteData = await this.loadData();
-    return await this.switchboard.vs.validate(quoteData.authority);
+    return await this.switchboard.vs
+      .validate(quoteData.authority)
+      .catch(EthersError.handleError);
   }
 
   /**
@@ -151,7 +156,9 @@ export class QuoteAccount {
    * ```
    */
   public async isQuoteValid(): Promise<boolean> {
-    return await this.switchboard.vs.isQuoteValid(this.address);
+    return await this.switchboard.vs
+      .isQuoteValid(this.address)
+      .catch(EthersError.handleError);
   }
 
   /**
@@ -239,7 +246,10 @@ export class QuoteAccount {
       [
         verifierAddress,
         this.address,
-        quoteIdx ?? (await this.switchboard.vs.getQuoteIdx(this.address)),
+        quoteIdx ??
+          (await this.switchboard.vs
+            .getQuoteIdx(this.address)
+            .catch(EthersError.handleError)),
         Math.floor(Date.now() / 1000),
         mrEnclave,
       ],
@@ -265,9 +275,9 @@ export class QuoteAccount {
     switchboard: ISwitchboardProgram,
     authority: string
   ): Promise<QuoteAccount> {
-    const address = await switchboard.vs.quoteAuthorityToQuoteAddress(
-      authority
-    );
+    const address = await switchboard.vs
+      .quoteAuthorityToQuoteAddress(authority)
+      .catch(EthersError.handleError);
     return new QuoteAccount(switchboard, address);
   }
 

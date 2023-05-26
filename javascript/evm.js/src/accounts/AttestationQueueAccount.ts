@@ -1,5 +1,5 @@
+import { EthersError } from "../errors.js";
 import { parseMrEnclave } from "../parseMrEnclave.js";
-import { type SwitchboardAttestationService } from "../typechain-types/index.js";
 import {
   AttestationQueueData,
   CreateFunction,
@@ -94,7 +94,9 @@ export class AttestationQueueAccount {
    * ```
    */
   public async loadData(): Promise<AttestationQueueData> {
-    return await this.switchboard.vs.queues(this.address);
+    return await this.switchboard.vs
+      .queues(this.address)
+      .catch(EthersError.handleError);
   }
 
   /**
@@ -211,10 +213,9 @@ export class AttestationQueueAccount {
    * ```
    */
   public async hasMrEnclave(mrEnclave: RawMrEnclave): Promise<boolean> {
-    return await this.switchboard.vs.hasMrEnclave(
-      this.address,
-      parseMrEnclave(mrEnclave)
-    );
+    return await this.switchboard.vs
+      .hasMrEnclave(this.address, parseMrEnclave(mrEnclave))
+      .catch(EthersError.handleError);
   }
 
   /**

@@ -1,11 +1,13 @@
-import { SBDecimal } from "../SBDecimal.js";
+import { EthersError } from "../errors.js";
 import {
   ISwitchboardProgram,
   OracleData,
   TransactionOptions,
 } from "../types.js";
+import { toBigNumber } from "../utils.js";
 
-import { BigNumber, BigNumberish, ContractTransaction } from "ethers";
+import { Big } from "@switchboard-xyz/common";
+import { BigNumber, ContractTransaction } from "ethers";
 
 /**
  * Parameters for saving the result of a query.
@@ -18,7 +20,7 @@ import { BigNumber, BigNumberish, ContractTransaction } from "ethers";
  * ```
  */
 export interface SaveResultParams {
-  value: SBDecimal;
+  value: Big;
   aggregatorAddress: string;
 }
 
@@ -33,9 +35,9 @@ export interface SaveResultParams {
  * };
  * ```
  */
-export interface OracleSaveResultParams {
+export interface OracleSaveManyResultParams {
   data: SaveResultParams[];
-  oracleIdx: number;
+  oracleIdx?: number;
   queueAddress: string;
 }
 
@@ -87,7 +89,9 @@ export class OracleAccount {
    * @returns A Promise that resolves to the data of the oracle.
    */
   public async loadData(): Promise<OracleData> {
-    return await this.switchboard.sb.oracles(this.address);
+    return await this.switchboard.sb
+      .oracles(this.address)
+      .catch(EthersError.handleError);
   }
 
   /**
@@ -177,6 +181,21 @@ export class OracleAccount {
   }
 
   /**
+   * Get the index of the oracle in the queue
+   *
+   * ```typescript
+   * const oracleIndex = await oracleAccount.getIdx();
+   * ```
+   */
+  public async getIdx(): Promise<number> {
+    return (
+      await this.switchboard.sb
+        .getOracleIdx(this.address)
+        .catch(EthersError.handleError)
+    ).toNumber();
+  }
+
+  /**
    * Send a heartbeat transaction from the oracle.
    *
    * @param options - Transaction options.
@@ -212,28 +231,31 @@ export class OracleAccount {
    * @returns A Promise that resolves to the transaction receipt.
    */
   public async saveManyResults(
-    params: OracleSaveResultParams,
+    params: OracleSaveManyResultParams,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    // TODO; Check the provider.address == oracle.authority
+    // TODO: Check the provider.address == oracle.authority
 
-    const [aggregatorAddresses, values]: [string[], BigNumber[]] =
-      params.data.reduce(
-        ([a, v], p) => {
-          a.push(p.aggregatorAddress);
-          v.push(p.value.toBigNumber());
-          return [a, v];
-        },
-        [[] as string[], [] as BigNumber[]]
-      );
+    const aggregatorAddresses: string[] = []; // aggregator addresses - mapped to values
+    const values: BigNumber[] = []; // values to save
+
+    for (const row of params.data) {
+      aggregatorAddresses.push(row.aggregatorAddress);
+
+      const value = toBigNumber(row.value);
+      values.push(value);
+    }
+
+    // oracle's index in the queue
+    const oracleIdx = params.oracleIdx ?? (await this.getIdx());
 
     const tx = await this.switchboard.sendSbTxn(
       "saveResults",
       [
-        aggregatorAddresses, // aggregator addresses - mapped to values
-        values, // values to save
+        aggregatorAddresses,
+        values,
         params.queueAddress, // queue that all the aggregators are in
-        params.oracleIdx, // oracle's index in the queue
+        oracleIdx,
       ],
       options
     );

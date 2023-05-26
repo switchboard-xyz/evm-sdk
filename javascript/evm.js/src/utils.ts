@@ -4,7 +4,8 @@ import {
   type ISwitchboardProgram,
 } from "./types.js";
 
-import { Signer } from "ethers";
+import { Big, BN, SwitchboardDecimal } from "@switchboard-xyz/common";
+import { BigNumber, Signer } from "ethers";
 
 export const getQueueSigner = (
   enable: EnablePermissions
@@ -18,7 +19,7 @@ export const getQueueSigner = (
 
 export const getAuthoritySigner = async (
   switchboard: ISwitchboardProgram,
-  params: Authority
+  params?: Authority
 ): Promise<[ISwitchboardProgram, string, Signer | undefined]> => {
   const isAuthoritySigner =
     params &&
@@ -55,3 +56,20 @@ export const getAuthoritySigner = async (
     isAuthoritySigner ? (params.authority as Signer) : undefined,
   ];
 };
+
+export function toBigNumber(big: Big): BigNumber {
+  const sbDecimal = SwitchboardDecimal.fromBig(big);
+
+  let mantissa = sbDecimal.mantissa.toString();
+  let scale = sbDecimal.scale;
+  while (scale < 18) {
+    mantissa += "0";
+    scale++;
+  }
+
+  return BigNumber.from(mantissa);
+}
+
+export function fromBigNumber(bigNum: BigNumber): Big {
+  return new SwitchboardDecimal(new BN(bigNum.toString()), 18).toBig();
+}

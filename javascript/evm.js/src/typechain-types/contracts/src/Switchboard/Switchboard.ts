@@ -104,6 +104,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "getCurrentIntervalId(address)": FunctionFragment;
     "getIntervalResult(address,uint80)": FunctionFragment;
     "getOracleIdx(address)": FunctionFragment;
+    "getOracles(address)": FunctionFragment;
     "getPermissionCode(uint8)": FunctionFragment;
     "getReadCost(address)": FunctionFragment;
     "hasPermission(address,address,uint256)": FunctionFragment;
@@ -126,6 +127,8 @@ export interface SwitchboardInterface extends utils.Interface {
     "setQueueConfig(address,string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "switchboardAS()": FunctionFragment;
     "version()": FunctionFragment;
+    "viewAggregatorResults(address)": FunctionFragment;
+    "viewLatestResult(address)": FunctionFragment;
   };
 
   getFunction(
@@ -147,6 +150,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "getCurrentIntervalId"
       | "getIntervalResult"
       | "getOracleIdx"
+      | "getOracles"
       | "getPermissionCode"
       | "getReadCost"
       | "hasPermission"
@@ -169,6 +173,8 @@ export interface SwitchboardInterface extends utils.Interface {
       | "setQueueConfig"
       | "switchboardAS"
       | "version"
+      | "viewAggregatorResults"
+      | "viewLatestResult"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -264,6 +270,10 @@ export interface SwitchboardInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getOracleIdx",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getOracles",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -400,6 +410,14 @@ export interface SwitchboardInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "viewAggregatorResults",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "viewLatestResult",
+    values: [PromiseOrValue<string>]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "NULL_ADDRESS",
@@ -466,6 +484,7 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "getOracleIdx",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getOracles", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getPermissionCode",
     data: BytesLike
@@ -536,6 +555,14 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "viewAggregatorResults",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "viewLatestResult",
+    data: BytesLike
+  ): Result;
 
   events: {
     "AggregatorAccountInit(address,address,uint256)": EventFragment;
@@ -873,6 +900,11 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    getOracles(
+      queueAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[]]>;
+
     getPermissionCode(
       p: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1044,6 +1076,18 @@ export interface Switchboard extends BaseContract {
     switchboardAS(overrides?: CallOverrides): Promise<[string]>;
 
     version(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    viewAggregatorResults(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[SwitchboardStructs.ResultStructOutput[]]>;
+
+    viewLatestResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { value: BigNumber; timestamp: BigNumber }
+    >;
   };
 
   NULL_ADDRESS(overrides?: CallOverrides): Promise<string>;
@@ -1202,6 +1246,11 @@ export interface Switchboard extends BaseContract {
     oracleAddress: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  getOracles(
+    queueAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string[]>;
 
   getPermissionCode(
     p: PromiseOrValue<BigNumberish>,
@@ -1375,6 +1424,18 @@ export interface Switchboard extends BaseContract {
 
   version(overrides?: CallOverrides): Promise<BigNumber>;
 
+  viewAggregatorResults(
+    aggregatorAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<SwitchboardStructs.ResultStructOutput[]>;
+
+  viewLatestResult(
+    aggregatorAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { value: BigNumber; timestamp: BigNumber }
+  >;
+
   callStatic: {
     NULL_ADDRESS(overrides?: CallOverrides): Promise<string>;
 
@@ -1532,6 +1593,11 @@ export interface Switchboard extends BaseContract {
       oracleAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getOracles(
+      queueAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string[]>;
 
     getPermissionCode(
       p: PromiseOrValue<BigNumberish>,
@@ -1706,6 +1772,18 @@ export interface Switchboard extends BaseContract {
     switchboardAS(overrides?: CallOverrides): Promise<string>;
 
     version(overrides?: CallOverrides): Promise<BigNumber>;
+
+    viewAggregatorResults(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<SwitchboardStructs.ResultStructOutput[]>;
+
+    viewLatestResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { value: BigNumber; timestamp: BigNumber }
+    >;
   };
 
   filters: {
@@ -1915,6 +1993,11 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getOracles(
+      queueAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getPermissionCode(
       p: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -2052,6 +2135,16 @@ export interface Switchboard extends BaseContract {
     switchboardAS(overrides?: CallOverrides): Promise<BigNumber>;
 
     version(overrides?: CallOverrides): Promise<BigNumber>;
+
+    viewAggregatorResults(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    viewLatestResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -2156,6 +2249,11 @@ export interface Switchboard extends BaseContract {
 
     getOracleIdx(
       oracleAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getOracles(
+      queueAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -2296,5 +2394,15 @@ export interface Switchboard extends BaseContract {
     switchboardAS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    viewAggregatorResults(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    viewLatestResult(
+      aggregatorAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }

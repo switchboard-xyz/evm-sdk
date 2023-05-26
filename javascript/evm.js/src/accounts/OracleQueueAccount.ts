@@ -1,3 +1,4 @@
+import { EthersError } from "../errors.js";
 import {
   CreateAggregator,
   CreateOracle,
@@ -15,7 +16,7 @@ import { AggregatorAccount } from "./AggregatorAccount.js";
 import { OracleAccount } from "./OracleAccount.js";
 import { Permissions } from "./Permissions.js";
 
-import { BigNumber, ContractTransaction } from "ethers";
+import { ContractTransaction } from "ethers";
 
 /**
  * Initialization parameters for the OracleQueue.
@@ -91,7 +92,25 @@ export class OracleQueueAccount {
    * @returns - The data associated with this OracleQueue account.
    */
   async loadData(): Promise<OracleQueueData> {
-    return await this.switchboard.sb.queues(this.address);
+    return await this.switchboard.sb
+      .queues(this.address)
+      .catch(EthersError.handleError);
+  }
+
+  /**
+   * Loads the list of oracles actively heartbeating on-chain.
+   *
+   * ```typescript
+   * const oracles = await oracleQueueAccount.loadOracles();
+   * console.log(oracles);
+   * ```
+   *
+   * @returns - The list of oracles actively heartbeating on-chain.
+   */
+  async loadOracles(): Promise<string[]> {
+    return await this.switchboard.sb
+      .getOracles(this.address)
+      .catch(EthersError.handleError);
   }
 
   /**
@@ -180,7 +199,11 @@ export class OracleQueueAccount {
    * ```
    */
   public async getOracleIdx(oracleAddress: string): Promise<number> {
-    return (await this.switchboard.sb.getOracleIdx(oracleAddress)).toNumber();
+    return (
+      await this.switchboard.sb
+        .getOracleIdx(oracleAddress)
+        .catch(EthersError.handleError)
+    ).toNumber();
   }
 
   /**
@@ -191,9 +214,9 @@ export class OracleQueueAccount {
    * ```
    */
   public async getAttestationConfig(): Promise<OracleQueueAttestationConfig> {
-    const attestationConfig = await this.switchboard.sb.queueAttestationConfigs(
-      this.address
-    );
+    const attestationConfig = await this.switchboard.sb
+      .queueAttestationConfigs(this.address)
+      .catch(EthersError.handleError);
     return attestationConfig;
   }
 
@@ -311,7 +334,6 @@ export class OracleQueueAccount {
         ...params,
         authority: authority,
         queueAddress: this.address,
-        initialValue: BigNumber.from(0),
       },
       {
         ...options,
