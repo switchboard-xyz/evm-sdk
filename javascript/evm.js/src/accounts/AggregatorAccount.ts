@@ -10,11 +10,11 @@ import {
   LatestResults,
   TransactionOptions,
 } from "../types.js";
-import { fromBigNumber } from "../utils.js";
+import { fromBigNumber, toBigNumber } from "../utils.js";
 
 import { OracleQueueAccount } from "./OracleQueueAccount.js";
 
-import { OracleJob } from "@switchboard-xyz/common";
+import { Big, OracleJob } from "@switchboard-xyz/common";
 import { BigNumber, BigNumberish, ContractTransaction } from "ethers";
 
 /**
@@ -215,7 +215,7 @@ export class AggregatorAccount {
         params.minOracleResults,
         params.jobsHash, // I recommend using https://web3.storage/ for hosting jobs - it's free + fast!
         params.queueAddress,
-        Math.trunc(params.varianceThreshold * 10 ** 18),
+        toBigNumber(new Big(params.varianceThreshold)).toString(),
         params.minJobResults,
         params.forceReportPeriod,
         // params.enableLegacyAdapter, // AggregatorV3 Interface Support (2x's gas cost)
@@ -318,7 +318,7 @@ export class AggregatorAccount {
         params.minOracleResults ?? aggregator.minOracleResults,
         params.jobsHash ?? aggregator.jobsHash,
         oracleQueue.address,
-        Math.trunc(params.varianceThreshold * 10 ** 18),
+        toBigNumber(new Big(params.varianceThreshold)).toString(),
         params.minJobResults,
         params.forceReportPeriod,
       ],
