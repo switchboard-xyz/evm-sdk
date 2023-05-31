@@ -2,6 +2,7 @@ import {
   Authority,
   EnablePermissions,
   type ISwitchboardProgram,
+  PermissionStatus,
   PermissionStatusType,
   VerificationStatus,
   VerificationStatusType,
@@ -82,15 +83,18 @@ export const getPermissionString = (
 ): PermissionStatusType => {
   const permissions =
     typeof _permissions === "number" ? _permissions : _permissions.toNumber();
+
   const permissionString = (
     Object.keys(PermissionStatus) as PermissionStatusType[]
   ).find(
     (key: PermissionStatusType) =>
       PermissionStatus[key as PermissionStatusType] === permissions
   ) as PermissionStatusType | undefined;
+
   if (!permissionString) {
     return "NONE";
   }
+
   return permissionString;
 };
 
