@@ -50,9 +50,14 @@ export async function publishJobsToIPFS(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: "evm",
-        jobs: JSON.stringify(jobs),
+        jobs: jobs,
       }),
     });
+    if (!response.ok) {
+      throw new Error(
+        `IpfsPostError (${response.status}): ${response.statusText}`
+      );
+    }
     const { cid }: { cid: string } = await response.json();
     return cid;
   }
