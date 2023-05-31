@@ -1,5 +1,10 @@
 import { EthersError } from "../errors.js";
-import { ISwitchboardProgram, TransactionOptions } from "../types.js";
+import {
+  ISwitchboardProgram,
+  PermissionStatusType,
+  TransactionOptions,
+} from "../types.js";
+import { getPermissionString } from "../utils.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 import { OracleQueueAccount } from "./OracleQueueAccount.js";
@@ -23,6 +28,40 @@ export interface PermissionInitParams {
  */
 export class Permissions {
   private constructor() {}
+
+  /**
+   * @async
+   * @function get
+   * @description Static method to set permissions between a granter and a grantee
+   *
+   * @param switchboard - Instance of the {@link SwitchboardProgram} class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   *
+   * @returns {Promise<PermissionStatusType>} Promise that resolves to the ContractTransaction
+   *
+   *
+   * const contractTransaction = await Permissions.set(switchboard, granter, grantee, permission, enable, options);
+   */
+  public static async get(
+    switchboard: ISwitchboardProgram,
+    granter: OracleQueueAccount | AttestationQueueAccount,
+    grantee: string
+  ): Promise<PermissionStatusType> {
+    const permissions =
+      granter instanceof AttestationQueueAccount
+        ? await Permissions.getAttestationPermissions(
+            switchboard,
+            granter.address,
+            grantee
+          )
+        : await Permissions.getSwitchboardPermissions(
+            switchboard,
+            granter.address,
+            grantee
+          );
+    return permissions;
+  }
 
   /**
    * @async
@@ -110,6 +149,29 @@ export class Permissions {
 
   /**
    * @async
+   * @function getSwitchboardPermissions
+   * @description Static method to fetch permissions between a granter and a grantee
+   *
+   * @param switchboard - Instance of the Switchboard Program class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   *
+   * @returns {Promise<PermissionStatusType>} Promise that resolves to the permission string
+   *
+   *
+   * const contractTransaction = await Permissions.setSwitchboardPermissions(switchboard, granter, grantee, permission, enable, options);
+   */
+  public static async getSwitchboardPermissions(
+    switchboard: ISwitchboardProgram,
+    granter: string,
+    grantee: string
+  ): Promise<PermissionStatusType> {
+    const permissions = await switchboard.sb.permissions(granter, grantee);
+    return getPermissionString(permissions);
+  }
+
+  /**
+   * @async
    * @function setSwitchboardPermissions
    * @description Static method to set permissions between a granter and a grantee
    *
@@ -166,6 +228,29 @@ export class Permissions {
       .hasPermission(granter, grantee, BigNumber.from(permission))
       .catch(EthersError.handleError);
     return hasPermissions;
+  }
+
+  /**
+   * @async
+   * @function getAttestationPermissions
+   * @description Static method to fetch permissions between a granter and a grantee
+   *
+   * @param switchboard - Instance of the Switchboard Program class
+   * @param granter - The account granting permissions
+   * @param grantee - The account being granted permissions
+   *
+   * @returns {Promise<PermissionStatusType>} Promise that resolves to the permission string
+   *
+   *
+   * const contractTransaction = await Permissions.setSwitchboardPermissions(switchboard, granter, grantee, permission, enable, options);
+   */
+  public static async getAttestationPermissions(
+    switchboard: ISwitchboardProgram,
+    granter: string,
+    grantee: string
+  ): Promise<PermissionStatusType> {
+    const permissions = await switchboard.vs.permissions(granter, grantee);
+    return getPermissionString(permissions);
   }
 
   /**

@@ -566,11 +566,14 @@ export type QuoteData = Awaited<
 /**
  * PermissionStatus is an enumeration of possible permission statuses.
  */
-export enum PermissionStatus {
-  PERMIT_ORACLE_HEARTBEAT = 1 << 0,
-  PERMIT_ORACLE_QUEUE_USAGE = 1 << 1,
-  PERMIT_ATTESTATION_QUEUE_USAGE = 1 << 2,
-}
+export const PermissionStatus = {
+  NONE: 0,
+  PERMIT_ORACLE_HEARTBEAT: 1 << 0,
+  PERMIT_ORACLE_QUEUE_USAGE: 1 << 1,
+  PERMIT_ATTESTATION_QUEUE_USAGE: 1 << 2,
+} as const;
+
+export type PermissionStatusType = keyof typeof PermissionStatus;
 
 export type LatestRawValue = [BigNumber, BigNumber] & {
   value: BigNumber;
@@ -580,12 +583,15 @@ export type LatestRawValue = [BigNumber, BigNumber] & {
 export type LatestResult = { result: Big; timestamp: number };
 
 export type LatestResults = Array<LatestResult & { oracleAddress: string }>;
+
 /**
  * VerificationStatus is an enumeration of possible verification statuses.
  */
-export enum VerificationStatus {
-  VERIFICATION_PENDING = 0,
-  VERIFICATION_FAILURE = 1,
-  VERIFICATION_SUCCESS = 2,
-  VERIFICATION_OVERRIDE = 3,
-}
+export const VerificationStatus = {
+  VERIFICATION_PENDING: 0,
+  VERIFICATION_FAILURE: 1,
+  VERIFICATION_SUCCESS: 2,
+  VERIFICATION_OVERRIDE: 3,
+} as const;
+
+export type VerificationStatusType = keyof typeof VerificationStatus;

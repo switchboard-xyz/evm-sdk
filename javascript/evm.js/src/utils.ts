@@ -2,6 +2,9 @@ import {
   Authority,
   EnablePermissions,
   type ISwitchboardProgram,
+  PermissionStatusType,
+  VerificationStatus,
+  VerificationStatusType,
 } from "./types.js";
 
 import { Big, BN, SwitchboardDecimal } from "@switchboard-xyz/common";
@@ -73,3 +76,39 @@ export function toBigNumber(big: Big): BigNumber {
 export function fromBigNumber(bigNum: BigNumber): Big {
   return new SwitchboardDecimal(new BN(bigNum.toString()), 18).toBig();
 }
+
+export const getPermissionString = (
+  _permissions: number | BigNumber
+): PermissionStatusType => {
+  const permissions =
+    typeof _permissions === "number" ? _permissions : _permissions.toNumber();
+  const permissionString = (
+    Object.keys(PermissionStatus) as PermissionStatusType[]
+  ).find(
+    (key: PermissionStatusType) =>
+      PermissionStatus[key as PermissionStatusType] === permissions
+  ) as PermissionStatusType | undefined;
+  if (!permissionString) {
+    return "NONE";
+  }
+  return permissionString;
+};
+
+export const getVerificationStatusString = (
+  _verificationStatus: number | BigNumber
+): VerificationStatusType | "NONE" => {
+  const verificationStatus =
+    typeof _verificationStatus === "number"
+      ? _verificationStatus
+      : _verificationStatus.toNumber();
+  const verificationStatusString = (
+    Object.keys(VerificationStatus) as VerificationStatusType[]
+  ).find(
+    (key: VerificationStatusType) =>
+      PermissionStatus[key as VerificationStatusType] === verificationStatus
+  ) as VerificationStatusType | undefined;
+  if (!verificationStatusString) {
+    return "NONE";
+  }
+  return verificationStatusString;
+};

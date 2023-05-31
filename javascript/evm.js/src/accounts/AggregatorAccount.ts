@@ -318,9 +318,9 @@ export class AggregatorAccount {
         params.minOracleResults ?? aggregator.minOracleResults,
         params.jobsHash ?? aggregator.jobsHash,
         oracleQueue.address,
-        toBigNumber(new Big(params.varianceThreshold)).toString(),
-        params.minJobResults,
-        params.forceReportPeriod,
+        toBigNumber(new Big(params.varianceThreshold ?? 0)).toString(),
+        params.minJobResults ?? 1,
+        params.forceReportPeriod ?? 0,
       ],
       options
     );
