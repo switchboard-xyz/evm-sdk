@@ -259,14 +259,14 @@ export class OracleQueueAccount {
    * Create an {@link OracleAccount} and enable its heartbeat permissions
    *
    * ```typescript
-   * const oracleAccount = await oracleQueueAccount.createOracle(createOracleParams);
+   * const [oracleAccount, tx] = await oracleQueueAccount.createOracle(createOracleParams);
    * ```
    */
   public async createOracle(
     params?: CreateOracle,
     enable: EnablePermissions = true,
     options?: TransactionOptions
-  ): Promise<OracleAccount> {
+  ): Promise<[OracleAccount, ContractTransaction]> {
     // verify it exists
     const queueData = await this.loadData();
 
@@ -275,7 +275,7 @@ export class OracleQueueAccount {
       params
     );
 
-    const [oracleAccount] = await OracleAccount.create(
+    const [oracleAccount, oracleInit] = await OracleAccount.create(
       switchboard,
       {
         name: params?.name ?? "",
@@ -305,21 +305,21 @@ export class OracleQueueAccount {
       await setPermTx.wait();
     }
 
-    return oracleAccount;
+    return [oracleAccount, oracleInit];
   }
 
   /**
    * Create an {@link AggregatorAccount} and enable its queueUsage permissions
    *
    * ```typescript
-   * const aggregatorAccount = await oracleQueueAccount.createAggregator(createAggregatorParams);
+   * const [aggregatorAccount, tx] = await oracleQueueAccount.createAggregator(createAggregatorParams);
    * ```
    */
   public async createAggregator(
     params: CreateAggregator,
     enable: EnablePermissions = true,
     options?: TransactionOptions
-  ): Promise<AggregatorAccount> {
+  ): Promise<[AggregatorAccount, ContractTransaction]> {
     // verify it exists
     const queueData = await this.loadData();
 
@@ -328,7 +328,7 @@ export class OracleQueueAccount {
       params
     );
 
-    const [aggregatorAccount] = await AggregatorAccount.create(
+    const [aggregatorAccount, aggregatorInit] = await AggregatorAccount.create(
       switchboard,
       {
         ...params,
@@ -359,6 +359,6 @@ export class OracleQueueAccount {
       await setPermTx.wait();
     }
 
-    return aggregatorAccount;
+    return [aggregatorAccount, aggregatorInit];
   }
 }

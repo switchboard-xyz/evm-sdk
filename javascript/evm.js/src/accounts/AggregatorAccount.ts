@@ -33,33 +33,65 @@ import { BigNumber, BigNumberish, ContractTransaction } from "ethers";
  *  varianceThreshold: 0.05,
  *  forceReportPeriod: 600,
  *  jobsHash: '0xJobHash',
- *  enableLegacyAdapter: false
+ *  enableLegacyAdapter: false,
+ *  fundAmount: 0.25,
  * };
  * ```
  */
 export interface AggregatorInitParams {
-  // The owner of the Aggregator.
-  authority: string;
-  // The name of the Aggregator.
-  name: string;
-  // The number of oracles to pull from the queue per batch.
-  batchSize: number;
-  // The minimum number of oracle results to be gathered from Oracles.
-  minOracleResults: number;
-  // The minimum number of job results to be accepted.
-  minJobResults: number;
-  // The minimum delay between updates in seconds.
+  /**
+   * The owner of the Aggregator.
+   * @defaultValue txn signer
+   */
+  authority?: string;
+  /**
+   * The name of the Aggregator.
+   * @defaultValue empty string
+   */
+  name?: string;
+  /**
+   * The number of oracles to pull from the queue per batch.
+   * @defaultValue 1
+   */
+  batchSize?: number;
+  /**
+   * The minimum number of oracle results to be gathered from Oracles.
+   * @defaultValue 1
+   */
+  minOracleResults?: number;
+  /**
+   * The minimum number of job results to be accepted.
+   * @defaultValue 1
+   */
+  minJobResults?: number;
+  /**
+   *  The minimum delay between updates in seconds.
+   */
   minUpdateDelaySeconds: number;
-  // The acceptable level of variance in results.
+  /**
+   *  The acceptable level of variance in results.
+   * @defaultValue 0, always report
+   */
   varianceThreshold: number;
-  // The time period after which reporting is forced. Only applicable if varianceThreshold is greater than 0.
+  /**
+   *  The time period after which reporting is forced. Only applicable if varianceThreshold is greater than 0.
+   * @defaultValue 0, always report
+   */
   forceReportPeriod: number;
-  // The hash of the jobs to be processed.
+  /**
+   *  The hash of the jobs to be processed.
+   */
   jobsHash: string;
-  // If true, allows for backward compatibility with the sacrifice of extra gas usage.
-  // enableLegacyAdapter: boolean;
-  // Whether to enable history on the feed
+  /**
+   *  Whether to enable history on the feed and track historical results.
+   * @defaultValue false, dont track history
+   */
   enableHistory: boolean;
+  /**
+   *  Amount of wETH to deposit into the feeds escrow to reward oracles for fulfilling updates
+   * @defaultValue 0, do not start feed
+   */
+  fundAmount: BigNumberish;
 }
 
 /**
@@ -229,20 +261,22 @@ export class AggregatorAccount {
     const tx = await switchboard.sendSbTxn(
       "createAggregator",
       [
-        params.name,
-        params.authority,
-        params.batchSize,
+        params.name ?? "",
+        params.authority ?? (await switchboard.address),
+        params.batchSize ?? 1,
         params.minUpdateDelaySeconds,
-        params.minOracleResults,
+        params.minOracleResults ?? 1,
         params.jobsHash, // I recommend using https://web3.storage/ for hosting jobs - it's free + fast!
         params.queueAddress,
         toBigNumber(new Big(params.varianceThreshold)).toString(),
-        params.minJobResults,
-        params.forceReportPeriod,
-        // params.enableLegacyAdapter, // AggregatorV3 Interface Support (2x's gas cost)
-        params.enableHistory,
+        params.minJobResults ?? 1,
+        params.forceReportPeriod ?? 0,
+        params.enableHistory ?? false,
       ],
-      options
+      {
+        ...options,
+        value: params.fundAmount,
+      }
     );
     const aggregatorAddress = await switchboard.pollTxnForSbEvent(
       tx,
