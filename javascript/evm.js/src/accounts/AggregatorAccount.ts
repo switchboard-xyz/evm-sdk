@@ -329,7 +329,6 @@ export class AggregatorAccount {
       this.switchboard,
       aggregatorData.queueAddress
     );
-    const queueData = await oracleQueue.loadData();
 
     const tx = await this.switchboard.sendSbTxn(
       "setAggregatorConfig",
