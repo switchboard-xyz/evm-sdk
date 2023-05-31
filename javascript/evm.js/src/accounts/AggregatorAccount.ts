@@ -380,10 +380,10 @@ export class AggregatorAccount {
           : toBigNumber(new Big(params.varianceThreshold)),
         params.minJobResults === undefined
           ? aggregatorResponseCfg.minJobResults
-          : toBigNumber(new Big(Math.trunc(params.minJobResults))),
+          : Math.trunc(params.minJobResults),
         params.forceReportPeriod === undefined
           ? aggregatorResponseCfg.forceReportPeriod
-          : toBigNumber(new Big(Math.trunc(params.forceReportPeriod))),
+          : Math.trunc(params.forceReportPeriod),
       ],
       options
     );
