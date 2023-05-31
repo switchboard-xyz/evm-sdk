@@ -74,9 +74,7 @@ export interface AggregatorInitParams {
  * };
  * ```
  */
-export type AggregatorSetConfigParams = Partial<AggregatorInitParams> & {
-  varianceThreshold: number;
-};
+export type AggregatorSetConfigParams = Partial<AggregatorInitParams>;
 
 /**
  * AggregatorSetReadConfigParams defines parameters to set read configurations for an Aggregator.
@@ -143,6 +141,29 @@ export class AggregatorAccount {
   public async loadData(): Promise<AggregatorData> {
     return await this.switchboard.sb
       .aggregators(this.address)
+      .catch(EthersError.handleError);
+  }
+
+  /**
+   * Loads the Aggregator's ResponseSetting data.
+   *
+   * ```typescript
+   * const data = await aggregatorAccount.loadResponseSettings();
+   * console.log(data);
+   * ```
+   *
+   * @returns - The ResponseSetting data associated with this Aggregator account.
+   */
+  public async loadResponseSettings() {
+    return await this.switchboard.sb
+      .queryFilter(
+        this.switchboard.sb.filters.AggregatorResponseSettingsUpdate(
+          this.address
+        ),
+        0,
+        "latest"
+      )
+      .then((updates) => updates.pop()?.args)
       .catch(EthersError.handleError);
   }
 
@@ -299,28 +320,36 @@ export class AggregatorAccount {
     params: AggregatorSetConfigParams,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const aggregator = await this.loadData();
+    const [aggregatorData, aggregatorResponseCfg] = await Promise.all([
+      this.loadData(),
+      this.loadResponseSettings(),
+    ]);
 
     const oracleQueue = new OracleQueueAccount(
       this.switchboard,
-      aggregator.queueAddress
+      aggregatorData.queueAddress
     );
-    const queueData = await oracleQueue.loadData();
 
     const tx = await this.switchboard.sendSbTxn(
       "setAggregatorConfig",
       [
         this.address,
-        params.name ?? aggregator.name,
-        params.authority ?? aggregator.authority,
-        params.batchSize ?? aggregator.batchSize,
-        params.minUpdateDelaySeconds ?? aggregator.minUpdateDelaySeconds,
-        params.minOracleResults ?? aggregator.minOracleResults,
-        params.jobsHash ?? aggregator.jobsHash,
+        params.name ?? aggregatorData.name,
+        params.authority ?? aggregatorData.authority,
+        params.batchSize ?? aggregatorData.batchSize,
+        params.minUpdateDelaySeconds ?? aggregatorData.minUpdateDelaySeconds,
+        params.minOracleResults ?? aggregatorData.minOracleResults,
+        params.jobsHash ?? aggregatorData.jobsHash,
         oracleQueue.address,
-        toBigNumber(new Big(params.varianceThreshold ?? 0)).toString(),
-        params.minJobResults ?? 1,
-        params.forceReportPeriod ?? 0,
+        params.varianceThreshold === undefined
+          ? aggregatorResponseCfg.varianceThreshold
+          : toBigNumber(new Big(params.varianceThreshold)),
+        params.minJobResults === undefined
+          ? aggregatorResponseCfg.minJobResults
+          : toBigNumber(new Big(Math.trunc(params.minJobResults))),
+        params.forceReportPeriod === undefined
+          ? aggregatorResponseCfg.forceReportPeriod
+          : toBigNumber(new Big(Math.trunc(params.forceReportPeriod))),
       ],
       options
     );
