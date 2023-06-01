@@ -2,6 +2,8 @@ import { EthersError } from "../errors.js";
 import { fetchJobsFromIPFS } from "../ipfs.js";
 import {
   AggregatorData,
+  AggregatorReadConfig,
+  AggregatorResponseConfig,
   EventCallback,
   ISwitchboardProgram,
   Job,
@@ -177,6 +179,22 @@ export class AggregatorAccount {
   }
 
   /**
+   * Loads the Aggregator's read config.
+   *
+   * ```typescript
+   * const data = await aggregatorAccount.loadReadConfig();
+   * console.log(data);
+   * ```
+   *
+   * @returns - The read configuration associated with this Aggregator account.
+   */
+  public async loadReadConfig(): Promise<AggregatorReadConfig> {
+    return await this.switchboard.sb
+      .aggregatorReadConfigs(this.address)
+      .catch(EthersError.handleError);
+  }
+
+  /**
    * Loads the Aggregator's ResponseSetting data.
    *
    * ```typescript
@@ -186,7 +204,7 @@ export class AggregatorAccount {
    *
    * @returns - The ResponseSetting data associated with this Aggregator account.
    */
-  public async loadResponseSettings() {
+  public async loadResponseSettings(): Promise<AggregatorResponseConfig> {
     return await this.switchboard.sb
       .queryFilter(
         this.switchboard.sb.filters.AggregatorResponseSettingsUpdate(

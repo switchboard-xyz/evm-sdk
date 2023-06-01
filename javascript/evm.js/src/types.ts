@@ -8,6 +8,7 @@ import {
 } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
 import { type QuoteInitParams } from "./accounts/QuoteAccount.js";
+import { type AggregatorResponseSettingsUpdateEventObject } from "./typechain-types/contracts/src/Switchboard/Switchboard.js";
 import {
   type Switchboard,
   type SwitchboardAttestationService,
@@ -524,6 +525,39 @@ export type OracleData = Awaited<ReturnType<Switchboard["oracles"]>>;
  * ```
  */
 export type AggregatorData = Awaited<ReturnType<Switchboard["aggregators"]>>;
+
+/**
+ * AggregatorData is a type that represents the read config for an {@link AggregatorAccount}.
+ * ```typescript
+ * [
+ *   readCharge: BigNumber { value: "0" },
+ *   rewardEscrow: '0x0000000000000000000000000000000000000000',
+ *   readWhiteList: [
+ *      '0x0000000000000000000000000000000000000000',
+ *      '0x0000000000000000000000000000000000000000',
+ *   ],
+ *   limitReadsToWhitelist: true,
+ *   historyEnabled: true
+ * ]
+ * ```
+ */
+export type AggregatorReadConfig = Awaited<
+  ReturnType<Switchboard["aggregatorReadConfigs"]>
+>;
+
+/**
+ * AggregatorResponseConfig is a type that represents response settings for an {@link AggregatorAccount}.
+ * ```typescript
+ * [
+ *   aggregatorAddress: '0x0000000000000000000000000000000000000000',
+ *   varianceThreshold: BigNumber { value: "0" },
+ *   minJobResults: BigNumber { value: "0" },
+ *   forceReportPeriod: BigNumber { value: "0" }
+ * ]
+ * ```
+ */
+export type AggregatorResponseConfig =
+  AggregatorResponseSettingsUpdateEventObject;
 
 /**
  * FunctionData is a type that represents the data for a {@link FunctionAccount}.
