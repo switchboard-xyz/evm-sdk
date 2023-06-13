@@ -4,10 +4,12 @@ export * from "./ipfs.js";
 export { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 export * from "./SwitchboardProgram.js";
 export {
-  Switchboard,
-  Switchboard__factory,
-  SwitchboardAttestationService,
-  SwitchboardAttestationService__factory,
+  Aggregator,
+  AttestationQueue,
+  OracleQueue,
+  Oracle,
+  Quote,
+  SbFunction,
 } from "./typechain-types/index.js";
 export * from "./types.js";
 export * from "./utils.js";

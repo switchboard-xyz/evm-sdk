@@ -8,11 +8,9 @@ import {
 } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
 import { type QuoteInitParams } from "./accounts/QuoteAccount.js";
-import { type AggregatorResponseSettingsUpdateEventObject } from "./typechain-types/contracts/src/Switchboard/Switchboard.js";
-import {
-  type Switchboard,
-  type SwitchboardAttestationService,
-} from "./typechain-types/index.js";
+
+import { type AggregatorResponseSettingsUpdateEventObject } from "./typechain-types/aggregator/Aggregator.js";
+import { type Switchboard } from "./typechain-types/index.js";
 
 import { type Big } from "@switchboard-xyz/common";
 import {
