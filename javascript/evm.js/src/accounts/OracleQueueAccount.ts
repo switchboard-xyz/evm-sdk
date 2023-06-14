@@ -93,7 +93,7 @@ export class OracleQueueAccount {
    */
   async loadData(): Promise<OracleQueueData> {
     return await this.switchboard.sb
-      .queues(this.address)
+      .oracleQueues(this.address)
       .catch(EthersError.handleError);
   }
 
@@ -176,7 +176,7 @@ export class OracleQueueAccount {
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const tx = await this.switchboard.sendSbTxn(
-      "setQueueConfig",
+      "setOracleQueueConfig",
       [
         this.address,
         params.name,
@@ -238,7 +238,7 @@ export class OracleQueueAccount {
   ): Promise<ContractTransaction> {
     const currentAttestationConfig = await this.getAttestationConfig();
     const tx = await this.switchboard.sendSbTxn(
-      "setQueueAttestationConfig",
+      "setOracleQueueAttestationConfig",
       [
         this.address,
         params.attestationQueueAddress,
@@ -280,7 +280,7 @@ export class OracleQueueAccount {
       {
         name: params?.name ?? "",
         authority: authority,
-        queueAddress: this.address,
+        queueId: this.address,
       },
       {
         ...options,

@@ -81,6 +81,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OracleQueue__factory>;
     getContractFactory(
+      name: "Permission",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Permission__factory>;
+    getContractFactory(
       name: "Quote",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Quote__factory>;
@@ -88,6 +92,10 @@ declare module "hardhat/types/runtime" {
       name: "SbFunction",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SbFunction__factory>;
+    getContractFactory(
+      name: "Switchboard",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Switchboard__factory>;
     getContractFactory(
       name: "Switchboard",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -179,6 +187,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OracleQueue>;
     getContractAt(
+      name: "Permission",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Permission>;
+    getContractAt(
       name: "Quote",
       address: string,
       signer?: ethers.Signer
@@ -188,6 +201,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SbFunction>;
+    getContractAt(
+      name: "Switchboard",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Switchboard>;
     getContractAt(
       name: "Switchboard",
       address: string,

@@ -2,7 +2,6 @@ import { EthersError } from "../errors.js";
 import { fetchJobsFromIPFS } from "../ipfs.js";
 import {
   AggregatorData,
-  AggregatorReadConfig,
   AggregatorResponseConfig,
   EventCallback,
   ISwitchboardProgram,
@@ -179,22 +178,6 @@ export class AggregatorAccount {
   }
 
   /**
-   * Loads the Aggregator's read config.
-   *
-   * ```typescript
-   * const data = await aggregatorAccount.loadReadConfig();
-   * console.log(data);
-   * ```
-   *
-   * @returns - The read configuration associated with this Aggregator account.
-   */
-  public async loadReadConfig(): Promise<AggregatorReadConfig> {
-    return await this.switchboard.sb
-      .aggregatorReadConfigs(this.address)
-      .catch(EthersError.handleError);
-  }
-
-  /**
    * Loads the Aggregator's ResponseSetting data.
    *
    * ```typescript
@@ -296,11 +279,8 @@ export class AggregatorAccount {
         value: params.fundAmount,
       }
     );
-    const aggregatorAddress = await switchboard.pollTxnForSbEvent(
-      tx,
-      "accountAddress"
-    );
-    return [new AggregatorAccount(switchboard, aggregatorAddress), tx];
+    const aggregatorId = await switchboard.pollTxnForSbEvent(tx, "accountId");
+    return [new AggregatorAccount(switchboard, aggregatorId), tx];
   }
 
   private static convertRawResult(
@@ -351,7 +331,7 @@ export class AggregatorAccount {
       .catch(EthersError.handleError);
     return results.map((r) => {
       const result = AggregatorAccount.convertRawResult(r);
-      return { ...result, oracleAddress: r.oracleAddress };
+      return { ...result, oracleId: r.oracleId };
     });
   }
 
@@ -379,7 +359,7 @@ export class AggregatorAccount {
 
     const oracleQueue = new OracleQueueAccount(
       this.switchboard,
-      aggregatorData.queueAddress
+      aggregatorData.queueId
     );
 
     const tx = await this.switchboard.sendSbTxn(
@@ -388,9 +368,10 @@ export class AggregatorAccount {
         this.address,
         params.name ?? aggregatorData.name,
         params.authority ?? aggregatorData.authority,
-        params.batchSize ?? aggregatorData.batchSize,
-        params.minUpdateDelaySeconds ?? aggregatorData.minUpdateDelaySeconds,
-        params.minOracleResults ?? aggregatorData.minOracleResults,
+        params.batchSize ?? aggregatorData.config.batchSize,
+        params.minUpdateDelaySeconds ??
+          aggregatorData.config.minUpdateDelaySeconds,
+        params.minOracleResults ?? aggregatorData.config.minOracleResults,
         params.jobsHash ?? aggregatorData.jobsHash,
         oracleQueue.address,
         params.varianceThreshold === undefined
@@ -402,39 +383,7 @@ export class AggregatorAccount {
         params.forceReportPeriod === undefined
           ? aggregatorResponseCfg.forceReportPeriod
           : Math.trunc(params.forceReportPeriod),
-      ],
-      options
-    );
-
-    return tx;
-  }
-
-  /**
-   * Sets the read configuration for the Aggregator account.
-   *
-   * @param params - The new read configuration parameters.
-   * @param options - (Optional) Transaction options.
-   *
-   * ```typescript
-   * const readConfigParams: AggregatorSetReadConfigParams = {...};
-   * const tx = await aggregatorAccount.setReadConfig(readConfigParams);
-   * ```
-   *
-   * @returns - The ContractTransaction.
-   */
-  public async setReadConfig(
-    params: AggregatorSetReadConfigParams,
-    options?: TransactionOptions
-  ): Promise<ContractTransaction> {
-    const tx = await this.switchboard.sendSbTxn(
-      "setAggregatorReadConfig",
-      [
-        this.address,
-        params.readCharge,
-        params.rewardEscrow,
-        params.readWhitelist,
-        params.limitReadsToWhitelist,
-        params.enableLegacyAdapter,
+        params.enableHistory ?? aggregatorData.historyEnabled,
       ],
       options
     );
@@ -494,10 +443,14 @@ export class AggregatorAccount {
     fundAmount: BigNumberish,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await this.switchboard.sendSbTxn("escrowFund", [this.address], {
-      ...options,
-      value: fundAmount,
-    });
+    const tx = await this.switchboard.sendSbTxn(
+      "aggregatorEscrowFund",
+      [this.address],
+      {
+        ...options,
+        value: fundAmount,
+      }
+    );
     return tx;
   }
 
@@ -522,7 +475,7 @@ export class AggregatorAccount {
     // TODO: Check aggregator authority == msg.sender
     // TODO: Check aggregator has enough funds
     const tx = await this.switchboard.sendSbTxn(
-      "escrowWithdraw",
+      "aggregatorEscrowWithdraw",
       [withdrawAddress, this.address, withdrawAmount],
       options
     );
@@ -562,7 +515,7 @@ export class AggregatorAccount {
   ): Promise<[BigNumber, BigNumber, BigNumber]> {
     const intervalId = _intervalId ?? (await this.getCurrentIntervalId());
     return await this.switchboard.sb
-      .getIntervalResult(this.address, intervalId)
+      .aggregatorHistory(this.address, intervalId)
       .catch(EthersError.handleError);
   }
 }

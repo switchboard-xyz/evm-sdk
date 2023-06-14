@@ -4,6 +4,7 @@ import {
   ISwitchboardProgram,
   RawMrEnclave,
   TransactionOptions,
+  TransactionStruct,
 } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
@@ -31,6 +32,7 @@ export interface FunctionInitParams {
   container: string;
   schedule: string;
   version: string;
+  permittedCallers?: string[];
 }
 
 /**
@@ -47,11 +49,13 @@ export interface FunctionInitParams {
  * ```
  */
 export interface FunctionVerifyParams {
+  verifierQuoteId: string;
   delegatedSignerAddress: string;
   observedTime: number;
   nextAllowedTimestamp: number;
   isFailure: boolean;
   mrEnclave: RawMrEnclave;
+  transactions: TransactionStruct[];
 }
 
 /**
@@ -87,7 +91,7 @@ export class FunctionAccount {
    * ```
    */
   public async loadData(): Promise<FunctionData> {
-    return await this.switchboard.vs
+    return await this.switchboard.sb
       .funcs(this.address)
       .catch(EthersError.handleError);
   }
@@ -138,7 +142,7 @@ export class FunctionAccount {
     );
     const queueData = await attestationQueue.loadData();
 
-    const tx = await switchboard.sendVsTxn(
+    const tx = await switchboard.sendSbTxn(
       "createFunction",
       [
         params.authority,
@@ -148,12 +152,13 @@ export class FunctionAccount {
         params.schedule,
         params.version,
         attestationQueue.address,
+        params.permittedCallers || [],
       ],
       options
     );
-    const functionAddress = await switchboard.pollTxnForVsEvent(
+    const functionAddress = await switchboard.pollTxnForSbEvent(
       tx,
-      "accountAddress"
+      "accountId"
     );
     return [new FunctionAccount(switchboard, functionAddress), tx];
   }
@@ -173,15 +178,17 @@ export class FunctionAccount {
     params: FunctionVerifyParams,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await this.switchboard.sendVsTxn(
+    const tx = await this.switchboard.sendSbTxn(
       "verifyFunction",
       [
+        params.verifierQuoteId,
         this.address,
         params.delegatedSignerAddress,
         params.observedTime,
         params.nextAllowedTimestamp,
         params.isFailure,
         params.mrEnclave,
+        params.transactions,
       ],
       options
     );
@@ -204,10 +211,14 @@ export class FunctionAccount {
     fundAmount: BigNumberish,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await this.switchboard.sendVsTxn("escrowFund", [this.address], {
-      ...options,
-      value: fundAmount,
-    });
+    const tx = await this.switchboard.sendSbTxn(
+      "functionEscrowFund",
+      [this.address],
+      {
+        ...options,
+        value: fundAmount,
+      }
+    );
     return tx;
   }
 
@@ -232,7 +243,7 @@ export class FunctionAccount {
     // TODO: Check function authority == msg.sender
     // TODO: Check function has enough funds
     const tx = await this.switchboard.sendSbTxn(
-      "escrowWithdraw",
+      "functionEscrowWithdraw",
       [withdrawAddress, this.address, withdrawAmount],
       options
     );

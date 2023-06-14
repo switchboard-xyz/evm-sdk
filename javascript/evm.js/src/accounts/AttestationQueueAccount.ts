@@ -51,6 +51,8 @@ export interface AttestationQueueInitParams {
   requireAuthorityHeartbeatPermission: boolean;
   // If true, requires usage permissions.
   requireUsagePermissions: boolean;
+  // Number of tolerated function failures before labeling it non-executable
+  maxConsecutiveFunctionFailures: number;
 }
 
 /**
@@ -94,8 +96,8 @@ export class AttestationQueueAccount {
    * ```
    */
   public async loadData(): Promise<AttestationQueueData> {
-    return await this.switchboard.vs
-      .queues(this.address)
+    return await this.switchboard.sb
+      .attestationQueues(this.address)
       .catch(EthersError.handleError);
   }
 
@@ -141,7 +143,7 @@ export class AttestationQueueAccount {
     params: AttestationQueueInitParams,
     options?: TransactionOptions
   ): Promise<[AttestationQueueAccount, ContractTransaction]> {
-    const tx = await switchboard.sendVsTxn(
+    const tx = await switchboard.sendSbTxn(
       "createAttestationQueue",
       [
         params.authority,
@@ -152,14 +154,12 @@ export class AttestationQueueAccount {
         params.allowAuthorityOverrideAfter,
         params.requireAuthorityHeartbeatPermission,
         params.requireUsagePermissions,
+        params.maxConsecutiveFunctionFailures,
       ],
       options
     );
-    const queueAddress = await switchboard.pollTxnForVsEvent(
-      tx,
-      "accountAddress"
-    );
-    return [new AttestationQueueAccount(switchboard, queueAddress), tx];
+    const queueId = await switchboard.pollTxnForSbEvent(tx, "accountId");
+    return [new AttestationQueueAccount(switchboard, queueId), tx];
   }
 
   /**
@@ -179,8 +179,8 @@ export class AttestationQueueAccount {
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const queue = await this.loadData();
-    const tx = await this.switchboard.sendVsTxn(
-      "setQueueConfig",
+    const tx = await this.switchboard.sendSbTxn(
+      "setAttestationQueueConfig",
       [
         this.address,
         params.authority ?? queue.authority,
@@ -195,6 +195,7 @@ export class AttestationQueueAccount {
         params.requireUsagePermissions
           ? params.requireUsagePermissions
           : queue.requireUsagePermissions,
+        params.maxConsecutiveFunctionFailures,
       ],
       options
     );
@@ -213,8 +214,8 @@ export class AttestationQueueAccount {
    * ```
    */
   public async hasMrEnclave(mrEnclave: RawMrEnclave): Promise<boolean> {
-    return await this.switchboard.vs
-      .hasMrEnclave(this.address, parseMrEnclave(mrEnclave))
+    return await this.switchboard.sb
+      .attestationQueueHasMrEnclave(this.address, parseMrEnclave(mrEnclave))
       .catch(EthersError.handleError);
   }
 
@@ -234,8 +235,8 @@ export class AttestationQueueAccount {
     mrEnclave: RawMrEnclave,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await this.switchboard.sendVsTxn(
-      "addMrEnclave",
+    const tx = await this.switchboard.sendSbTxn(
+      "addMrEnclaveToAttestationQueue",
       [this.address, mrEnclave],
       options
     );
@@ -258,8 +259,8 @@ export class AttestationQueueAccount {
     mrEnclave: RawMrEnclave,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await this.switchboard.sendVsTxn(
-      "removeMrEnclave",
+    const tx = await this.switchboard.sendSbTxn(
+      "removeMrEnclaveFromAttestationQueue",
       [this.address, mrEnclave],
       options
     );

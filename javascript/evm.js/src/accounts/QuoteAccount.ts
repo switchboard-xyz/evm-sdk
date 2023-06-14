@@ -11,7 +11,7 @@ import {
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
 import { sleep } from "@switchboard-xyz/common";
-import { ContractTransaction } from "ethers";
+import { ContractTransaction, Wallet } from "ethers";
 
 /**
  * Defines the parameters for initializing a quote
@@ -72,7 +72,7 @@ export class QuoteAccount {
    * ```
    */
   public async loadData(): Promise<QuoteData> {
-    return await this.switchboard.vs
+    return await this.switchboard.sb
       .quotes(this.address)
       .catch(EthersError.handleError);
   }
@@ -116,34 +116,13 @@ export class QuoteAccount {
     params: QuoteInitParams & { attestationQueue: string },
     options?: TransactionOptions
   ): Promise<[QuoteAccount, ContractTransaction]> {
-    const tx = await switchboard.sendVsTxn(
-      "createQuote",
-      [params.authority, params.attestationQueue, params.owner],
+    const address = Wallet.createRandom().address;
+    const tx = await switchboard.sendSbTxn(
+      "createQuoteWithId",
+      [address, params.authority, params.attestationQueue, params.owner],
       options
     );
-    const quoteAddress = await switchboard.pollTxnForVsEvent(
-      tx,
-      "accountAddress"
-    );
-    return [new QuoteAccount(switchboard, quoteAddress), tx];
-  }
-
-  /**
-   * Method to return the attestationQueue address for the given verified Quote
-   *
-   * @returns {Promise<string>} Promise that resolves to attestationQueue address
-   *
-   * ```typescript
-   * const attestationQueueAddress = await quoteAccount.validate();
-   * ```
-   */
-  public async validate(): Promise<string> {
-    this.switchboard.hasAttestationService();
-
-    const quoteData = await this.loadData();
-    return await this.switchboard.vs
-      .validate(quoteData.authority)
-      .catch(EthersError.handleError);
+    return [new QuoteAccount(switchboard, address), tx];
   }
 
   /**
@@ -156,7 +135,7 @@ export class QuoteAccount {
    * ```
    */
   public async isQuoteValid(): Promise<boolean> {
-    return await this.switchboard.vs
+    return await this.switchboard.sb
       .isQuoteValid(this.address)
       .catch(EthersError.handleError);
   }
@@ -176,9 +155,9 @@ export class QuoteAccount {
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const quoteData = await this.loadData();
-    const tx = await this.switchboard.sendVsTxn(
+    const tx = await this.switchboard.sendSbTxn(
       "forceOverrideVerify",
-      [quoteData.queueAddress, this.address],
+      [quoteData.queueId, this.address],
       options
     );
 
@@ -202,13 +181,9 @@ export class QuoteAccount {
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const quoteData = await this.loadData();
-    const tx = await this.switchboard.sendVsTxn(
+    const tx = await this.switchboard.sendSbTxn(
       "updateQuote",
-      [
-        quoteData.authority,
-        quoteData.queueAddress,
-        parseMrEnclave(quoteBuffer),
-      ],
+      [quoteData.authority, quoteData.queueId, parseMrEnclave(quoteBuffer)],
       options
     );
 
@@ -241,13 +216,13 @@ export class QuoteAccount {
     //   quoteData.queueAddress
     // );
     // const queueData = await attestationQueue.loadData();
-    const tx = await this.switchboard.sendVsTxn(
+    const tx = await this.switchboard.sendSbTxn(
       "verifyQuote",
       [
         verifierAddress,
         this.address,
         quoteIdx ??
-          (await this.switchboard.vs
+          (await this.switchboard.sb
             .getQuoteIdx(this.address)
             .catch(EthersError.handleError)),
         Math.floor(Date.now() / 1000),
@@ -275,7 +250,7 @@ export class QuoteAccount {
     switchboard: ISwitchboardProgram,
     authority: string
   ): Promise<QuoteAccount> {
-    const address = await switchboard.vs
+    const address = await switchboard.sb
       .quoteAuthorityToQuoteAddress(authority)
       .catch(EthersError.handleError);
     return new QuoteAccount(switchboard, address);
@@ -319,9 +294,9 @@ export class QuoteAccount {
     let quote: QuoteData;
     try {
       quote = await quoteAccount.loadData();
-      if (quote.queueAddress !== attestationQueueAccount.address) {
+      if (quote.queueId !== attestationQueueAccount.address) {
         throw new Error(
-          `Incorrect AttestationQueue provided, expected ${quote.queueAddress}, received ${attestationQueueAccount.address}`
+          `Incorrect AttestationQueue provided, expected ${quote.queueId}, received ${attestationQueueAccount.address}`
         );
       }
 

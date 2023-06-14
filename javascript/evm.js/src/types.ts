@@ -8,9 +8,9 @@ import {
 } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
 import { type QuoteInitParams } from "./accounts/QuoteAccount.js";
-
-import { type AggregatorResponseSettingsUpdateEventObject } from "./typechain-types/aggregator/Aggregator.js";
-import { type Switchboard } from "./typechain-types/index.js";
+import { type TransactionLib } from "./typechain-types/contracts/src/Switchboard/sbFunction/SbFunction.js";
+import { Switchboard } from "./typechain-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
+import { type AggregatorResponseSettingsUpdateEventObject } from "./typechain-types/hardhat-diamond-abi/HardhatDiamondABI.sol/Switchboard.js";
 
 import { type Big } from "@switchboard-xyz/common";
 import {
@@ -104,12 +104,6 @@ export type MethodNames<T extends Contract> = Extract<
 export type SwitchboardMethods = MethodNames<Switchboard>;
 
 /**
- * SwitchboardAttestationMethods is a type that represents the methods for the SwitchboardAttestationService contract.
- */
-export type SwitchboardAttestationMethods =
-  MethodNames<SwitchboardAttestationService>;
-
-/**
  * SendTransactionMethod is a function type that takes a contract, method name, arguments,
  * and optional TransactionOptions to send a transaction.
  */
@@ -144,7 +138,7 @@ export type SendContractMethod<T extends Contract> = (
 ) => Promise<ContractTransaction>;
 
 /**
- * The SwitchboardProgram class provides a high-level API to interact with the {@link Switchboard} and {@link SwitchboardAttestationService} smart contracts on the EVM.
+ * The SwitchboardProgram class provides a high-level API to interact with the {@link Switchboard} smart contracts on the EVM.
  *
  * This class provides methods to send transactions, poll events, fetch accounts, and more. It requires a `Signer` or `Provider` instance and the address of the Switchboard contract to instantiate.
  *
@@ -179,8 +173,6 @@ export type SendContractMethod<T extends Contract> = (
 export interface ISwitchboardProgram {
   // An instance of the {@link Switchboard} contract.
   sb: Switchboard;
-  // An instance of the {@link SwitchboardAttestationService} contract.
-  vs?: SwitchboardAttestationService;
 
   /**
    * A getter that returns a promise which resolves to the address of the signer.
@@ -204,13 +196,6 @@ export interface ISwitchboardProgram {
   connect(signer: Signer): ISwitchboardProgram;
 
   /**
-   * Checks if the SwitchboardProgram instance has an AttestationService.
-   * Throws an error if the AttestationService is undefined.
-   * @throws Error - if the AttestationService is undefined
-   */
-  hasAttestationService: () => void;
-
-  /**
    * Sends a transaction to the Switchboard.sol contract
    * @param methodName - The name of the contract method to be called
    * @param args - The arguments to pass to the contract method
@@ -222,18 +207,6 @@ export interface ISwitchboardProgram {
    * ```
    */
   sendSbTxn: SendContractMethod<Switchboard>;
-  /**
-   * Sends a transaction to the SwitchboardAttestationService.sol contract
-   * @param methodName - The name of the contract method to be called
-   * @param args - The arguments to pass to the contract method
-   * @param options - The options to pass to the contract method
-   * @returns Promise<ContractTransaction>
-   *
-   * ```typescript
-   * const transaction = await switchboardProgram.sendVsTxn('methodName', args, options);
-   * ```
-   */
-  sendVsTxn: SendContractMethod<SwitchboardAttestationService>;
 
   /**
    * Polls a Switchboard contract transaction for an emitted event field
@@ -246,17 +219,6 @@ export interface ISwitchboardProgram {
    * ```
    */
   pollTxnForSbEvent: PollTxnForEventFieldFn;
-  /**
-   * Polls a SwitchboardAttestationService contract transaction for an emitted event field
-   * @param tx - The contract transaction to poll
-   * @param field - An optional field name to extract from the event
-   * @returns Promise<T>
-   *
-   * ```typescript
-   * const accountAddress = await switchboardProgram.pollTxnForVsEvent(tx, 'accountAddress');
-   * ```
-   */
-  pollTxnForVsEvent: PollTxnForEventFieldFn;
 
   /**
    * Fetches Aggregator accounts for a given authority
@@ -416,7 +378,7 @@ export type EnablePermissions = boolean | { queueAuthority: Signer };
  * ]
  * ```
  */
-export type OracleQueueData = Awaited<ReturnType<Switchboard["queues"]>>;
+export type OracleQueueData = Awaited<ReturnType<Switchboard["oracleQueues"]>>;
 
 /**
  * OracleQueueAttestationConfig is a type that represents the attestation config for an {@link OracleQueueAccount}.
@@ -455,7 +417,7 @@ export type OracleQueueAttestationConfig = Awaited<
  * ```
  */
 export type AttestationQueueData = Awaited<
-  ReturnType<SwitchboardAttestationService["queues"]>
+  ReturnType<Switchboard["attestationQueues"]>
 >;
 
 /**
@@ -525,25 +487,6 @@ export type OracleData = Awaited<ReturnType<Switchboard["oracles"]>>;
 export type AggregatorData = Awaited<ReturnType<Switchboard["aggregators"]>>;
 
 /**
- * AggregatorData is a type that represents the read config for an {@link AggregatorAccount}.
- * ```typescript
- * [
- *   readCharge: BigNumber { value: "0" },
- *   rewardEscrow: '0x0000000000000000000000000000000000000000',
- *   readWhiteList: [
- *      '0x0000000000000000000000000000000000000000',
- *      '0x0000000000000000000000000000000000000000',
- *   ],
- *   limitReadsToWhitelist: true,
- *   historyEnabled: true
- * ]
- * ```
- */
-export type AggregatorReadConfig = Awaited<
-  ReturnType<Switchboard["aggregatorReadConfigs"]>
->;
-
-/**
  * AggregatorResponseConfig is a type that represents response settings for an {@link AggregatorAccount}.
  * ```typescript
  * [
@@ -560,9 +503,7 @@ export type AggregatorResponseConfig =
 /**
  * FunctionData is a type that represents the data for a {@link FunctionAccount}.
  */
-export type FunctionData = Awaited<
-  ReturnType<SwitchboardAttestationService["funcs"]>
->;
+export type FunctionData = Awaited<ReturnType<Switchboard["funcs"]>>;
 
 /**
  * QuoteData is a type that represents the data for a {@link QuoteAccount}.
@@ -591,9 +532,7 @@ export type FunctionData = Awaited<
  * ]
  * ```
  */
-export type QuoteData = Awaited<
-  ReturnType<SwitchboardAttestationService["quotes"]>
->;
+export type QuoteData = Awaited<ReturnType<Switchboard["quotes"]>>;
 
 /**
  * PermissionStatus is an enumeration of possible permission statuses.
@@ -614,7 +553,7 @@ export type LatestRawValue = [BigNumber, BigNumber] & {
 
 export type LatestResult = { result: Big; timestamp: number };
 
-export type LatestResults = Array<LatestResult & { oracleAddress: string }>;
+export type LatestResults = Array<LatestResult & { oracleId: string }>;
 
 /**
  * VerificationStatus is an enumeration of possible verification statuses.
@@ -627,3 +566,5 @@ export const VerificationStatus = {
 } as const;
 
 export type VerificationStatusType = keyof typeof VerificationStatus;
+
+export type TransactionStruct = TransactionLib.TransactionStruct;
