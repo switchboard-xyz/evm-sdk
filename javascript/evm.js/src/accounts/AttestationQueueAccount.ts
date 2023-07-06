@@ -3,7 +3,7 @@ import { parseMrEnclave } from "../parseMrEnclave.js";
 import {
   AttestationQueueData,
   CreateFunction,
-  CreateQuote,
+  CreateEnclave,
   EnablePermissions,
   ISwitchboardProgram,
   PermissionStatus,
@@ -14,7 +14,7 @@ import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
 import { FunctionAccount } from "./FunctionAccount.js";
 import { Permissions } from "./Permissions.js";
-import { QuoteAccount } from "./QuoteAccount.js";
+import { EnclaveAccount } from "./EnclaveAccount.js";
 
 import { ContractTransaction } from "ethers";
 
@@ -26,8 +26,8 @@ import { ContractTransaction } from "ethers";
  *   authority: 'authority_string',
  *   maxSize: 10,
  *   reward: 50,
- *   quoteTimeout: 60000,
- *   maxQuoteVerificationAge: 3600000,
+ *   enclaveTimeout: 60000,
+ *   maxEnclaveVerificationAge: 3600000,
  *   allowAuthorityOverrideAfter: 7200000,
  *   requireAuthorityHeartbeatPermission: true,
  *   requireUsagePermissions: false
@@ -41,10 +41,10 @@ export interface AttestationQueueInitParams {
   maxSize: number;
   // The reward for providing attestations.
   reward: number;
-  // The timeout for quotes in the attestation queue.
-  quoteTimeout: number;
-  // The maximum age of a quote for it to be valid.
-  maxQuoteVerificationAge: number;
+  // The timeout for enclaves in the attestation queue.
+  enclaveTimeout: number;
+  // The maximum age of a enclave for it to be valid.
+  maxEnclaveVerificationAge: number;
   // The amount of time after which the authority can be overridden.
   allowAuthorityOverrideAfter: number;
   // If true, requires authority's heartbeat permission.
@@ -149,8 +149,8 @@ export class AttestationQueueAccount {
         params.authority,
         params.maxSize,
         params.reward,
-        params.quoteTimeout,
-        params.maxQuoteVerificationAge,
+        params.enclaveTimeout,
+        params.maxEnclaveVerificationAge,
         params.allowAuthorityOverrideAfter,
         params.requireAuthorityHeartbeatPermission,
         params.requireUsagePermissions,
@@ -186,8 +186,8 @@ export class AttestationQueueAccount {
         params.authority ?? queue.authority,
         params.maxSize ?? queue.maxSize,
         params.reward ?? queue.reward,
-        params.quoteTimeout ?? queue.quoteTimeout,
-        params.maxQuoteVerificationAge ?? queue.maxQuoteVerificationAge,
+        params.enclaveTimeout ?? queue.enclaveTimeout,
+        params.maxEnclaveVerificationAge ?? queue.maxEnclaveVerificationAge,
         params.allowAuthorityOverrideAfter ?? queue.allowAuthorityOverrideAfter,
         params.requireAuthorityHeartbeatPermission
           ? params.requireAuthorityHeartbeatPermission
@@ -325,21 +325,21 @@ export class AttestationQueueAccount {
   }
 
   /**
-   * Method to create a {QuoteAccount} and optionally enable its serviceQueue permissions
+   * Method to create a {EnclaveAccount} and optionally enable its serviceQueue permissions
    *
-   * @param params - Parameters required to create the quote
+   * @param params - Parameters required to create the enclave
    * @param [options] - Transaction options
    *
-   * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
+   * @returns {Promise<EnclaveAccount>} Promise that resolves to EnclaveAccount
    *
    * ```typescript
-   * const quoteAccount = await attestationQueueAccount.createQuote(createQuoteParams, options);
+   * const enclaveAccount = await attestationQueueAccount.createEnclave(createEnclaveParams, options);
    * ```
    */
-  public async createQuote(
-    params: CreateQuote,
+  public async createEnclave(
+    params: CreateEnclave,
     options?: TransactionOptions
-  ): Promise<QuoteAccount> {
+  ): Promise<EnclaveAccount> {
     // verify it exists
     await this.loadData();
 
@@ -348,7 +348,7 @@ export class AttestationQueueAccount {
       params
     );
 
-    const [quoteAccount] = await QuoteAccount.create(
+    const [enclaveAccount] = await EnclaveAccount.create(
       switchboard,
       {
         ...params,
@@ -358,6 +358,6 @@ export class AttestationQueueAccount {
       { ...options, signer: authoritySigner }
     );
 
-    return quoteAccount;
+    return enclaveAccount;
   }
 }

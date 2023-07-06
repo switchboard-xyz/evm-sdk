@@ -131,6 +131,7 @@ export interface AggregatorInterface extends utils.Interface {
     "getCurrentIntervalId(address)": FunctionFragment;
     "getIntervalResult(address,uint80)": FunctionFragment;
     "latestResult(address)": FunctionFragment;
+    "openInterval(address)": FunctionFragment;
     "saveResults(address[],int256[],address,uint256)": FunctionFragment;
     "setAggregatorConfig(address,string,address,uint256,uint256,uint256,string,address,uint256,uint256,uint256,bool)": FunctionFragment;
     "viewAggregatorResults(address)": FunctionFragment;
@@ -149,6 +150,7 @@ export interface AggregatorInterface extends utils.Interface {
       | "getCurrentIntervalId"
       | "getIntervalResult"
       | "latestResult"
+      | "openInterval"
       | "saveResults"
       | "setAggregatorConfig"
       | "viewAggregatorResults"
@@ -209,6 +211,10 @@ export interface AggregatorInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "latestResult",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "openInterval",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -287,6 +293,10 @@ export interface AggregatorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "openInterval",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "saveResults",
     data: BytesLike
   ): Result;
@@ -307,9 +317,10 @@ export interface AggregatorInterface extends utils.Interface {
     "AggregatorAccountInit(address,address,uint256)": EventFragment;
     "AggregatorFundEvent(address,address,uint256)": EventFragment;
     "AggregatorIntervalRefreshed(address,uint256,uint256)": EventFragment;
+    "AggregatorOpenInterval(address,uint256)": EventFragment;
     "AggregatorRead(address,address,int256)": EventFragment;
-    "AggregatorResponseSettingsUpdate(address,uint256,uint256,uint256)": EventFragment;
     "AggregatorSaveResult(address,address,int256)": EventFragment;
+    "AggregatorSettingsUpdated(address,uint256,uint256,uint256,uint256,uint256)": EventFragment;
     "AggregatorUpdate(address,int256,uint256)": EventFragment;
     "AggregatorWithdrawEvent(address,address,uint256)": EventFragment;
     "OraclePayoutEvent(address,address,uint256)": EventFragment;
@@ -320,11 +331,10 @@ export interface AggregatorInterface extends utils.Interface {
   getEvent(
     nameOrSignatureOrTopic: "AggregatorIntervalRefreshed"
   ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AggregatorOpenInterval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorRead"): EventFragment;
-  getEvent(
-    nameOrSignatureOrTopic: "AggregatorResponseSettingsUpdate"
-  ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorSaveResult"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AggregatorSettingsUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorUpdate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorWithdrawEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OraclePayoutEvent"): EventFragment;
@@ -369,6 +379,18 @@ export type AggregatorIntervalRefreshedEvent = TypedEvent<
 export type AggregatorIntervalRefreshedEventFilter =
   TypedEventFilter<AggregatorIntervalRefreshedEvent>;
 
+export interface AggregatorOpenIntervalEventObject {
+  aggregatorId: string;
+  intervalId: BigNumber;
+}
+export type AggregatorOpenIntervalEvent = TypedEvent<
+  [string, BigNumber],
+  AggregatorOpenIntervalEventObject
+>;
+
+export type AggregatorOpenIntervalEventFilter =
+  TypedEventFilter<AggregatorOpenIntervalEvent>;
+
 export interface AggregatorReadEventObject {
   aggregatorId: string;
   reader: string;
@@ -380,20 +402,6 @@ export type AggregatorReadEvent = TypedEvent<
 >;
 
 export type AggregatorReadEventFilter = TypedEventFilter<AggregatorReadEvent>;
-
-export interface AggregatorResponseSettingsUpdateEventObject {
-  aggregatorId: string;
-  varianceThreshold: BigNumber;
-  minJobResults: BigNumber;
-  forceReportPeriod: BigNumber;
-}
-export type AggregatorResponseSettingsUpdateEvent = TypedEvent<
-  [string, BigNumber, BigNumber, BigNumber],
-  AggregatorResponseSettingsUpdateEventObject
->;
-
-export type AggregatorResponseSettingsUpdateEventFilter =
-  TypedEventFilter<AggregatorResponseSettingsUpdateEvent>;
 
 export interface AggregatorSaveResultEventObject {
   aggregatorId: string;
@@ -407,6 +415,22 @@ export type AggregatorSaveResultEvent = TypedEvent<
 
 export type AggregatorSaveResultEventFilter =
   TypedEventFilter<AggregatorSaveResultEvent>;
+
+export interface AggregatorSettingsUpdatedEventObject {
+  aggregatorId: string;
+  minUpdateDelaySeconds: BigNumber;
+  minOracleResults: BigNumber;
+  varianceThreshold: BigNumber;
+  minJobResults: BigNumber;
+  forceReportPeriod: BigNumber;
+}
+export type AggregatorSettingsUpdatedEvent = TypedEvent<
+  [string, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber],
+  AggregatorSettingsUpdatedEventObject
+>;
+
+export type AggregatorSettingsUpdatedEventFilter =
+  TypedEventFilter<AggregatorSettingsUpdatedEvent>;
 
 export interface AggregatorUpdateEventObject {
   aggregatorId: string;
@@ -537,6 +561,11 @@ export interface Aggregator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    openInterval(
+      aggregatorId: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     saveResults(
       ids: PromiseOrValue<string>[],
       results: PromiseOrValue<BigNumberish>[],
@@ -635,6 +664,11 @@ export interface Aggregator extends BaseContract {
   latestResult(
     aggregatorId: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  openInterval(
+    aggregatorId: PromiseOrValue<string>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   saveResults(
@@ -745,6 +779,11 @@ export interface Aggregator extends BaseContract {
       [BigNumber, BigNumber] & { value: BigNumber; timestamp: BigNumber }
     >;
 
+    openInterval(
+      aggregatorId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     saveResults(
       ids: PromiseOrValue<string>[],
       results: PromiseOrValue<BigNumberish>[],
@@ -816,6 +855,15 @@ export interface Aggregator extends BaseContract {
       balanceLeftForInterval?: PromiseOrValue<BigNumberish> | null
     ): AggregatorIntervalRefreshedEventFilter;
 
+    "AggregatorOpenInterval(address,uint256)"(
+      aggregatorId?: PromiseOrValue<string> | null,
+      intervalId?: PromiseOrValue<BigNumberish> | null
+    ): AggregatorOpenIntervalEventFilter;
+    AggregatorOpenInterval(
+      aggregatorId?: PromiseOrValue<string> | null,
+      intervalId?: PromiseOrValue<BigNumberish> | null
+    ): AggregatorOpenIntervalEventFilter;
+
     "AggregatorRead(address,address,int256)"(
       aggregatorId?: PromiseOrValue<string> | null,
       reader?: PromiseOrValue<string> | null,
@@ -827,19 +875,6 @@ export interface Aggregator extends BaseContract {
       value?: null
     ): AggregatorReadEventFilter;
 
-    "AggregatorResponseSettingsUpdate(address,uint256,uint256,uint256)"(
-      aggregatorId?: PromiseOrValue<string> | null,
-      varianceThreshold?: null,
-      minJobResults?: null,
-      forceReportPeriod?: null
-    ): AggregatorResponseSettingsUpdateEventFilter;
-    AggregatorResponseSettingsUpdate(
-      aggregatorId?: PromiseOrValue<string> | null,
-      varianceThreshold?: null,
-      minJobResults?: null,
-      forceReportPeriod?: null
-    ): AggregatorResponseSettingsUpdateEventFilter;
-
     "AggregatorSaveResult(address,address,int256)"(
       aggregatorId?: PromiseOrValue<string> | null,
       oracle?: PromiseOrValue<string> | null,
@@ -850,6 +885,23 @@ export interface Aggregator extends BaseContract {
       oracle?: PromiseOrValue<string> | null,
       value?: PromiseOrValue<BigNumberish> | null
     ): AggregatorSaveResultEventFilter;
+
+    "AggregatorSettingsUpdated(address,uint256,uint256,uint256,uint256,uint256)"(
+      aggregatorId?: PromiseOrValue<string> | null,
+      minUpdateDelaySeconds?: null,
+      minOracleResults?: null,
+      varianceThreshold?: null,
+      minJobResults?: null,
+      forceReportPeriod?: null
+    ): AggregatorSettingsUpdatedEventFilter;
+    AggregatorSettingsUpdated(
+      aggregatorId?: PromiseOrValue<string> | null,
+      minUpdateDelaySeconds?: null,
+      minOracleResults?: null,
+      varianceThreshold?: null,
+      minJobResults?: null,
+      forceReportPeriod?: null
+    ): AggregatorSettingsUpdatedEventFilter;
 
     "AggregatorUpdate(address,int256,uint256)"(
       aggregatorId?: PromiseOrValue<string> | null,
@@ -947,6 +999,11 @@ export interface Aggregator extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    openInterval(
+      aggregatorId: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     saveResults(
       ids: PromiseOrValue<string>[],
       results: PromiseOrValue<BigNumberish>[],
@@ -1042,6 +1099,11 @@ export interface Aggregator extends BaseContract {
     latestResult(
       aggregatorId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    openInterval(
+      aggregatorId: PromiseOrValue<string>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     saveResults(

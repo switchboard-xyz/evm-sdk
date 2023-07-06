@@ -65,7 +65,7 @@ export declare namespace OracleQueueLib {
   export type AttestationConfigStruct = {
     attestationQueueId: PromiseOrValue<string>;
     mrEnclaves: PromiseOrValue<BytesLike>[];
-    requireValidQuote: PromiseOrValue<boolean>;
+    requireValidEnclave: PromiseOrValue<boolean>;
     requireHeartbeatPermission: PromiseOrValue<boolean>;
   };
 
@@ -77,7 +77,7 @@ export declare namespace OracleQueueLib {
   ] & {
     attestationQueueId: string;
     mrEnclaves: string[];
-    requireValidQuote: boolean;
+    requireValidEnclave: boolean;
     requireHeartbeatPermission: boolean;
   };
 }
@@ -227,14 +227,26 @@ export interface OracleQueueInterface extends utils.Interface {
 
   events: {
     "OracleQueueAccountInit(address,address)": EventFragment;
+    "OracleQueueAddMrEnclave(address,address,bytes32)": EventFragment;
+    "OracleQueueRemoveMrEnclave(address,address,bytes32)": EventFragment;
+    "OracleQueueSetAttestationConfig(address,address)": EventFragment;
+    "OracleQueueSetConfig(address,address)": EventFragment;
+    "OracleQueueSetPermission(address,address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "OracleQueueAccountInit"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OracleQueueAddMrEnclave"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OracleQueueRemoveMrEnclave"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "OracleQueueSetAttestationConfig"
+  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OracleQueueSetConfig"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OracleQueueSetPermission"): EventFragment;
 }
 
 export interface OracleQueueAccountInitEventObject {
   authority: string;
-  accountAddress: string;
+  accountId: string;
 }
 export type OracleQueueAccountInitEvent = TypedEvent<
   [string, string],
@@ -243,6 +255,70 @@ export type OracleQueueAccountInitEvent = TypedEvent<
 
 export type OracleQueueAccountInitEventFilter =
   TypedEventFilter<OracleQueueAccountInitEvent>;
+
+export interface OracleQueueAddMrEnclaveEventObject {
+  queueId: string;
+  attestationQueueId: string;
+  mrEnclave: string;
+}
+export type OracleQueueAddMrEnclaveEvent = TypedEvent<
+  [string, string, string],
+  OracleQueueAddMrEnclaveEventObject
+>;
+
+export type OracleQueueAddMrEnclaveEventFilter =
+  TypedEventFilter<OracleQueueAddMrEnclaveEvent>;
+
+export interface OracleQueueRemoveMrEnclaveEventObject {
+  queueId: string;
+  attestationQueueId: string;
+  mrEnclave: string;
+}
+export type OracleQueueRemoveMrEnclaveEvent = TypedEvent<
+  [string, string, string],
+  OracleQueueRemoveMrEnclaveEventObject
+>;
+
+export type OracleQueueRemoveMrEnclaveEventFilter =
+  TypedEventFilter<OracleQueueRemoveMrEnclaveEvent>;
+
+export interface OracleQueueSetAttestationConfigEventObject {
+  queueId: string;
+  attestationQueueId: string;
+}
+export type OracleQueueSetAttestationConfigEvent = TypedEvent<
+  [string, string],
+  OracleQueueSetAttestationConfigEventObject
+>;
+
+export type OracleQueueSetAttestationConfigEventFilter =
+  TypedEventFilter<OracleQueueSetAttestationConfigEvent>;
+
+export interface OracleQueueSetConfigEventObject {
+  queueId: string;
+  authority: string;
+}
+export type OracleQueueSetConfigEvent = TypedEvent<
+  [string, string],
+  OracleQueueSetConfigEventObject
+>;
+
+export type OracleQueueSetConfigEventFilter =
+  TypedEventFilter<OracleQueueSetConfigEvent>;
+
+export interface OracleQueueSetPermissionEventObject {
+  queueId: string;
+  granter: string;
+  grantee: string;
+  permission: BigNumber;
+}
+export type OracleQueueSetPermissionEvent = TypedEvent<
+  [string, string, string, BigNumber],
+  OracleQueueSetPermissionEventObject
+>;
+
+export type OracleQueueSetPermissionEventFilter =
+  TypedEventFilter<OracleQueueSetPermissionEvent>;
 
 export interface OracleQueue extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -322,7 +398,7 @@ export interface OracleQueue extends BaseContract {
       queueId: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       mrEnclaves: PromiseOrValue<BytesLike>[],
-      requireValidQuote: PromiseOrValue<boolean>,
+      requireValidEnclave: PromiseOrValue<boolean>,
       requireHeartbeatPermission: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -398,7 +474,7 @@ export interface OracleQueue extends BaseContract {
     queueId: PromiseOrValue<string>,
     attestationQueueId: PromiseOrValue<string>,
     mrEnclaves: PromiseOrValue<BytesLike>[],
-    requireValidQuote: PromiseOrValue<boolean>,
+    requireValidEnclave: PromiseOrValue<boolean>,
     requireHeartbeatPermission: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -474,7 +550,7 @@ export interface OracleQueue extends BaseContract {
       queueId: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       mrEnclaves: PromiseOrValue<BytesLike>[],
-      requireValidQuote: PromiseOrValue<boolean>,
+      requireValidEnclave: PromiseOrValue<boolean>,
       requireHeartbeatPermission: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -502,12 +578,65 @@ export interface OracleQueue extends BaseContract {
   filters: {
     "OracleQueueAccountInit(address,address)"(
       authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
+      accountId?: PromiseOrValue<string> | null
     ): OracleQueueAccountInitEventFilter;
     OracleQueueAccountInit(
       authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
+      accountId?: PromiseOrValue<string> | null
     ): OracleQueueAccountInitEventFilter;
+
+    "OracleQueueAddMrEnclave(address,address,bytes32)"(
+      queueId?: PromiseOrValue<string> | null,
+      attestationQueueId?: PromiseOrValue<string> | null,
+      mrEnclave?: null
+    ): OracleQueueAddMrEnclaveEventFilter;
+    OracleQueueAddMrEnclave(
+      queueId?: PromiseOrValue<string> | null,
+      attestationQueueId?: PromiseOrValue<string> | null,
+      mrEnclave?: null
+    ): OracleQueueAddMrEnclaveEventFilter;
+
+    "OracleQueueRemoveMrEnclave(address,address,bytes32)"(
+      queueId?: PromiseOrValue<string> | null,
+      attestationQueueId?: PromiseOrValue<string> | null,
+      mrEnclave?: null
+    ): OracleQueueRemoveMrEnclaveEventFilter;
+    OracleQueueRemoveMrEnclave(
+      queueId?: PromiseOrValue<string> | null,
+      attestationQueueId?: PromiseOrValue<string> | null,
+      mrEnclave?: null
+    ): OracleQueueRemoveMrEnclaveEventFilter;
+
+    "OracleQueueSetAttestationConfig(address,address)"(
+      queueId?: PromiseOrValue<string> | null,
+      attestationQueueId?: PromiseOrValue<string> | null
+    ): OracleQueueSetAttestationConfigEventFilter;
+    OracleQueueSetAttestationConfig(
+      queueId?: PromiseOrValue<string> | null,
+      attestationQueueId?: PromiseOrValue<string> | null
+    ): OracleQueueSetAttestationConfigEventFilter;
+
+    "OracleQueueSetConfig(address,address)"(
+      queueId?: PromiseOrValue<string> | null,
+      authority?: PromiseOrValue<string> | null
+    ): OracleQueueSetConfigEventFilter;
+    OracleQueueSetConfig(
+      queueId?: PromiseOrValue<string> | null,
+      authority?: PromiseOrValue<string> | null
+    ): OracleQueueSetConfigEventFilter;
+
+    "OracleQueueSetPermission(address,address,address,uint256)"(
+      queueId?: PromiseOrValue<string> | null,
+      granter?: PromiseOrValue<string> | null,
+      grantee?: PromiseOrValue<string> | null,
+      permission?: null
+    ): OracleQueueSetPermissionEventFilter;
+    OracleQueueSetPermission(
+      queueId?: PromiseOrValue<string> | null,
+      granter?: PromiseOrValue<string> | null,
+      grantee?: PromiseOrValue<string> | null,
+      permission?: null
+    ): OracleQueueSetPermissionEventFilter;
   };
 
   estimateGas: {
@@ -562,7 +691,7 @@ export interface OracleQueue extends BaseContract {
       queueId: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       mrEnclaves: PromiseOrValue<BytesLike>[],
-      requireValidQuote: PromiseOrValue<boolean>,
+      requireValidEnclave: PromiseOrValue<boolean>,
       requireHeartbeatPermission: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -639,7 +768,7 @@ export interface OracleQueue extends BaseContract {
       queueId: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       mrEnclaves: PromiseOrValue<BytesLike>[],
-      requireValidQuote: PromiseOrValue<boolean>,
+      requireValidEnclave: PromiseOrValue<boolean>,
       requireHeartbeatPermission: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

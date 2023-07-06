@@ -56,6 +56,7 @@ export interface FunctionVerifyParams {
   isFailure: boolean;
   mrEnclave: RawMrEnclave;
   transactions: TransactionStruct[];
+  signatures: string[];
 }
 
 /**
@@ -173,15 +174,18 @@ export class FunctionAccount {
    * ```typescript
    * const isVerified = await functionAccount.verify(options);
    * ```
+   *
+   *
    */
   public async verify(
     params: FunctionVerifyParams,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
+    const idx = await this.switchboard.sb.getEnclaveIdx(params.verifierQuoteId);
     const tx = await this.switchboard.sendSbTxn(
       "verifyFunction",
       [
-        params.verifierQuoteId,
+        idx,
         this.address,
         params.delegatedSignerAddress,
         params.observedTime,
@@ -189,6 +193,7 @@ export class FunctionAccount {
         params.isFailure,
         params.mrEnclave,
         params.transactions,
+        params.signatures, // TODO: add signatures
       ],
       options
     );

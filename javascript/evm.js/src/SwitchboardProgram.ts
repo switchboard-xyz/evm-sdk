@@ -273,19 +273,21 @@ export class SwitchboardProgram implements ISwitchboardProgram {
   }
 
   /**
-   * Fetch the MrEnclave measurement for a given quote authority address.
-   * @param quoteAuthority - The address of the quote authority to fetch a measurement for.
-   * @returns A quote authorities MrEnclave measurement
+   * Fetch the MrEnclave measurement for a given enclave authority address.
+   * @param enclaveAuthority - The address of the enclave authority to fetch a measurement for.
+   * @returns A enclave authorities MrEnclave measurement
    *
    * ```typescript
-   * const mrEnclave = await switchboardProgram.getQuoteAuthorityMrEnclave('0xMyQuoteAuthority');
+   * const mrEnclave = await switchboardProgram.getEnclaveAuthorityMrEnclave('0xMyEnclaveAuthority');
    * ```
    */
-  public async getQuoteAuthorityMrEnclave(
-    quoteAuthority: string
+  public async getEnclaveAuthorityMrEnclave(
+    enclaveAuthority: string
   ): Promise<Uint8Array> {
-    const quoteId = await this.sb.quoteAuthorityToQuoteAddress(quoteAuthority);
-    const quote = await this.sb.quotes(quoteId);
-    return parseMrEnclave(quote.mrEnclave);
+    const enclaveId = await this.sb.enclaveAuthorityToEnclaveAddress(
+      enclaveAuthority
+    );
+    const enclave = await this.sb.enclaves(enclaveId);
+    return parseMrEnclave(enclave.mrEnclave);
   }
 }

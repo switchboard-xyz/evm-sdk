@@ -28,8 +28,8 @@ import type {
   PromiseOrValue,
 } from "../../../../common";
 
-export declare namespace QuoteLib {
-  export type QuoteStruct = {
+export declare namespace EnclaveLib {
+  export type EnclaveStruct = {
     authority: PromiseOrValue<string>;
     owner: PromiseOrValue<string>;
     queueId: PromiseOrValue<string>;
@@ -40,9 +40,10 @@ export declare namespace QuoteLib {
     mrEnclave: PromiseOrValue<BytesLike>;
     isOnQueue: PromiseOrValue<boolean>;
     lastHeartbeat: PromiseOrValue<BigNumberish>;
+    balance: PromiseOrValue<BigNumberish>;
   };
 
-  export type QuoteStructOutput = [
+  export type EnclaveStructOutput = [
     string,
     string,
     string,
@@ -52,6 +53,7 @@ export declare namespace QuoteLib {
     BigNumber,
     string,
     boolean,
+    BigNumber,
     BigNumber
   ] & {
     authority: string;
@@ -64,45 +66,46 @@ export declare namespace QuoteLib {
     mrEnclave: string;
     isOnQueue: boolean;
     lastHeartbeat: BigNumber;
+    balance: BigNumber;
   };
 }
 
-export interface QuoteInterface extends utils.Interface {
+export interface EnclaveInterface extends utils.Interface {
   functions: {
-    "createQuote(address,address,address)": FunctionFragment;
-    "createQuoteWithId(address,address,address,address)": FunctionFragment;
-    "failQuote(address,address,uint256)": FunctionFragment;
+    "createEnclave(address,address,address)": FunctionFragment;
+    "createEnclaveWithId(address,address,address,address)": FunctionFragment;
+    "enclaveAuthorityToEnclaveAddress(address)": FunctionFragment;
+    "enclaveGarbageCollect(address,uint256)": FunctionFragment;
+    "enclaveHeartbeat(address)": FunctionFragment;
+    "enclaves(address)": FunctionFragment;
+    "failEnclave(address,address,uint256)": FunctionFragment;
     "forceOverrideVerify(address)": FunctionFragment;
-    "isQuoteValid(address)": FunctionFragment;
-    "quoteAuthorityToQuoteAddress(address)": FunctionFragment;
-    "quoteGarbageCollect(address,uint256)": FunctionFragment;
-    "quoteHeartbeat(address)": FunctionFragment;
-    "quotes(address)": FunctionFragment;
+    "isEnclaveValid(address)": FunctionFragment;
     "rotateAuthority(address,address)": FunctionFragment;
-    "updateQuote(address,bytes)": FunctionFragment;
+    "updateEnclave(address,bytes)": FunctionFragment;
     "validate(address,address,bytes32[])": FunctionFragment;
-    "verifyQuote(address,address,uint256,uint256,bytes32)": FunctionFragment;
+    "verifyEnclave(address,address,uint256,uint256,bytes32)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "createQuote"
-      | "createQuoteWithId"
-      | "failQuote"
+      | "createEnclave"
+      | "createEnclaveWithId"
+      | "enclaveAuthorityToEnclaveAddress"
+      | "enclaveGarbageCollect"
+      | "enclaveHeartbeat"
+      | "enclaves"
+      | "failEnclave"
       | "forceOverrideVerify"
-      | "isQuoteValid"
-      | "quoteAuthorityToQuoteAddress"
-      | "quoteGarbageCollect"
-      | "quoteHeartbeat"
-      | "quotes"
+      | "isEnclaveValid"
       | "rotateAuthority"
-      | "updateQuote"
+      | "updateEnclave"
       | "validate"
-      | "verifyQuote"
+      | "verifyEnclave"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "createQuote",
+    functionFragment: "createEnclave",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -110,7 +113,7 @@ export interface QuoteInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "createQuoteWithId",
+    functionFragment: "createEnclaveWithId",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -119,7 +122,23 @@ export interface QuoteInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "failQuote",
+    functionFragment: "enclaveAuthorityToEnclaveAddress",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "enclaveGarbageCollect",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "enclaveHeartbeat",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "enclaves",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "failEnclave",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -131,23 +150,7 @@ export interface QuoteInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "isQuoteValid",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "quoteAuthorityToQuoteAddress",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "quoteGarbageCollect",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "quoteHeartbeat",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "quotes",
+    functionFragment: "isEnclaveValid",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -155,7 +158,7 @@ export interface QuoteInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "updateQuote",
+    functionFragment: "updateEnclave",
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
@@ -167,7 +170,7 @@ export interface QuoteInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "verifyQuote",
+    functionFragment: "verifyEnclave",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -178,142 +181,146 @@ export interface QuoteInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "createQuote",
+    functionFragment: "createEnclave",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "createQuoteWithId",
+    functionFragment: "createEnclaveWithId",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "failQuote", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "enclaveAuthorityToEnclaveAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "enclaveGarbageCollect",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "enclaveHeartbeat",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "enclaves", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "failEnclave",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "forceOverrideVerify",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "isQuoteValid",
+    functionFragment: "isEnclaveValid",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "quoteAuthorityToQuoteAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "quoteGarbageCollect",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "quoteHeartbeat",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "quotes", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "rotateAuthority",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "updateQuote",
+    functionFragment: "updateEnclave",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "validate", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "verifyQuote",
+    functionFragment: "verifyEnclave",
     data: BytesLike
   ): Result;
 
   events: {
-    "QuoteAccountInit(address,address)": EventFragment;
-    "QuoteGC(address,address)": EventFragment;
-    "QuoteHeartbeat(address,address)": EventFragment;
-    "QuotePayoutEvent(address,address,uint256)": EventFragment;
-    "QuoteRotateAuthority(address,address,address)": EventFragment;
-    "QuoteVerifyRequest(address,address,address)": EventFragment;
+    "EnclaveAccountInit(address,address)": EventFragment;
+    "EnclaveGC(address,address)": EventFragment;
+    "EnclaveHeartbeat(address,address)": EventFragment;
+    "EnclavePayoutEvent(address,address,uint256)": EventFragment;
+    "EnclaveRotateAuthority(address,address,address)": EventFragment;
+    "EnclaveVerifyRequest(address,address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "QuoteAccountInit"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "QuoteGC"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "QuoteHeartbeat"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "QuotePayoutEvent"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "QuoteRotateAuthority"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "QuoteVerifyRequest"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EnclaveAccountInit"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EnclaveGC"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EnclaveHeartbeat"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EnclavePayoutEvent"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EnclaveRotateAuthority"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EnclaveVerifyRequest"): EventFragment;
 }
 
-export interface QuoteAccountInitEventObject {
+export interface EnclaveAccountInitEventObject {
   authority: string;
   accountId: string;
 }
-export type QuoteAccountInitEvent = TypedEvent<
+export type EnclaveAccountInitEvent = TypedEvent<
   [string, string],
-  QuoteAccountInitEventObject
+  EnclaveAccountInitEventObject
 >;
 
-export type QuoteAccountInitEventFilter =
-  TypedEventFilter<QuoteAccountInitEvent>;
+export type EnclaveAccountInitEventFilter =
+  TypedEventFilter<EnclaveAccountInitEvent>;
 
-export interface QuoteGCEventObject {
-  quoteId: string;
+export interface EnclaveGCEventObject {
+  enclaveId: string;
   queue: string;
 }
-export type QuoteGCEvent = TypedEvent<[string, string], QuoteGCEventObject>;
+export type EnclaveGCEvent = TypedEvent<[string, string], EnclaveGCEventObject>;
 
-export type QuoteGCEventFilter = TypedEventFilter<QuoteGCEvent>;
+export type EnclaveGCEventFilter = TypedEventFilter<EnclaveGCEvent>;
 
-export interface QuoteHeartbeatEventObject {
-  quoteId: string;
+export interface EnclaveHeartbeatEventObject {
+  enclaveId: string;
   authority: string;
 }
-export type QuoteHeartbeatEvent = TypedEvent<
+export type EnclaveHeartbeatEvent = TypedEvent<
   [string, string],
-  QuoteHeartbeatEventObject
+  EnclaveHeartbeatEventObject
 >;
 
-export type QuoteHeartbeatEventFilter = TypedEventFilter<QuoteHeartbeatEvent>;
+export type EnclaveHeartbeatEventFilter =
+  TypedEventFilter<EnclaveHeartbeatEvent>;
 
-export interface QuotePayoutEventEventObject {
+export interface EnclavePayoutEventEventObject {
   nodeId: string;
-  quoteId: string;
+  enclaveId: string;
   amount: BigNumber;
 }
-export type QuotePayoutEventEvent = TypedEvent<
+export type EnclavePayoutEventEvent = TypedEvent<
   [string, string, BigNumber],
-  QuotePayoutEventEventObject
+  EnclavePayoutEventEventObject
 >;
 
-export type QuotePayoutEventEventFilter =
-  TypedEventFilter<QuotePayoutEventEvent>;
+export type EnclavePayoutEventEventFilter =
+  TypedEventFilter<EnclavePayoutEventEvent>;
 
-export interface QuoteRotateAuthorityEventObject {
+export interface EnclaveRotateAuthorityEventObject {
   queueId: string;
   oldAuthority: string;
   newAuthority: string;
 }
-export type QuoteRotateAuthorityEvent = TypedEvent<
+export type EnclaveRotateAuthorityEvent = TypedEvent<
   [string, string, string],
-  QuoteRotateAuthorityEventObject
+  EnclaveRotateAuthorityEventObject
 >;
 
-export type QuoteRotateAuthorityEventFilter =
-  TypedEventFilter<QuoteRotateAuthorityEvent>;
+export type EnclaveRotateAuthorityEventFilter =
+  TypedEventFilter<EnclaveRotateAuthorityEvent>;
 
-export interface QuoteVerifyRequestEventObject {
+export interface EnclaveVerifyRequestEventObject {
   queueId: string;
   verifier: string;
   verifiee: string;
 }
-export type QuoteVerifyRequestEvent = TypedEvent<
+export type EnclaveVerifyRequestEvent = TypedEvent<
   [string, string, string],
-  QuoteVerifyRequestEventObject
+  EnclaveVerifyRequestEventObject
 >;
 
-export type QuoteVerifyRequestEventFilter =
-  TypedEventFilter<QuoteVerifyRequestEvent>;
+export type EnclaveVerifyRequestEventFilter =
+  TypedEventFilter<EnclaveVerifyRequestEvent>;
 
-export interface Quote extends BaseContract {
+export interface Enclave extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: QuoteInterface;
+  interface: EnclaveInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -335,67 +342,67 @@ export interface Quote extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    createQuote(
+    createEnclave(
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    createQuoteWithId(
-      quoteId: PromiseOrValue<string>,
+    createEnclaveWithId(
+      enclaveId: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    failQuote(
-      verifierId: PromiseOrValue<string>,
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    forceOverrideVerify(
-      quoteId: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    isQuoteValid(
-      quoteId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    quoteAuthorityToQuoteAddress(
+    enclaveAuthorityToEnclaveAddress(
       authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    quoteGarbageCollect(
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
+    enclaveGarbageCollect(
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    quoteHeartbeat(
-      quoteId: PromiseOrValue<string>,
+    enclaveHeartbeat(
+      enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    quotes(
-      quoteId: PromiseOrValue<string>,
+    enclaves(
+      enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[QuoteLib.QuoteStructOutput]>;
+    ): Promise<[EnclaveLib.EnclaveStructOutput]>;
+
+    failEnclave(
+      verifierId: PromiseOrValue<string>,
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    forceOverrideVerify(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    isEnclaveValid(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     rotateAuthority(
-      quoteId: PromiseOrValue<string>,
+      enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    updateQuote(
-      quoteId: PromiseOrValue<string>,
+    updateEnclave(
+      enclaveId: PromiseOrValue<string>,
       cid: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -407,77 +414,77 @@ export interface Quote extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[void]>;
 
-    verifyQuote(
+    verifyEnclave(
       verifierId: PromiseOrValue<string>,
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
       mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
 
-  createQuote(
+  createEnclave(
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
     owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  createQuoteWithId(
-    quoteId: PromiseOrValue<string>,
+  createEnclaveWithId(
+    enclaveId: PromiseOrValue<string>,
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
     owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  failQuote(
-    verifierId: PromiseOrValue<string>,
-    quoteId: PromiseOrValue<string>,
-    quoteIdx: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  forceOverrideVerify(
-    quoteId: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  isQuoteValid(
-    quoteId: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  quoteAuthorityToQuoteAddress(
+  enclaveAuthorityToEnclaveAddress(
     authority: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<string>;
 
-  quoteGarbageCollect(
-    quoteId: PromiseOrValue<string>,
-    quoteIdx: PromiseOrValue<BigNumberish>,
+  enclaveGarbageCollect(
+    enclaveId: PromiseOrValue<string>,
+    enclaveIdx: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  quoteHeartbeat(
-    quoteId: PromiseOrValue<string>,
+  enclaveHeartbeat(
+    enclaveId: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  quotes(
-    quoteId: PromiseOrValue<string>,
+  enclaves(
+    enclaveId: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<QuoteLib.QuoteStructOutput>;
+  ): Promise<EnclaveLib.EnclaveStructOutput>;
+
+  failEnclave(
+    verifierId: PromiseOrValue<string>,
+    enclaveId: PromiseOrValue<string>,
+    enclaveIdx: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  forceOverrideVerify(
+    enclaveId: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  isEnclaveValid(
+    enclaveId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   rotateAuthority(
-    quoteId: PromiseOrValue<string>,
+    enclaveId: PromiseOrValue<string>,
     newAuthority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  updateQuote(
-    quoteId: PromiseOrValue<string>,
+  updateEnclave(
+    enclaveId: PromiseOrValue<string>,
     cid: PromiseOrValue<BytesLike>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -489,77 +496,77 @@ export interface Quote extends BaseContract {
     overrides?: CallOverrides
   ): Promise<void>;
 
-  verifyQuote(
+  verifyEnclave(
     verifierId: PromiseOrValue<string>,
-    quoteId: PromiseOrValue<string>,
-    quoteIdx: PromiseOrValue<BigNumberish>,
+    enclaveId: PromiseOrValue<string>,
+    enclaveIdx: PromiseOrValue<BigNumberish>,
     timestamp: PromiseOrValue<BigNumberish>,
     mrEnclave: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    createQuote(
+    createEnclave(
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    createQuoteWithId(
-      quoteId: PromiseOrValue<string>,
+    createEnclaveWithId(
+      enclaveId: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    failQuote(
-      verifierId: PromiseOrValue<string>,
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    forceOverrideVerify(
-      quoteId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    isQuoteValid(
-      quoteId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    quoteAuthorityToQuoteAddress(
+    enclaveAuthorityToEnclaveAddress(
       authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    quoteGarbageCollect(
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
+    enclaveGarbageCollect(
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    quoteHeartbeat(
-      quoteId: PromiseOrValue<string>,
+    enclaveHeartbeat(
+      enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    quotes(
-      quoteId: PromiseOrValue<string>,
+    enclaves(
+      enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<QuoteLib.QuoteStructOutput>;
+    ): Promise<EnclaveLib.EnclaveStructOutput>;
+
+    failEnclave(
+      verifierId: PromiseOrValue<string>,
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    forceOverrideVerify(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    isEnclaveValid(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     rotateAuthority(
-      quoteId: PromiseOrValue<string>,
+      enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    updateQuote(
-      quoteId: PromiseOrValue<string>,
+    updateEnclave(
+      enclaveId: PromiseOrValue<string>,
       cid: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -571,10 +578,10 @@ export interface Quote extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    verifyQuote(
+    verifyEnclave(
       verifierId: PromiseOrValue<string>,
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
       mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -582,129 +589,129 @@ export interface Quote extends BaseContract {
   };
 
   filters: {
-    "QuoteAccountInit(address,address)"(
+    "EnclaveAccountInit(address,address)"(
       authority?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
-    ): QuoteAccountInitEventFilter;
-    QuoteAccountInit(
+    ): EnclaveAccountInitEventFilter;
+    EnclaveAccountInit(
       authority?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
-    ): QuoteAccountInitEventFilter;
+    ): EnclaveAccountInitEventFilter;
 
-    "QuoteGC(address,address)"(
-      quoteId?: PromiseOrValue<string> | null,
+    "EnclaveGC(address,address)"(
+      enclaveId?: PromiseOrValue<string> | null,
       queue?: PromiseOrValue<string> | null
-    ): QuoteGCEventFilter;
-    QuoteGC(
-      quoteId?: PromiseOrValue<string> | null,
+    ): EnclaveGCEventFilter;
+    EnclaveGC(
+      enclaveId?: PromiseOrValue<string> | null,
       queue?: PromiseOrValue<string> | null
-    ): QuoteGCEventFilter;
+    ): EnclaveGCEventFilter;
 
-    "QuoteHeartbeat(address,address)"(
-      quoteId?: PromiseOrValue<string> | null,
+    "EnclaveHeartbeat(address,address)"(
+      enclaveId?: PromiseOrValue<string> | null,
       authority?: PromiseOrValue<string> | null
-    ): QuoteHeartbeatEventFilter;
-    QuoteHeartbeat(
-      quoteId?: PromiseOrValue<string> | null,
+    ): EnclaveHeartbeatEventFilter;
+    EnclaveHeartbeat(
+      enclaveId?: PromiseOrValue<string> | null,
       authority?: PromiseOrValue<string> | null
-    ): QuoteHeartbeatEventFilter;
+    ): EnclaveHeartbeatEventFilter;
 
-    "QuotePayoutEvent(address,address,uint256)"(
+    "EnclavePayoutEvent(address,address,uint256)"(
       nodeId?: PromiseOrValue<string> | null,
-      quoteId?: PromiseOrValue<string> | null,
+      enclaveId?: PromiseOrValue<string> | null,
       amount?: PromiseOrValue<BigNumberish> | null
-    ): QuotePayoutEventEventFilter;
-    QuotePayoutEvent(
+    ): EnclavePayoutEventEventFilter;
+    EnclavePayoutEvent(
       nodeId?: PromiseOrValue<string> | null,
-      quoteId?: PromiseOrValue<string> | null,
+      enclaveId?: PromiseOrValue<string> | null,
       amount?: PromiseOrValue<BigNumberish> | null
-    ): QuotePayoutEventEventFilter;
+    ): EnclavePayoutEventEventFilter;
 
-    "QuoteRotateAuthority(address,address,address)"(
+    "EnclaveRotateAuthority(address,address,address)"(
       queueId?: PromiseOrValue<string> | null,
       oldAuthority?: PromiseOrValue<string> | null,
       newAuthority?: PromiseOrValue<string> | null
-    ): QuoteRotateAuthorityEventFilter;
-    QuoteRotateAuthority(
+    ): EnclaveRotateAuthorityEventFilter;
+    EnclaveRotateAuthority(
       queueId?: PromiseOrValue<string> | null,
       oldAuthority?: PromiseOrValue<string> | null,
       newAuthority?: PromiseOrValue<string> | null
-    ): QuoteRotateAuthorityEventFilter;
+    ): EnclaveRotateAuthorityEventFilter;
 
-    "QuoteVerifyRequest(address,address,address)"(
+    "EnclaveVerifyRequest(address,address,address)"(
       queueId?: PromiseOrValue<string> | null,
       verifier?: PromiseOrValue<string> | null,
       verifiee?: PromiseOrValue<string> | null
-    ): QuoteVerifyRequestEventFilter;
-    QuoteVerifyRequest(
+    ): EnclaveVerifyRequestEventFilter;
+    EnclaveVerifyRequest(
       queueId?: PromiseOrValue<string> | null,
       verifier?: PromiseOrValue<string> | null,
       verifiee?: PromiseOrValue<string> | null
-    ): QuoteVerifyRequestEventFilter;
+    ): EnclaveVerifyRequestEventFilter;
   };
 
   estimateGas: {
-    createQuote(
+    createEnclave(
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    createQuoteWithId(
-      quoteId: PromiseOrValue<string>,
+    createEnclaveWithId(
+      enclaveId: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    failQuote(
+    enclaveAuthorityToEnclaveAddress(
+      authority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    enclaveGarbageCollect(
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    enclaveHeartbeat(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    enclaves(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    failEnclave(
       verifierId: PromiseOrValue<string>,
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     forceOverrideVerify(
-      quoteId: PromiseOrValue<string>,
+      enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    isQuoteValid(
-      quoteId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    quoteAuthorityToQuoteAddress(
-      authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    quoteGarbageCollect(
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    quoteHeartbeat(
-      quoteId: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    quotes(
-      quoteId: PromiseOrValue<string>,
+    isEnclaveValid(
+      enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     rotateAuthority(
-      quoteId: PromiseOrValue<string>,
+      enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    updateQuote(
-      quoteId: PromiseOrValue<string>,
+    updateEnclave(
+      enclaveId: PromiseOrValue<string>,
       cid: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -716,10 +723,10 @@ export interface Quote extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    verifyQuote(
+    verifyEnclave(
       verifierId: PromiseOrValue<string>,
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
       mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -727,67 +734,67 @@ export interface Quote extends BaseContract {
   };
 
   populateTransaction: {
-    createQuote(
+    createEnclave(
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    createQuoteWithId(
-      quoteId: PromiseOrValue<string>,
+    createEnclaveWithId(
+      enclaveId: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    failQuote(
+    enclaveAuthorityToEnclaveAddress(
+      authority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    enclaveGarbageCollect(
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    enclaveHeartbeat(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    enclaves(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    failEnclave(
       verifierId: PromiseOrValue<string>,
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     forceOverrideVerify(
-      quoteId: PromiseOrValue<string>,
+      enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    isQuoteValid(
-      quoteId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    quoteAuthorityToQuoteAddress(
-      authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    quoteGarbageCollect(
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    quoteHeartbeat(
-      quoteId: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    quotes(
-      quoteId: PromiseOrValue<string>,
+    isEnclaveValid(
+      enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     rotateAuthority(
-      quoteId: PromiseOrValue<string>,
+      enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    updateQuote(
-      quoteId: PromiseOrValue<string>,
+    updateEnclave(
+      enclaveId: PromiseOrValue<string>,
       cid: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -799,10 +806,10 @@ export interface Quote extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    verifyQuote(
+    verifyEnclave(
       verifierId: PromiseOrValue<string>,
-      quoteId: PromiseOrValue<string>,
-      quoteIdx: PromiseOrValue<BigNumberish>,
+      enclaveId: PromiseOrValue<string>,
+      enclaveIdx: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
       mrEnclave: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

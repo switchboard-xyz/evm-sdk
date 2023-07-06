@@ -4,10 +4,11 @@
 export * as aggregator from "./aggregator";
 export * as attestationQueue from "./attestationQueue";
 export * as eip2535 from "./eip2535";
+export * as enclave from "./enclave";
 export * as errors from "./errors";
 export * as oracle from "./oracle";
 export * as oracleQueue from "./oracleQueue";
 export * as permission from "./permission";
-export * as quote from "./quote";
 export * as sbFunction from "./sbFunction";
+export * as transaction from "./transaction";
 export { Switchboard__factory } from "./Switchboard__factory";

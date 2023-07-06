@@ -2,7 +2,7 @@ import { EthersError } from "../errors.js";
 import { parseMrEnclave } from "../parseMrEnclave.js";
 import {
   ISwitchboardProgram,
-  QuoteData,
+  EnclaveData,
   RawMrEnclave,
   TransactionOptions,
   VerificationStatus,
@@ -14,7 +14,7 @@ import { sleep } from "@switchboard-xyz/common";
 import { ContractTransaction, Wallet } from "ethers";
 
 /**
- * Defines the parameters for initializing a quote
+ * Defines the parameters for initializing a enclave
  *
  * ```typescript
  * {
@@ -23,39 +23,39 @@ import { ContractTransaction, Wallet } from "ethers";
  * }
  * ```
  */
-export interface QuoteInitParams {
-  // The address of the owner of the quote
+export interface EnclaveInitParams {
+  // The address of the owner of the enclave
   owner: string;
-  // The address of the authority for the quote
+  // The address of the authority for the enclave
   authority: string;
 }
 
 /**
- * A class representing a QuoteAccount in the {@link SwitchboardAttestationService} contract.
+ * A class representing a EnclaveAccount in the {@link SwitchboardAttestationService} contract.
  *
  *
  * ```typescript
- * const quoteAccount = new QuoteAccount(switchboardProgram, '0xYourQuoteAccountAddress');
+ * const enclaveAccount = new EnclaveAccount(switchboardProgram, '0xYourEnclaveAccountAddress');
  * ```
  */
 
 /**
- * Class for interacting with Quote Accounts in the SwitchboardAttestationService.sol contract.
+ * Class for interacting with Enclave Accounts in the SwitchboardAttestationService.sol contract.
  *
  * ```typescript
- * // Instantiate an QuoteAccount
- * const quoteAccount = new QuoteAccount(switchboardProgram, '0xYourQuoteAccountAddress');
+ * // Instantiate an EnclaveAccount
+ * const enclaveAccount = new EnclaveAccount(switchboardProgram, '0xYourEnclaveAccountAddress');
  *
  * // Load the data
- * const quote = await quoteAccount.loadData();
- * const name = quote.name;
+ * const enclave = await enclaveAccount.loadData();
+ * const name = enclave.name;
  * ```
  */
-export class QuoteAccount {
+export class EnclaveAccount {
   /**
-   * Constructor of QuoteAccount
+   * Constructor of EnclaveAccount
    * @param switchboard the instance of Switchboard program
-   * @param address address of the QuoteAccount
+   * @param address address of the EnclaveAccount
    */
   constructor(
     readonly switchboard: ISwitchboardProgram,
@@ -63,17 +63,17 @@ export class QuoteAccount {
   ) {}
 
   /**
-   * Method to load the data of the QuoteAccount
+   * Method to load the data of the EnclaveAccount
    *
-   * @returns {Promise<QuoteData>} Promise that resolves to QuoteData
+   * @returns {Promise<EnclaveData>} Promise that resolves to EnclaveData
    *
    * ```typescript
-   * const quoteData = await quoteAccount.loadData();
+   * const enclaveData = await enclaveAccount.loadData();
    * ```
    */
-  public async loadData(): Promise<QuoteData> {
+  public async loadData(): Promise<EnclaveData> {
     return await this.switchboard.sb
-      .quotes(this.address)
+      .enclaves(this.address)
       .catch(EthersError.handleError);
   }
 
@@ -81,62 +81,62 @@ export class QuoteAccount {
    * Static method to load and fetch the account data
    *
    * @param switchboard - Instance of the {@link SwitchboardProgram} class
-   * @param address - Address of the QuoteAccount
+   * @param address - Address of the EnclaveAccount
    *
-   * @returns {Promise<[QuoteAccount, QuoteData]>} Promise that resolves to tuple of QuoteAccount and QuoteData
+   * @returns {Promise<[EnclaveAccount, EnclaveData]>} Promise that resolves to tuple of EnclaveAccount and EnclaveData
    *
    * ```typescript
-   * const [quoteAccount, quoteData] = await QuoteAccount.load(switchboard, address);
+   * const [enclaveAccount, enclaveData] = await EnclaveAccount.load(switchboard, address);
    * ```
    */
   public static async load(
     switchboard: ISwitchboardProgram,
     address: string
-  ): Promise<[QuoteAccount, QuoteData]> {
-    const quoteAccount = new QuoteAccount(switchboard, address);
-    const quote = await quoteAccount.loadData();
-    return [quoteAccount, quote];
+  ): Promise<[EnclaveAccount, EnclaveData]> {
+    const enclaveAccount = new EnclaveAccount(switchboard, address);
+    const enclave = await enclaveAccount.loadData();
+    return [enclaveAccount, enclave];
   }
 
   /**
-   * Static method to initialize a Quote
+   * Static method to initialize a Enclave
    *
    * @param switchboard - Instance of the {@link SwitchboardProgram} class
-   * @param params - Quote initialization parameters
+   * @param params - Enclave initialization parameters
    * @param [options] - Transaction options
    *
-   * @returns {Promise<[QuoteAccount, ContractTransaction]>} Promise that resolves to tuple of QuoteAccount and ContractTransaction
+   * @returns {Promise<[EnclaveAccount, ContractTransaction]>} Promise that resolves to tuple of EnclaveAccount and ContractTransaction
    *
    * ```typescript
-   * const [quoteAccount, contractTransaction] = await QuoteAccount.create(switchboard, params, options);
+   * const [enclaveAccount, contractTransaction] = await EnclaveAccount.create(switchboard, params, options);
    * ```
    */
   public static async create(
     switchboard: ISwitchboardProgram,
-    params: QuoteInitParams & { attestationQueue: string },
+    params: EnclaveInitParams & { attestationQueue: string },
     options?: TransactionOptions
-  ): Promise<[QuoteAccount, ContractTransaction]> {
+  ): Promise<[EnclaveAccount, ContractTransaction]> {
     const address = Wallet.createRandom().address;
     const tx = await switchboard.sendSbTxn(
-      "createQuoteWithId",
+      "createEnclaveWithId",
       [address, params.authority, params.attestationQueue, params.owner],
       options
     );
-    return [new QuoteAccount(switchboard, address), tx];
+    return [new EnclaveAccount(switchboard, address), tx];
   }
 
   /**
-   * Method to check if the quote is valid
+   * Method to check if the enclave is valid
    *
-   * @returns {Promise<boolean>} Promise that resolves to boolean value indicating whether the quote is valid
+   * @returns {Promise<boolean>} Promise that resolves to boolean value indicating whether the enclave is valid
    *
    * ```typescript
-   * const isValid = await quoteAccount.isQuoteValid();
+   * const isValid = await enclaveAccount.isEnclaveValid();
    * ```
    */
-  public async isQuoteValid(): Promise<boolean> {
+  public async isEnclaveValid(): Promise<boolean> {
     return await this.switchboard.sb
-      .isQuoteValid(this.address)
+      .isEnclaveValid(this.address)
       .catch(EthersError.handleError);
   }
 
@@ -148,16 +148,16 @@ export class QuoteAccount {
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
    * ```typescript
-   * const contractTransaction = await quoteAccount.forceOverrideVerify(options);
+   * const contractTransaction = await enclaveAccount.forceOverrideVerify(options);
    * ```
    */
   public async forceOverrideVerify(
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const quoteData = await this.loadData();
+    const enclaveData = await this.loadData();
     const tx = await this.switchboard.sendSbTxn(
       "forceOverrideVerify",
-      [quoteData.queueId, this.address],
+      [enclaveData.queueId, this.address],
       options
     );
 
@@ -165,25 +165,29 @@ export class QuoteAccount {
   }
 
   /**
-   * Method to update the quote
+   * Method to update the enclave
    *
-   * @param quoteBuffer - RawMrEnclave data
+   * @param enclaveBuffer - RawMrEnclave data
    * @param [options] - Transaction options
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
    * ```typescript
-   * const contractTransaction = await quoteAccount.updateQuote(quoteBuffer, options);
+   * const contractTransaction = await enclaveAccount.updateEnclave(enclaveBuffer, options);
    * ```
    */
-  public async updateQuote(
-    quoteBuffer: RawMrEnclave,
+  public async updateEnclave(
+    enclaveBuffer: RawMrEnclave,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const quoteData = await this.loadData();
+    const enclaveData = await this.loadData();
     const tx = await this.switchboard.sendSbTxn(
-      "updateQuote",
-      [quoteData.authority, quoteData.queueId, parseMrEnclave(quoteBuffer)],
+      "updateEnclave",
+      [
+        enclaveData.authority,
+        enclaveData.queueId,
+        parseMrEnclave(enclaveBuffer),
+      ],
       options
     );
 
@@ -191,39 +195,39 @@ export class QuoteAccount {
   }
 
   /**
-   * Method to verify the quote
+   * Method to verify the enclave
    *
    * @param verifierAddress - Address of the verifier
    * @param mrEnclave - RawMrEnclave data
-   * @param [quoteIdx] - Quote index
+   * @param [enclaveIdx] - Enclave index
    * @param [options] - Transaction options
    *
    * @returns {Promise<ContractTransaction>} Promise that resolves to ContractTransaction
    *
    * ```typescript
-   * const contractTransaction = await quoteAccount.verifyQuote(verifierAddress, mrEnclave, quoteIdx, options);
+   * const contractTransaction = await enclaveAccount.verifyEnclave(verifierAddress, mrEnclave, enclaveIdx, options);
    * ```
    */
-  public async verifyQuote(
+  public async verifyEnclave(
     verifierAddress: string,
     mrEnclave: RawMrEnclave,
-    quoteIdx?: number,
+    enclaveIdx?: number,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    // const quoteData = await this.loadData();
+    // const enclaveData = await this.loadData();
     // const attestationQueue = new AttestationQueueAccount(
     //   this.switchboard,
-    //   quoteData.queueAddress
+    //   enclaveData.queueAddress
     // );
     // const queueData = await attestationQueue.loadData();
     const tx = await this.switchboard.sendSbTxn(
-      "verifyQuote",
+      "verifyEnclave",
       [
         verifierAddress,
         this.address,
-        quoteIdx ??
+        enclaveIdx ??
           (await this.switchboard.sb
-            .getQuoteIdx(this.address)
+            .getEnclaveIdx(this.address)
             .catch(EthersError.handleError)),
         Math.floor(Date.now() / 1000),
         mrEnclave,
@@ -235,52 +239,52 @@ export class QuoteAccount {
   }
 
   /**
-   * Static method to get the {@link QuoteAccount} for the given authority
+   * Static method to get the {@link EnclaveAccount} for the given authority
    *
    * @param switchboard - Instance of the Switchboard Program class
    * @param authority - Address of the authority
    *
-   * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
+   * @returns {Promise<EnclaveAccount>} Promise that resolves to EnclaveAccount
    *
    * ```typescript
-   * const quoteAccount = await QuoteAccount.authorityToAddress(switchboard, authority);
+   * const enclaveAccount = await EnclaveAccount.authorityToAddress(switchboard, authority);
    * ```
    */
   public static async authorityToAddress(
     switchboard: ISwitchboardProgram,
     authority: string
-  ): Promise<QuoteAccount> {
+  ): Promise<EnclaveAccount> {
     const address = await switchboard.sb
-      .quoteAuthorityToQuoteAddress(authority)
+      .enclaveAuthorityToEnclaveAddress(authority)
       .catch(EthersError.handleError);
-    return new QuoteAccount(switchboard, address);
+    return new EnclaveAccount(switchboard, address);
   }
 
   /**
-   * Static method to initialize and await for the quote verification
+   * Static method to initialize and await for the enclave verification
    *
    * @param switchboard - Instance of the Switchboard Program class
    * @param authority - Address of the authority
    * @param attestationQueueAddress - Attestation Queue Address
-   * @param quoteBuffer - RawMrEnclave data
+   * @param enclaveBuffer - RawMrEnclave data
    * @param options - Transaction options
    * @param [retryCount=3] - Number of retries for the operation
    *
-   * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
+   * @returns {Promise<EnclaveAccount>} Promise that resolves to EnclaveAccount
    *
    * ```typescript
-   * const quoteAccount = await QuoteAccount.initAndAwaitVerification(switchboard, authority, attestationQueueAddress, quoteBuffer, options, retryCount);
+   * const enclaveAccount = await EnclaveAccount.initAndAwaitVerification(switchboard, authority, attestationQueueAddress, enclaveBuffer, options, retryCount);
    * ```
    */
   public static async initAndAwaitVerification(
     switchboard: ISwitchboardProgram,
     authority: string,
     attestationQueueAddress: string,
-    quoteBuffer: RawMrEnclave,
+    enclaveBuffer: RawMrEnclave,
     options?: TransactionOptions,
     retryCount = 3
-  ): Promise<QuoteAccount> {
-    const quoteAccount = await QuoteAccount.authorityToAddress(
+  ): Promise<EnclaveAccount> {
+    const enclaveAccount = await EnclaveAccount.authorityToAddress(
       switchboard,
       authority
     );
@@ -290,27 +294,27 @@ export class QuoteAccount {
     );
     const attestationQueue = await attestationQueueAccount.loadData();
 
-    let sendQuoteTx = false;
-    let quote: QuoteData;
+    let sendEnclaveTx = false;
+    let enclave: EnclaveData;
     try {
-      quote = await quoteAccount.loadData();
-      if (quote.queueId !== attestationQueueAccount.address) {
+      enclave = await enclaveAccount.loadData();
+      if (enclave.queueId !== attestationQueueAccount.address) {
         throw new Error(
-          `Incorrect AttestationQueue provided, expected ${quote.queueId}, received ${attestationQueueAccount.address}`
+          `Incorrect AttestationQueue provided, expected ${enclave.queueId}, received ${attestationQueueAccount.address}`
         );
       }
 
       if (
-        quote.verificationStatus !== VerificationStatus.VERIFICATION_SUCCESS
+        enclave.verificationStatus !== VerificationStatus.VERIFICATION_SUCCESS
       ) {
-        sendQuoteTx = true;
+        sendEnclaveTx = true;
       }
     } catch {
-      sendQuoteTx = true;
+      sendEnclaveTx = true;
     }
 
-    if (sendQuoteTx) {
-      const sendTx = await quoteAccount.updateQuote(quoteBuffer, {
+    if (sendEnclaveTx) {
+      const sendTx = await enclaveAccount.updateEnclave(enclaveBuffer, {
         ...options,
         value: attestationQueue.reward,
       });
@@ -318,31 +322,31 @@ export class QuoteAccount {
       await sendTx.wait();
     }
 
-    const finalQuoteState = await quoteAccount.pollVerification(retryCount);
-    const verificationStatus = finalQuoteState.verificationStatus;
+    const finalEnclaveState = await enclaveAccount.pollVerification(retryCount);
+    const verificationStatus = finalEnclaveState.verificationStatus;
     if (
       verificationStatus !== VerificationStatus.VERIFICATION_SUCCESS &&
       verificationStatus !== VerificationStatus.VERIFICATION_OVERRIDE
     ) {
-      throw new Error(`Quote was not verified successfully`);
+      throw new Error(`Enclave was not verified successfully`);
     }
 
-    return quoteAccount;
+    return enclaveAccount;
   }
 
   /**
-   * Method to poll for the quote verification
+   * Method to poll for the enclave verification
    *
    * @param [retryCount=3] - Number of retries for the operation
    *
-   * @returns {Promise<QuoteData>} Promise that resolves to QuoteData
+   * @returns {Promise<EnclaveData>} Promise that resolves to EnclaveData
    *
    * ```typescript
-   * const quoteData = await quoteAccount.pollVerification(retryCount);
+   * const enclaveData = await enclaveAccount.pollVerification(retryCount);
    * ```
    */
-  public async pollVerification(retryCount = 3): Promise<QuoteData> {
-    let quote = await this.loadData();
+  public async pollVerification(retryCount = 3): Promise<EnclaveData> {
+    let enclave = await this.loadData();
 
     let continuePoll = true;
     const pollStart = Date.now();
@@ -350,9 +354,9 @@ export class QuoteAccount {
 
     while (continuePoll && Date.now() - pollStart < 1000 * retrySeconds) {
       try {
-        quote = await this.loadData();
+        enclave = await this.loadData();
 
-        switch (quote.verificationStatus) {
+        switch (enclave.verificationStatus) {
           case VerificationStatus.VERIFICATION_SUCCESS:
           case VerificationStatus.VERIFICATION_OVERRIDE: {
             continuePoll = false;
@@ -375,13 +379,13 @@ export class QuoteAccount {
     if (continuePoll) {
       if (retryCount <= 0) {
         throw new Error(
-          `Retry limit exceeded, failed to verify the quote successfully`
+          `Retry limit exceeded, failed to verify the enclave successfully`
         );
       }
 
       return this.pollVerification(--retryCount);
     }
 
-    return quote;
+    return enclave;
   }
 }

@@ -135,15 +135,19 @@ export interface OracleInterface extends utils.Interface {
   events: {
     "OracleAccountInit(address,address)": EventFragment;
     "OracleGC(address,address)": EventFragment;
+    "OracleHeartbeat(address)": EventFragment;
+    "OracleSetConfig(address,string,address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "OracleAccountInit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleGC"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OracleHeartbeat"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OracleSetConfig"): EventFragment;
 }
 
 export interface OracleAccountInitEventObject {
   authority: string;
-  accountAddress: string;
+  accountId: string;
 }
 export type OracleAccountInitEvent = TypedEvent<
   [string, string],
@@ -160,6 +164,29 @@ export interface OracleGCEventObject {
 export type OracleGCEvent = TypedEvent<[string, string], OracleGCEventObject>;
 
 export type OracleGCEventFilter = TypedEventFilter<OracleGCEvent>;
+
+export interface OracleHeartbeatEventObject {
+  oracleId: string;
+}
+export type OracleHeartbeatEvent = TypedEvent<
+  [string],
+  OracleHeartbeatEventObject
+>;
+
+export type OracleHeartbeatEventFilter = TypedEventFilter<OracleHeartbeatEvent>;
+
+export interface OracleSetConfigEventObject {
+  oracleId: string;
+  name: string;
+  authority: string;
+  queueId: string;
+}
+export type OracleSetConfigEvent = TypedEvent<
+  [string, string, string, string],
+  OracleSetConfigEventObject
+>;
+
+export type OracleSetConfigEventFilter = TypedEventFilter<OracleSetConfigEvent>;
 
 export interface Oracle extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -311,11 +338,11 @@ export interface Oracle extends BaseContract {
   filters: {
     "OracleAccountInit(address,address)"(
       authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
+      accountId?: PromiseOrValue<string> | null
     ): OracleAccountInitEventFilter;
     OracleAccountInit(
       authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
+      accountId?: PromiseOrValue<string> | null
     ): OracleAccountInitEventFilter;
 
     "OracleGC(address,address)"(
@@ -326,6 +353,26 @@ export interface Oracle extends BaseContract {
       oracleId?: PromiseOrValue<string> | null,
       queueId?: PromiseOrValue<string> | null
     ): OracleGCEventFilter;
+
+    "OracleHeartbeat(address)"(
+      oracleId?: PromiseOrValue<string> | null
+    ): OracleHeartbeatEventFilter;
+    OracleHeartbeat(
+      oracleId?: PromiseOrValue<string> | null
+    ): OracleHeartbeatEventFilter;
+
+    "OracleSetConfig(address,string,address,address)"(
+      oracleId?: PromiseOrValue<string> | null,
+      name?: null,
+      authority?: PromiseOrValue<string> | null,
+      queueId?: PromiseOrValue<string> | null
+    ): OracleSetConfigEventFilter;
+    OracleSetConfig(
+      oracleId?: PromiseOrValue<string> | null,
+      name?: null,
+      authority?: PromiseOrValue<string> | null,
+      queueId?: PromiseOrValue<string> | null
+    ): OracleSetConfigEventFilter;
   };
 
   estimateGas: {

@@ -2,7 +2,6 @@ import { EthersError } from "../errors.js";
 import { fetchJobsFromIPFS } from "../ipfs.js";
 import {
   AggregatorData,
-  AggregatorResponseConfig,
   EventCallback,
   ISwitchboardProgram,
   Job,
@@ -178,29 +177,6 @@ export class AggregatorAccount {
   }
 
   /**
-   * Loads the Aggregator's ResponseSetting data.
-   *
-   * ```typescript
-   * const data = await aggregatorAccount.loadResponseSettings();
-   * console.log(data);
-   * ```
-   *
-   * @returns - The ResponseSetting data associated with this Aggregator account.
-   */
-  public async loadResponseSettings(): Promise<AggregatorResponseConfig> {
-    return await this.switchboard.sb
-      .queryFilter(
-        this.switchboard.sb.filters.AggregatorResponseSettingsUpdate(
-          this.address
-        ),
-        0,
-        "latest"
-      )
-      .then((updates) => updates.pop()?.args)
-      .catch(EthersError.handleError);
-  }
-
-  /**
    * Load and fetch the account data
    * @param switchboard - The SwitchboardProgram class
    * @param address - The address of the Aggregator account
@@ -352,10 +328,7 @@ export class AggregatorAccount {
     params: AggregatorSetConfigParams,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const [aggregatorData, aggregatorResponseCfg] = await Promise.all([
-      this.loadData(),
-      this.loadResponseSettings(),
-    ]);
+    const aggregatorData = await this.loadData();
 
     const oracleQueue = new OracleQueueAccount(
       this.switchboard,
@@ -375,13 +348,13 @@ export class AggregatorAccount {
         params.jobsHash ?? aggregatorData.jobsHash,
         oracleQueue.address,
         params.varianceThreshold === undefined
-          ? aggregatorResponseCfg.varianceThreshold
+          ? aggregatorData.config.varianceThreshold
           : toBigNumber(new Big(params.varianceThreshold)),
         params.minJobResults === undefined
-          ? aggregatorResponseCfg.minJobResults
+          ? aggregatorData.config.minJobResults
           : Math.trunc(params.minJobResults),
         params.forceReportPeriod === undefined
-          ? aggregatorResponseCfg.forceReportPeriod
+          ? aggregatorData.config.forceReportPeriod
           : Math.trunc(params.forceReportPeriod),
         params.enableHistory ?? aggregatorData.historyEnabled,
       ],

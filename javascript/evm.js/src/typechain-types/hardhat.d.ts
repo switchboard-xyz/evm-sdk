@@ -65,9 +65,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.DiamondInit__factory>;
     getContractFactory(
-      name: "AttestationServiceErrorLib",
+      name: "Enclave",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.AttestationServiceErrorLib__factory>;
+    ): Promise<Contracts.Enclave__factory>;
     getContractFactory(
       name: "ErrorLib",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -85,10 +85,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Permission__factory>;
     getContractFactory(
-      name: "Quote",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Quote__factory>;
-    getContractFactory(
       name: "SbFunction",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SbFunction__factory>;
@@ -96,6 +92,10 @@ declare module "hardhat/types/runtime" {
       name: "Switchboard",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Switchboard__factory>;
+    getContractFactory(
+      name: "ECDSA",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ECDSA__factory>;
     getContractFactory(
       name: "Switchboard",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -167,10 +167,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.DiamondInit>;
     getContractAt(
-      name: "AttestationServiceErrorLib",
+      name: "Enclave",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.AttestationServiceErrorLib>;
+    ): Promise<Contracts.Enclave>;
     getContractAt(
       name: "ErrorLib",
       address: string,
@@ -192,11 +192,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Permission>;
     getContractAt(
-      name: "Quote",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Quote>;
-    getContractAt(
       name: "SbFunction",
       address: string,
       signer?: ethers.Signer
@@ -206,6 +201,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Switchboard>;
+    getContractAt(
+      name: "ECDSA",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ECDSA>;
     getContractAt(
       name: "Switchboard",
       address: string,

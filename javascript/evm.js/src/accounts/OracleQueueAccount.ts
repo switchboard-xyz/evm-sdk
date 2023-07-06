@@ -157,10 +157,7 @@ export class OracleQueueAccount {
       ],
       options
     );
-    const queueAddress = await switchboard.pollTxnForSbEvent(
-      tx,
-      "accountAddress"
-    );
+    const queueAddress = await switchboard.pollTxnForSbEvent(tx, "accountId");
     return [new OracleQueueAccount(switchboard, queueAddress), tx];
   }
 
@@ -245,7 +242,7 @@ export class OracleQueueAccount {
         params.mrEnclaves,
         params.requireValidQuote !== undefined
           ? params.requireValidQuote
-          : currentAttestationConfig.requireValidQuote,
+          : currentAttestationConfig.requireValidEnclave,
         params.requireHeartbeatPermission !== undefined
           ? params.requireHeartbeatPermission
           : currentAttestationConfig.requireHeartbeatPermission,

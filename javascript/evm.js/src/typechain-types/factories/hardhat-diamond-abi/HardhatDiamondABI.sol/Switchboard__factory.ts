@@ -38,7 +38,22 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "EarlyOracleResponse",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientBalance",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InsufficientSamples",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "IntervalHistoryNotRecorded",
     type: "error",
   },
   {
@@ -142,18 +157,12 @@ const _abi = [
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "reader",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "int256",
-        name: "value",
-        type: "int256",
+        internalType: "uint256",
+        name: "intervalId",
+        type: "uint256",
       },
     ],
-    name: "AggregatorRead",
+    name: "AggregatorOpenInterval",
     type: "event",
   },
   {
@@ -166,25 +175,19 @@ const _abi = [
         type: "address",
       },
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "varianceThreshold",
-        type: "uint256",
+        indexed: true,
+        internalType: "address",
+        name: "reader",
+        type: "address",
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "minJobResults",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "forceReportPeriod",
-        type: "uint256",
+        internalType: "int256",
+        name: "value",
+        type: "int256",
       },
     ],
-    name: "AggregatorResponseSettingsUpdate",
+    name: "AggregatorRead",
     type: "event",
   },
   {
@@ -210,6 +213,49 @@ const _abi = [
       },
     ],
     name: "AggregatorSaveResult",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "aggregatorId",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "minUpdateDelaySeconds",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "minOracleResults",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "varianceThreshold",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "minJobResults",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "forceReportPeriod",
+        type: "uint256",
+      },
+    ],
+    name: "AggregatorSettingsUpdated",
     type: "event",
   },
   {
@@ -886,6 +932,19 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "aggregatorId",
+        type: "address",
+      },
+    ],
+    name: "openInterval",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address[]",
         name: "ids",
         type: "address[]",
@@ -1055,6 +1114,16 @@ const _abi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "InvalidEntry",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MrEnclaveNotAllowed",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -1085,11 +1154,61 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "accountAddress",
+        name: "accountId",
         type: "address",
       },
     ],
     name: "AttestationQueueAccountInit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "granter",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "grantee",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "permission",
+        type: "uint256",
+      },
+    ],
+    name: "AttestationQueuePermissionUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+    ],
+    name: "AttestationQueueSetConfig",
     type: "event",
   },
   {
@@ -1197,7 +1316,7 @@ const _abi = [
           },
           {
             internalType: "uint256",
-            name: "maxQuoteVerificationAge",
+            name: "maxEnclaveVerificationAge",
             type: "uint256",
           },
           {
@@ -1222,7 +1341,7 @@ const _abi = [
           },
           {
             internalType: "uint256",
-            name: "quoteTimeout",
+            name: "enclaveTimeout",
             type: "uint256",
           },
           {
@@ -1263,12 +1382,12 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "quoteTimeout",
+        name: "enclaveTimeout",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "maxQuoteVerificationAge",
+        name: "maxEnclaveVerificationAge",
         type: "uint256",
       },
       {
@@ -1301,16 +1420,54 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "quoteId",
+        name: "queueId",
         type: "address",
       },
     ],
-    name: "getQuoteIdx",
+    name: "getAttestationQueueMrEnclaves",
+    outputs: [
+      {
+        internalType: "bytes32[]",
+        name: "",
+        type: "bytes32[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
+    name: "getEnclaveIdx",
     outputs: [
       {
         internalType: "int256",
         name: "",
         type: "int256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+    ],
+    name: "getEnclaves",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
       },
     ],
     stateMutability: "view",
@@ -1358,12 +1515,12 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "quoteTimeout",
+        name: "enclaveTimeout",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "maxQuoteVerificationAge",
+        name: "maxEnclaveVerificationAge",
         type: "uint256",
       },
       {
@@ -1683,6 +1840,542 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "EnclaveAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveExpired",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveNotOnQueue",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveUnverified",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "IncorrectReportedTime",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientBalance",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidArgument",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidAuthority",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEnclave",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEntry",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MrEnclaveNotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "PermissionDenied",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "QueuesDoNotMatch",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "accountId",
+        type: "address",
+      },
+    ],
+    name: "EnclaveAccountInit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queue",
+        type: "address",
+      },
+    ],
+    name: "EnclaveGC",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+    ],
+    name: "EnclaveHeartbeat",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "nodeId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "EnclavePayoutEvent",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "oldAuthority",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newAuthority",
+        type: "address",
+      },
+    ],
+    name: "EnclaveRotateAuthority",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "verifier",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "verifiee",
+        type: "address",
+      },
+    ],
+    name: "EnclaveVerifyRequest",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "createEnclave",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "createEnclaveWithId",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+    ],
+    name: "enclaveAuthorityToEnclaveAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveIdx",
+        type: "uint256",
+      },
+    ],
+    name: "enclaveGarbageCollect",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
+    name: "enclaveHeartbeat",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
+    name: "enclaves",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "authority",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "queueId",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "cid",
+            type: "bytes",
+          },
+          {
+            internalType: "enum EnclaveLib.VerificationStatus",
+            name: "verificationStatus",
+            type: "uint8",
+          },
+          {
+            internalType: "uint256",
+            name: "verificationTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "validUntil",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes32",
+            name: "mrEnclave",
+            type: "bytes32",
+          },
+          {
+            internalType: "bool",
+            name: "isOnQueue",
+            type: "bool",
+          },
+          {
+            internalType: "uint256",
+            name: "lastHeartbeat",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "balance",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct EnclaveLib.Enclave",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "verifierId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveIdx",
+        type: "uint256",
+      },
+    ],
+    name: "failEnclave",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
+    name: "forceOverrideVerify",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
+    name: "isEnclaveValid",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "newAuthority",
+        type: "address",
+      },
+    ],
+    name: "rotateAuthority",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "cid",
+        type: "bytes",
+      },
+    ],
+    name: "updateEnclave",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "attestationQueueId",
+        type: "address",
+      },
+      {
+        internalType: "bytes32[]",
+        name: "validMeasurements",
+        type: "bytes32[]",
+      },
+    ],
+    name: "validate",
+    outputs: [],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "verifierId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveIdx",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32",
+        name: "mrEnclave",
+        type: "bytes32",
+      },
+    ],
+    name: "verifyEnclave",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "AggregatorAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AggregatorDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "AlreadyExecuted",
     type: "error",
   },
@@ -1698,7 +2391,42 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "EarlyOracleResponse",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveExpired",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveNotOnQueue",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveUnverified",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "FunctionAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "FunctionCallerNotPermitted",
     type: "error",
   },
   {
@@ -1708,12 +2436,52 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "FunctionMrEnclaveMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "GasLimitExceeded",
     type: "error",
   },
   {
     inputs: [],
+    name: "IncorrectReportedTime",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientBalance",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InsufficientNodes",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InsufficientSamples",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "IntervalHistoryNotRecorded",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidArgument",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidAuthority",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEnclave",
     type: "error",
   },
   {
@@ -1728,47 +2496,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "QuoteAlreadyExists",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "QuoteDoesNotExist",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "TransactionExpired",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "AggregatorAlreadyExists",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "AggregatorDoesNotExist",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "InsufficientBalance",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "InsufficientSamples",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "InvalidArgument",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "InvalidAuthority",
+    name: "MrEnclaveNotAllowed",
     type: "error",
   },
   {
@@ -1784,6 +2512,16 @@ const _abi = [
   {
     inputs: [],
     name: "PermissionDenied",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "QueuesDoNotMatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TransactionExpired",
     type: "error",
   },
   {
@@ -1823,7 +2561,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "accountAddress",
+        name: "accountId",
         type: "address",
       },
     ],
@@ -1847,6 +2585,50 @@ const _abi = [
       },
     ],
     name: "OracleGC",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
+    name: "OracleHeartbeat",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+    ],
+    name: "OracleSetConfig",
     type: "event",
   },
   {
@@ -2032,11 +2814,130 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "accountAddress",
+        name: "accountId",
         type: "address",
       },
     ],
     name: "OracleQueueAccountInit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "attestationQueueId",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "mrEnclave",
+        type: "bytes32",
+      },
+    ],
+    name: "OracleQueueAddMrEnclave",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "attestationQueueId",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "mrEnclave",
+        type: "bytes32",
+      },
+    ],
+    name: "OracleQueueRemoveMrEnclave",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "attestationQueueId",
+        type: "address",
+      },
+    ],
+    name: "OracleQueueSetAttestationConfig",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+    ],
+    name: "OracleQueueSetConfig",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "granter",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "grantee",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "permission",
+        type: "uint256",
+      },
+    ],
+    name: "OracleQueueSetPermission",
     type: "event",
   },
   {
@@ -2242,7 +3143,7 @@ const _abi = [
           },
           {
             internalType: "bool",
-            name: "requireValidQuote",
+            name: "requireValidEnclave",
             type: "bool",
           },
           {
@@ -2296,7 +3197,7 @@ const _abi = [
       },
       {
         internalType: "bool",
-        name: "requireValidQuote",
+        name: "requireValidEnclave",
         type: "bool",
       },
       {
@@ -2436,468 +3337,44 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "InsufficientBalance",
+    name: "AlreadyExecuted",
     type: "error",
   },
   {
     inputs: [],
-    name: "InvalidArgument",
+    name: "ECDSAInvalidSignature",
     type: "error",
   },
   {
-    inputs: [],
-    name: "InvalidAuthority",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "InvalidEntry",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "PermissionDenied",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "QuoteAlreadyExists",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "QuoteDoesNotExist",
-    type: "error",
-  },
-  {
-    anonymous: false,
     inputs: [
       {
-        indexed: true,
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "accountId",
-        type: "address",
-      },
-    ],
-    name: "QuoteAccountInit",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "queue",
-        type: "address",
-      },
-    ],
-    name: "QuoteGC",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-    ],
-    name: "QuoteHeartbeat",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "nodeId",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        indexed: true,
         internalType: "uint256",
-        name: "amount",
+        name: "length",
         type: "uint256",
       },
     ],
-    name: "QuotePayoutEvent",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "queueId",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "verifier",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "verifiee",
-        type: "address",
-      },
-    ],
-    name: "QuoteVerifyRequest",
-    type: "event",
+    name: "ECDSAInvalidSignatureLength",
+    type: "error",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "queueId",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-    ],
-    name: "createQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "queueId",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-    ],
-    name: "createQuoteWithId",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "verifierId",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "quoteIdx",
-        type: "uint256",
-      },
-    ],
-    name: "failQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-    ],
-    name: "forceOverrideVerify",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-    ],
-    name: "isQuoteValid",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-    ],
-    name: "quoteAuthorityToQuoteAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "quoteIdx",
-        type: "uint256",
-      },
-    ],
-    name: "quoteGarbageCollect",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-    ],
-    name: "quoteHeartbeat",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-    ],
-    name: "quotes",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "authority",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "owner",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "queueId",
-            type: "address",
-          },
-          {
-            internalType: "bytes",
-            name: "quoteBuffer",
-            type: "bytes",
-          },
-          {
-            internalType: "enum QuoteLib.VerificationStatus",
-            name: "verificationStatus",
-            type: "uint8",
-          },
-          {
-            internalType: "uint256",
-            name: "verificationTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "validUntil",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes32",
-            name: "mrEnclave",
-            type: "bytes32",
-          },
-          {
-            internalType: "bool",
-            name: "isOnQueue",
-            type: "bool",
-          },
-          {
-            internalType: "uint256",
-            name: "lastHeartbeat",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct QuoteLib.Quote",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "newAuthority",
-        type: "address",
-      },
-    ],
-    name: "rotateAuthority",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        internalType: "bytes",
-        name: "quoteBuffer",
-        type: "bytes",
-      },
-    ],
-    name: "updateQuote",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "attestationQueueId",
-        type: "address",
-      },
-      {
-        internalType: "bytes32[]",
-        name: "validMeasurements",
-        type: "bytes32[]",
-      },
-    ],
-    name: "validate",
-    outputs: [],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "verifierId",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "quoteId",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "quoteIdx",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
       {
         internalType: "bytes32",
-        name: "mrEnclave",
+        name: "s",
         type: "bytes32",
       },
     ],
-    name: "verifyQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    name: "ECDSAInvalidSignatureS",
+    type: "error",
   },
   {
     inputs: [],
-    name: "AlreadyExecuted",
+    name: "EnclaveDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveNotOnQueue",
     type: "error",
   },
   {
@@ -2907,12 +3384,27 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "FunctionCallerNotPermitted",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "FunctionDoesNotExist",
     type: "error",
   },
   {
     inputs: [],
+    name: "FunctionMrEnclaveMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "GasLimitExceeded",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "IncorrectReportedTime",
     type: "error",
   },
   {
@@ -2928,6 +3420,11 @@ const _abi = [
   {
     inputs: [],
     name: "InvalidAuthority",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEnclave",
     type: "error",
   },
   {
@@ -2942,7 +3439,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "QuoteDoesNotExist",
+    name: "QueuesDoNotMatch",
     type: "error",
   },
   {
@@ -2962,7 +3459,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "accountAddress",
+        name: "accountId",
         type: "address",
       },
     ],
@@ -2985,6 +3482,12 @@ const _abi = [
         type: "address",
       },
       {
+        indexed: true,
+        internalType: "uint256",
+        name: "callId",
+        type: "uint256",
+      },
+      {
         indexed: false,
         internalType: "bytes",
         name: "params",
@@ -3000,7 +3503,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "functionAddress",
+        name: "functionId",
         type: "address",
       },
       {
@@ -3017,6 +3520,31 @@ const _abi = [
       },
     ],
     name: "FunctionFund",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "withdrawer",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "FunctionWithdraw",
     type: "event",
   },
   {
@@ -3159,48 +3687,13 @@ const _abi = [
           },
           {
             internalType: "address",
-            name: "quoteId",
+            name: "enclaveId",
             type: "address",
-          },
-          {
-            internalType: "string",
-            name: "containerRegistry",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "container",
-            type: "string",
-          },
-          {
-            internalType: "bytes32",
-            name: "version",
-            type: "bytes32",
           },
           {
             internalType: "address",
             name: "queueId",
             type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "consecutiveFailures",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "lastExecutionTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "nextAllowedTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "schedule",
-            type: "string",
           },
           {
             internalType: "uint256",
@@ -3213,9 +3706,73 @@ const _abi = [
             type: "uint8",
           },
           {
-            internalType: "address[]",
-            name: "permittedCallers",
-            type: "address[]",
+            components: [
+              {
+                internalType: "string",
+                name: "schedule",
+                type: "string",
+              },
+              {
+                internalType: "address[]",
+                name: "permittedCallers",
+                type: "address[]",
+              },
+              {
+                internalType: "string",
+                name: "containerRegistry",
+                type: "string",
+              },
+              {
+                internalType: "string",
+                name: "container",
+                type: "string",
+              },
+              {
+                internalType: "bytes32",
+                name: "version",
+                type: "bytes32",
+              },
+            ],
+            internalType: "struct FunctionLib.FunctionConfig",
+            name: "config",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "consecutiveFailures",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "lastExecutionTimestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "nextAllowedTimestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "callId",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "queueIdx",
+                type: "uint256",
+              },
+              {
+                internalType: "bool",
+                name: "triggered",
+                type: "bool",
+              },
+            ],
+            internalType: "struct FunctionLib.FunctionState",
+            name: "state",
+            type: "tuple",
           },
         ],
         internalType: "struct FunctionLib.SbFunction",
@@ -3282,6 +3839,131 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+    ],
+    name: "getActiveFunctionsByQueue",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "address",
+            name: "authority",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "enclaveId",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "queueId",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "balance",
+            type: "uint256",
+          },
+          {
+            internalType: "enum FunctionLib.FunctionStatus",
+            name: "status",
+            type: "uint8",
+          },
+          {
+            components: [
+              {
+                internalType: "string",
+                name: "schedule",
+                type: "string",
+              },
+              {
+                internalType: "address[]",
+                name: "permittedCallers",
+                type: "address[]",
+              },
+              {
+                internalType: "string",
+                name: "containerRegistry",
+                type: "string",
+              },
+              {
+                internalType: "string",
+                name: "container",
+                type: "string",
+              },
+              {
+                internalType: "bytes32",
+                name: "version",
+                type: "bytes32",
+              },
+            ],
+            internalType: "struct FunctionLib.FunctionConfig",
+            name: "config",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "consecutiveFailures",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "lastExecutionTimestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "nextAllowedTimestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "callId",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "queueIdx",
+                type: "uint256",
+              },
+              {
+                internalType: "bool",
+                name: "triggered",
+                type: "bool",
+              },
+            ],
+            internalType: "struct FunctionLib.FunctionState",
+            name: "state",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct FunctionLib.SbFunction[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "getAllFunctions",
     outputs: [
@@ -3304,48 +3986,13 @@ const _abi = [
           },
           {
             internalType: "address",
-            name: "quoteId",
+            name: "enclaveId",
             type: "address",
-          },
-          {
-            internalType: "string",
-            name: "containerRegistry",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "container",
-            type: "string",
-          },
-          {
-            internalType: "bytes32",
-            name: "version",
-            type: "bytes32",
           },
           {
             internalType: "address",
             name: "queueId",
             type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "consecutiveFailures",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "lastExecutionTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "nextAllowedTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "schedule",
-            type: "string",
           },
           {
             internalType: "uint256",
@@ -3358,12 +4005,117 @@ const _abi = [
             type: "uint8",
           },
           {
-            internalType: "address[]",
-            name: "permittedCallers",
-            type: "address[]",
+            components: [
+              {
+                internalType: "string",
+                name: "schedule",
+                type: "string",
+              },
+              {
+                internalType: "address[]",
+                name: "permittedCallers",
+                type: "address[]",
+              },
+              {
+                internalType: "string",
+                name: "containerRegistry",
+                type: "string",
+              },
+              {
+                internalType: "string",
+                name: "container",
+                type: "string",
+              },
+              {
+                internalType: "bytes32",
+                name: "version",
+                type: "bytes32",
+              },
+            ],
+            internalType: "struct FunctionLib.FunctionConfig",
+            name: "config",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "consecutiveFailures",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "lastExecutionTimestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "nextAllowedTimestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "callId",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "queueIdx",
+                type: "uint256",
+              },
+              {
+                internalType: "bool",
+                name: "triggered",
+                type: "bool",
+              },
+            ],
+            internalType: "struct FunctionLib.FunctionState",
+            name: "state",
+            type: "tuple",
           },
         ],
         internalType: "struct FunctionLib.SbFunction[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+    ],
+    name: "getAllUnexecutedFunctionCalls",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "caller",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+          {
+            internalType: "bool",
+            name: "executed",
+            type: "bool",
+          },
+        ],
+        internalType: "struct FunctionLib.FunctionCall[]",
         name: "",
         type: "tuple[]",
       },
@@ -3400,48 +4152,13 @@ const _abi = [
           },
           {
             internalType: "address",
-            name: "quoteId",
+            name: "enclaveId",
             type: "address",
-          },
-          {
-            internalType: "string",
-            name: "containerRegistry",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "container",
-            type: "string",
-          },
-          {
-            internalType: "bytes32",
-            name: "version",
-            type: "bytes32",
           },
           {
             internalType: "address",
             name: "queueId",
             type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "consecutiveFailures",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "lastExecutionTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "nextAllowedTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "schedule",
-            type: "string",
           },
           {
             internalType: "uint256",
@@ -3454,14 +4171,122 @@ const _abi = [
             type: "uint8",
           },
           {
-            internalType: "address[]",
-            name: "permittedCallers",
-            type: "address[]",
+            components: [
+              {
+                internalType: "string",
+                name: "schedule",
+                type: "string",
+              },
+              {
+                internalType: "address[]",
+                name: "permittedCallers",
+                type: "address[]",
+              },
+              {
+                internalType: "string",
+                name: "containerRegistry",
+                type: "string",
+              },
+              {
+                internalType: "string",
+                name: "container",
+                type: "string",
+              },
+              {
+                internalType: "bytes32",
+                name: "version",
+                type: "bytes32",
+              },
+            ],
+            internalType: "struct FunctionLib.FunctionConfig",
+            name: "config",
+            type: "tuple",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "consecutiveFailures",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "lastExecutionTimestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "nextAllowedTimestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "callId",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "queueIdx",
+                type: "uint256",
+              },
+              {
+                internalType: "bool",
+                name: "triggered",
+                type: "bool",
+              },
+            ],
+            internalType: "struct FunctionLib.FunctionState",
+            name: "state",
+            type: "tuple",
           },
         ],
         internalType: "struct FunctionLib.SbFunction[]",
         name: "",
         type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expirationTimeSeconds",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "gasLimit",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "data",
+        type: "bytes",
+      },
+    ],
+    name: "getTransactionHash",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -3490,7 +4315,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "quoteIdx",
+        name: "enclaveIdx",
         type: "uint256",
       },
       {
@@ -3500,7 +4325,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "delegatedSignerId",
+        name: "delegatedSignerAddress",
         type: "address",
       },
       {
@@ -3560,11 +4385,43 @@ const _abi = [
         name: "transactions",
         type: "tuple[]",
       },
+      {
+        internalType: "bytes[]",
+        name: "signatures",
+        type: "bytes[]",
+      },
     ],
     name: "verifyFunction",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [],
+    name: "ECDSAInvalidSignature",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "length",
+        type: "uint256",
+      },
+    ],
+    name: "ECDSAInvalidSignatureLength",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "s",
+        type: "bytes32",
+      },
+    ],
+    name: "ECDSAInvalidSignatureS",
+    type: "error",
   },
 ] as const;
 

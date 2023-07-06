@@ -32,8 +32,8 @@ export type { LibDiamond } from "./contracts/src/Switchboard/eip2535/libraries/L
 export { LibDiamond__factory } from "./factories/contracts/src/Switchboard/eip2535/libraries/LibDiamond__factory";
 export type { DiamondInit } from "./contracts/src/Switchboard/eip2535/upgrade/DiamondInit";
 export { DiamondInit__factory } from "./factories/contracts/src/Switchboard/eip2535/upgrade/DiamondInit__factory";
-export type { AttestationServiceErrorLib } from "./contracts/src/Switchboard/errors/AttestationServiceErrorLib";
-export { AttestationServiceErrorLib__factory } from "./factories/contracts/src/Switchboard/errors/AttestationServiceErrorLib__factory";
+export type { Enclave } from "./contracts/src/Switchboard/enclave/Enclave";
+export { Enclave__factory } from "./factories/contracts/src/Switchboard/enclave/Enclave__factory";
 export type { ErrorLib } from "./contracts/src/Switchboard/errors/ErrorLib";
 export { ErrorLib__factory } from "./factories/contracts/src/Switchboard/errors/ErrorLib__factory";
 export type { Oracle } from "./contracts/src/Switchboard/oracle/Oracle";
@@ -42,9 +42,9 @@ export type { OracleQueue } from "./contracts/src/Switchboard/oracleQueue/Oracle
 export { OracleQueue__factory } from "./factories/contracts/src/Switchboard/oracleQueue/OracleQueue__factory";
 export type { Permission } from "./contracts/src/Switchboard/permission/Permission";
 export { Permission__factory } from "./factories/contracts/src/Switchboard/permission/Permission__factory";
-export type { Quote } from "./contracts/src/Switchboard/quote/Quote";
-export { Quote__factory } from "./factories/contracts/src/Switchboard/quote/Quote__factory";
 export type { SbFunction } from "./contracts/src/Switchboard/sbFunction/SbFunction";
 export { SbFunction__factory } from "./factories/contracts/src/Switchboard/sbFunction/SbFunction__factory";
 export type { Switchboard } from "./contracts/src/Switchboard/Switchboard";
 export { Switchboard__factory } from "./factories/contracts/src/Switchboard/Switchboard__factory";
+export type { ECDSA } from "./contracts/src/Switchboard/transaction/ECDSA";
+export { ECDSA__factory } from "./factories/contracts/src/Switchboard/transaction/ECDSA__factory";

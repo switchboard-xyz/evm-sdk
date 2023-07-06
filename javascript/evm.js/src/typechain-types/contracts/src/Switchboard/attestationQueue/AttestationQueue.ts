@@ -35,12 +35,12 @@ export declare namespace AttestationQueueLib {
     reward: PromiseOrValue<BigNumberish>;
     lastHeartbeat: PromiseOrValue<BigNumberish>;
     mrEnclaves: PromiseOrValue<BytesLike>[];
-    maxQuoteVerificationAge: PromiseOrValue<BigNumberish>;
+    maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>;
     allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>;
     maxConsecutiveFunctionFailures: PromiseOrValue<BigNumberish>;
     requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>;
     requireUsagePermissions: PromiseOrValue<boolean>;
-    quoteTimeout: PromiseOrValue<BigNumberish>;
+    enclaveTimeout: PromiseOrValue<BigNumberish>;
     gcIdx: PromiseOrValue<BigNumberish>;
     currIdx: PromiseOrValue<BigNumberish>;
   };
@@ -67,12 +67,12 @@ export declare namespace AttestationQueueLib {
     reward: BigNumber;
     lastHeartbeat: BigNumber;
     mrEnclaves: string[];
-    maxQuoteVerificationAge: BigNumber;
+    maxEnclaveVerificationAge: BigNumber;
     allowAuthorityOverrideAfter: BigNumber;
     maxConsecutiveFunctionFailures: BigNumber;
     requireAuthorityHeartbeatPermission: boolean;
     requireUsagePermissions: boolean;
-    quoteTimeout: BigNumber;
+    enclaveTimeout: BigNumber;
     gcIdx: BigNumber;
     currIdx: BigNumber;
   };
@@ -84,7 +84,9 @@ export interface AttestationQueueInterface extends utils.Interface {
     "attestationQueueHasMrEnclave(address,bytes32)": FunctionFragment;
     "attestationQueues(address)": FunctionFragment;
     "createAttestationQueue(address,uint256,uint256,uint256,uint256,uint256,bool,bool,uint256)": FunctionFragment;
-    "getQuoteIdx(address)": FunctionFragment;
+    "getAttestationQueueMrEnclaves(address)": FunctionFragment;
+    "getEnclaveIdx(address)": FunctionFragment;
+    "getEnclaves(address)": FunctionFragment;
     "removeMrEnclaveFromAttestationQueue(address,bytes32)": FunctionFragment;
     "setAttestationQueueConfig(address,address,uint256,uint256,uint256,uint256,uint256,bool,bool,uint256)": FunctionFragment;
     "setAttestationQueuePermission(address,address,uint256,bool)": FunctionFragment;
@@ -96,7 +98,9 @@ export interface AttestationQueueInterface extends utils.Interface {
       | "attestationQueueHasMrEnclave"
       | "attestationQueues"
       | "createAttestationQueue"
-      | "getQuoteIdx"
+      | "getAttestationQueueMrEnclaves"
+      | "getEnclaveIdx"
+      | "getEnclaves"
       | "removeMrEnclaveFromAttestationQueue"
       | "setAttestationQueueConfig"
       | "setAttestationQueuePermission"
@@ -129,7 +133,15 @@ export interface AttestationQueueInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "getQuoteIdx",
+    functionFragment: "getAttestationQueueMrEnclaves",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getEnclaveIdx",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getEnclaves",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -178,7 +190,15 @@ export interface AttestationQueueInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getQuoteIdx",
+    functionFragment: "getAttestationQueueMrEnclaves",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getEnclaveIdx",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getEnclaves",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -197,6 +217,8 @@ export interface AttestationQueueInterface extends utils.Interface {
   events: {
     "AddMrEnclave(address,bytes32)": EventFragment;
     "AttestationQueueAccountInit(address,address)": EventFragment;
+    "AttestationQueuePermissionUpdated(address,address,address,uint256)": EventFragment;
+    "AttestationQueueSetConfig(address,address)": EventFragment;
     "RemoveMrEnclave(address,bytes32)": EventFragment;
   };
 
@@ -204,6 +226,10 @@ export interface AttestationQueueInterface extends utils.Interface {
   getEvent(
     nameOrSignatureOrTopic: "AttestationQueueAccountInit"
   ): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "AttestationQueuePermissionUpdated"
+  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AttestationQueueSetConfig"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RemoveMrEnclave"): EventFragment;
 }
 
@@ -220,7 +246,7 @@ export type AddMrEnclaveEventFilter = TypedEventFilter<AddMrEnclaveEvent>;
 
 export interface AttestationQueueAccountInitEventObject {
   authority: string;
-  accountAddress: string;
+  accountId: string;
 }
 export type AttestationQueueAccountInitEvent = TypedEvent<
   [string, string],
@@ -229,6 +255,32 @@ export type AttestationQueueAccountInitEvent = TypedEvent<
 
 export type AttestationQueueAccountInitEventFilter =
   TypedEventFilter<AttestationQueueAccountInitEvent>;
+
+export interface AttestationQueuePermissionUpdatedEventObject {
+  queueId: string;
+  granter: string;
+  grantee: string;
+  permission: BigNumber;
+}
+export type AttestationQueuePermissionUpdatedEvent = TypedEvent<
+  [string, string, string, BigNumber],
+  AttestationQueuePermissionUpdatedEventObject
+>;
+
+export type AttestationQueuePermissionUpdatedEventFilter =
+  TypedEventFilter<AttestationQueuePermissionUpdatedEvent>;
+
+export interface AttestationQueueSetConfigEventObject {
+  queueId: string;
+  authority: string;
+}
+export type AttestationQueueSetConfigEvent = TypedEvent<
+  [string, string],
+  AttestationQueueSetConfigEventObject
+>;
+
+export type AttestationQueueSetConfigEventFilter =
+  TypedEventFilter<AttestationQueueSetConfigEvent>;
 
 export interface RemoveMrEnclaveEventObject {
   queueId: string;
@@ -289,8 +341,8 @@ export interface AttestationQueue extends BaseContract {
       authority: PromiseOrValue<string>,
       maxSize: PromiseOrValue<BigNumberish>,
       reward: PromiseOrValue<BigNumberish>,
-      quoteTimeout: PromiseOrValue<BigNumberish>,
-      maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      enclaveTimeout: PromiseOrValue<BigNumberish>,
+      maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
       allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       requireUsagePermissions: PromiseOrValue<boolean>,
@@ -298,10 +350,20 @@ export interface AttestationQueue extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    getQuoteIdx(
-      quoteId: PromiseOrValue<string>,
+    getAttestationQueueMrEnclaves(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[]]>;
+
+    getEnclaveIdx(
+      enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    getEnclaves(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[]]>;
 
     removeMrEnclaveFromAttestationQueue(
       queueId: PromiseOrValue<string>,
@@ -314,8 +376,8 @@ export interface AttestationQueue extends BaseContract {
       authority: PromiseOrValue<string>,
       maxSize: PromiseOrValue<BigNumberish>,
       reward: PromiseOrValue<BigNumberish>,
-      quoteTimeout: PromiseOrValue<BigNumberish>,
-      maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      enclaveTimeout: PromiseOrValue<BigNumberish>,
+      maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
       allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       requireUsagePermissions: PromiseOrValue<boolean>,
@@ -353,8 +415,8 @@ export interface AttestationQueue extends BaseContract {
     authority: PromiseOrValue<string>,
     maxSize: PromiseOrValue<BigNumberish>,
     reward: PromiseOrValue<BigNumberish>,
-    quoteTimeout: PromiseOrValue<BigNumberish>,
-    maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+    enclaveTimeout: PromiseOrValue<BigNumberish>,
+    maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
     allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
     requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
     requireUsagePermissions: PromiseOrValue<boolean>,
@@ -362,10 +424,20 @@ export interface AttestationQueue extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  getQuoteIdx(
-    quoteId: PromiseOrValue<string>,
+  getAttestationQueueMrEnclaves(
+    queueId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string[]>;
+
+  getEnclaveIdx(
+    enclaveId: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  getEnclaves(
+    queueId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string[]>;
 
   removeMrEnclaveFromAttestationQueue(
     queueId: PromiseOrValue<string>,
@@ -378,8 +450,8 @@ export interface AttestationQueue extends BaseContract {
     authority: PromiseOrValue<string>,
     maxSize: PromiseOrValue<BigNumberish>,
     reward: PromiseOrValue<BigNumberish>,
-    quoteTimeout: PromiseOrValue<BigNumberish>,
-    maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+    enclaveTimeout: PromiseOrValue<BigNumberish>,
+    maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
     allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
     requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
     requireUsagePermissions: PromiseOrValue<boolean>,
@@ -417,8 +489,8 @@ export interface AttestationQueue extends BaseContract {
       authority: PromiseOrValue<string>,
       maxSize: PromiseOrValue<BigNumberish>,
       reward: PromiseOrValue<BigNumberish>,
-      quoteTimeout: PromiseOrValue<BigNumberish>,
-      maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      enclaveTimeout: PromiseOrValue<BigNumberish>,
+      maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
       allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       requireUsagePermissions: PromiseOrValue<boolean>,
@@ -426,10 +498,20 @@ export interface AttestationQueue extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    getQuoteIdx(
-      quoteId: PromiseOrValue<string>,
+    getAttestationQueueMrEnclaves(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string[]>;
+
+    getEnclaveIdx(
+      enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getEnclaves(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string[]>;
 
     removeMrEnclaveFromAttestationQueue(
       queueId: PromiseOrValue<string>,
@@ -442,8 +524,8 @@ export interface AttestationQueue extends BaseContract {
       authority: PromiseOrValue<string>,
       maxSize: PromiseOrValue<BigNumberish>,
       reward: PromiseOrValue<BigNumberish>,
-      quoteTimeout: PromiseOrValue<BigNumberish>,
-      maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      enclaveTimeout: PromiseOrValue<BigNumberish>,
+      maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
       allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       requireUsagePermissions: PromiseOrValue<boolean>,
@@ -472,12 +554,34 @@ export interface AttestationQueue extends BaseContract {
 
     "AttestationQueueAccountInit(address,address)"(
       authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
+      accountId?: PromiseOrValue<string> | null
     ): AttestationQueueAccountInitEventFilter;
     AttestationQueueAccountInit(
       authority?: PromiseOrValue<string> | null,
-      accountAddress?: PromiseOrValue<string> | null
+      accountId?: PromiseOrValue<string> | null
     ): AttestationQueueAccountInitEventFilter;
+
+    "AttestationQueuePermissionUpdated(address,address,address,uint256)"(
+      queueId?: PromiseOrValue<string> | null,
+      granter?: PromiseOrValue<string> | null,
+      grantee?: PromiseOrValue<string> | null,
+      permission?: null
+    ): AttestationQueuePermissionUpdatedEventFilter;
+    AttestationQueuePermissionUpdated(
+      queueId?: PromiseOrValue<string> | null,
+      granter?: PromiseOrValue<string> | null,
+      grantee?: PromiseOrValue<string> | null,
+      permission?: null
+    ): AttestationQueuePermissionUpdatedEventFilter;
+
+    "AttestationQueueSetConfig(address,address)"(
+      queueId?: PromiseOrValue<string> | null,
+      authority?: PromiseOrValue<string> | null
+    ): AttestationQueueSetConfigEventFilter;
+    AttestationQueueSetConfig(
+      queueId?: PromiseOrValue<string> | null,
+      authority?: PromiseOrValue<string> | null
+    ): AttestationQueueSetConfigEventFilter;
 
     "RemoveMrEnclave(address,bytes32)"(
       queueId?: PromiseOrValue<string> | null,
@@ -511,8 +615,8 @@ export interface AttestationQueue extends BaseContract {
       authority: PromiseOrValue<string>,
       maxSize: PromiseOrValue<BigNumberish>,
       reward: PromiseOrValue<BigNumberish>,
-      quoteTimeout: PromiseOrValue<BigNumberish>,
-      maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      enclaveTimeout: PromiseOrValue<BigNumberish>,
+      maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
       allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       requireUsagePermissions: PromiseOrValue<boolean>,
@@ -520,8 +624,18 @@ export interface AttestationQueue extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    getQuoteIdx(
-      quoteId: PromiseOrValue<string>,
+    getAttestationQueueMrEnclaves(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getEnclaveIdx(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getEnclaves(
+      queueId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -536,8 +650,8 @@ export interface AttestationQueue extends BaseContract {
       authority: PromiseOrValue<string>,
       maxSize: PromiseOrValue<BigNumberish>,
       reward: PromiseOrValue<BigNumberish>,
-      quoteTimeout: PromiseOrValue<BigNumberish>,
-      maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      enclaveTimeout: PromiseOrValue<BigNumberish>,
+      maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
       allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       requireUsagePermissions: PromiseOrValue<boolean>,
@@ -576,8 +690,8 @@ export interface AttestationQueue extends BaseContract {
       authority: PromiseOrValue<string>,
       maxSize: PromiseOrValue<BigNumberish>,
       reward: PromiseOrValue<BigNumberish>,
-      quoteTimeout: PromiseOrValue<BigNumberish>,
-      maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      enclaveTimeout: PromiseOrValue<BigNumberish>,
+      maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
       allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       requireUsagePermissions: PromiseOrValue<boolean>,
@@ -585,8 +699,18 @@ export interface AttestationQueue extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    getQuoteIdx(
-      quoteId: PromiseOrValue<string>,
+    getAttestationQueueMrEnclaves(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getEnclaveIdx(
+      enclaveId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getEnclaves(
+      queueId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -601,8 +725,8 @@ export interface AttestationQueue extends BaseContract {
       authority: PromiseOrValue<string>,
       maxSize: PromiseOrValue<BigNumberish>,
       reward: PromiseOrValue<BigNumberish>,
-      quoteTimeout: PromiseOrValue<BigNumberish>,
-      maxQuoteVerificationAge: PromiseOrValue<BigNumberish>,
+      enclaveTimeout: PromiseOrValue<BigNumberish>,
+      maxEnclaveVerificationAge: PromiseOrValue<BigNumberish>,
       allowAuthorityOverrideAfter: PromiseOrValue<BigNumberish>,
       requireAuthorityHeartbeatPermission: PromiseOrValue<boolean>,
       requireUsagePermissions: PromiseOrValue<boolean>,

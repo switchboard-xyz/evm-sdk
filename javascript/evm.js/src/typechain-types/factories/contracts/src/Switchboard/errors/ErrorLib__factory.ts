@@ -22,12 +22,97 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "AlreadyExecuted",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AttestationQueueAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AttestationQueueDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EarlyOracleResponse",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveExpired",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveNotOnQueue",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "EnclaveUnverified",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "FunctionAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "FunctionCallerNotPermitted",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "FunctionDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "FunctionMrEnclaveMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "GasLimitExceeded",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "IncorrectReportedTime",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InsufficientBalance",
     type: "error",
   },
   {
     inputs: [],
+    name: "InsufficientNodes",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InsufficientSamples",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "IntervalHistoryNotRecorded",
     type: "error",
   },
   {
@@ -38,6 +123,26 @@ const _abi = [
   {
     inputs: [],
     name: "InvalidAuthority",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEnclave",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEntry",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidSignature",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MrEnclaveNotAllowed",
     type: "error",
   },
   {
@@ -55,10 +160,20 @@ const _abi = [
     name: "PermissionDenied",
     type: "error",
   },
+  {
+    inputs: [],
+    name: "QueuesDoNotMatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TransactionExpired",
+    type: "error",
+  },
 ] as const;
 
 const _bytecode =
-  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212205997d2d8e38c61d11bf9fe08d3125b82645a8cf240e01619b0a2350922ae202964736f6c63430008110033";
+  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212203e1778c1e65f74d6a953bb2be4388499c1327030c998a567b3b1bd2d3548bd8264736f6c63430008110033";
 
 type ErrorLibConstructorParams =
   | [signer?: Signer]
