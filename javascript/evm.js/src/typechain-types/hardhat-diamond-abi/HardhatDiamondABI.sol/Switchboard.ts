@@ -245,6 +245,7 @@ export declare namespace OracleLib {
     numRows: PromiseOrValue<BigNumberish>;
     lastHeartbeat: PromiseOrValue<BigNumberish>;
     queueId: PromiseOrValue<string>;
+    owner: PromiseOrValue<string>;
   };
 
   export type OracleStructOutput = [
@@ -252,6 +253,7 @@ export declare namespace OracleLib {
     string,
     number,
     BigNumber,
+    string,
     string
   ] & {
     name: string;
@@ -259,6 +261,7 @@ export declare namespace OracleLib {
     numRows: number;
     lastHeartbeat: BigNumber;
     queueId: string;
+    owner: string;
   };
 }
 
@@ -351,11 +354,13 @@ export declare namespace FunctionLib {
     containerRegistry: PromiseOrValue<string>;
     container: PromiseOrValue<string>;
     version: PromiseOrValue<BytesLike>;
+    paramsSchema: PromiseOrValue<string>;
   };
 
   export type FunctionConfigStructOutput = [
     string,
     string[],
+    string,
     string,
     string,
     string
@@ -365,6 +370,7 @@ export declare namespace FunctionLib {
     containerRegistry: string;
     container: string;
     version: string;
+    paramsSchema: string;
   };
 
   export type FunctionStateStruct = {
@@ -372,11 +378,15 @@ export declare namespace FunctionLib {
     lastExecutionTimestamp: PromiseOrValue<BigNumberish>;
     nextAllowedTimestamp: PromiseOrValue<BigNumberish>;
     callId: PromiseOrValue<BigNumberish>;
+    triggeredSince: PromiseOrValue<BigNumberish>;
+    triggerCount: PromiseOrValue<BigNumberish>;
     queueIdx: PromiseOrValue<BigNumberish>;
     triggered: PromiseOrValue<boolean>;
   };
 
   export type FunctionStateStructOutput = [
+    BigNumber,
+    BigNumber,
     BigNumber,
     BigNumber,
     BigNumber,
@@ -388,6 +398,8 @@ export declare namespace FunctionLib {
     lastExecutionTimestamp: BigNumber;
     nextAllowedTimestamp: BigNumber;
     callId: BigNumber;
+    triggeredSince: BigNumber;
+    triggerCount: BigNumber;
     queueIdx: BigNumber;
     triggered: boolean;
   };
@@ -488,16 +500,17 @@ export interface SwitchboardInterface extends utils.Interface {
     "failEnclave(address,address,uint256)": FunctionFragment;
     "forceOverrideVerify(address)": FunctionFragment;
     "isEnclaveValid(address)": FunctionFragment;
-    "rotateAuthority(address,address)": FunctionFragment;
+    "rotateEnclaveAuthority(address,address)": FunctionFragment;
     "updateEnclave(address,bytes)": FunctionFragment;
     "validate(address,address,bytes32[])": FunctionFragment;
     "verifyEnclave(address,address,uint256,uint256,bytes32)": FunctionFragment;
-    "createOracle(string,address,address)": FunctionFragment;
-    "createOracleWithId(address,string,address,address)": FunctionFragment;
+    "createOracle(string,address,address,address)": FunctionFragment;
+    "createOracleWithId(address,string,address,address,address)": FunctionFragment;
     "oracleGarbageCollect(address,uint256)": FunctionFragment;
     "oracleHeartbeat(address)": FunctionFragment;
     "oracles(address)": FunctionFragment;
-    "setOracleConfig(address,string,address,address)": FunctionFragment;
+    "rotateOracleAuthority(address,address)": FunctionFragment;
+    "setOracleConfig(address,string,address,address,address)": FunctionFragment;
     "addMrEnclaveToOracleQueue(address,bytes32)": FunctionFragment;
     "createOracleQueue(string,address,bool,uint256,uint256,uint256)": FunctionFragment;
     "getOracleIdx(address)": FunctionFragment;
@@ -512,7 +525,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "getPermission(address,address)": FunctionFragment;
     "hasPermission(address,address,uint256)": FunctionFragment;
     "callFunction(address,bytes)": FunctionFragment;
-    "createFunction(string,address,address,string,string,bytes32,string,address[])": FunctionFragment;
+    "createFunction(string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
     "forward((uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
     "funcs(address)": FunctionFragment;
     "functionEscrowFund(address)": FunctionFragment;
@@ -524,6 +537,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "getFunctionsByAuthority(address)": FunctionFragment;
     "getTransactionHash(uint256,uint256,uint256,address,address,bytes)": FunctionFragment;
     "isTrustedForwarder(address)": FunctionFragment;
+    "setFunctionConfig(address,string,address,string,string,bytes32,string,string,address[])": FunctionFragment;
     "verifyFunction(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
   };
 
@@ -572,7 +586,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "failEnclave"
       | "forceOverrideVerify"
       | "isEnclaveValid"
-      | "rotateAuthority"
+      | "rotateEnclaveAuthority"
       | "updateEnclave"
       | "validate"
       | "verifyEnclave"
@@ -581,6 +595,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "oracleGarbageCollect"
       | "oracleHeartbeat"
       | "oracles"
+      | "rotateOracleAuthority"
       | "setOracleConfig"
       | "addMrEnclaveToOracleQueue"
       | "createOracleQueue"
@@ -608,6 +623,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "getFunctionsByAuthority"
       | "getTransactionHash"
       | "isTrustedForwarder"
+      | "setFunctionConfig"
       | "verifyFunction"
   ): FunctionFragment;
 
@@ -852,7 +868,7 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "rotateAuthority",
+    functionFragment: "rotateEnclaveAuthority",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -882,12 +898,14 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>
     ]
   ): string;
   encodeFunctionData(
     functionFragment: "createOracleWithId",
     values: [
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -907,8 +925,13 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "rotateOracleAuthority",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setOracleConfig",
     values: [
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -1011,6 +1034,7 @@ export interface SwitchboardInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BytesLike>,
       PromiseOrValue<string>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>[]
     ]
   ): string;
@@ -1068,6 +1092,20 @@ export interface SwitchboardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "isTrustedForwarder",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setFunctionConfig",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>[]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "verifyFunction",
@@ -1242,7 +1280,7 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "rotateAuthority",
+    functionFragment: "rotateEnclaveAuthority",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -1271,6 +1309,10 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "oracles", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "rotateOracleAuthority",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setOracleConfig",
     data: BytesLike
@@ -1371,6 +1413,10 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setFunctionConfig",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "verifyFunction",
     data: BytesLike
   ): Result;
@@ -1402,7 +1448,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "OracleAccountInit(address,address)": EventFragment;
     "OracleGC(address,address)": EventFragment;
     "OracleHeartbeat(address)": EventFragment;
-    "OracleSetConfig(address,string,address,address)": EventFragment;
+    "OracleSetConfig(address,string,address,address,address)": EventFragment;
     "OracleQueueAccountInit(address,address)": EventFragment;
     "OracleQueueAddMrEnclave(address,address,bytes32)": EventFragment;
     "OracleQueueRemoveMrEnclave(address,address,bytes32)": EventFragment;
@@ -1783,9 +1829,10 @@ export interface OracleSetConfigEventObject {
   name: string;
   authority: string;
   queueId: string;
+  owner: string;
 }
 export type OracleSetConfigEvent = TypedEvent<
-  [string, string, string, string],
+  [string, string, string, string, string],
   OracleSetConfigEventObject
 >;
 
@@ -2205,7 +2252,7 @@ export interface Switchboard extends BaseContract {
     failEnclave(
       verifierId: PromiseOrValue<string>,
       enclaveId: PromiseOrValue<string>,
-      enclaveIdx: PromiseOrValue<BigNumberish>,
+      verifierIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -2219,7 +2266,7 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    rotateAuthority(
+    rotateEnclaveAuthority(
       enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2251,6 +2298,7 @@ export interface Switchboard extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -2259,6 +2307,7 @@ export interface Switchboard extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -2278,11 +2327,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[OracleLib.OracleStructOutput]>;
 
+    rotateOracleAuthority(
+      oracleId: PromiseOrValue<string>,
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -2388,6 +2444,7 @@ export interface Switchboard extends BaseContract {
       container: PromiseOrValue<string>,
       version: PromiseOrValue<BytesLike>,
       schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -2453,6 +2510,19 @@ export interface Switchboard extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     verifyFunction(
       enclaveIdx: PromiseOrValue<BigNumberish>,
@@ -2721,7 +2791,7 @@ export interface Switchboard extends BaseContract {
   failEnclave(
     verifierId: PromiseOrValue<string>,
     enclaveId: PromiseOrValue<string>,
-    enclaveIdx: PromiseOrValue<BigNumberish>,
+    verifierIdx: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -2735,7 +2805,7 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  rotateAuthority(
+  rotateEnclaveAuthority(
     enclaveId: PromiseOrValue<string>,
     newAuthority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2767,6 +2837,7 @@ export interface Switchboard extends BaseContract {
     name: PromiseOrValue<string>,
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
+    owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -2775,6 +2846,7 @@ export interface Switchboard extends BaseContract {
     name: PromiseOrValue<string>,
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
+    owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -2794,11 +2866,18 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<OracleLib.OracleStructOutput>;
 
+  rotateOracleAuthority(
+    oracleId: PromiseOrValue<string>,
+    newAuthority: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setOracleConfig(
     oracleId: PromiseOrValue<string>,
     name: PromiseOrValue<string>,
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
+    owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -2904,6 +2983,7 @@ export interface Switchboard extends BaseContract {
     container: PromiseOrValue<string>,
     version: PromiseOrValue<BytesLike>,
     schedule: PromiseOrValue<string>,
+    paramsSchema: PromiseOrValue<string>,
     permittedCallers: PromiseOrValue<string>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -2969,6 +3049,19 @@ export interface Switchboard extends BaseContract {
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  setFunctionConfig(
+    functionId: PromiseOrValue<string>,
+    name: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
+    containerRegistry: PromiseOrValue<string>,
+    container: PromiseOrValue<string>,
+    version: PromiseOrValue<BytesLike>,
+    schedule: PromiseOrValue<string>,
+    paramsSchema: PromiseOrValue<string>,
+    permittedCallers: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   verifyFunction(
     enclaveIdx: PromiseOrValue<BigNumberish>,
@@ -3245,7 +3338,7 @@ export interface Switchboard extends BaseContract {
     failEnclave(
       verifierId: PromiseOrValue<string>,
       enclaveId: PromiseOrValue<string>,
-      enclaveIdx: PromiseOrValue<BigNumberish>,
+      verifierIdx: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -3259,7 +3352,7 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    rotateAuthority(
+    rotateEnclaveAuthority(
       enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -3291,6 +3384,7 @@ export interface Switchboard extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -3299,6 +3393,7 @@ export interface Switchboard extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -3318,11 +3413,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<OracleLib.OracleStructOutput>;
 
+    rotateOracleAuthority(
+      oracleId: PromiseOrValue<string>,
+      newAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -3428,6 +3530,7 @@ export interface Switchboard extends BaseContract {
       container: PromiseOrValue<string>,
       version: PromiseOrValue<BytesLike>,
       schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
       overrides?: CallOverrides
     ): Promise<void>;
@@ -3493,6 +3596,19 @@ export interface Switchboard extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     verifyFunction(
       enclaveIdx: PromiseOrValue<BigNumberish>,
@@ -3777,17 +3893,19 @@ export interface Switchboard extends BaseContract {
       oracleId?: PromiseOrValue<string> | null
     ): OracleHeartbeatEventFilter;
 
-    "OracleSetConfig(address,string,address,address)"(
+    "OracleSetConfig(address,string,address,address,address)"(
       oracleId?: PromiseOrValue<string> | null,
       name?: null,
       authority?: PromiseOrValue<string> | null,
-      queueId?: PromiseOrValue<string> | null
+      queueId?: PromiseOrValue<string> | null,
+      owner?: null
     ): OracleSetConfigEventFilter;
     OracleSetConfig(
       oracleId?: PromiseOrValue<string> | null,
       name?: null,
       authority?: PromiseOrValue<string> | null,
-      queueId?: PromiseOrValue<string> | null
+      queueId?: PromiseOrValue<string> | null,
+      owner?: null
     ): OracleSetConfigEventFilter;
 
     "OracleQueueAccountInit(address,address)"(
@@ -4147,7 +4265,7 @@ export interface Switchboard extends BaseContract {
     failEnclave(
       verifierId: PromiseOrValue<string>,
       enclaveId: PromiseOrValue<string>,
-      enclaveIdx: PromiseOrValue<BigNumberish>,
+      verifierIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -4161,7 +4279,7 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    rotateAuthority(
+    rotateEnclaveAuthority(
       enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -4193,6 +4311,7 @@ export interface Switchboard extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -4201,6 +4320,7 @@ export interface Switchboard extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -4220,11 +4340,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    rotateOracleAuthority(
+      oracleId: PromiseOrValue<string>,
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -4330,6 +4457,7 @@ export interface Switchboard extends BaseContract {
       container: PromiseOrValue<string>,
       version: PromiseOrValue<BytesLike>,
       schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -4392,6 +4520,19 @@ export interface Switchboard extends BaseContract {
     isTrustedForwarder(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     verifyFunction(
@@ -4658,7 +4799,7 @@ export interface Switchboard extends BaseContract {
     failEnclave(
       verifierId: PromiseOrValue<string>,
       enclaveId: PromiseOrValue<string>,
-      enclaveIdx: PromiseOrValue<BigNumberish>,
+      verifierIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -4672,7 +4813,7 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    rotateAuthority(
+    rotateEnclaveAuthority(
       enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -4704,6 +4845,7 @@ export interface Switchboard extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -4712,6 +4854,7 @@ export interface Switchboard extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -4731,11 +4874,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    rotateOracleAuthority(
+      oracleId: PromiseOrValue<string>,
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -4841,6 +4991,7 @@ export interface Switchboard extends BaseContract {
       container: PromiseOrValue<string>,
       version: PromiseOrValue<BytesLike>,
       schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -4903,6 +5054,19 @@ export interface Switchboard extends BaseContract {
     isTrustedForwarder(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     verifyFunction(

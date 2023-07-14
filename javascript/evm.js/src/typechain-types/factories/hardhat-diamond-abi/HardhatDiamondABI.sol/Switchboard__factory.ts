@@ -27,48 +27,148 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "aggregatorId",
+        type: "address",
+      },
+    ],
     name: "AggregatorAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "aggregatorId",
+        type: "address",
+      },
+    ],
     name: "AggregatorDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
     name: "EarlyOracleResponse",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "gasLimit",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "gasSpent",
+        type: "uint256",
+      },
+    ],
+    name: "ExcessiveGasSpent",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expectedBalance",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "receivedBalance",
+        type: "uint256",
+      },
+    ],
     name: "InsufficientBalance",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expected",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "received",
+        type: "uint256",
+      },
+    ],
     name: "InsufficientSamples",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "aggregatorId",
+        type: "address",
+      },
+    ],
     name: "IntervalHistoryNotRecorded",
     type: "error",
   },
   {
-    inputs: [],
-    name: "InvalidArgument",
-    type: "error",
-  },
-  {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedAuthority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedAuthority",
+        type: "address",
+      },
+    ],
     name: "InvalidAuthority",
     type: "error",
   },
   {
     inputs: [],
     name: "InvalidEntry",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedQueueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedQueueId",
+        type: "address",
+      },
+    ],
+    name: "QueuesDoNotMatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "aggregators",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "results",
+        type: "uint256",
+      },
+    ],
+    name: "SubmittedResultsMismatch",
     type: "error",
   },
   {
@@ -1099,17 +1199,40 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "attestationQueueId",
+        type: "address",
+      },
+    ],
     name: "AttestationQueueAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "argumentIndex",
+        type: "uint256",
+      },
+    ],
     name: "InvalidArgument",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedAuthority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedAuthority",
+        type: "address",
+      },
+    ],
     name: "InvalidAuthority",
     type: "error",
   },
@@ -1119,7 +1242,18 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "mrEnclave",
+        type: "bytes32",
+      },
+    ],
     name: "MrEnclaveNotAllowed",
     type: "error",
   },
@@ -1839,52 +1973,175 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveExpired",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveIdx",
+        type: "uint256",
+      },
+    ],
+    name: "EnclaveNotAtQueueIdx",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveNotOnQueue",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
+    name: "EnclaveNotReadyForVerification",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveUnverified",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+    ],
+    name: "ForceOverrideNotReady",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "maxExpectedTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reportedTime",
+        type: "uint256",
+      },
+    ],
     name: "IncorrectReportedTime",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expectedBalance",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "receivedBalance",
+        type: "uint256",
+      },
+    ],
     name: "InsufficientBalance",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "argumentIndex",
+        type: "uint256",
+      },
+    ],
     name: "InvalidArgument",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedAuthority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedAuthority",
+        type: "address",
+      },
+    ],
     name: "InvalidAuthority",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "InvalidEnclave",
     type: "error",
   },
@@ -1894,17 +2151,76 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "expected",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "received",
+        type: "uint256",
+      },
+    ],
+    name: "InvalidStatus",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "mrEnclave",
+        type: "bytes32",
+      },
+    ],
     name: "MrEnclaveNotAllowed",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "granter",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "grantee",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "permission",
+        type: "uint256",
+      },
+    ],
     name: "PermissionDenied",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedQueueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedQueueId",
+        type: "address",
+      },
+    ],
     name: "QueuesDoNotMatch",
     type: "error",
   },
@@ -2231,7 +2547,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "enclaveIdx",
+        name: "verifierIdx",
         type: "uint256",
       },
     ],
@@ -2285,7 +2601,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "rotateAuthority",
+    name: "rotateEnclaveAuthority",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -2365,122 +2681,370 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "aggregatorId",
+        type: "address",
+      },
+    ],
     name: "AggregatorAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "aggregatorId",
+        type: "address",
+      },
+    ],
     name: "AggregatorDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "txHash",
+        type: "bytes32",
+      },
+    ],
     name: "AlreadyExecuted",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "attestationQueueId",
+        type: "address",
+      },
+    ],
     name: "AttestationQueueAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "attestationQueueId",
+        type: "address",
+      },
+    ],
     name: "AttestationQueueDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
     name: "EarlyOracleResponse",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveExpired",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveIdx",
+        type: "uint256",
+      },
+    ],
+    name: "EnclaveNotAtQueueIdx",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveNotOnQueue",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
+    name: "EnclaveNotReadyForVerification",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveUnverified",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "gasLimit",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "gasSpent",
+        type: "uint256",
+      },
+    ],
+    name: "ExcessiveGasSpent",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+    ],
+    name: "ForceOverrideNotReady",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+    ],
     name: "FunctionAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
     name: "FunctionCallerNotPermitted",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+    ],
     name: "FunctionDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "expected",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "received",
+        type: "bytes32",
+      },
+    ],
     name: "FunctionMrEnclaveMismatch",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "limit",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "used",
+        type: "uint256",
+      },
+    ],
     name: "GasLimitExceeded",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "maxExpectedTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reportedTime",
+        type: "uint256",
+      },
+    ],
     name: "IncorrectReportedTime",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expectedBalance",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "receivedBalance",
+        type: "uint256",
+      },
+    ],
     name: "InsufficientBalance",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expected",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "received",
+        type: "uint256",
+      },
+    ],
     name: "InsufficientNodes",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expected",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "received",
+        type: "uint256",
+      },
+    ],
     name: "InsufficientSamples",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "aggregatorId",
+        type: "address",
+      },
+    ],
     name: "IntervalHistoryNotRecorded",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "argumentIndex",
+        type: "uint256",
+      },
+    ],
     name: "InvalidArgument",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedAuthority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedAuthority",
+        type: "address",
+      },
+    ],
     name: "InvalidAuthority",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "InvalidEnclave",
     type: "error",
   },
@@ -2490,47 +3054,210 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedSender",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "txHash",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes",
+        name: "signature",
+        type: "bytes",
+      },
+    ],
     name: "InvalidSignature",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "expected",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "received",
+        type: "uint256",
+      },
+    ],
+    name: "InvalidStatus",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "mrEnclave",
+        type: "bytes32",
+      },
+    ],
     name: "MrEnclaveNotAllowed",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
     name: "OracleAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "oracleIdx",
+        type: "uint256",
+      },
+    ],
+    name: "OracleNotAtQueueIdx",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
+    name: "OracleNotOnQueue",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleQueueId",
+        type: "address",
+      },
+    ],
     name: "OracleQueueDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "granter",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "grantee",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "permission",
+        type: "uint256",
+      },
+    ],
     name: "PermissionDenied",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedQueueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedQueueId",
+        type: "address",
+      },
+    ],
     name: "QueuesDoNotMatch",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "aggregators",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "results",
+        type: "uint256",
+      },
+    ],
+    name: "SubmittedResultsMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expirationTime",
+        type: "uint256",
+      },
+    ],
     name: "TransactionExpired",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "argumentIndex",
+        type: "uint256",
+      },
+    ],
     name: "InvalidArgument",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedAuthority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedAuthority",
+        type: "address",
+      },
+    ],
     name: "InvalidAuthority",
     type: "error",
   },
@@ -2540,12 +3267,71 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
     name: "OracleAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "oracleIdx",
+        type: "uint256",
+      },
+    ],
+    name: "OracleNotAtQueueIdx",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
+    name: "OracleNotOnQueue",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "granter",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "grantee",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "permission",
+        type: "uint256",
+      },
+    ],
     name: "PermissionDenied",
     type: "error",
   },
@@ -2627,6 +3413,12 @@ const _abi = [
         name: "queueId",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
     ],
     name: "OracleSetConfig",
     type: "event",
@@ -2646,6 +3438,11 @@ const _abi = [
       {
         internalType: "address",
         name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "owner",
         type: "address",
       },
     ],
@@ -2674,6 +3471,11 @@ const _abi = [
       {
         internalType: "address",
         name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "owner",
         type: "address",
       },
     ],
@@ -2750,6 +3552,11 @@ const _abi = [
             name: "queueId",
             type: "address",
           },
+          {
+            internalType: "address",
+            name: "owner",
+            type: "address",
+          },
         ],
         internalType: "struct OracleLib.Oracle",
         name: "",
@@ -2757,6 +3564,24 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "newAuthority",
+        type: "address",
+      },
+    ],
+    name: "rotateOracleAuthority",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -2781,6 +3606,11 @@ const _abi = [
         name: "queueId",
         type: "address",
       },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
     ],
     name: "setOracleConfig",
     outputs: [],
@@ -2788,7 +3618,18 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedAuthority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedAuthority",
+        type: "address",
+      },
+    ],
     name: "InvalidAuthority",
     type: "error",
   },
@@ -2798,7 +3639,13 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
     name: "OracleAlreadyExists",
     type: "error",
   },
@@ -3336,7 +4183,13 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "txHash",
+        type: "bytes32",
+      },
+    ],
     name: "AlreadyExecuted",
     type: "error",
   },
@@ -3368,62 +4221,163 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "EnclaveDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
-    name: "EnclaveNotOnQueue",
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "enclaveIdx",
+        type: "uint256",
+      },
+    ],
+    name: "EnclaveNotAtQueueIdx",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+    ],
     name: "FunctionAlreadyExists",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
     name: "FunctionCallerNotPermitted",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+    ],
     name: "FunctionDoesNotExist",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "expected",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "received",
+        type: "bytes32",
+      },
+    ],
     name: "FunctionMrEnclaveMismatch",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "limit",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "used",
+        type: "uint256",
+      },
+    ],
     name: "GasLimitExceeded",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "maxExpectedTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reportedTime",
+        type: "uint256",
+      },
+    ],
     name: "IncorrectReportedTime",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expectedBalance",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "receivedBalance",
+        type: "uint256",
+      },
+    ],
     name: "InsufficientBalance",
     type: "error",
   },
   {
-    inputs: [],
-    name: "InvalidArgument",
-    type: "error",
-  },
-  {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedAuthority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedAuthority",
+        type: "address",
+      },
+    ],
     name: "InvalidAuthority",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "enclaveId",
+        type: "address",
+      },
+    ],
     name: "InvalidEnclave",
     type: "error",
   },
@@ -3433,17 +4387,50 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedSender",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "txHash",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes",
+        name: "signature",
+        type: "bytes",
+      },
+    ],
     name: "InvalidSignature",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedQueueId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedQueueId",
+        type: "address",
+      },
+    ],
     name: "QueuesDoNotMatch",
     type: "error",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expirationTime",
+        type: "uint256",
+      },
+    ],
     name: "TransactionExpired",
     type: "error",
   },
@@ -3603,6 +4590,11 @@ const _abi = [
         type: "string",
       },
       {
+        internalType: "string",
+        name: "paramsSchema",
+        type: "string",
+      },
+      {
         internalType: "address[]",
         name: "permittedCallers",
         type: "address[]",
@@ -3732,6 +4724,11 @@ const _abi = [
                 name: "version",
                 type: "bytes32",
               },
+              {
+                internalType: "string",
+                name: "paramsSchema",
+                type: "string",
+              },
             ],
             internalType: "struct FunctionLib.FunctionConfig",
             name: "config",
@@ -3757,6 +4754,16 @@ const _abi = [
               {
                 internalType: "uint256",
                 name: "callId",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "triggeredSince",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "triggerCount",
                 type: "uint256",
               },
               {
@@ -3912,6 +4919,11 @@ const _abi = [
                 name: "version",
                 type: "bytes32",
               },
+              {
+                internalType: "string",
+                name: "paramsSchema",
+                type: "string",
+              },
             ],
             internalType: "struct FunctionLib.FunctionConfig",
             name: "config",
@@ -3937,6 +4949,16 @@ const _abi = [
               {
                 internalType: "uint256",
                 name: "callId",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "triggeredSince",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "triggerCount",
                 type: "uint256",
               },
               {
@@ -4031,6 +5053,11 @@ const _abi = [
                 name: "version",
                 type: "bytes32",
               },
+              {
+                internalType: "string",
+                name: "paramsSchema",
+                type: "string",
+              },
             ],
             internalType: "struct FunctionLib.FunctionConfig",
             name: "config",
@@ -4056,6 +5083,16 @@ const _abi = [
               {
                 internalType: "uint256",
                 name: "callId",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "triggeredSince",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "triggerCount",
                 type: "uint256",
               },
               {
@@ -4197,6 +5234,11 @@ const _abi = [
                 name: "version",
                 type: "bytes32",
               },
+              {
+                internalType: "string",
+                name: "paramsSchema",
+                type: "string",
+              },
             ],
             internalType: "struct FunctionLib.FunctionConfig",
             name: "config",
@@ -4222,6 +5264,16 @@ const _abi = [
               {
                 internalType: "uint256",
                 name: "callId",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "triggeredSince",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "triggerCount",
                 type: "uint256",
               },
               {
@@ -4309,6 +5361,59 @@ const _abi = [
       },
     ],
     stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "containerRegistry",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "container",
+        type: "string",
+      },
+      {
+        internalType: "bytes32",
+        name: "version",
+        type: "bytes32",
+      },
+      {
+        internalType: "string",
+        name: "schedule",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "paramsSchema",
+        type: "string",
+      },
+      {
+        internalType: "address[]",
+        name: "permittedCallers",
+        type: "address[]",
+      },
+    ],
+    name: "setFunctionConfig",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

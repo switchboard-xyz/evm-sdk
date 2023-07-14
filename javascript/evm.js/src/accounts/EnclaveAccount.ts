@@ -1,8 +1,8 @@
 import { EthersError } from "../errors.js";
 import { parseMrEnclave } from "../parseMrEnclave.js";
 import {
-  ISwitchboardProgram,
   EnclaveData,
+  ISwitchboardProgram,
   RawMrEnclave,
   TransactionOptions,
   VerificationStatus,

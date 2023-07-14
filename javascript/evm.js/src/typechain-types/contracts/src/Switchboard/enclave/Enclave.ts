@@ -81,7 +81,7 @@ export interface EnclaveInterface extends utils.Interface {
     "failEnclave(address,address,uint256)": FunctionFragment;
     "forceOverrideVerify(address)": FunctionFragment;
     "isEnclaveValid(address)": FunctionFragment;
-    "rotateAuthority(address,address)": FunctionFragment;
+    "rotateEnclaveAuthority(address,address)": FunctionFragment;
     "updateEnclave(address,bytes)": FunctionFragment;
     "validate(address,address,bytes32[])": FunctionFragment;
     "verifyEnclave(address,address,uint256,uint256,bytes32)": FunctionFragment;
@@ -98,7 +98,7 @@ export interface EnclaveInterface extends utils.Interface {
       | "failEnclave"
       | "forceOverrideVerify"
       | "isEnclaveValid"
-      | "rotateAuthority"
+      | "rotateEnclaveAuthority"
       | "updateEnclave"
       | "validate"
       | "verifyEnclave"
@@ -154,7 +154,7 @@ export interface EnclaveInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "rotateAuthority",
+    functionFragment: "rotateEnclaveAuthority",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -214,7 +214,7 @@ export interface EnclaveInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "rotateAuthority",
+    functionFragment: "rotateEnclaveAuthority",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -381,7 +381,7 @@ export interface Enclave extends BaseContract {
     failEnclave(
       verifierId: PromiseOrValue<string>,
       enclaveId: PromiseOrValue<string>,
-      enclaveIdx: PromiseOrValue<BigNumberish>,
+      verifierIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -395,7 +395,7 @@ export interface Enclave extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    rotateAuthority(
+    rotateEnclaveAuthority(
       enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -463,7 +463,7 @@ export interface Enclave extends BaseContract {
   failEnclave(
     verifierId: PromiseOrValue<string>,
     enclaveId: PromiseOrValue<string>,
-    enclaveIdx: PromiseOrValue<BigNumberish>,
+    verifierIdx: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -477,7 +477,7 @@ export interface Enclave extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  rotateAuthority(
+  rotateEnclaveAuthority(
     enclaveId: PromiseOrValue<string>,
     newAuthority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -545,7 +545,7 @@ export interface Enclave extends BaseContract {
     failEnclave(
       verifierId: PromiseOrValue<string>,
       enclaveId: PromiseOrValue<string>,
-      enclaveIdx: PromiseOrValue<BigNumberish>,
+      verifierIdx: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -559,7 +559,7 @@ export interface Enclave extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    rotateAuthority(
+    rotateEnclaveAuthority(
       enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -690,7 +690,7 @@ export interface Enclave extends BaseContract {
     failEnclave(
       verifierId: PromiseOrValue<string>,
       enclaveId: PromiseOrValue<string>,
-      enclaveIdx: PromiseOrValue<BigNumberish>,
+      verifierIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -704,7 +704,7 @@ export interface Enclave extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    rotateAuthority(
+    rotateEnclaveAuthority(
       enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -773,7 +773,7 @@ export interface Enclave extends BaseContract {
     failEnclave(
       verifierId: PromiseOrValue<string>,
       enclaveId: PromiseOrValue<string>,
-      enclaveIdx: PromiseOrValue<BigNumberish>,
+      verifierIdx: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -787,7 +787,7 @@ export interface Enclave extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    rotateAuthority(
+    rotateEnclaveAuthority(
       enclaveId: PromiseOrValue<string>,
       newAuthority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

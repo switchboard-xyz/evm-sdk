@@ -2,8 +2,8 @@ import { EthersError } from "../errors.js";
 import { parseMrEnclave } from "../parseMrEnclave.js";
 import {
   AttestationQueueData,
-  CreateFunction,
   CreateEnclave,
+  CreateFunction,
   EnablePermissions,
   ISwitchboardProgram,
   PermissionStatus,
@@ -12,9 +12,9 @@ import {
 } from "../types.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
+import { EnclaveAccount } from "./EnclaveAccount.js";
 import { FunctionAccount } from "./FunctionAccount.js";
 import { Permissions } from "./Permissions.js";
-import { EnclaveAccount } from "./EnclaveAccount.js";
 
 import { ContractTransaction } from "ethers";
 

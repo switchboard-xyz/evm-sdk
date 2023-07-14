@@ -54,6 +54,7 @@ export interface OracleSaveManyResultParams {
 export interface OracleInitParams {
   name?: string;
   authority: string;
+  owner?: string;
 }
 
 /**
@@ -139,7 +140,12 @@ export class OracleAccount {
   ): Promise<[OracleAccount, ContractTransaction]> {
     const tx = await switchboard.sendSbTxn(
       "createOracle",
-      [params.name ?? "", params.authority, params.queueId],
+      [
+        params.name ?? "",
+        params.authority,
+        params.queueId,
+        params.owner ?? params.authority,
+      ],
       options
     );
     const oracleId = await switchboard.pollTxnForSbEvent(tx, "accountId");
@@ -171,6 +177,7 @@ export class OracleAccount {
         params.name ?? oracle.name,
         params.authority ?? oracle.authority,
         oracle.queueId,
+        params.owner ?? params.authority,
       ],
       options
     );

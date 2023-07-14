@@ -2,12 +2,12 @@ import {
   type AggregatorAccount,
   type AggregatorInitParams,
 } from "./accounts/AggregatorAccount.js";
+import { type EnclaveInitParams } from "./accounts/EnclaveAccount.js";
 import {
   type FunctionAccount,
   type FunctionInitParams,
 } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
-import { type EnclaveInitParams } from "./accounts/EnclaveAccount.js";
 import { type TransactionLib } from "./typechain-types/contracts/src/Switchboard/sbFunction/SbFunction.js";
 import { Switchboard } from "./typechain-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
 

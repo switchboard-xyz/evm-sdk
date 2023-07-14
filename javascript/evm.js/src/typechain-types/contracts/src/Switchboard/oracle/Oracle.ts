@@ -34,6 +34,7 @@ export declare namespace OracleLib {
     numRows: PromiseOrValue<BigNumberish>;
     lastHeartbeat: PromiseOrValue<BigNumberish>;
     queueId: PromiseOrValue<string>;
+    owner: PromiseOrValue<string>;
   };
 
   export type OracleStructOutput = [
@@ -41,6 +42,7 @@ export declare namespace OracleLib {
     string,
     number,
     BigNumber,
+    string,
     string
   ] & {
     name: string;
@@ -48,17 +50,19 @@ export declare namespace OracleLib {
     numRows: number;
     lastHeartbeat: BigNumber;
     queueId: string;
+    owner: string;
   };
 }
 
 export interface OracleInterface extends utils.Interface {
   functions: {
-    "createOracle(string,address,address)": FunctionFragment;
-    "createOracleWithId(address,string,address,address)": FunctionFragment;
+    "createOracle(string,address,address,address)": FunctionFragment;
+    "createOracleWithId(address,string,address,address,address)": FunctionFragment;
     "oracleGarbageCollect(address,uint256)": FunctionFragment;
     "oracleHeartbeat(address)": FunctionFragment;
     "oracles(address)": FunctionFragment;
-    "setOracleConfig(address,string,address,address)": FunctionFragment;
+    "rotateOracleAuthority(address,address)": FunctionFragment;
+    "setOracleConfig(address,string,address,address,address)": FunctionFragment;
   };
 
   getFunction(
@@ -68,6 +72,7 @@ export interface OracleInterface extends utils.Interface {
       | "oracleGarbageCollect"
       | "oracleHeartbeat"
       | "oracles"
+      | "rotateOracleAuthority"
       | "setOracleConfig"
   ): FunctionFragment;
 
@@ -76,12 +81,14 @@ export interface OracleInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<string>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>
     ]
   ): string;
   encodeFunctionData(
     functionFragment: "createOracleWithId",
     values: [
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -101,8 +108,13 @@ export interface OracleInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "rotateOracleAuthority",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setOracleConfig",
     values: [
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -128,6 +140,10 @@ export interface OracleInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "oracles", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "rotateOracleAuthority",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setOracleConfig",
     data: BytesLike
   ): Result;
@@ -136,7 +152,7 @@ export interface OracleInterface extends utils.Interface {
     "OracleAccountInit(address,address)": EventFragment;
     "OracleGC(address,address)": EventFragment;
     "OracleHeartbeat(address)": EventFragment;
-    "OracleSetConfig(address,string,address,address)": EventFragment;
+    "OracleSetConfig(address,string,address,address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "OracleAccountInit"): EventFragment;
@@ -180,9 +196,10 @@ export interface OracleSetConfigEventObject {
   name: string;
   authority: string;
   queueId: string;
+  owner: string;
 }
 export type OracleSetConfigEvent = TypedEvent<
-  [string, string, string, string],
+  [string, string, string, string, string],
   OracleSetConfigEventObject
 >;
 
@@ -219,6 +236,7 @@ export interface Oracle extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -227,6 +245,7 @@ export interface Oracle extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -246,11 +265,18 @@ export interface Oracle extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[OracleLib.OracleStructOutput]>;
 
+    rotateOracleAuthority(
+      oracleId: PromiseOrValue<string>,
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -259,6 +285,7 @@ export interface Oracle extends BaseContract {
     name: PromiseOrValue<string>,
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
+    owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -267,6 +294,7 @@ export interface Oracle extends BaseContract {
     name: PromiseOrValue<string>,
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
+    owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -286,11 +314,18 @@ export interface Oracle extends BaseContract {
     overrides?: CallOverrides
   ): Promise<OracleLib.OracleStructOutput>;
 
+  rotateOracleAuthority(
+    oracleId: PromiseOrValue<string>,
+    newAuthority: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setOracleConfig(
     oracleId: PromiseOrValue<string>,
     name: PromiseOrValue<string>,
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
+    owner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -299,6 +334,7 @@ export interface Oracle extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -307,6 +343,7 @@ export interface Oracle extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -326,11 +363,18 @@ export interface Oracle extends BaseContract {
       overrides?: CallOverrides
     ): Promise<OracleLib.OracleStructOutput>;
 
+    rotateOracleAuthority(
+      oracleId: PromiseOrValue<string>,
+      newAuthority: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -361,17 +405,19 @@ export interface Oracle extends BaseContract {
       oracleId?: PromiseOrValue<string> | null
     ): OracleHeartbeatEventFilter;
 
-    "OracleSetConfig(address,string,address,address)"(
+    "OracleSetConfig(address,string,address,address,address)"(
       oracleId?: PromiseOrValue<string> | null,
       name?: null,
       authority?: PromiseOrValue<string> | null,
-      queueId?: PromiseOrValue<string> | null
+      queueId?: PromiseOrValue<string> | null,
+      owner?: null
     ): OracleSetConfigEventFilter;
     OracleSetConfig(
       oracleId?: PromiseOrValue<string> | null,
       name?: null,
       authority?: PromiseOrValue<string> | null,
-      queueId?: PromiseOrValue<string> | null
+      queueId?: PromiseOrValue<string> | null,
+      owner?: null
     ): OracleSetConfigEventFilter;
   };
 
@@ -380,6 +426,7 @@ export interface Oracle extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -388,6 +435,7 @@ export interface Oracle extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -407,11 +455,18 @@ export interface Oracle extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    rotateOracleAuthority(
+      oracleId: PromiseOrValue<string>,
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -421,6 +476,7 @@ export interface Oracle extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -429,6 +485,7 @@ export interface Oracle extends BaseContract {
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -448,11 +505,18 @@ export interface Oracle extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    rotateOracleAuthority(
+      oracleId: PromiseOrValue<string>,
+      newAuthority: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

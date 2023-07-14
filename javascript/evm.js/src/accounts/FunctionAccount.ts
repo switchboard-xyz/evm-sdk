@@ -32,6 +32,7 @@ export interface FunctionInitParams {
   container: string;
   schedule: string;
   version: string;
+  paramSchema?: string;
   permittedCallers?: string[];
 }
 
@@ -153,6 +154,7 @@ export class FunctionAccount {
         params.schedule,
         params.version,
         attestationQueue.address,
+        params.paramSchema ?? "",
         params.permittedCallers || [],
       ],
       options
