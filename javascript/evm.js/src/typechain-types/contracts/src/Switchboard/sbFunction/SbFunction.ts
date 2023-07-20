@@ -167,6 +167,7 @@ export interface SbFunctionInterface extends utils.Interface {
   functions: {
     "callFunction(address,bytes)": FunctionFragment;
     "createFunction(string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
+    "createFunctionWithId(address,string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
     "forward((uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
     "funcs(address)": FunctionFragment;
     "functionEscrowFund(address)": FunctionFragment;
@@ -186,6 +187,7 @@ export interface SbFunctionInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "callFunction"
       | "createFunction"
+      | "createFunctionWithId"
       | "forward"
       | "funcs"
       | "functionEscrowFund"
@@ -208,6 +210,21 @@ export interface SbFunctionInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "createFunction",
     values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createFunctionWithId",
+    values: [
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
@@ -309,6 +326,10 @@ export interface SbFunctionInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "createFunction",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createFunctionWithId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "forward", data: BytesLike): Result;
@@ -464,13 +485,27 @@ export interface SbFunction extends BaseContract {
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     funcs(
@@ -572,13 +607,27 @@ export interface SbFunction extends BaseContract {
     schedule: PromiseOrValue<string>,
     paramsSchema: PromiseOrValue<string>,
     permittedCallers: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  createFunctionWithId(
+    functionId: PromiseOrValue<string>,
+    name: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
+    queueId: PromiseOrValue<string>,
+    containerRegistry: PromiseOrValue<string>,
+    container: PromiseOrValue<string>,
+    version: PromiseOrValue<BytesLike>,
+    schedule: PromiseOrValue<string>,
+    paramsSchema: PromiseOrValue<string>,
+    permittedCallers: PromiseOrValue<string>[],
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   forward(
     transactions: TransactionLib.TransactionStruct[],
     signatures: PromiseOrValue<BytesLike>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   funcs(
@@ -671,6 +720,20 @@ export interface SbFunction extends BaseContract {
     ): Promise<void>;
 
     createFunction(
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
@@ -835,13 +898,27 @@ export interface SbFunction extends BaseContract {
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     funcs(
@@ -942,13 +1019,27 @@ export interface SbFunction extends BaseContract {
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     funcs(

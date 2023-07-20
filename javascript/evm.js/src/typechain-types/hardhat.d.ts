@@ -13,6 +13,18 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "ReceiverExample",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReceiverExample__factory>;
+    getContractFactory(
+      name: "Recipient",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Recipient__factory>;
+    getContractFactory(
+      name: "Admin",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Admin__factory>;
+    getContractFactory(
       name: "Aggregator",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Aggregator__factory>;
@@ -101,6 +113,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Switchboard__factory>;
 
+    getContractAt(
+      name: "ReceiverExample",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReceiverExample>;
+    getContractAt(
+      name: "Recipient",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Recipient>;
+    getContractAt(
+      name: "Admin",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Admin>;
     getContractAt(
       name: "Aggregator",
       address: string,

@@ -11,6 +11,33 @@ import type {
 
 const _abi = [
   {
+    inputs: [],
+    name: "ACLAdminAlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -567,7 +594,7 @@ const _abi = [
 ] as const;
 
 const _bytecode =
-  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212209007eecd2ffcb9dcc72ab13a2af130d584344fa3c7e71ef56f3751c3fadcae1764736f6c63430008110033";
+  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212200ee6166f6ca6e5fc602308a87fc461abc4be6d7e59050116ba71205bc1b8fc0764736f6c63430008110033";
 
 type ErrorLibConstructorParams =
   | [signer?: Signer]

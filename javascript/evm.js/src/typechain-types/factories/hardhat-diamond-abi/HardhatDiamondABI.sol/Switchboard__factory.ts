@@ -11,6 +11,45 @@ import type {
 
 const _abi = [
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "NewRandomValue",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "callback",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "randomValue",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -25,6 +64,108 @@ const _abi = [
     ],
     name: "InitializationFunctionReverted",
     type: "error",
+  },
+  {
+    inputs: [],
+    name: "ACLAdminAlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEntry",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "isAdmin",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "isAllowed",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
+    ],
+    name: "setAdmin",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
+    ],
+    name: "setAllowed",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
@@ -2681,6 +2822,33 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "ACLAdminAlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -3616,6 +3784,17 @@ const _abi = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "argumentIndex",
+        type: "uint256",
+      },
+    ],
+    name: "InvalidArgument",
+    type: "error",
   },
   {
     inputs: [
@@ -4602,7 +4781,65 @@ const _abi = [
     ],
     name: "createFunction",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "containerRegistry",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "container",
+        type: "string",
+      },
+      {
+        internalType: "bytes32",
+        name: "version",
+        type: "bytes32",
+      },
+      {
+        internalType: "string",
+        name: "schedule",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "paramsSchema",
+        type: "string",
+      },
+      {
+        internalType: "address[]",
+        name: "permittedCallers",
+        type: "address[]",
+      },
+    ],
+    name: "createFunctionWithId",
+    outputs: [],
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -4652,7 +4889,7 @@ const _abi = [
     ],
     name: "forward",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {

@@ -457,6 +457,13 @@ export declare namespace FunctionLib {
 
 export interface SwitchboardInterface extends utils.Interface {
   functions: {
+    "callback(uint256)": FunctionFragment;
+    "randomValue()": FunctionFragment;
+    "initialize()": FunctionFragment;
+    "isAdmin(address)": FunctionFragment;
+    "isAllowed(address)": FunctionFragment;
+    "setAdmin(address,bool)": FunctionFragment;
+    "setAllowed(address,bool)": FunctionFragment;
     "aggregatorEscrowFund(address)": FunctionFragment;
     "aggregatorEscrowWithdraw(address,address,uint256)": FunctionFragment;
     "aggregatorHistory(address,uint80)": FunctionFragment;
@@ -526,6 +533,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "hasPermission(address,address,uint256)": FunctionFragment;
     "callFunction(address,bytes)": FunctionFragment;
     "createFunction(string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
+    "createFunctionWithId(address,string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
     "forward((uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
     "funcs(address)": FunctionFragment;
     "functionEscrowFund(address)": FunctionFragment;
@@ -543,6 +551,13 @@ export interface SwitchboardInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "callback"
+      | "randomValue"
+      | "initialize"
+      | "isAdmin"
+      | "isAllowed"
+      | "setAdmin"
+      | "setAllowed"
       | "aggregatorEscrowFund"
       | "aggregatorEscrowWithdraw"
       | "aggregatorHistory"
@@ -612,6 +627,7 @@ export interface SwitchboardInterface extends utils.Interface {
       | "hasPermission"
       | "callFunction"
       | "createFunction"
+      | "createFunctionWithId"
       | "forward"
       | "funcs"
       | "functionEscrowFund"
@@ -627,6 +643,34 @@ export interface SwitchboardInterface extends utils.Interface {
       | "verifyFunction"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "callback",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "randomValue",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isAdmin",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isAllowed",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setAdmin",
+    values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setAllowed",
+    values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
+  ): string;
   encodeFunctionData(
     functionFragment: "aggregatorEscrowFund",
     values: [PromiseOrValue<string>]
@@ -1039,6 +1083,21 @@ export interface SwitchboardInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "createFunctionWithId",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "forward",
     values: [TransactionLib.TransactionStruct[], PromiseOrValue<BytesLike>[]]
   ): string;
@@ -1122,6 +1181,16 @@ export interface SwitchboardInterface extends utils.Interface {
     ]
   ): string;
 
+  decodeFunctionResult(functionFragment: "callback", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "randomValue",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isAdmin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isAllowed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setAdmin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setAllowed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "aggregatorEscrowFund",
     data: BytesLike
@@ -1374,6 +1443,10 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "createFunction",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "createFunctionWithId",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "forward", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "funcs", data: BytesLike): Result;
   decodeFunctionResult(
@@ -1422,6 +1495,7 @@ export interface SwitchboardInterface extends utils.Interface {
   ): Result;
 
   events: {
+    "NewRandomValue(uint256)": EventFragment;
     "AggregatorAccountInit(address,address,uint256)": EventFragment;
     "AggregatorFundEvent(address,address,uint256)": EventFragment;
     "AggregatorIntervalRefreshed(address,uint256,uint256)": EventFragment;
@@ -1461,6 +1535,7 @@ export interface SwitchboardInterface extends utils.Interface {
     "FunctionWithdraw(address,address,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "NewRandomValue"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorAccountInit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AggregatorFundEvent"): EventFragment;
   getEvent(
@@ -1507,6 +1582,16 @@ export interface SwitchboardInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "FunctionFund"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FunctionWithdraw"): EventFragment;
 }
+
+export interface NewRandomValueEventObject {
+  value: BigNumber;
+}
+export type NewRandomValueEvent = TypedEvent<
+  [BigNumber],
+  NewRandomValueEventObject
+>;
+
+export type NewRandomValueEventFilter = TypedEventFilter<NewRandomValueEvent>;
 
 export interface AggregatorAccountInitEventObject {
   authority: string;
@@ -1991,6 +2076,39 @@ export interface Switchboard extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    callback(
+      value: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    randomValue(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    isAdmin(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    isAllowed(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    setAdmin(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setAllowed(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     aggregatorEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -2446,13 +2564,27 @@ export interface Switchboard extends BaseContract {
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     funcs(
@@ -2537,6 +2669,39 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
+
+  callback(
+    value: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  randomValue(overrides?: CallOverrides): Promise<BigNumber>;
+
+  initialize(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  isAdmin(
+    sender: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  isAllowed(
+    sender: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  setAdmin(
+    sender: PromiseOrValue<string>,
+    status: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setAllowed(
+    sender: PromiseOrValue<string>,
+    status: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   aggregatorEscrowFund(
     accountId: PromiseOrValue<string>,
@@ -2985,13 +3150,27 @@ export interface Switchboard extends BaseContract {
     schedule: PromiseOrValue<string>,
     paramsSchema: PromiseOrValue<string>,
     permittedCallers: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  createFunctionWithId(
+    functionId: PromiseOrValue<string>,
+    name: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
+    queueId: PromiseOrValue<string>,
+    containerRegistry: PromiseOrValue<string>,
+    container: PromiseOrValue<string>,
+    version: PromiseOrValue<BytesLike>,
+    schedule: PromiseOrValue<string>,
+    paramsSchema: PromiseOrValue<string>,
+    permittedCallers: PromiseOrValue<string>[],
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   forward(
     transactions: TransactionLib.TransactionStruct[],
     signatures: PromiseOrValue<BytesLike>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   funcs(
@@ -3077,6 +3256,37 @@ export interface Switchboard extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    callback(
+      value: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    randomValue(overrides?: CallOverrides): Promise<BigNumber>;
+
+    initialize(overrides?: CallOverrides): Promise<void>;
+
+    isAdmin(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    isAllowed(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    setAdmin(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setAllowed(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     aggregatorEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -3535,6 +3745,20 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
@@ -3625,6 +3849,9 @@ export interface Switchboard extends BaseContract {
   };
 
   filters: {
+    "NewRandomValue(uint256)"(value?: null): NewRandomValueEventFilter;
+    NewRandomValue(value?: null): NewRandomValueEventFilter;
+
     "AggregatorAccountInit(address,address,uint256)"(
       authority?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null,
@@ -4016,6 +4243,39 @@ export interface Switchboard extends BaseContract {
   };
 
   estimateGas: {
+    callback(
+      value: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    randomValue(overrides?: CallOverrides): Promise<BigNumber>;
+
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    isAdmin(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isAllowed(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setAdmin(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setAllowed(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     aggregatorEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -4459,13 +4719,27 @@ export interface Switchboard extends BaseContract {
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     funcs(
@@ -4550,6 +4824,39 @@ export interface Switchboard extends BaseContract {
   };
 
   populateTransaction: {
+    callback(
+      value: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    randomValue(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    isAdmin(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isAllowed(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setAdmin(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setAllowed(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     aggregatorEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -4993,13 +5300,27 @@ export interface Switchboard extends BaseContract {
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<BytesLike>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     funcs(

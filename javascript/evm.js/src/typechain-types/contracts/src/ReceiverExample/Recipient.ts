@@ -10,20 +10,20 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../../../../common";
+} from "../../../common";
 
-export interface AttestationServiceErrorLibInterface extends utils.Interface {
+export interface RecipientInterface extends utils.Interface {
   functions: {};
 
   events: {};
 }
 
-export interface AttestationServiceErrorLib extends BaseContract {
+export interface Recipient extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: AttestationServiceErrorLibInterface;
+  interface: RecipientInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
