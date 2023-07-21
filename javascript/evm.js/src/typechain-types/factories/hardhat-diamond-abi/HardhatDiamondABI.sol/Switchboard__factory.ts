@@ -4759,9 +4759,9 @@ const _abi = [
         type: "string",
       },
       {
-        internalType: "bytes32",
+        internalType: "string",
         name: "version",
-        type: "bytes32",
+        type: "string",
       },
       {
         internalType: "string",
@@ -4817,9 +4817,9 @@ const _abi = [
         type: "string",
       },
       {
-        internalType: "bytes32",
+        internalType: "string",
         name: "version",
-        type: "bytes32",
+        type: "string",
       },
       {
         internalType: "string",
@@ -4957,9 +4957,9 @@ const _abi = [
                 type: "string",
               },
               {
-                internalType: "bytes32",
+                internalType: "string",
                 name: "version",
-                type: "bytes32",
+                type: "string",
               },
               {
                 internalType: "string",
@@ -5152,9 +5152,9 @@ const _abi = [
                 type: "string",
               },
               {
-                internalType: "bytes32",
+                internalType: "string",
                 name: "version",
-                type: "bytes32",
+                type: "string",
               },
               {
                 internalType: "string",
@@ -5286,9 +5286,9 @@ const _abi = [
                 type: "string",
               },
               {
-                internalType: "bytes32",
+                internalType: "string",
                 name: "version",
-                type: "bytes32",
+                type: "string",
               },
               {
                 internalType: "string",
@@ -5467,9 +5467,9 @@ const _abi = [
                 type: "string",
               },
               {
-                internalType: "bytes32",
+                internalType: "string",
                 name: "version",
-                type: "bytes32",
+                type: "string",
               },
               {
                 internalType: "string",
@@ -5628,9 +5628,9 @@ const _abi = [
         type: "string",
       },
       {
-        internalType: "bytes32",
+        internalType: "string",
         name: "version",
-        type: "bytes32",
+        type: "string",
       },
       {
         internalType: "string",

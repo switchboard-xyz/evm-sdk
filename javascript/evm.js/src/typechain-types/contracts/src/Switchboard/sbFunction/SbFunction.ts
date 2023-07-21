@@ -61,7 +61,7 @@ export declare namespace FunctionLib {
     permittedCallers: PromiseOrValue<string>[];
     containerRegistry: PromiseOrValue<string>;
     container: PromiseOrValue<string>;
-    version: PromiseOrValue<BytesLike>;
+    version: PromiseOrValue<string>;
     paramsSchema: PromiseOrValue<string>;
   };
 
@@ -166,8 +166,8 @@ export declare namespace FunctionLib {
 export interface SbFunctionInterface extends utils.Interface {
   functions: {
     "callFunction(address,bytes)": FunctionFragment;
-    "createFunction(string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
-    "createFunctionWithId(address,string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
+    "createFunction(string,address,address,string,string,string,string,string,address[])": FunctionFragment;
+    "createFunctionWithId(address,string,address,address,string,string,string,string,string,address[])": FunctionFragment;
     "forward((uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
     "funcs(address)": FunctionFragment;
     "functionEscrowFund(address)": FunctionFragment;
@@ -179,7 +179,7 @@ export interface SbFunctionInterface extends utils.Interface {
     "getFunctionsByAuthority(address)": FunctionFragment;
     "getTransactionHash(uint256,uint256,uint256,address,address,bytes)": FunctionFragment;
     "isTrustedForwarder(address)": FunctionFragment;
-    "setFunctionConfig(address,string,address,string,string,bytes32,string,string,address[])": FunctionFragment;
+    "setFunctionConfig(address,string,address,string,string,string,string,string,address[])": FunctionFragment;
     "verifyFunction(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
   };
 
@@ -215,7 +215,7 @@ export interface SbFunctionInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>[]
@@ -230,7 +230,7 @@ export interface SbFunctionInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>[]
@@ -299,7 +299,7 @@ export interface SbFunctionInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>[]
@@ -481,7 +481,7 @@ export interface SbFunction extends BaseContract {
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -495,7 +495,7 @@ export interface SbFunction extends BaseContract {
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -570,7 +570,7 @@ export interface SbFunction extends BaseContract {
       authority: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -603,7 +603,7 @@ export interface SbFunction extends BaseContract {
     queueId: PromiseOrValue<string>,
     containerRegistry: PromiseOrValue<string>,
     container: PromiseOrValue<string>,
-    version: PromiseOrValue<BytesLike>,
+    version: PromiseOrValue<string>,
     schedule: PromiseOrValue<string>,
     paramsSchema: PromiseOrValue<string>,
     permittedCallers: PromiseOrValue<string>[],
@@ -617,7 +617,7 @@ export interface SbFunction extends BaseContract {
     queueId: PromiseOrValue<string>,
     containerRegistry: PromiseOrValue<string>,
     container: PromiseOrValue<string>,
-    version: PromiseOrValue<BytesLike>,
+    version: PromiseOrValue<string>,
     schedule: PromiseOrValue<string>,
     paramsSchema: PromiseOrValue<string>,
     permittedCallers: PromiseOrValue<string>[],
@@ -692,7 +692,7 @@ export interface SbFunction extends BaseContract {
     authority: PromiseOrValue<string>,
     containerRegistry: PromiseOrValue<string>,
     container: PromiseOrValue<string>,
-    version: PromiseOrValue<BytesLike>,
+    version: PromiseOrValue<string>,
     schedule: PromiseOrValue<string>,
     paramsSchema: PromiseOrValue<string>,
     permittedCallers: PromiseOrValue<string>[],
@@ -725,7 +725,7 @@ export interface SbFunction extends BaseContract {
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -739,7 +739,7 @@ export interface SbFunction extends BaseContract {
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -814,7 +814,7 @@ export interface SbFunction extends BaseContract {
       authority: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -894,7 +894,7 @@ export interface SbFunction extends BaseContract {
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -908,7 +908,7 @@ export interface SbFunction extends BaseContract {
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -981,7 +981,7 @@ export interface SbFunction extends BaseContract {
       authority: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -1015,7 +1015,7 @@ export interface SbFunction extends BaseContract {
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -1029,7 +1029,7 @@ export interface SbFunction extends BaseContract {
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -1102,7 +1102,7 @@ export interface SbFunction extends BaseContract {
       authority: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],

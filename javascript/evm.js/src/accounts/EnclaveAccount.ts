@@ -157,13 +157,23 @@ export class EnclaveAccount {
     const enclaveData = await this.loadData();
     const tx = await this.switchboard.sendSbTxn(
       "forceOverrideVerify",
-      [enclaveData.queueId, this.address],
+      [this.address],
       options
     );
 
     return tx;
   }
 
+  public async heartbeat(
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
+    const tx = await this.switchboard.sendSbTxn(
+      "enclaveHeartbeat",
+      [this.address],
+      options
+    );
+    return tx;
+  }
   /**
    * Method to update the enclave
    *

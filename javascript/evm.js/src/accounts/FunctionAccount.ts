@@ -147,15 +147,15 @@ export class FunctionAccount {
     const tx = await switchboard.sendSbTxn(
       "createFunction",
       [
-        params.authority,
         params.name,
+        params.authority,
+        attestationQueue.address,
         params.containerRegistry,
         params.container,
-        params.schedule,
         params.version,
-        attestationQueue.address,
+        params.schedule,
         params.paramSchema ?? "",
-        params.permittedCallers || [],
+        params.permittedCallers ?? [],
       ],
       options
     );
