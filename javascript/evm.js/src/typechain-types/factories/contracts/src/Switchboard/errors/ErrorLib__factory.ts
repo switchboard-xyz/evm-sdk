@@ -11,6 +11,33 @@ import type {
 
 const _abi = [
   {
+    inputs: [],
+    name: "ACLAdminAlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -236,6 +263,43 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "expected",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "received",
+        type: "uint256",
+      },
+    ],
+    name: "FunctionFeeTooLow",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "received",
+        type: "address",
+      },
+    ],
+    name: "FunctionIncorrectTarget",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes32",
         name: "expected",
         type: "bytes32",
@@ -247,6 +311,22 @@ const _abi = [
       },
     ],
     name: "FunctionMrEnclaveMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "current",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "received",
+        type: "address",
+      },
+    ],
+    name: "FunctionSignerAlreadySet",
     type: "error",
   },
   {
@@ -408,6 +488,22 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "expectedSigner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedSigner",
+        type: "address",
+      },
+    ],
+    name: "InvalidSigner",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "account",
         type: "address",
       },
@@ -450,6 +546,17 @@ const _abi = [
       },
     ],
     name: "OracleAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
+    name: "OracleExpired",
     type: "error",
   },
   {
@@ -567,7 +674,7 @@ const _abi = [
 ] as const;
 
 const _bytecode =
-  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212209007eecd2ffcb9dcc72ab13a2af130d584344fa3c7e71ef56f3751c3fadcae1764736f6c63430008110033";
+  "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212206526ff9274f65b1d9254b19f6b29b451725620a4bdf1645953a8b97c4ccd98f764736f6c63430008110033";
 
 type ErrorLibConstructorParams =
   | [signer?: Signer]

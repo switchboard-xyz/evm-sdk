@@ -34,6 +34,7 @@ export interface FunctionInitParams {
   version: string;
   paramSchema?: string;
   permittedCallers?: string[];
+  functionId?: string;
 }
 
 /**
@@ -143,22 +144,38 @@ export class FunctionAccount {
       params.attestationQueue
     );
     const queueData = await attestationQueue.loadData();
-
-    const tx = await switchboard.sendSbTxn(
-      "createFunction",
-      [
-        params.authority,
-        params.name,
-        params.containerRegistry,
-        params.container,
-        params.schedule,
-        params.version,
-        attestationQueue.address,
-        params.paramSchema ?? "",
-        params.permittedCallers || [],
-      ],
-      options
-    );
+    const tx = params.functionId
+      ? await switchboard.sendSbTxn(
+          "createFunctionWithId",
+          [
+            params.functionId,
+            params.name,
+            params.authority,
+            attestationQueue.address,
+            params.containerRegistry,
+            params.container,
+            params.version,
+            params.schedule,
+            params.paramSchema ?? "",
+            params.permittedCallers || [],
+          ],
+          options
+        )
+      : await switchboard.sendSbTxn(
+          "createFunction",
+          [
+            params.name,
+            params.authority,
+            attestationQueue.address,
+            params.containerRegistry,
+            params.container,
+            params.version,
+            params.schedule,
+            params.paramSchema ?? "",
+            params.permittedCallers || [],
+          ],
+          options
+        );
     const functionAddress = await switchboard.pollTxnForSbEvent(
       tx,
       "accountId"
@@ -185,7 +202,7 @@ export class FunctionAccount {
   ): Promise<ContractTransaction> {
     const idx = await this.switchboard.sb.getEnclaveIdx(params.verifierQuoteId);
     const tx = await this.switchboard.sendSbTxn(
-      "verifyFunction",
+      "functionVerify",
       [
         idx,
         this.address,

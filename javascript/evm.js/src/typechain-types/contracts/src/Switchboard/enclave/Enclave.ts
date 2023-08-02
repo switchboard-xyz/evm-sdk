@@ -30,8 +30,8 @@ import type {
 
 export declare namespace EnclaveLib {
   export type EnclaveStruct = {
+    signer: PromiseOrValue<string>;
     authority: PromiseOrValue<string>;
-    owner: PromiseOrValue<string>;
     queueId: PromiseOrValue<string>;
     cid: PromiseOrValue<BytesLike>;
     verificationStatus: PromiseOrValue<BigNumberish>;
@@ -56,8 +56,8 @@ export declare namespace EnclaveLib {
     BigNumber,
     BigNumber
   ] & {
+    signer: string;
     authority: string;
-    owner: string;
     queueId: string;
     cid: string;
     verificationStatus: number;
@@ -74,14 +74,14 @@ export interface EnclaveInterface extends utils.Interface {
   functions: {
     "createEnclave(address,address,address)": FunctionFragment;
     "createEnclaveWithId(address,address,address,address)": FunctionFragment;
-    "enclaveAuthorityToEnclaveAddress(address)": FunctionFragment;
     "enclaveGarbageCollect(address,uint256)": FunctionFragment;
     "enclaveHeartbeat(address)": FunctionFragment;
+    "enclaveSignerToEnclaveId(address)": FunctionFragment;
     "enclaves(address)": FunctionFragment;
     "failEnclave(address,address,uint256)": FunctionFragment;
     "forceOverrideVerify(address)": FunctionFragment;
     "isEnclaveValid(address)": FunctionFragment;
-    "rotateEnclaveAuthority(address,address)": FunctionFragment;
+    "rotateEnclaveSigner(address,address)": FunctionFragment;
     "updateEnclave(address,bytes)": FunctionFragment;
     "validate(address,address,bytes32[])": FunctionFragment;
     "verifyEnclave(address,address,uint256,uint256,bytes32)": FunctionFragment;
@@ -91,14 +91,14 @@ export interface EnclaveInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "createEnclave"
       | "createEnclaveWithId"
-      | "enclaveAuthorityToEnclaveAddress"
       | "enclaveGarbageCollect"
       | "enclaveHeartbeat"
+      | "enclaveSignerToEnclaveId"
       | "enclaves"
       | "failEnclave"
       | "forceOverrideVerify"
       | "isEnclaveValid"
-      | "rotateEnclaveAuthority"
+      | "rotateEnclaveSigner"
       | "updateEnclave"
       | "validate"
       | "verifyEnclave"
@@ -122,15 +122,15 @@ export interface EnclaveInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "enclaveAuthorityToEnclaveAddress",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "enclaveGarbageCollect",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "enclaveHeartbeat",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "enclaveSignerToEnclaveId",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -154,7 +154,7 @@ export interface EnclaveInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "rotateEnclaveAuthority",
+    functionFragment: "rotateEnclaveSigner",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -189,15 +189,15 @@ export interface EnclaveInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "enclaveAuthorityToEnclaveAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "enclaveGarbageCollect",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "enclaveHeartbeat",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "enclaveSignerToEnclaveId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "enclaves", data: BytesLike): Result;
@@ -214,7 +214,7 @@ export interface EnclaveInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "rotateEnclaveAuthority",
+    functionFragment: "rotateEnclaveSigner",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -232,7 +232,7 @@ export interface EnclaveInterface extends utils.Interface {
     "EnclaveGC(address,address)": EventFragment;
     "EnclaveHeartbeat(address,address)": EventFragment;
     "EnclavePayoutEvent(address,address,uint256)": EventFragment;
-    "EnclaveRotateAuthority(address,address,address)": EventFragment;
+    "EnclaveRotateSigner(address,address,address)": EventFragment;
     "EnclaveVerifyRequest(address,address,address)": EventFragment;
   };
 
@@ -240,12 +240,12 @@ export interface EnclaveInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "EnclaveGC"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EnclaveHeartbeat"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EnclavePayoutEvent"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "EnclaveRotateAuthority"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EnclaveRotateSigner"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EnclaveVerifyRequest"): EventFragment;
 }
 
 export interface EnclaveAccountInitEventObject {
-  authority: string;
+  signer: string;
   accountId: string;
 }
 export type EnclaveAccountInitEvent = TypedEvent<
@@ -266,7 +266,7 @@ export type EnclaveGCEventFilter = TypedEventFilter<EnclaveGCEvent>;
 
 export interface EnclaveHeartbeatEventObject {
   enclaveId: string;
-  authority: string;
+  signer: string;
 }
 export type EnclaveHeartbeatEvent = TypedEvent<
   [string, string],
@@ -289,18 +289,18 @@ export type EnclavePayoutEventEvent = TypedEvent<
 export type EnclavePayoutEventEventFilter =
   TypedEventFilter<EnclavePayoutEventEvent>;
 
-export interface EnclaveRotateAuthorityEventObject {
+export interface EnclaveRotateSignerEventObject {
   queueId: string;
-  oldAuthority: string;
-  newAuthority: string;
+  oldSigner: string;
+  newSigner: string;
 }
-export type EnclaveRotateAuthorityEvent = TypedEvent<
+export type EnclaveRotateSignerEvent = TypedEvent<
   [string, string, string],
-  EnclaveRotateAuthorityEventObject
+  EnclaveRotateSignerEventObject
 >;
 
-export type EnclaveRotateAuthorityEventFilter =
-  TypedEventFilter<EnclaveRotateAuthorityEvent>;
+export type EnclaveRotateSignerEventFilter =
+  TypedEventFilter<EnclaveRotateSignerEvent>;
 
 export interface EnclaveVerifyRequestEventObject {
   queueId: string;
@@ -343,24 +343,19 @@ export interface Enclave extends BaseContract {
 
   functions: {
     createEnclave(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     createEnclaveWithId(
       enclaveId: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    enclaveAuthorityToEnclaveAddress(
-      authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
 
     enclaveGarbageCollect(
       enclaveId: PromiseOrValue<string>,
@@ -372,6 +367,11 @@ export interface Enclave extends BaseContract {
       enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    enclaveSignerToEnclaveId(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     enclaves(
       enclaveId: PromiseOrValue<string>,
@@ -395,9 +395,9 @@ export interface Enclave extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    rotateEnclaveAuthority(
+    rotateEnclaveSigner(
       enclaveId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -408,7 +408,7 @@ export interface Enclave extends BaseContract {
     ): Promise<ContractTransaction>;
 
     validate(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       validMeasurements: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
@@ -425,24 +425,19 @@ export interface Enclave extends BaseContract {
   };
 
   createEnclave(
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
-    owner: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   createEnclaveWithId(
     enclaveId: PromiseOrValue<string>,
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
-    owner: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  enclaveAuthorityToEnclaveAddress(
-    authority: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<string>;
 
   enclaveGarbageCollect(
     enclaveId: PromiseOrValue<string>,
@@ -454,6 +449,11 @@ export interface Enclave extends BaseContract {
     enclaveId: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  enclaveSignerToEnclaveId(
+    signer: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   enclaves(
     enclaveId: PromiseOrValue<string>,
@@ -477,9 +477,9 @@ export interface Enclave extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  rotateEnclaveAuthority(
+  rotateEnclaveSigner(
     enclaveId: PromiseOrValue<string>,
-    newAuthority: PromiseOrValue<string>,
+    newSigner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -490,7 +490,7 @@ export interface Enclave extends BaseContract {
   ): Promise<ContractTransaction>;
 
   validate(
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     attestationQueueId: PromiseOrValue<string>,
     validMeasurements: PromiseOrValue<BytesLike>[],
     overrides?: CallOverrides
@@ -507,24 +507,19 @@ export interface Enclave extends BaseContract {
 
   callStatic: {
     createEnclave(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     createEnclaveWithId(
       enclaveId: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    enclaveAuthorityToEnclaveAddress(
-      authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     enclaveGarbageCollect(
       enclaveId: PromiseOrValue<string>,
@@ -536,6 +531,11 @@ export interface Enclave extends BaseContract {
       enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    enclaveSignerToEnclaveId(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     enclaves(
       enclaveId: PromiseOrValue<string>,
@@ -559,9 +559,9 @@ export interface Enclave extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    rotateEnclaveAuthority(
+    rotateEnclaveSigner(
       enclaveId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -572,7 +572,7 @@ export interface Enclave extends BaseContract {
     ): Promise<void>;
 
     validate(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       validMeasurements: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
@@ -590,11 +590,11 @@ export interface Enclave extends BaseContract {
 
   filters: {
     "EnclaveAccountInit(address,address)"(
-      authority?: PromiseOrValue<string> | null,
+      signer?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
     ): EnclaveAccountInitEventFilter;
     EnclaveAccountInit(
-      authority?: PromiseOrValue<string> | null,
+      signer?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
     ): EnclaveAccountInitEventFilter;
 
@@ -609,11 +609,11 @@ export interface Enclave extends BaseContract {
 
     "EnclaveHeartbeat(address,address)"(
       enclaveId?: PromiseOrValue<string> | null,
-      authority?: PromiseOrValue<string> | null
+      signer?: PromiseOrValue<string> | null
     ): EnclaveHeartbeatEventFilter;
     EnclaveHeartbeat(
       enclaveId?: PromiseOrValue<string> | null,
-      authority?: PromiseOrValue<string> | null
+      signer?: PromiseOrValue<string> | null
     ): EnclaveHeartbeatEventFilter;
 
     "EnclavePayoutEvent(address,address,uint256)"(
@@ -627,16 +627,16 @@ export interface Enclave extends BaseContract {
       amount?: PromiseOrValue<BigNumberish> | null
     ): EnclavePayoutEventEventFilter;
 
-    "EnclaveRotateAuthority(address,address,address)"(
+    "EnclaveRotateSigner(address,address,address)"(
       queueId?: PromiseOrValue<string> | null,
-      oldAuthority?: PromiseOrValue<string> | null,
-      newAuthority?: PromiseOrValue<string> | null
-    ): EnclaveRotateAuthorityEventFilter;
-    EnclaveRotateAuthority(
+      oldSigner?: PromiseOrValue<string> | null,
+      newSigner?: PromiseOrValue<string> | null
+    ): EnclaveRotateSignerEventFilter;
+    EnclaveRotateSigner(
       queueId?: PromiseOrValue<string> | null,
-      oldAuthority?: PromiseOrValue<string> | null,
-      newAuthority?: PromiseOrValue<string> | null
-    ): EnclaveRotateAuthorityEventFilter;
+      oldSigner?: PromiseOrValue<string> | null,
+      newSigner?: PromiseOrValue<string> | null
+    ): EnclaveRotateSignerEventFilter;
 
     "EnclaveVerifyRequest(address,address,address)"(
       queueId?: PromiseOrValue<string> | null,
@@ -652,23 +652,18 @@ export interface Enclave extends BaseContract {
 
   estimateGas: {
     createEnclave(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     createEnclaveWithId(
       enclaveId: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    enclaveAuthorityToEnclaveAddress(
       authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     enclaveGarbageCollect(
@@ -680,6 +675,11 @@ export interface Enclave extends BaseContract {
     enclaveHeartbeat(
       enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    enclaveSignerToEnclaveId(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     enclaves(
@@ -704,9 +704,9 @@ export interface Enclave extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    rotateEnclaveAuthority(
+    rotateEnclaveSigner(
       enclaveId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -717,7 +717,7 @@ export interface Enclave extends BaseContract {
     ): Promise<BigNumber>;
 
     validate(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       validMeasurements: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
@@ -735,23 +735,18 @@ export interface Enclave extends BaseContract {
 
   populateTransaction: {
     createEnclave(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     createEnclaveWithId(
       enclaveId: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    enclaveAuthorityToEnclaveAddress(
       authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     enclaveGarbageCollect(
@@ -763,6 +758,11 @@ export interface Enclave extends BaseContract {
     enclaveHeartbeat(
       enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    enclaveSignerToEnclaveId(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     enclaves(
@@ -787,9 +787,9 @@ export interface Enclave extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    rotateEnclaveAuthority(
+    rotateEnclaveSigner(
       enclaveId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -800,7 +800,7 @@ export interface Enclave extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     validate(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       validMeasurements: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides

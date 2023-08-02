@@ -13,6 +13,10 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "Admin",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Admin__factory>;
+    getContractFactory(
       name: "Aggregator",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Aggregator__factory>;
@@ -73,6 +77,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ErrorLib__factory>;
     getContractFactory(
+      name: "FunctionCall",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FunctionCall__factory>;
+    getContractFactory(
       name: "Oracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Oracle__factory>;
@@ -89,6 +97,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SbFunction__factory>;
     getContractFactory(
+      name: "SbFunctionView",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SbFunctionView__factory>;
+    getContractFactory(
       name: "Switchboard",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Switchboard__factory>;
@@ -101,6 +113,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Switchboard__factory>;
 
+    getContractAt(
+      name: "Admin",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Admin>;
     getContractAt(
       name: "Aggregator",
       address: string,
@@ -177,6 +194,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ErrorLib>;
     getContractAt(
+      name: "FunctionCall",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FunctionCall>;
+    getContractAt(
       name: "Oracle",
       address: string,
       signer?: ethers.Signer
@@ -196,6 +218,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SbFunction>;
+    getContractAt(
+      name: "SbFunctionView",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SbFunctionView>;
     getContractAt(
       name: "Switchboard",
       address: string,

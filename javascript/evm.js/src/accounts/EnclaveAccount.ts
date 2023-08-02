@@ -25,9 +25,9 @@ import { ContractTransaction, Wallet } from "ethers";
  */
 export interface EnclaveInitParams {
   // The address of the owner of the enclave
-  owner: string;
-  // The address of the authority for the enclave
   authority: string;
+  // The address of the authority for the enclave
+  signer: string;
 }
 
 /**
@@ -119,7 +119,7 @@ export class EnclaveAccount {
     const address = Wallet.createRandom().address;
     const tx = await switchboard.sendSbTxn(
       "createEnclaveWithId",
-      [address, params.authority, params.attestationQueue, params.owner],
+      [address, params.signer, params.attestationQueue, params.authority],
       options
     );
     return [new EnclaveAccount(switchboard, address), tx];
@@ -183,11 +183,7 @@ export class EnclaveAccount {
     const enclaveData = await this.loadData();
     const tx = await this.switchboard.sendSbTxn(
       "updateEnclave",
-      [
-        enclaveData.authority,
-        enclaveData.queueId,
-        parseMrEnclave(enclaveBuffer),
-      ],
+      [enclaveData.signer, enclaveData.queueId, parseMrEnclave(enclaveBuffer)],
       options
     );
 
@@ -247,15 +243,15 @@ export class EnclaveAccount {
    * @returns {Promise<EnclaveAccount>} Promise that resolves to EnclaveAccount
    *
    * ```typescript
-   * const enclaveAccount = await EnclaveAccount.authorityToAddress(switchboard, authority);
+   * const enclaveAccount = await EnclaveAccount.signerToAddress(switchboard, authority);
    * ```
    */
-  public static async authorityToAddress(
+  public static async signerToAddress(
     switchboard: ISwitchboardProgram,
     authority: string
   ): Promise<EnclaveAccount> {
     const address = await switchboard.sb
-      .enclaveAuthorityToEnclaveAddress(authority)
+      .enclaveSignerToEnclaveId(authority)
       .catch(EthersError.handleError);
     return new EnclaveAccount(switchboard, address);
   }
@@ -284,7 +280,7 @@ export class EnclaveAccount {
     options?: TransactionOptions,
     retryCount = 3
   ): Promise<EnclaveAccount> {
-    const enclaveAccount = await EnclaveAccount.authorityToAddress(
+    const enclaveAccount = await EnclaveAccount.signerToAddress(
       switchboard,
       authority
     );

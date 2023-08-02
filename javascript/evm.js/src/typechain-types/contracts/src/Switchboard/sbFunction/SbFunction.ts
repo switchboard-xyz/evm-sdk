@@ -55,156 +55,32 @@ export declare namespace TransactionLib {
   };
 }
 
-export declare namespace FunctionLib {
-  export type FunctionConfigStruct = {
-    schedule: PromiseOrValue<string>;
-    permittedCallers: PromiseOrValue<string>[];
-    containerRegistry: PromiseOrValue<string>;
-    container: PromiseOrValue<string>;
-    version: PromiseOrValue<BytesLike>;
-    paramsSchema: PromiseOrValue<string>;
-  };
-
-  export type FunctionConfigStructOutput = [
-    string,
-    string[],
-    string,
-    string,
-    string,
-    string
-  ] & {
-    schedule: string;
-    permittedCallers: string[];
-    containerRegistry: string;
-    container: string;
-    version: string;
-    paramsSchema: string;
-  };
-
-  export type FunctionStateStruct = {
-    consecutiveFailures: PromiseOrValue<BigNumberish>;
-    lastExecutionTimestamp: PromiseOrValue<BigNumberish>;
-    nextAllowedTimestamp: PromiseOrValue<BigNumberish>;
-    callId: PromiseOrValue<BigNumberish>;
-    triggeredSince: PromiseOrValue<BigNumberish>;
-    triggerCount: PromiseOrValue<BigNumberish>;
-    queueIdx: PromiseOrValue<BigNumberish>;
-    triggered: PromiseOrValue<boolean>;
-  };
-
-  export type FunctionStateStructOutput = [
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    BigNumber,
-    boolean
-  ] & {
-    consecutiveFailures: BigNumber;
-    lastExecutionTimestamp: BigNumber;
-    nextAllowedTimestamp: BigNumber;
-    callId: BigNumber;
-    triggeredSince: BigNumber;
-    triggerCount: BigNumber;
-    queueIdx: BigNumber;
-    triggered: boolean;
-  };
-
-  export type SbFunctionStruct = {
-    name: PromiseOrValue<string>;
-    authority: PromiseOrValue<string>;
-    enclaveId: PromiseOrValue<string>;
-    queueId: PromiseOrValue<string>;
-    balance: PromiseOrValue<BigNumberish>;
-    status: PromiseOrValue<BigNumberish>;
-    config: FunctionLib.FunctionConfigStruct;
-    state: FunctionLib.FunctionStateStruct;
-  };
-
-  export type SbFunctionStructOutput = [
-    string,
-    string,
-    string,
-    string,
-    BigNumber,
-    number,
-    FunctionLib.FunctionConfigStructOutput,
-    FunctionLib.FunctionStateStructOutput
-  ] & {
-    name: string;
-    authority: string;
-    enclaveId: string;
-    queueId: string;
-    balance: BigNumber;
-    status: number;
-    config: FunctionLib.FunctionConfigStructOutput;
-    state: FunctionLib.FunctionStateStructOutput;
-  };
-
-  export type FunctionCallStruct = {
-    caller: PromiseOrValue<string>;
-    timestamp: PromiseOrValue<BigNumberish>;
-    callData: PromiseOrValue<BytesLike>;
-    executed: PromiseOrValue<boolean>;
-  };
-
-  export type FunctionCallStructOutput = [
-    string,
-    BigNumber,
-    string,
-    boolean
-  ] & {
-    caller: string;
-    timestamp: BigNumber;
-    callData: string;
-    executed: boolean;
-  };
-}
-
 export interface SbFunctionInterface extends utils.Interface {
   functions: {
-    "callFunction(address,bytes)": FunctionFragment;
-    "createFunction(string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
+    "createFunction(string,address,address,string,string,string,string,string,address[])": FunctionFragment;
+    "createFunctionWithId(address,string,address,address,string,string,string,string,string,address[])": FunctionFragment;
     "forward((uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
-    "funcs(address)": FunctionFragment;
     "functionEscrowFund(address)": FunctionFragment;
     "functionEscrowWithdraw(address,address,uint256)": FunctionFragment;
-    "functionExists(address)": FunctionFragment;
-    "getActiveFunctionsByQueue(address)": FunctionFragment;
-    "getAllFunctions()": FunctionFragment;
-    "getAllUnexecutedFunctionCalls(address)": FunctionFragment;
-    "getFunctionsByAuthority(address)": FunctionFragment;
-    "getTransactionHash(uint256,uint256,uint256,address,address,bytes)": FunctionFragment;
-    "isTrustedForwarder(address)": FunctionFragment;
-    "setFunctionConfig(address,string,address,string,string,bytes32,string,string,address[])": FunctionFragment;
-    "verifyFunction(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
+    "functionVerify(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
+    "functionVerifyRequest(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[],address[])": FunctionFragment;
+    "setFunctionConfig(address,string,address,string,string,string,string,string,address[])": FunctionFragment;
+    "setToleratedTimestampDiscrepancy(uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "callFunction"
       | "createFunction"
+      | "createFunctionWithId"
       | "forward"
-      | "funcs"
       | "functionEscrowFund"
       | "functionEscrowWithdraw"
-      | "functionExists"
-      | "getActiveFunctionsByQueue"
-      | "getAllFunctions"
-      | "getAllUnexecutedFunctionCalls"
-      | "getFunctionsByAuthority"
-      | "getTransactionHash"
-      | "isTrustedForwarder"
+      | "functionVerify"
+      | "functionVerifyRequest"
       | "setFunctionConfig"
-      | "verifyFunction"
+      | "setToleratedTimestampDiscrepancy"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "callFunction",
-    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
-  ): string;
   encodeFunctionData(
     functionFragment: "createFunction",
     values: [
@@ -213,7 +89,22 @@ export interface SbFunctionInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createFunctionWithId",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>[]
@@ -222,10 +113,6 @@ export interface SbFunctionInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "forward",
     values: [TransactionLib.TransactionStruct[], PromiseOrValue<BytesLike>[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "funcs",
-    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "functionEscrowFund",
@@ -240,56 +127,7 @@ export interface SbFunctionInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "functionExists",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getActiveFunctionsByQueue",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getAllFunctions",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getAllUnexecutedFunctionCalls",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getFunctionsByAuthority",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getTransactionHash",
-    values: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isTrustedForwarder",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setFunctionConfig",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>[]
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "verifyFunction",
+    functionFragment: "functionVerify",
     values: [
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
@@ -302,17 +140,49 @@ export interface SbFunctionInterface extends utils.Interface {
       PromiseOrValue<BytesLike>[]
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "functionVerifyRequest",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<BytesLike>,
+      TransactionLib.TransactionStruct[],
+      PromiseOrValue<BytesLike>[],
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setFunctionConfig",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setToleratedTimestampDiscrepancy",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
 
-  decodeFunctionResult(
-    functionFragment: "callFunction",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "createFunction",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "createFunctionWithId",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "forward", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "funcs", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "functionEscrowFund",
     data: BytesLike
@@ -322,31 +192,11 @@ export interface SbFunctionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "functionExists",
+    functionFragment: "functionVerify",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getActiveFunctionsByQueue",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getAllFunctions",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getAllUnexecutedFunctionCalls",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getFunctionsByAuthority",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getTransactionHash",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isTrustedForwarder",
+    functionFragment: "functionVerifyRequest",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -354,19 +204,17 @@ export interface SbFunctionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "verifyFunction",
+    functionFragment: "setToleratedTimestampDiscrepancy",
     data: BytesLike
   ): Result;
 
   events: {
     "FunctionAccountInit(address,address)": EventFragment;
-    "FunctionCall(address,address,uint256,bytes)": EventFragment;
     "FunctionFund(address,address,uint256)": EventFragment;
     "FunctionWithdraw(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "FunctionAccountInit"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "FunctionCall"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FunctionFund"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FunctionWithdraw"): EventFragment;
 }
@@ -382,19 +230,6 @@ export type FunctionAccountInitEvent = TypedEvent<
 
 export type FunctionAccountInitEventFilter =
   TypedEventFilter<FunctionAccountInitEvent>;
-
-export interface FunctionCallEventObject {
-  functionId: string;
-  sender: string;
-  callId: BigNumber;
-  params: string;
-}
-export type FunctionCallEvent = TypedEvent<
-  [string, string, BigNumber, string],
-  FunctionCallEventObject
->;
-
-export type FunctionCallEventFilter = TypedEventFilter<FunctionCallEvent>;
 
 export interface FunctionFundEventObject {
   functionId: string;
@@ -448,35 +283,38 @@ export interface SbFunction extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    callFunction(
-      functionId: PromiseOrValue<string>,
-      params: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     createFunction(
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    funcs(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[FunctionLib.SbFunctionStructOutput]>;
 
     functionEscrowFund(
       accountId: PromiseOrValue<string>,
@@ -490,59 +328,7 @@ export interface SbFunction extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    functionExists(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    getActiveFunctionsByQueue(
-      queueId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-    getAllFunctions(
-      overrides?: CallOverrides
-    ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-    getAllUnexecutedFunctionCalls(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[FunctionLib.FunctionCallStructOutput[]]>;
-
-    getFunctionsByAuthority(
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-    getTransactionHash(
-      expirationTimeSeconds: PromiseOrValue<BigNumberish>,
-      gasLimit: PromiseOrValue<BigNumberish>,
-      value: PromiseOrValue<BigNumberish>,
-      to: PromiseOrValue<string>,
-      from: PromiseOrValue<string>,
-      data: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    isTrustedForwarder(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    setFunctionConfig(
-      functionId: PromiseOrValue<string>,
-      name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
-      containerRegistry: PromiseOrValue<string>,
-      container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
-      schedule: PromiseOrValue<string>,
-      paramsSchema: PromiseOrValue<string>,
-      permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    verifyFunction(
+    functionVerify(
       enclaveIdx: PromiseOrValue<BigNumberish>,
       functionId: PromiseOrValue<string>,
       delegatedSignerAddress: PromiseOrValue<string>,
@@ -554,13 +340,39 @@ export interface SbFunction extends BaseContract {
       signatures: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-  };
 
-  callFunction(
-    functionId: PromiseOrValue<string>,
-    params: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+    functionVerifyRequest(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      functionCallIds: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setToleratedTimestampDiscrepancy(
+      tolerance: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+  };
 
   createFunction(
     name: PromiseOrValue<string>,
@@ -568,23 +380,32 @@ export interface SbFunction extends BaseContract {
     queueId: PromiseOrValue<string>,
     containerRegistry: PromiseOrValue<string>,
     container: PromiseOrValue<string>,
-    version: PromiseOrValue<BytesLike>,
+    version: PromiseOrValue<string>,
     schedule: PromiseOrValue<string>,
     paramsSchema: PromiseOrValue<string>,
     permittedCallers: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  createFunctionWithId(
+    functionId: PromiseOrValue<string>,
+    name: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
+    queueId: PromiseOrValue<string>,
+    containerRegistry: PromiseOrValue<string>,
+    container: PromiseOrValue<string>,
+    version: PromiseOrValue<string>,
+    schedule: PromiseOrValue<string>,
+    paramsSchema: PromiseOrValue<string>,
+    permittedCallers: PromiseOrValue<string>[],
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   forward(
     transactions: TransactionLib.TransactionStruct[],
     signatures: PromiseOrValue<BytesLike>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  funcs(
-    functionId: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<FunctionLib.SbFunctionStructOutput>;
 
   functionEscrowFund(
     accountId: PromiseOrValue<string>,
@@ -598,59 +419,7 @@ export interface SbFunction extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  functionExists(
-    functionId: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  getActiveFunctionsByQueue(
-    queueId: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-  getAllFunctions(
-    overrides?: CallOverrides
-  ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-  getAllUnexecutedFunctionCalls(
-    functionId: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<FunctionLib.FunctionCallStructOutput[]>;
-
-  getFunctionsByAuthority(
-    user: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-  getTransactionHash(
-    expirationTimeSeconds: PromiseOrValue<BigNumberish>,
-    gasLimit: PromiseOrValue<BigNumberish>,
-    value: PromiseOrValue<BigNumberish>,
-    to: PromiseOrValue<string>,
-    from: PromiseOrValue<string>,
-    data: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  isTrustedForwarder(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  setFunctionConfig(
-    functionId: PromiseOrValue<string>,
-    name: PromiseOrValue<string>,
-    authority: PromiseOrValue<string>,
-    containerRegistry: PromiseOrValue<string>,
-    container: PromiseOrValue<string>,
-    version: PromiseOrValue<BytesLike>,
-    schedule: PromiseOrValue<string>,
-    paramsSchema: PromiseOrValue<string>,
-    permittedCallers: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  verifyFunction(
+  functionVerify(
     enclaveIdx: PromiseOrValue<BigNumberish>,
     functionId: PromiseOrValue<string>,
     delegatedSignerAddress: PromiseOrValue<string>,
@@ -663,20 +432,60 @@ export interface SbFunction extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  callStatic: {
-    callFunction(
-      functionId: PromiseOrValue<string>,
-      params: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<void>;
+  functionVerifyRequest(
+    enclaveIdx: PromiseOrValue<BigNumberish>,
+    functionId: PromiseOrValue<string>,
+    delegatedSignerAddress: PromiseOrValue<string>,
+    observedTime: PromiseOrValue<BigNumberish>,
+    nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+    isFailure: PromiseOrValue<boolean>,
+    mrEnclave: PromiseOrValue<BytesLike>,
+    transactions: TransactionLib.TransactionStruct[],
+    signatures: PromiseOrValue<BytesLike>[],
+    functionCallIds: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
+  setFunctionConfig(
+    functionId: PromiseOrValue<string>,
+    name: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
+    containerRegistry: PromiseOrValue<string>,
+    container: PromiseOrValue<string>,
+    version: PromiseOrValue<string>,
+    schedule: PromiseOrValue<string>,
+    paramsSchema: PromiseOrValue<string>,
+    permittedCallers: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setToleratedTimestampDiscrepancy(
+    tolerance: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  callStatic: {
     createFunction(
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -688,11 +497,6 @@ export interface SbFunction extends BaseContract {
       signatures: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<void>;
-
-    funcs(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<FunctionLib.SbFunctionStructOutput>;
 
     functionEscrowFund(
       accountId: PromiseOrValue<string>,
@@ -706,59 +510,7 @@ export interface SbFunction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    functionExists(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    getActiveFunctionsByQueue(
-      queueId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-    getAllFunctions(
-      overrides?: CallOverrides
-    ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-    getAllUnexecutedFunctionCalls(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<FunctionLib.FunctionCallStructOutput[]>;
-
-    getFunctionsByAuthority(
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-    getTransactionHash(
-      expirationTimeSeconds: PromiseOrValue<BigNumberish>,
-      gasLimit: PromiseOrValue<BigNumberish>,
-      value: PromiseOrValue<BigNumberish>,
-      to: PromiseOrValue<string>,
-      from: PromiseOrValue<string>,
-      data: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    isTrustedForwarder(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    setFunctionConfig(
-      functionId: PromiseOrValue<string>,
-      name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
-      containerRegistry: PromiseOrValue<string>,
-      container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
-      schedule: PromiseOrValue<string>,
-      paramsSchema: PromiseOrValue<string>,
-      permittedCallers: PromiseOrValue<string>[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    verifyFunction(
+    functionVerify(
       enclaveIdx: PromiseOrValue<BigNumberish>,
       functionId: PromiseOrValue<string>,
       delegatedSignerAddress: PromiseOrValue<string>,
@@ -768,6 +520,38 @@ export interface SbFunction extends BaseContract {
       mrEnclave: PromiseOrValue<BytesLike>,
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    functionVerifyRequest(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      functionCallIds: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setToleratedTimestampDiscrepancy(
+      tolerance: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -781,19 +565,6 @@ export interface SbFunction extends BaseContract {
       authority?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
     ): FunctionAccountInitEventFilter;
-
-    "FunctionCall(address,address,uint256,bytes)"(
-      functionId?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null,
-      callId?: PromiseOrValue<BigNumberish> | null,
-      params?: null
-    ): FunctionCallEventFilter;
-    FunctionCall(
-      functionId?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null,
-      callId?: PromiseOrValue<BigNumberish> | null,
-      params?: null
-    ): FunctionCallEventFilter;
 
     "FunctionFund(address,address,uint256)"(
       functionId?: PromiseOrValue<string> | null,
@@ -819,34 +590,37 @@ export interface SbFunction extends BaseContract {
   };
 
   estimateGas: {
-    callFunction(
-      functionId: PromiseOrValue<string>,
-      params: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     createFunction(
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    funcs(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     functionEscrowFund(
@@ -861,57 +635,7 @@ export interface SbFunction extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    functionExists(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getActiveFunctionsByQueue(
-      queueId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getAllFunctions(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getAllUnexecutedFunctionCalls(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getFunctionsByAuthority(
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getTransactionHash(
-      expirationTimeSeconds: PromiseOrValue<BigNumberish>,
-      gasLimit: PromiseOrValue<BigNumberish>,
-      value: PromiseOrValue<BigNumberish>,
-      to: PromiseOrValue<string>,
-      from: PromiseOrValue<string>,
-      data: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isTrustedForwarder(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    setFunctionConfig(
-      functionId: PromiseOrValue<string>,
-      name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
-      containerRegistry: PromiseOrValue<string>,
-      container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
-      schedule: PromiseOrValue<string>,
-      paramsSchema: PromiseOrValue<string>,
-      permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    verifyFunction(
+    functionVerify(
       enclaveIdx: PromiseOrValue<BigNumberish>,
       functionId: PromiseOrValue<string>,
       delegatedSignerAddress: PromiseOrValue<string>,
@@ -921,39 +645,74 @@ export interface SbFunction extends BaseContract {
       mrEnclave: PromiseOrValue<BytesLike>,
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    functionVerifyRequest(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      functionCallIds: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setToleratedTimestampDiscrepancy(
+      tolerance: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    callFunction(
-      functionId: PromiseOrValue<string>,
-      params: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     createFunction(
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    funcs(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     functionEscrowFund(
@@ -968,57 +727,7 @@ export interface SbFunction extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    functionExists(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getActiveFunctionsByQueue(
-      queueId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getAllFunctions(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getAllUnexecutedFunctionCalls(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getFunctionsByAuthority(
-      user: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getTransactionHash(
-      expirationTimeSeconds: PromiseOrValue<BigNumberish>,
-      gasLimit: PromiseOrValue<BigNumberish>,
-      value: PromiseOrValue<BigNumberish>,
-      to: PromiseOrValue<string>,
-      from: PromiseOrValue<string>,
-      data: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isTrustedForwarder(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    setFunctionConfig(
-      functionId: PromiseOrValue<string>,
-      name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
-      containerRegistry: PromiseOrValue<string>,
-      container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
-      schedule: PromiseOrValue<string>,
-      paramsSchema: PromiseOrValue<string>,
-      permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    verifyFunction(
+    functionVerify(
       enclaveIdx: PromiseOrValue<BigNumberish>,
       functionId: PromiseOrValue<string>,
       delegatedSignerAddress: PromiseOrValue<string>,
@@ -1028,6 +737,38 @@ export interface SbFunction extends BaseContract {
       mrEnclave: PromiseOrValue<BytesLike>,
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    functionVerifyRequest(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      functionCallIds: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setToleratedTimestampDiscrepancy(
+      tolerance: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

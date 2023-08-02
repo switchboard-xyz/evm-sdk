@@ -284,9 +284,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
   public async getEnclaveAuthorityMrEnclave(
     enclaveAuthority: string
   ): Promise<Uint8Array> {
-    const enclaveId = await this.sb.enclaveAuthorityToEnclaveAddress(
-      enclaveAuthority
-    );
+    const enclaveId = await this.sb.enclaveSignerToEnclaveId(enclaveAuthority);
     const enclave = await this.sb.enclaves(enclaveId);
     return parseMrEnclave(enclave.mrEnclave);
   }

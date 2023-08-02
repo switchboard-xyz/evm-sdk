@@ -198,8 +198,8 @@ export declare namespace IDiamondLoupe {
 
 export declare namespace EnclaveLib {
   export type EnclaveStruct = {
+    signer: PromiseOrValue<string>;
     authority: PromiseOrValue<string>;
-    owner: PromiseOrValue<string>;
     queueId: PromiseOrValue<string>;
     cid: PromiseOrValue<BytesLike>;
     verificationStatus: PromiseOrValue<BigNumberish>;
@@ -224,8 +224,8 @@ export declare namespace EnclaveLib {
     BigNumber,
     BigNumber
   ] & {
+    signer: string;
     authority: string;
-    owner: string;
     queueId: string;
     cid: string;
     verificationStatus: number;
@@ -238,14 +238,66 @@ export declare namespace EnclaveLib {
   };
 }
 
+export declare namespace FunctionCallLib {
+  export type FunctionCallSettingsStruct = {
+    requireEstimatedRunCostFee: PromiseOrValue<boolean>;
+    minimumFee: PromiseOrValue<BigNumberish>;
+    maxGasCost: PromiseOrValue<BigNumberish>;
+    requireCallerPayFullCost: PromiseOrValue<boolean>;
+    requireSenderBeReturnAddress: PromiseOrValue<boolean>;
+  };
+
+  export type FunctionCallSettingsStructOutput = [
+    boolean,
+    BigNumber,
+    BigNumber,
+    boolean,
+    boolean
+  ] & {
+    requireEstimatedRunCostFee: boolean;
+    minimumFee: BigNumber;
+    maxGasCost: BigNumber;
+    requireCallerPayFullCost: boolean;
+    requireSenderBeReturnAddress: boolean;
+  };
+
+  export type FunctionCallStruct = {
+    functionId: PromiseOrValue<string>;
+    caller: PromiseOrValue<string>;
+    timestamp: PromiseOrValue<BigNumberish>;
+    callData: PromiseOrValue<BytesLike>;
+    executed: PromiseOrValue<boolean>;
+    consecutiveFailures: PromiseOrValue<BigNumberish>;
+    feePaid: PromiseOrValue<BigNumberish>;
+  };
+
+  export type FunctionCallStructOutput = [
+    string,
+    string,
+    BigNumber,
+    string,
+    boolean,
+    BigNumber,
+    BigNumber
+  ] & {
+    functionId: string;
+    caller: string;
+    timestamp: BigNumber;
+    callData: string;
+    executed: boolean;
+    consecutiveFailures: BigNumber;
+    feePaid: BigNumber;
+  };
+}
+
 export declare namespace OracleLib {
   export type OracleStruct = {
     name: PromiseOrValue<string>;
-    authority: PromiseOrValue<string>;
+    signer: PromiseOrValue<string>;
     numRows: PromiseOrValue<BigNumberish>;
     lastHeartbeat: PromiseOrValue<BigNumberish>;
     queueId: PromiseOrValue<string>;
-    owner: PromiseOrValue<string>;
+    authority: PromiseOrValue<string>;
   };
 
   export type OracleStructOutput = [
@@ -257,11 +309,11 @@ export declare namespace OracleLib {
     string
   ] & {
     name: string;
-    authority: string;
+    signer: string;
     numRows: number;
     lastHeartbeat: BigNumber;
     queueId: string;
-    owner: string;
+    authority: string;
   };
 }
 
@@ -353,7 +405,7 @@ export declare namespace FunctionLib {
     permittedCallers: PromiseOrValue<string>[];
     containerRegistry: PromiseOrValue<string>;
     container: PromiseOrValue<string>;
-    version: PromiseOrValue<BytesLike>;
+    version: PromiseOrValue<string>;
     paramsSchema: PromiseOrValue<string>;
   };
 
@@ -377,7 +429,7 @@ export declare namespace FunctionLib {
     consecutiveFailures: PromiseOrValue<BigNumberish>;
     lastExecutionTimestamp: PromiseOrValue<BigNumberish>;
     nextAllowedTimestamp: PromiseOrValue<BigNumberish>;
-    callId: PromiseOrValue<BigNumberish>;
+    lastExecutionGasCost: PromiseOrValue<BigNumberish>;
     triggeredSince: PromiseOrValue<BigNumberish>;
     triggerCount: PromiseOrValue<BigNumberish>;
     queueIdx: PromiseOrValue<BigNumberish>;
@@ -397,7 +449,7 @@ export declare namespace FunctionLib {
     consecutiveFailures: BigNumber;
     lastExecutionTimestamp: BigNumber;
     nextAllowedTimestamp: BigNumber;
-    callId: BigNumber;
+    lastExecutionGasCost: BigNumber;
     triggeredSince: BigNumber;
     triggerCount: BigNumber;
     queueIdx: BigNumber;
@@ -434,29 +486,15 @@ export declare namespace FunctionLib {
     config: FunctionLib.FunctionConfigStructOutput;
     state: FunctionLib.FunctionStateStructOutput;
   };
-
-  export type FunctionCallStruct = {
-    caller: PromiseOrValue<string>;
-    timestamp: PromiseOrValue<BigNumberish>;
-    callData: PromiseOrValue<BytesLike>;
-    executed: PromiseOrValue<boolean>;
-  };
-
-  export type FunctionCallStructOutput = [
-    string,
-    BigNumber,
-    string,
-    boolean
-  ] & {
-    caller: string;
-    timestamp: BigNumber;
-    callData: string;
-    executed: boolean;
-  };
 }
 
 export interface SwitchboardInterface extends utils.Interface {
   functions: {
+    "initialize()": FunctionFragment;
+    "isAdmin(address)": FunctionFragment;
+    "isAllowed(address)": FunctionFragment;
+    "setAdmin(address,bool)": FunctionFragment;
+    "setAllowed(address,bool)": FunctionFragment;
     "aggregatorEscrowFund(address)": FunctionFragment;
     "aggregatorEscrowWithdraw(address,address,uint256)": FunctionFragment;
     "aggregatorHistory(address,uint80)": FunctionFragment;
@@ -493,23 +531,28 @@ export interface SwitchboardInterface extends utils.Interface {
     "init()": FunctionFragment;
     "createEnclave(address,address,address)": FunctionFragment;
     "createEnclaveWithId(address,address,address,address)": FunctionFragment;
-    "enclaveAuthorityToEnclaveAddress(address)": FunctionFragment;
     "enclaveGarbageCollect(address,uint256)": FunctionFragment;
     "enclaveHeartbeat(address)": FunctionFragment;
+    "enclaveSignerToEnclaveId(address)": FunctionFragment;
     "enclaves(address)": FunctionFragment;
     "failEnclave(address,address,uint256)": FunctionFragment;
     "forceOverrideVerify(address)": FunctionFragment;
     "isEnclaveValid(address)": FunctionFragment;
-    "rotateEnclaveAuthority(address,address)": FunctionFragment;
+    "rotateEnclaveSigner(address,address)": FunctionFragment;
     "updateEnclave(address,bytes)": FunctionFragment;
     "validate(address,address,bytes32[])": FunctionFragment;
     "verifyEnclave(address,address,uint256,uint256,bytes32)": FunctionFragment;
+    "callFunction(address,bytes)": FunctionFragment;
+    "functionCallSettings(address)": FunctionFragment;
+    "functionCalls(address)": FunctionFragment;
+    "getActiveFunctionCallsByQueue(address)": FunctionFragment;
+    "setFunctionCallSettings(address,bool,uint256,uint256,bool,bool)": FunctionFragment;
     "createOracle(string,address,address,address)": FunctionFragment;
     "createOracleWithId(address,string,address,address,address)": FunctionFragment;
     "oracleGarbageCollect(address,uint256)": FunctionFragment;
     "oracleHeartbeat(address)": FunctionFragment;
     "oracles(address)": FunctionFragment;
-    "rotateOracleAuthority(address,address)": FunctionFragment;
+    "rotateOracleSigner(address,address)": FunctionFragment;
     "setOracleConfig(address,string,address,address,address)": FunctionFragment;
     "addMrEnclaveToOracleQueue(address,bytes32)": FunctionFragment;
     "createOracleQueue(string,address,bool,uint256,uint256,uint256)": FunctionFragment;
@@ -524,25 +567,32 @@ export interface SwitchboardInterface extends utils.Interface {
     "setOracleQueuePermission(address,address,uint256,bool)": FunctionFragment;
     "getPermission(address,address)": FunctionFragment;
     "hasPermission(address,address,uint256)": FunctionFragment;
-    "callFunction(address,bytes)": FunctionFragment;
-    "createFunction(string,address,address,string,string,bytes32,string,string,address[])": FunctionFragment;
+    "createFunction(string,address,address,string,string,string,string,string,address[])": FunctionFragment;
+    "createFunctionWithId(address,string,address,address,string,string,string,string,string,address[])": FunctionFragment;
     "forward((uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
-    "funcs(address)": FunctionFragment;
     "functionEscrowFund(address)": FunctionFragment;
     "functionEscrowWithdraw(address,address,uint256)": FunctionFragment;
+    "functionVerify(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
+    "functionVerifyRequest(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[],address[])": FunctionFragment;
+    "setFunctionConfig(address,string,address,string,string,string,string,string,address[])": FunctionFragment;
+    "setToleratedTimestampDiscrepancy(uint256)": FunctionFragment;
+    "estimatedRunCost(address,uint256)": FunctionFragment;
+    "funcs(address)": FunctionFragment;
     "functionExists(address)": FunctionFragment;
     "getActiveFunctionsByQueue(address)": FunctionFragment;
     "getAllFunctions()": FunctionFragment;
-    "getAllUnexecutedFunctionCalls(address)": FunctionFragment;
     "getFunctionsByAuthority(address)": FunctionFragment;
     "getTransactionHash(uint256,uint256,uint256,address,address,bytes)": FunctionFragment;
     "isTrustedForwarder(address)": FunctionFragment;
-    "setFunctionConfig(address,string,address,string,string,bytes32,string,string,address[])": FunctionFragment;
-    "verifyFunction(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "initialize"
+      | "isAdmin"
+      | "isAllowed"
+      | "setAdmin"
+      | "setAllowed"
       | "aggregatorEscrowFund"
       | "aggregatorEscrowWithdraw"
       | "aggregatorHistory"
@@ -579,23 +629,28 @@ export interface SwitchboardInterface extends utils.Interface {
       | "init"
       | "createEnclave"
       | "createEnclaveWithId"
-      | "enclaveAuthorityToEnclaveAddress"
       | "enclaveGarbageCollect"
       | "enclaveHeartbeat"
+      | "enclaveSignerToEnclaveId"
       | "enclaves"
       | "failEnclave"
       | "forceOverrideVerify"
       | "isEnclaveValid"
-      | "rotateEnclaveAuthority"
+      | "rotateEnclaveSigner"
       | "updateEnclave"
       | "validate"
       | "verifyEnclave"
+      | "callFunction"
+      | "functionCallSettings"
+      | "functionCalls"
+      | "getActiveFunctionCallsByQueue"
+      | "setFunctionCallSettings"
       | "createOracle"
       | "createOracleWithId"
       | "oracleGarbageCollect"
       | "oracleHeartbeat"
       | "oracles"
-      | "rotateOracleAuthority"
+      | "rotateOracleSigner"
       | "setOracleConfig"
       | "addMrEnclaveToOracleQueue"
       | "createOracleQueue"
@@ -610,23 +665,45 @@ export interface SwitchboardInterface extends utils.Interface {
       | "setOracleQueuePermission"
       | "getPermission"
       | "hasPermission"
-      | "callFunction"
       | "createFunction"
+      | "createFunctionWithId"
       | "forward"
-      | "funcs"
       | "functionEscrowFund"
       | "functionEscrowWithdraw"
+      | "functionVerify"
+      | "functionVerifyRequest"
+      | "setFunctionConfig"
+      | "setToleratedTimestampDiscrepancy"
+      | "estimatedRunCost"
+      | "funcs"
       | "functionExists"
       | "getActiveFunctionsByQueue"
       | "getAllFunctions"
-      | "getAllUnexecutedFunctionCalls"
       | "getFunctionsByAuthority"
       | "getTransactionHash"
       | "isTrustedForwarder"
-      | "setFunctionConfig"
-      | "verifyFunction"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isAdmin",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isAllowed",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setAdmin",
+    values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setAllowed",
+    values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
+  ): string;
   encodeFunctionData(
     functionFragment: "aggregatorEscrowFund",
     values: [PromiseOrValue<string>]
@@ -836,15 +913,15 @@ export interface SwitchboardInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "enclaveAuthorityToEnclaveAddress",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "enclaveGarbageCollect",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "enclaveHeartbeat",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "enclaveSignerToEnclaveId",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -868,7 +945,7 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "rotateEnclaveAuthority",
+    functionFragment: "rotateEnclaveSigner",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -891,6 +968,33 @@ export interface SwitchboardInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "callFunction",
+    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "functionCallSettings",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "functionCalls",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getActiveFunctionCallsByQueue",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setFunctionCallSettings",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<boolean>
     ]
   ): string;
   encodeFunctionData(
@@ -925,7 +1029,7 @@ export interface SwitchboardInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "rotateOracleAuthority",
+    functionFragment: "rotateOracleSigner",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -1021,10 +1125,6 @@ export interface SwitchboardInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "callFunction",
-    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "createFunction",
     values: [
       PromiseOrValue<string>,
@@ -1032,7 +1132,22 @@ export interface SwitchboardInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createFunctionWithId",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>[]
@@ -1041,10 +1156,6 @@ export interface SwitchboardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "forward",
     values: [TransactionLib.TransactionStruct[], PromiseOrValue<BytesLike>[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "funcs",
-    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "functionEscrowFund",
@@ -1059,6 +1170,61 @@ export interface SwitchboardInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "functionVerify",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<BytesLike>,
+      TransactionLib.TransactionStruct[],
+      PromiseOrValue<BytesLike>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "functionVerifyRequest",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<boolean>,
+      PromiseOrValue<BytesLike>,
+      TransactionLib.TransactionStruct[],
+      PromiseOrValue<BytesLike>[],
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setFunctionConfig",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setToleratedTimestampDiscrepancy",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "estimatedRunCost",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "funcs",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "functionExists",
     values: [PromiseOrValue<string>]
   ): string;
@@ -1069,10 +1235,6 @@ export interface SwitchboardInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getAllFunctions",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getAllUnexecutedFunctionCalls",
-    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getFunctionsByAuthority",
@@ -1093,35 +1255,12 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "isTrustedForwarder",
     values: [PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(
-    functionFragment: "setFunctionConfig",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>[]
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "verifyFunction",
-    values: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<boolean>,
-      PromiseOrValue<BytesLike>,
-      TransactionLib.TransactionStruct[],
-      PromiseOrValue<BytesLike>[]
-    ]
-  ): string;
 
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isAdmin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isAllowed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setAdmin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setAllowed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "aggregatorEscrowFund",
     data: BytesLike
@@ -1255,15 +1394,15 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "enclaveAuthorityToEnclaveAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "enclaveGarbageCollect",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "enclaveHeartbeat",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "enclaveSignerToEnclaveId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "enclaves", data: BytesLike): Result;
@@ -1280,7 +1419,7 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "rotateEnclaveAuthority",
+    functionFragment: "rotateEnclaveSigner",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -1290,6 +1429,26 @@ export interface SwitchboardInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "validate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "verifyEnclave",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "callFunction",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "functionCallSettings",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "functionCalls",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getActiveFunctionCallsByQueue",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setFunctionCallSettings",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -1310,7 +1469,7 @@ export interface SwitchboardInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "oracles", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "rotateOracleAuthority",
+    functionFragment: "rotateOracleSigner",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -1367,15 +1526,14 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "callFunction",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "createFunction",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "createFunctionWithId",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "forward", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "funcs", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "functionEscrowFund",
     data: BytesLike
@@ -1384,6 +1542,27 @@ export interface SwitchboardInterface extends utils.Interface {
     functionFragment: "functionEscrowWithdraw",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "functionVerify",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "functionVerifyRequest",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setFunctionConfig",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setToleratedTimestampDiscrepancy",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "estimatedRunCost",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "funcs", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "functionExists",
     data: BytesLike
@@ -1397,10 +1576,6 @@ export interface SwitchboardInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getAllUnexecutedFunctionCalls",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "getFunctionsByAuthority",
     data: BytesLike
   ): Result;
@@ -1410,14 +1585,6 @@ export interface SwitchboardInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isTrustedForwarder",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setFunctionConfig",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "verifyFunction",
     data: BytesLike
   ): Result;
 
@@ -1443,11 +1610,14 @@ export interface SwitchboardInterface extends utils.Interface {
     "EnclaveGC(address,address)": EventFragment;
     "EnclaveHeartbeat(address,address)": EventFragment;
     "EnclavePayoutEvent(address,address,uint256)": EventFragment;
-    "EnclaveRotateAuthority(address,address,address)": EventFragment;
+    "EnclaveRotateSigner(address,address,address)": EventFragment;
     "EnclaveVerifyRequest(address,address,address)": EventFragment;
+    "FunctionCallEvent(address,address,address,bytes)": EventFragment;
+    "FunctionCallFund(address,address,uint256)": EventFragment;
     "OracleAccountInit(address,address)": EventFragment;
     "OracleGC(address,address)": EventFragment;
     "OracleHeartbeat(address)": EventFragment;
+    "OracleRotateSigner(address,address,address)": EventFragment;
     "OracleSetConfig(address,string,address,address,address)": EventFragment;
     "OracleQueueAccountInit(address,address)": EventFragment;
     "OracleQueueAddMrEnclave(address,address,bytes32)": EventFragment;
@@ -1456,7 +1626,6 @@ export interface SwitchboardInterface extends utils.Interface {
     "OracleQueueSetConfig(address,address)": EventFragment;
     "OracleQueueSetPermission(address,address,address,uint256)": EventFragment;
     "FunctionAccountInit(address,address)": EventFragment;
-    "FunctionCall(address,address,uint256,bytes)": EventFragment;
     "FunctionFund(address,address,uint256)": EventFragment;
     "FunctionWithdraw(address,address,uint256)": EventFragment;
   };
@@ -1488,11 +1657,14 @@ export interface SwitchboardInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "EnclaveGC"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EnclaveHeartbeat"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EnclavePayoutEvent"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "EnclaveRotateAuthority"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EnclaveRotateSigner"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EnclaveVerifyRequest"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FunctionCallEvent"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FunctionCallFund"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleAccountInit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleGC"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleHeartbeat"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OracleRotateSigner"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleSetConfig"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleQueueAccountInit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleQueueAddMrEnclave"): EventFragment;
@@ -1503,7 +1675,6 @@ export interface SwitchboardInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OracleQueueSetConfig"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OracleQueueSetPermission"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FunctionAccountInit"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "FunctionCall"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FunctionFund"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "FunctionWithdraw"): EventFragment;
 }
@@ -1724,7 +1895,7 @@ export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface EnclaveAccountInitEventObject {
-  authority: string;
+  signer: string;
   accountId: string;
 }
 export type EnclaveAccountInitEvent = TypedEvent<
@@ -1745,7 +1916,7 @@ export type EnclaveGCEventFilter = TypedEventFilter<EnclaveGCEvent>;
 
 export interface EnclaveHeartbeatEventObject {
   enclaveId: string;
-  authority: string;
+  signer: string;
 }
 export type EnclaveHeartbeatEvent = TypedEvent<
   [string, string],
@@ -1768,18 +1939,18 @@ export type EnclavePayoutEventEvent = TypedEvent<
 export type EnclavePayoutEventEventFilter =
   TypedEventFilter<EnclavePayoutEventEvent>;
 
-export interface EnclaveRotateAuthorityEventObject {
+export interface EnclaveRotateSignerEventObject {
   queueId: string;
-  oldAuthority: string;
-  newAuthority: string;
+  oldSigner: string;
+  newSigner: string;
 }
-export type EnclaveRotateAuthorityEvent = TypedEvent<
+export type EnclaveRotateSignerEvent = TypedEvent<
   [string, string, string],
-  EnclaveRotateAuthorityEventObject
+  EnclaveRotateSignerEventObject
 >;
 
-export type EnclaveRotateAuthorityEventFilter =
-  TypedEventFilter<EnclaveRotateAuthorityEvent>;
+export type EnclaveRotateSignerEventFilter =
+  TypedEventFilter<EnclaveRotateSignerEvent>;
 
 export interface EnclaveVerifyRequestEventObject {
   queueId: string;
@@ -1794,8 +1965,35 @@ export type EnclaveVerifyRequestEvent = TypedEvent<
 export type EnclaveVerifyRequestEventFilter =
   TypedEventFilter<EnclaveVerifyRequestEvent>;
 
+export interface FunctionCallEventEventObject {
+  functionId: string;
+  sender: string;
+  callId: string;
+  params: string;
+}
+export type FunctionCallEventEvent = TypedEvent<
+  [string, string, string, string],
+  FunctionCallEventEventObject
+>;
+
+export type FunctionCallEventEventFilter =
+  TypedEventFilter<FunctionCallEventEvent>;
+
+export interface FunctionCallFundEventObject {
+  functionId: string;
+  funder: string;
+  amount: BigNumber;
+}
+export type FunctionCallFundEvent = TypedEvent<
+  [string, string, BigNumber],
+  FunctionCallFundEventObject
+>;
+
+export type FunctionCallFundEventFilter =
+  TypedEventFilter<FunctionCallFundEvent>;
+
 export interface OracleAccountInitEventObject {
-  authority: string;
+  signer: string;
   accountId: string;
 }
 export type OracleAccountInitEvent = TypedEvent<
@@ -1824,12 +2022,25 @@ export type OracleHeartbeatEvent = TypedEvent<
 
 export type OracleHeartbeatEventFilter = TypedEventFilter<OracleHeartbeatEvent>;
 
+export interface OracleRotateSignerEventObject {
+  queueId: string;
+  oldSigner: string;
+  newSigner: string;
+}
+export type OracleRotateSignerEvent = TypedEvent<
+  [string, string, string],
+  OracleRotateSignerEventObject
+>;
+
+export type OracleRotateSignerEventFilter =
+  TypedEventFilter<OracleRotateSignerEvent>;
+
 export interface OracleSetConfigEventObject {
   oracleId: string;
   name: string;
-  authority: string;
+  signer: string;
   queueId: string;
-  owner: string;
+  authority: string;
 }
 export type OracleSetConfigEvent = TypedEvent<
   [string, string, string, string, string],
@@ -1926,19 +2137,6 @@ export type FunctionAccountInitEvent = TypedEvent<
 export type FunctionAccountInitEventFilter =
   TypedEventFilter<FunctionAccountInitEvent>;
 
-export interface FunctionCallEventObject {
-  functionId: string;
-  sender: string;
-  callId: BigNumber;
-  params: string;
-}
-export type FunctionCallEvent = TypedEvent<
-  [string, string, BigNumber, string],
-  FunctionCallEventObject
->;
-
-export type FunctionCallEventFilter = TypedEventFilter<FunctionCallEvent>;
-
 export interface FunctionFundEventObject {
   functionId: string;
   funder: string;
@@ -1991,6 +2189,32 @@ export interface Switchboard extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    isAdmin(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    isAllowed(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    setAdmin(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setAllowed(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     aggregatorEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -2189,9 +2413,7 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string[]] & { facetFunctionSelectors_: string[] }>;
 
-    facets(
-      overrides?: CallOverrides
-    ): Promise<
+    facets(overrides?: CallOverrides): Promise<
       [IDiamondLoupe.FacetStructOutput[]] & {
         facets_: IDiamondLoupe.FacetStructOutput[];
       }
@@ -2214,24 +2436,19 @@ export interface Switchboard extends BaseContract {
     ): Promise<ContractTransaction>;
 
     createEnclave(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     createEnclaveWithId(
       enclaveId: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    enclaveAuthorityToEnclaveAddress(
-      authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
 
     enclaveGarbageCollect(
       enclaveId: PromiseOrValue<string>,
@@ -2243,6 +2460,11 @@ export interface Switchboard extends BaseContract {
       enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    enclaveSignerToEnclaveId(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     enclaves(
       enclaveId: PromiseOrValue<string>,
@@ -2266,9 +2488,9 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    rotateEnclaveAuthority(
+    rotateEnclaveSigner(
       enclaveId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -2279,7 +2501,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<ContractTransaction>;
 
     validate(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       validMeasurements: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
@@ -2294,20 +2516,51 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    callFunction(
+      functionId: PromiseOrValue<string>,
+      params: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    functionCallSettings(
+      functionId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[FunctionCallLib.FunctionCallSettingsStructOutput]>;
+
+    functionCalls(
+      callId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[FunctionCallLib.FunctionCallStructOutput]>;
+
+    getActiveFunctionCallsByQueue(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[], FunctionCallLib.FunctionCallStructOutput[]]>;
+
+    setFunctionCallSettings(
+      functionId: PromiseOrValue<string>,
+      requireEstimatedRunCostFee: PromiseOrValue<boolean>,
+      minimumFee: PromiseOrValue<BigNumberish>,
+      maxGasCost: PromiseOrValue<BigNumberish>,
+      requireCallerPayFullCost: PromiseOrValue<boolean>,
+      requireSenderBeReturnAddress: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     createOracle(
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     createOracleWithId(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -2327,18 +2580,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[OracleLib.OracleStructOutput]>;
 
-    rotateOracleAuthority(
+    rotateOracleSigner(
       oracleId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -2430,35 +2683,38 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    callFunction(
-      functionId: PromiseOrValue<string>,
-      params: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     createFunction(
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    funcs(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[FunctionLib.SbFunctionStructOutput]>;
 
     functionEscrowFund(
       accountId: PromiseOrValue<string>,
@@ -2471,6 +2727,62 @@ export interface Switchboard extends BaseContract {
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    functionVerify(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    functionVerifyRequest(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      functionCallIds: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setToleratedTimestampDiscrepancy(
+      tolerance: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    estimatedRunCost(
+      functionId: PromiseOrValue<string>,
+      gasPrice: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    funcs(
+      functionId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[FunctionLib.SbFunctionStructOutput]>;
 
     functionExists(
       functionId: PromiseOrValue<string>,
@@ -2485,11 +2797,6 @@ export interface Switchboard extends BaseContract {
     getAllFunctions(
       overrides?: CallOverrides
     ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-    getAllUnexecutedFunctionCalls(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[FunctionLib.FunctionCallStructOutput[]]>;
 
     getFunctionsByAuthority(
       user: PromiseOrValue<string>,
@@ -2510,33 +2817,33 @@ export interface Switchboard extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    setFunctionConfig(
-      functionId: PromiseOrValue<string>,
-      name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
-      containerRegistry: PromiseOrValue<string>,
-      container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
-      schedule: PromiseOrValue<string>,
-      paramsSchema: PromiseOrValue<string>,
-      permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    verifyFunction(
-      enclaveIdx: PromiseOrValue<BigNumberish>,
-      functionId: PromiseOrValue<string>,
-      delegatedSignerAddress: PromiseOrValue<string>,
-      observedTime: PromiseOrValue<BigNumberish>,
-      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
-      isFailure: PromiseOrValue<boolean>,
-      mrEnclave: PromiseOrValue<BytesLike>,
-      transactions: TransactionLib.TransactionStruct[],
-      signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
   };
+
+  initialize(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  isAdmin(
+    sender: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  isAllowed(
+    sender: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  setAdmin(
+    sender: PromiseOrValue<string>,
+    status: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setAllowed(
+    sender: PromiseOrValue<string>,
+    status: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   aggregatorEscrowFund(
     accountId: PromiseOrValue<string>,
@@ -2753,24 +3060,19 @@ export interface Switchboard extends BaseContract {
   ): Promise<ContractTransaction>;
 
   createEnclave(
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
-    owner: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   createEnclaveWithId(
     enclaveId: PromiseOrValue<string>,
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
-    owner: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  enclaveAuthorityToEnclaveAddress(
-    authority: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<string>;
 
   enclaveGarbageCollect(
     enclaveId: PromiseOrValue<string>,
@@ -2782,6 +3084,11 @@ export interface Switchboard extends BaseContract {
     enclaveId: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  enclaveSignerToEnclaveId(
+    signer: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   enclaves(
     enclaveId: PromiseOrValue<string>,
@@ -2805,9 +3112,9 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  rotateEnclaveAuthority(
+  rotateEnclaveSigner(
     enclaveId: PromiseOrValue<string>,
-    newAuthority: PromiseOrValue<string>,
+    newSigner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -2818,7 +3125,7 @@ export interface Switchboard extends BaseContract {
   ): Promise<ContractTransaction>;
 
   validate(
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     attestationQueueId: PromiseOrValue<string>,
     validMeasurements: PromiseOrValue<BytesLike>[],
     overrides?: CallOverrides
@@ -2833,20 +3140,51 @@ export interface Switchboard extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  callFunction(
+    functionId: PromiseOrValue<string>,
+    params: PromiseOrValue<BytesLike>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  functionCallSettings(
+    functionId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<FunctionCallLib.FunctionCallSettingsStructOutput>;
+
+  functionCalls(
+    callId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<FunctionCallLib.FunctionCallStructOutput>;
+
+  getActiveFunctionCallsByQueue(
+    queueId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<[string[], FunctionCallLib.FunctionCallStructOutput[]]>;
+
+  setFunctionCallSettings(
+    functionId: PromiseOrValue<string>,
+    requireEstimatedRunCostFee: PromiseOrValue<boolean>,
+    minimumFee: PromiseOrValue<BigNumberish>,
+    maxGasCost: PromiseOrValue<BigNumberish>,
+    requireCallerPayFullCost: PromiseOrValue<boolean>,
+    requireSenderBeReturnAddress: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   createOracle(
     name: PromiseOrValue<string>,
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
-    owner: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   createOracleWithId(
     oracleId: PromiseOrValue<string>,
     name: PromiseOrValue<string>,
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
-    owner: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -2866,18 +3204,18 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<OracleLib.OracleStructOutput>;
 
-  rotateOracleAuthority(
+  rotateOracleSigner(
     oracleId: PromiseOrValue<string>,
-    newAuthority: PromiseOrValue<string>,
+    newSigner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   setOracleConfig(
     oracleId: PromiseOrValue<string>,
     name: PromiseOrValue<string>,
-    authority: PromiseOrValue<string>,
+    signer: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
-    owner: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -2969,35 +3307,38 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  callFunction(
-    functionId: PromiseOrValue<string>,
-    params: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   createFunction(
     name: PromiseOrValue<string>,
     authority: PromiseOrValue<string>,
     queueId: PromiseOrValue<string>,
     containerRegistry: PromiseOrValue<string>,
     container: PromiseOrValue<string>,
-    version: PromiseOrValue<BytesLike>,
+    version: PromiseOrValue<string>,
     schedule: PromiseOrValue<string>,
     paramsSchema: PromiseOrValue<string>,
     permittedCallers: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  createFunctionWithId(
+    functionId: PromiseOrValue<string>,
+    name: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
+    queueId: PromiseOrValue<string>,
+    containerRegistry: PromiseOrValue<string>,
+    container: PromiseOrValue<string>,
+    version: PromiseOrValue<string>,
+    schedule: PromiseOrValue<string>,
+    paramsSchema: PromiseOrValue<string>,
+    permittedCallers: PromiseOrValue<string>[],
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   forward(
     transactions: TransactionLib.TransactionStruct[],
     signatures: PromiseOrValue<BytesLike>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  funcs(
-    functionId: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<FunctionLib.SbFunctionStructOutput>;
 
   functionEscrowFund(
     accountId: PromiseOrValue<string>,
@@ -3010,6 +3351,62 @@ export interface Switchboard extends BaseContract {
     amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  functionVerify(
+    enclaveIdx: PromiseOrValue<BigNumberish>,
+    functionId: PromiseOrValue<string>,
+    delegatedSignerAddress: PromiseOrValue<string>,
+    observedTime: PromiseOrValue<BigNumberish>,
+    nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+    isFailure: PromiseOrValue<boolean>,
+    mrEnclave: PromiseOrValue<BytesLike>,
+    transactions: TransactionLib.TransactionStruct[],
+    signatures: PromiseOrValue<BytesLike>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  functionVerifyRequest(
+    enclaveIdx: PromiseOrValue<BigNumberish>,
+    functionId: PromiseOrValue<string>,
+    delegatedSignerAddress: PromiseOrValue<string>,
+    observedTime: PromiseOrValue<BigNumberish>,
+    nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+    isFailure: PromiseOrValue<boolean>,
+    mrEnclave: PromiseOrValue<BytesLike>,
+    transactions: TransactionLib.TransactionStruct[],
+    signatures: PromiseOrValue<BytesLike>[],
+    functionCallIds: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setFunctionConfig(
+    functionId: PromiseOrValue<string>,
+    name: PromiseOrValue<string>,
+    authority: PromiseOrValue<string>,
+    containerRegistry: PromiseOrValue<string>,
+    container: PromiseOrValue<string>,
+    version: PromiseOrValue<string>,
+    schedule: PromiseOrValue<string>,
+    paramsSchema: PromiseOrValue<string>,
+    permittedCallers: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setToleratedTimestampDiscrepancy(
+    tolerance: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  estimatedRunCost(
+    functionId: PromiseOrValue<string>,
+    gasPrice: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  funcs(
+    functionId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<FunctionLib.SbFunctionStructOutput>;
 
   functionExists(
     functionId: PromiseOrValue<string>,
@@ -3024,11 +3421,6 @@ export interface Switchboard extends BaseContract {
   getAllFunctions(
     overrides?: CallOverrides
   ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-  getAllUnexecutedFunctionCalls(
-    functionId: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<FunctionLib.FunctionCallStructOutput[]>;
 
   getFunctionsByAuthority(
     user: PromiseOrValue<string>,
@@ -3050,33 +3442,31 @@ export interface Switchboard extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  setFunctionConfig(
-    functionId: PromiseOrValue<string>,
-    name: PromiseOrValue<string>,
-    authority: PromiseOrValue<string>,
-    containerRegistry: PromiseOrValue<string>,
-    container: PromiseOrValue<string>,
-    version: PromiseOrValue<BytesLike>,
-    schedule: PromiseOrValue<string>,
-    paramsSchema: PromiseOrValue<string>,
-    permittedCallers: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  verifyFunction(
-    enclaveIdx: PromiseOrValue<BigNumberish>,
-    functionId: PromiseOrValue<string>,
-    delegatedSignerAddress: PromiseOrValue<string>,
-    observedTime: PromiseOrValue<BigNumberish>,
-    nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
-    isFailure: PromiseOrValue<boolean>,
-    mrEnclave: PromiseOrValue<BytesLike>,
-    transactions: TransactionLib.TransactionStruct[],
-    signatures: PromiseOrValue<BytesLike>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
+    initialize(overrides?: CallOverrides): Promise<void>;
+
+    isAdmin(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    isAllowed(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    setAdmin(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setAllowed(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     aggregatorEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -3300,24 +3690,19 @@ export interface Switchboard extends BaseContract {
     init(overrides?: CallOverrides): Promise<void>;
 
     createEnclave(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     createEnclaveWithId(
       enclaveId: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    enclaveAuthorityToEnclaveAddress(
-      authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     enclaveGarbageCollect(
       enclaveId: PromiseOrValue<string>,
@@ -3329,6 +3714,11 @@ export interface Switchboard extends BaseContract {
       enclaveId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    enclaveSignerToEnclaveId(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     enclaves(
       enclaveId: PromiseOrValue<string>,
@@ -3352,9 +3742,9 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    rotateEnclaveAuthority(
+    rotateEnclaveSigner(
       enclaveId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -3365,7 +3755,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<void>;
 
     validate(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       validMeasurements: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
@@ -3380,20 +3770,51 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    callFunction(
+      functionId: PromiseOrValue<string>,
+      params: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    functionCallSettings(
+      functionId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<FunctionCallLib.FunctionCallSettingsStructOutput>;
+
+    functionCalls(
+      callId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<FunctionCallLib.FunctionCallStructOutput>;
+
+    getActiveFunctionCallsByQueue(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string[], FunctionCallLib.FunctionCallStructOutput[]]>;
+
+    setFunctionCallSettings(
+      functionId: PromiseOrValue<string>,
+      requireEstimatedRunCostFee: PromiseOrValue<boolean>,
+      minimumFee: PromiseOrValue<BigNumberish>,
+      maxGasCost: PromiseOrValue<BigNumberish>,
+      requireCallerPayFullCost: PromiseOrValue<boolean>,
+      requireSenderBeReturnAddress: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     createOracle(
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     createOracleWithId(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -3413,18 +3834,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<OracleLib.OracleStructOutput>;
 
-    rotateOracleAuthority(
+    rotateOracleSigner(
       oracleId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -3516,19 +3937,27 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    callFunction(
-      functionId: PromiseOrValue<string>,
-      params: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     createFunction(
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
@@ -3541,11 +3970,6 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    funcs(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<FunctionLib.SbFunctionStructOutput>;
-
     functionEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -3557,6 +3981,62 @@ export interface Switchboard extends BaseContract {
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    functionVerify(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    functionVerifyRequest(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      functionCallIds: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setToleratedTimestampDiscrepancy(
+      tolerance: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    estimatedRunCost(
+      functionId: PromiseOrValue<string>,
+      gasPrice: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    funcs(
+      functionId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<FunctionLib.SbFunctionStructOutput>;
 
     functionExists(
       functionId: PromiseOrValue<string>,
@@ -3571,11 +4051,6 @@ export interface Switchboard extends BaseContract {
     getAllFunctions(
       overrides?: CallOverrides
     ): Promise<[string[], FunctionLib.SbFunctionStructOutput[]]>;
-
-    getAllUnexecutedFunctionCalls(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<FunctionLib.FunctionCallStructOutput[]>;
 
     getFunctionsByAuthority(
       user: PromiseOrValue<string>,
@@ -3596,32 +4071,6 @@ export interface Switchboard extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    setFunctionConfig(
-      functionId: PromiseOrValue<string>,
-      name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
-      containerRegistry: PromiseOrValue<string>,
-      container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
-      schedule: PromiseOrValue<string>,
-      paramsSchema: PromiseOrValue<string>,
-      permittedCallers: PromiseOrValue<string>[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    verifyFunction(
-      enclaveIdx: PromiseOrValue<BigNumberish>,
-      functionId: PromiseOrValue<string>,
-      delegatedSignerAddress: PromiseOrValue<string>,
-      observedTime: PromiseOrValue<BigNumberish>,
-      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
-      isFailure: PromiseOrValue<boolean>,
-      mrEnclave: PromiseOrValue<BytesLike>,
-      transactions: TransactionLib.TransactionStruct[],
-      signatures: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {
@@ -3809,11 +4258,11 @@ export interface Switchboard extends BaseContract {
     ): OwnershipTransferredEventFilter;
 
     "EnclaveAccountInit(address,address)"(
-      authority?: PromiseOrValue<string> | null,
+      signer?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
     ): EnclaveAccountInitEventFilter;
     EnclaveAccountInit(
-      authority?: PromiseOrValue<string> | null,
+      signer?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
     ): EnclaveAccountInitEventFilter;
 
@@ -3828,11 +4277,11 @@ export interface Switchboard extends BaseContract {
 
     "EnclaveHeartbeat(address,address)"(
       enclaveId?: PromiseOrValue<string> | null,
-      authority?: PromiseOrValue<string> | null
+      signer?: PromiseOrValue<string> | null
     ): EnclaveHeartbeatEventFilter;
     EnclaveHeartbeat(
       enclaveId?: PromiseOrValue<string> | null,
-      authority?: PromiseOrValue<string> | null
+      signer?: PromiseOrValue<string> | null
     ): EnclaveHeartbeatEventFilter;
 
     "EnclavePayoutEvent(address,address,uint256)"(
@@ -3846,16 +4295,16 @@ export interface Switchboard extends BaseContract {
       amount?: PromiseOrValue<BigNumberish> | null
     ): EnclavePayoutEventEventFilter;
 
-    "EnclaveRotateAuthority(address,address,address)"(
+    "EnclaveRotateSigner(address,address,address)"(
       queueId?: PromiseOrValue<string> | null,
-      oldAuthority?: PromiseOrValue<string> | null,
-      newAuthority?: PromiseOrValue<string> | null
-    ): EnclaveRotateAuthorityEventFilter;
-    EnclaveRotateAuthority(
+      oldSigner?: PromiseOrValue<string> | null,
+      newSigner?: PromiseOrValue<string> | null
+    ): EnclaveRotateSignerEventFilter;
+    EnclaveRotateSigner(
       queueId?: PromiseOrValue<string> | null,
-      oldAuthority?: PromiseOrValue<string> | null,
-      newAuthority?: PromiseOrValue<string> | null
-    ): EnclaveRotateAuthorityEventFilter;
+      oldSigner?: PromiseOrValue<string> | null,
+      newSigner?: PromiseOrValue<string> | null
+    ): EnclaveRotateSignerEventFilter;
 
     "EnclaveVerifyRequest(address,address,address)"(
       queueId?: PromiseOrValue<string> | null,
@@ -3868,12 +4317,36 @@ export interface Switchboard extends BaseContract {
       verifiee?: PromiseOrValue<string> | null
     ): EnclaveVerifyRequestEventFilter;
 
+    "FunctionCallEvent(address,address,address,bytes)"(
+      functionId?: PromiseOrValue<string> | null,
+      sender?: PromiseOrValue<string> | null,
+      callId?: PromiseOrValue<string> | null,
+      params?: null
+    ): FunctionCallEventEventFilter;
+    FunctionCallEvent(
+      functionId?: PromiseOrValue<string> | null,
+      sender?: PromiseOrValue<string> | null,
+      callId?: PromiseOrValue<string> | null,
+      params?: null
+    ): FunctionCallEventEventFilter;
+
+    "FunctionCallFund(address,address,uint256)"(
+      functionId?: PromiseOrValue<string> | null,
+      funder?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
+    ): FunctionCallFundEventFilter;
+    FunctionCallFund(
+      functionId?: PromiseOrValue<string> | null,
+      funder?: PromiseOrValue<string> | null,
+      amount?: PromiseOrValue<BigNumberish> | null
+    ): FunctionCallFundEventFilter;
+
     "OracleAccountInit(address,address)"(
-      authority?: PromiseOrValue<string> | null,
+      signer?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
     ): OracleAccountInitEventFilter;
     OracleAccountInit(
-      authority?: PromiseOrValue<string> | null,
+      signer?: PromiseOrValue<string> | null,
       accountId?: PromiseOrValue<string> | null
     ): OracleAccountInitEventFilter;
 
@@ -3893,19 +4366,30 @@ export interface Switchboard extends BaseContract {
       oracleId?: PromiseOrValue<string> | null
     ): OracleHeartbeatEventFilter;
 
+    "OracleRotateSigner(address,address,address)"(
+      queueId?: PromiseOrValue<string> | null,
+      oldSigner?: PromiseOrValue<string> | null,
+      newSigner?: PromiseOrValue<string> | null
+    ): OracleRotateSignerEventFilter;
+    OracleRotateSigner(
+      queueId?: PromiseOrValue<string> | null,
+      oldSigner?: PromiseOrValue<string> | null,
+      newSigner?: PromiseOrValue<string> | null
+    ): OracleRotateSignerEventFilter;
+
     "OracleSetConfig(address,string,address,address,address)"(
       oracleId?: PromiseOrValue<string> | null,
       name?: null,
-      authority?: PromiseOrValue<string> | null,
+      signer?: PromiseOrValue<string> | null,
       queueId?: PromiseOrValue<string> | null,
-      owner?: null
+      authority?: null
     ): OracleSetConfigEventFilter;
     OracleSetConfig(
       oracleId?: PromiseOrValue<string> | null,
       name?: null,
-      authority?: PromiseOrValue<string> | null,
+      signer?: PromiseOrValue<string> | null,
       queueId?: PromiseOrValue<string> | null,
-      owner?: null
+      authority?: null
     ): OracleSetConfigEventFilter;
 
     "OracleQueueAccountInit(address,address)"(
@@ -3979,19 +4463,6 @@ export interface Switchboard extends BaseContract {
       accountId?: PromiseOrValue<string> | null
     ): FunctionAccountInitEventFilter;
 
-    "FunctionCall(address,address,uint256,bytes)"(
-      functionId?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null,
-      callId?: PromiseOrValue<BigNumberish> | null,
-      params?: null
-    ): FunctionCallEventFilter;
-    FunctionCall(
-      functionId?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null,
-      callId?: PromiseOrValue<BigNumberish> | null,
-      params?: null
-    ): FunctionCallEventFilter;
-
     "FunctionFund(address,address,uint256)"(
       functionId?: PromiseOrValue<string> | null,
       funder?: PromiseOrValue<string> | null,
@@ -4016,6 +4487,32 @@ export interface Switchboard extends BaseContract {
   };
 
   estimateGas: {
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    isAdmin(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isAllowed(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setAdmin(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setAllowed(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     aggregatorEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -4227,23 +4724,18 @@ export interface Switchboard extends BaseContract {
     ): Promise<BigNumber>;
 
     createEnclave(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     createEnclaveWithId(
       enclaveId: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    enclaveAuthorityToEnclaveAddress(
       authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     enclaveGarbageCollect(
@@ -4255,6 +4747,11 @@ export interface Switchboard extends BaseContract {
     enclaveHeartbeat(
       enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    enclaveSignerToEnclaveId(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     enclaves(
@@ -4279,9 +4776,9 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    rotateEnclaveAuthority(
+    rotateEnclaveSigner(
       enclaveId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -4292,7 +4789,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<BigNumber>;
 
     validate(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       validMeasurements: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
@@ -4307,20 +4804,51 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    callFunction(
+      functionId: PromiseOrValue<string>,
+      params: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    functionCallSettings(
+      functionId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    functionCalls(
+      callId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getActiveFunctionCallsByQueue(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setFunctionCallSettings(
+      functionId: PromiseOrValue<string>,
+      requireEstimatedRunCostFee: PromiseOrValue<boolean>,
+      minimumFee: PromiseOrValue<BigNumberish>,
+      maxGasCost: PromiseOrValue<BigNumberish>,
+      requireCallerPayFullCost: PromiseOrValue<boolean>,
+      requireSenderBeReturnAddress: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     createOracle(
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     createOracleWithId(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -4340,18 +4868,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    rotateOracleAuthority(
+    rotateOracleSigner(
       oracleId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -4443,34 +4971,37 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    callFunction(
-      functionId: PromiseOrValue<string>,
-      params: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     createFunction(
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    funcs(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     functionEscrowFund(
@@ -4485,6 +5016,62 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    functionVerify(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    functionVerifyRequest(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      functionCallIds: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setToleratedTimestampDiscrepancy(
+      tolerance: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    estimatedRunCost(
+      functionId: PromiseOrValue<string>,
+      gasPrice: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    funcs(
+      functionId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     functionExists(
       functionId: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -4496,11 +5083,6 @@ export interface Switchboard extends BaseContract {
     ): Promise<BigNumber>;
 
     getAllFunctions(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getAllUnexecutedFunctionCalls(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     getFunctionsByAuthority(
       user: PromiseOrValue<string>,
@@ -4521,35 +5103,35 @@ export interface Switchboard extends BaseContract {
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    setFunctionConfig(
-      functionId: PromiseOrValue<string>,
-      name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
-      containerRegistry: PromiseOrValue<string>,
-      container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
-      schedule: PromiseOrValue<string>,
-      paramsSchema: PromiseOrValue<string>,
-      permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    verifyFunction(
-      enclaveIdx: PromiseOrValue<BigNumberish>,
-      functionId: PromiseOrValue<string>,
-      delegatedSignerAddress: PromiseOrValue<string>,
-      observedTime: PromiseOrValue<BigNumberish>,
-      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
-      isFailure: PromiseOrValue<boolean>,
-      mrEnclave: PromiseOrValue<BytesLike>,
-      transactions: TransactionLib.TransactionStruct[],
-      signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    initialize(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    isAdmin(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isAllowed(
+      sender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setAdmin(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setAllowed(
+      sender: PromiseOrValue<string>,
+      status: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     aggregatorEscrowFund(
       accountId: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -4761,23 +5343,18 @@ export interface Switchboard extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     createEnclave(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     createEnclaveWithId(
       enclaveId: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    enclaveAuthorityToEnclaveAddress(
       authority: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     enclaveGarbageCollect(
@@ -4789,6 +5366,11 @@ export interface Switchboard extends BaseContract {
     enclaveHeartbeat(
       enclaveId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    enclaveSignerToEnclaveId(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     enclaves(
@@ -4813,9 +5395,9 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    rotateEnclaveAuthority(
+    rotateEnclaveSigner(
       enclaveId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -4826,7 +5408,7 @@ export interface Switchboard extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     validate(
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       attestationQueueId: PromiseOrValue<string>,
       validMeasurements: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
@@ -4841,20 +5423,51 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    callFunction(
+      functionId: PromiseOrValue<string>,
+      params: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    functionCallSettings(
+      functionId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    functionCalls(
+      callId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getActiveFunctionCallsByQueue(
+      queueId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setFunctionCallSettings(
+      functionId: PromiseOrValue<string>,
+      requireEstimatedRunCostFee: PromiseOrValue<boolean>,
+      minimumFee: PromiseOrValue<BigNumberish>,
+      maxGasCost: PromiseOrValue<BigNumberish>,
+      requireCallerPayFullCost: PromiseOrValue<boolean>,
+      requireSenderBeReturnAddress: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     createOracle(
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     createOracleWithId(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -4874,18 +5487,18 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    rotateOracleAuthority(
+    rotateOracleSigner(
       oracleId: PromiseOrValue<string>,
-      newAuthority: PromiseOrValue<string>,
+      newSigner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     setOracleConfig(
       oracleId: PromiseOrValue<string>,
       name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
+      signer: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
-      owner: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -4977,34 +5590,37 @@ export interface Switchboard extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    callFunction(
-      functionId: PromiseOrValue<string>,
-      params: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     createFunction(
       name: PromiseOrValue<string>,
       authority: PromiseOrValue<string>,
       queueId: PromiseOrValue<string>,
       containerRegistry: PromiseOrValue<string>,
       container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
+      version: PromiseOrValue<string>,
       schedule: PromiseOrValue<string>,
       paramsSchema: PromiseOrValue<string>,
       permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createFunctionWithId(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      queueId: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     forward(
       transactions: TransactionLib.TransactionStruct[],
       signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    funcs(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     functionEscrowFund(
@@ -5019,6 +5635,62 @@ export interface Switchboard extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    functionVerify(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    functionVerifyRequest(
+      enclaveIdx: PromiseOrValue<BigNumberish>,
+      functionId: PromiseOrValue<string>,
+      delegatedSignerAddress: PromiseOrValue<string>,
+      observedTime: PromiseOrValue<BigNumberish>,
+      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
+      isFailure: PromiseOrValue<boolean>,
+      mrEnclave: PromiseOrValue<BytesLike>,
+      transactions: TransactionLib.TransactionStruct[],
+      signatures: PromiseOrValue<BytesLike>[],
+      functionCallIds: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setFunctionConfig(
+      functionId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      authority: PromiseOrValue<string>,
+      containerRegistry: PromiseOrValue<string>,
+      container: PromiseOrValue<string>,
+      version: PromiseOrValue<string>,
+      schedule: PromiseOrValue<string>,
+      paramsSchema: PromiseOrValue<string>,
+      permittedCallers: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setToleratedTimestampDiscrepancy(
+      tolerance: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    estimatedRunCost(
+      functionId: PromiseOrValue<string>,
+      gasPrice: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    funcs(
+      functionId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     functionExists(
       functionId: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -5030,11 +5702,6 @@ export interface Switchboard extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getAllFunctions(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getAllUnexecutedFunctionCalls(
-      functionId: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     getFunctionsByAuthority(
       user: PromiseOrValue<string>,
@@ -5054,32 +5721,6 @@ export interface Switchboard extends BaseContract {
     isTrustedForwarder(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    setFunctionConfig(
-      functionId: PromiseOrValue<string>,
-      name: PromiseOrValue<string>,
-      authority: PromiseOrValue<string>,
-      containerRegistry: PromiseOrValue<string>,
-      container: PromiseOrValue<string>,
-      version: PromiseOrValue<BytesLike>,
-      schedule: PromiseOrValue<string>,
-      paramsSchema: PromiseOrValue<string>,
-      permittedCallers: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    verifyFunction(
-      enclaveIdx: PromiseOrValue<BigNumberish>,
-      functionId: PromiseOrValue<string>,
-      delegatedSignerAddress: PromiseOrValue<string>,
-      observedTime: PromiseOrValue<BigNumberish>,
-      nextAllowedTimestamp: PromiseOrValue<BigNumberish>,
-      isFailure: PromiseOrValue<boolean>,
-      mrEnclave: PromiseOrValue<BytesLike>,
-      transactions: TransactionLib.TransactionStruct[],
-      signatures: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

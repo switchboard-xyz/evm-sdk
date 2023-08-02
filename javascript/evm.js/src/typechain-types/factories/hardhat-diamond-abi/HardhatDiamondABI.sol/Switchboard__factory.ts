@@ -27,6 +27,125 @@ const _abi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "ACLAdminAlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "isAdmin",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "isAllowed",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
+    ],
+    name: "setAdmin",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
+    ],
+    name: "setAllowed",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -137,6 +256,17 @@ const _abi = [
   {
     inputs: [],
     name: "InvalidEntry",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
+    name: "OracleExpired",
     type: "error",
   },
   {
@@ -1202,6 +1332,28 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "attestationQueueId",
         type: "address",
       },
@@ -1976,6 +2128,28 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "enclaveId",
         type: "address",
       },
@@ -2154,6 +2328,22 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "expectedSigner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedSigner",
+        type: "address",
+      },
+    ],
+    name: "InvalidSigner",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "account",
         type: "address",
       },
@@ -2230,7 +2420,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -2274,7 +2464,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
     ],
@@ -2318,17 +2508,17 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "oldAuthority",
+        name: "oldSigner",
         type: "address",
       },
       {
         indexed: true,
         internalType: "address",
-        name: "newAuthority",
+        name: "newSigner",
         type: "address",
       },
     ],
-    name: "EnclaveRotateAuthority",
+    name: "EnclaveRotateSigner",
     type: "event",
   },
   {
@@ -2360,7 +2550,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -2370,7 +2560,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "authority",
         type: "address",
       },
     ],
@@ -2388,7 +2578,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -2398,32 +2588,13 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "authority",
         type: "address",
       },
     ],
     name: "createEnclaveWithId",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-    ],
-    name: "enclaveAuthorityToEnclaveAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -2461,6 +2632,25 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "signer",
+        type: "address",
+      },
+    ],
+    name: "enclaveSignerToEnclaveId",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "enclaveId",
         type: "address",
       },
@@ -2471,12 +2661,12 @@ const _abi = [
         components: [
           {
             internalType: "address",
-            name: "authority",
+            name: "signer",
             type: "address",
           },
           {
             internalType: "address",
-            name: "owner",
+            name: "authority",
             type: "address",
           },
           {
@@ -2597,11 +2787,11 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "newAuthority",
+        name: "newSigner",
         type: "address",
       },
     ],
-    name: "rotateEnclaveAuthority",
+    name: "rotateEnclaveSigner",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -2628,7 +2818,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -2679,6 +2869,33 @@ const _abi = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [],
+    name: "ACLAdminAlreadyInitialized",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
   },
   {
     inputs: [
@@ -2906,6 +3123,43 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "expected",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "received",
+        type: "uint256",
+      },
+    ],
+    name: "FunctionFeeTooLow",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "received",
+        type: "address",
+      },
+    ],
+    name: "FunctionIncorrectTarget",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes32",
         name: "expected",
         type: "bytes32",
@@ -2917,6 +3171,22 @@ const _abi = [
       },
     ],
     name: "FunctionMrEnclaveMismatch",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "current",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "received",
+        type: "address",
+      },
+    ],
+    name: "FunctionSignerAlreadySet",
     type: "error",
   },
   {
@@ -3078,6 +3348,22 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "expectedSigner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedSigner",
+        type: "address",
+      },
+    ],
+    name: "InvalidSigner",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "account",
         type: "address",
       },
@@ -3120,6 +3406,17 @@ const _abi = [
       },
     ],
     name: "OracleAlreadyExists",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "oracleId",
+        type: "address",
+      },
+    ],
+    name: "OracleExpired",
     type: "error",
   },
   {
@@ -3237,6 +3534,400 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "FunctionCallerNotPermitted",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+    ],
+    name: "FunctionDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "expected",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "received",
+        type: "uint256",
+      },
+    ],
+    name: "FunctionFeeTooLow",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedAuthority",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedAuthority",
+        type: "address",
+      },
+    ],
+    name: "InvalidAuthority",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidEntry",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "callId",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "params",
+        type: "bytes",
+      },
+    ],
+    name: "FunctionCallEvent",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "funder",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "FunctionCallFund",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "params",
+        type: "bytes",
+      },
+    ],
+    name: "callFunction",
+    outputs: [
+      {
+        internalType: "address",
+        name: "callId",
+        type: "address",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+    ],
+    name: "functionCallSettings",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bool",
+            name: "requireEstimatedRunCostFee",
+            type: "bool",
+          },
+          {
+            internalType: "uint256",
+            name: "minimumFee",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "maxGasCost",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "requireCallerPayFullCost",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "requireSenderBeReturnAddress",
+            type: "bool",
+          },
+        ],
+        internalType: "struct FunctionCallLib.FunctionCallSettings",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "callId",
+        type: "address",
+      },
+    ],
+    name: "functionCalls",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "functionId",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "caller",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+          {
+            internalType: "bool",
+            name: "executed",
+            type: "bool",
+          },
+          {
+            internalType: "uint256",
+            name: "consecutiveFailures",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "feePaid",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct FunctionCallLib.FunctionCall",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+    ],
+    name: "getActiveFunctionCallsByQueue",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "functionId",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "caller",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+          {
+            internalType: "bool",
+            name: "executed",
+            type: "bool",
+          },
+          {
+            internalType: "uint256",
+            name: "consecutiveFailures",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "feePaid",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct FunctionCallLib.FunctionCall[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "requireEstimatedRunCostFee",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "minimumFee",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "maxGasCost",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "requireCallerPayFullCost",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "requireSenderBeReturnAddress",
+        type: "bool",
+      },
+    ],
+    name: "setFunctionCallSettings",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "argumentIndex",
         type: "uint256",
@@ -3264,6 +3955,22 @@ const _abi = [
   {
     inputs: [],
     name: "InvalidEntry",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "expectedSigner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "receivedSigner",
+        type: "address",
+      },
+    ],
+    name: "InvalidSigner",
     type: "error",
   },
   {
@@ -3341,7 +4048,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -3392,6 +4099,31 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "oldSigner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newSigner",
+        type: "address",
+      },
+    ],
+    name: "OracleRotateSigner",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
         name: "oracleId",
         type: "address",
       },
@@ -3404,7 +4136,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -3416,7 +4148,7 @@ const _abi = [
       {
         indexed: false,
         internalType: "address",
-        name: "owner",
+        name: "authority",
         type: "address",
       },
     ],
@@ -3432,7 +4164,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -3442,7 +4174,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "authority",
         type: "address",
       },
     ],
@@ -3465,7 +4197,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -3475,7 +4207,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "authority",
         type: "address",
       },
     ],
@@ -3534,7 +4266,7 @@ const _abi = [
           },
           {
             internalType: "address",
-            name: "authority",
+            name: "signer",
             type: "address",
           },
           {
@@ -3554,7 +4286,7 @@ const _abi = [
           },
           {
             internalType: "address",
-            name: "owner",
+            name: "authority",
             type: "address",
           },
         ],
@@ -3575,11 +4307,11 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "newAuthority",
+        name: "newSigner",
         type: "address",
       },
     ],
-    name: "rotateOracleAuthority",
+    name: "rotateOracleSigner",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -3598,7 +4330,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "authority",
+        name: "signer",
         type: "address",
       },
       {
@@ -3608,7 +4340,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "owner",
+        name: "authority",
         type: "address",
       },
     ],
@@ -3616,6 +4348,39 @@ const _abi = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "argumentIndex",
+        type: "uint256",
+      },
+    ],
+    name: "InvalidArgument",
+    type: "error",
   },
   {
     inputs: [
@@ -4185,6 +4950,28 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAdmin",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "ACLNotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes32",
         name: "txHash",
         type: "bytes32",
@@ -4234,22 +5021,17 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "queueId",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "enclaveId",
-        type: "address",
+        internalType: "uint256",
+        name: "gasLimit",
+        type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "enclaveIdx",
+        name: "gasSpent",
         type: "uint256",
       },
     ],
-    name: "EnclaveNotAtQueueIdx",
+    name: "ExcessiveGasSpent",
     type: "error",
   },
   {
@@ -4270,13 +5052,8 @@ const _abi = [
         name: "functionId",
         type: "address",
       },
-      {
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
     ],
-    name: "FunctionCallerNotPermitted",
+    name: "FunctionDoesNotExist",
     type: "error",
   },
   {
@@ -4286,24 +5063,29 @@ const _abi = [
         name: "functionId",
         type: "address",
       },
+      {
+        internalType: "address",
+        name: "received",
+        type: "address",
+      },
     ],
-    name: "FunctionDoesNotExist",
+    name: "FunctionIncorrectTarget",
     type: "error",
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "expected",
-        type: "bytes32",
+        internalType: "address",
+        name: "current",
+        type: "address",
       },
       {
-        internalType: "bytes32",
+        internalType: "address",
         name: "received",
-        type: "bytes32",
+        type: "address",
       },
     ],
-    name: "FunctionMrEnclaveMismatch",
+    name: "FunctionSignerAlreadySet",
     type: "error",
   },
   {
@@ -4352,6 +5134,17 @@ const _abi = [
       },
     ],
     name: "InsufficientBalance",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "argumentIndex",
+        type: "uint256",
+      },
+    ],
+    name: "InvalidArgument",
     type: "error",
   },
   {
@@ -4465,37 +5258,6 @@ const _abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "callId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "bytes",
-        name: "params",
-        type: "bytes",
-      },
-    ],
-    name: "FunctionCall",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "functionId",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
         name: "funder",
         type: "address",
       },
@@ -4537,23 +5299,63 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
         internalType: "address",
-        name: "functionId",
+        name: "authority",
         type: "address",
       },
       {
-        internalType: "bytes",
-        name: "params",
-        type: "bytes",
+        internalType: "address",
+        name: "queueId",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "containerRegistry",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "container",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "version",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "schedule",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "paramsSchema",
+        type: "string",
+      },
+      {
+        internalType: "address[]",
+        name: "permittedCallers",
+        type: "address[]",
       },
     ],
-    name: "callFunction",
+    name: "createFunction",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
     inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
       {
         internalType: "string",
         name: "name",
@@ -4580,9 +5382,9 @@ const _abi = [
         type: "string",
       },
       {
-        internalType: "bytes32",
+        internalType: "string",
         name: "version",
-        type: "bytes32",
+        type: "string",
       },
       {
         internalType: "string",
@@ -4600,9 +5402,9 @@ const _abi = [
         type: "address[]",
       },
     ],
-    name: "createFunction",
+    name: "createFunctionWithId",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -4652,7 +5454,319 @@ const _abi = [
     ],
     name: "forward",
     outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "accountId",
+        type: "address",
+      },
+    ],
+    name: "functionEscrowFund",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address payable",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "functionEscrowWithdraw",
+    outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "enclaveIdx",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "delegatedSignerAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "observedTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "nextAllowedTimestamp",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "isFailure",
+        type: "bool",
+      },
+      {
+        internalType: "bytes32",
+        name: "mrEnclave",
+        type: "bytes32",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "expirationTimeSeconds",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "gasLimit",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "value",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "to",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "from",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "data",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct TransactionLib.Transaction[]",
+        name: "transactions",
+        type: "tuple[]",
+      },
+      {
+        internalType: "bytes[]",
+        name: "signatures",
+        type: "bytes[]",
+      },
+    ],
+    name: "functionVerify",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "enclaveIdx",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "delegatedSignerAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "observedTime",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "nextAllowedTimestamp",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "isFailure",
+        type: "bool",
+      },
+      {
+        internalType: "bytes32",
+        name: "mrEnclave",
+        type: "bytes32",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "expirationTimeSeconds",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "gasLimit",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "value",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "to",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "from",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "data",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct TransactionLib.Transaction[]",
+        name: "transactions",
+        type: "tuple[]",
+      },
+      {
+        internalType: "bytes[]",
+        name: "signatures",
+        type: "bytes[]",
+      },
+      {
+        internalType: "address[]",
+        name: "functionCallIds",
+        type: "address[]",
+      },
+    ],
+    name: "functionVerifyRequest",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "authority",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "containerRegistry",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "container",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "version",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "schedule",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "paramsSchema",
+        type: "string",
+      },
+      {
+        internalType: "address[]",
+        name: "permittedCallers",
+        type: "address[]",
+      },
+    ],
+    name: "setFunctionConfig",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tolerance",
+        type: "uint256",
+      },
+    ],
+    name: "setToleratedTimestampDiscrepancy",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+    ],
+    name: "FunctionDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "functionId",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "gasPrice",
+        type: "uint256",
+      },
+    ],
+    name: "estimatedRunCost",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -4720,9 +5834,9 @@ const _abi = [
                 type: "string",
               },
               {
-                internalType: "bytes32",
+                internalType: "string",
                 name: "version",
-                type: "bytes32",
+                type: "string",
               },
               {
                 internalType: "string",
@@ -4753,7 +5867,7 @@ const _abi = [
               },
               {
                 internalType: "uint256",
-                name: "callId",
+                name: "lastExecutionGasCost",
                 type: "uint256",
               },
               {
@@ -4788,42 +5902,6 @@ const _abi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "accountId",
-        type: "address",
-      },
-    ],
-    name: "functionEscrowFund",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address payable",
-        name: "recipient",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "functionId",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "functionEscrowWithdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -4915,9 +5993,9 @@ const _abi = [
                 type: "string",
               },
               {
-                internalType: "bytes32",
+                internalType: "string",
                 name: "version",
-                type: "bytes32",
+                type: "string",
               },
               {
                 internalType: "string",
@@ -4948,7 +6026,7 @@ const _abi = [
               },
               {
                 internalType: "uint256",
-                name: "callId",
+                name: "lastExecutionGasCost",
                 type: "uint256",
               },
               {
@@ -5049,9 +6127,9 @@ const _abi = [
                 type: "string",
               },
               {
-                internalType: "bytes32",
+                internalType: "string",
                 name: "version",
-                type: "bytes32",
+                type: "string",
               },
               {
                 internalType: "string",
@@ -5082,7 +6160,7 @@ const _abi = [
               },
               {
                 internalType: "uint256",
-                name: "callId",
+                name: "lastExecutionGasCost",
                 type: "uint256",
               },
               {
@@ -5112,47 +6190,6 @@ const _abi = [
           },
         ],
         internalType: "struct FunctionLib.SbFunction[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "functionId",
-        type: "address",
-      },
-    ],
-    name: "getAllUnexecutedFunctionCalls",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "caller",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "callData",
-            type: "bytes",
-          },
-          {
-            internalType: "bool",
-            name: "executed",
-            type: "bool",
-          },
-        ],
-        internalType: "struct FunctionLib.FunctionCall[]",
         name: "",
         type: "tuple[]",
       },
@@ -5230,9 +6267,9 @@ const _abi = [
                 type: "string",
               },
               {
-                internalType: "bytes32",
+                internalType: "string",
                 name: "version",
-                type: "bytes32",
+                type: "string",
               },
               {
                 internalType: "string",
@@ -5263,7 +6300,7 @@ const _abi = [
               },
               {
                 internalType: "uint256",
-                name: "callId",
+                name: "lastExecutionGasCost",
                 type: "uint256",
               },
               {
@@ -5361,144 +6398,6 @@ const _abi = [
       },
     ],
     stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "functionId",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
-      {
-        internalType: "address",
-        name: "authority",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "containerRegistry",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "container",
-        type: "string",
-      },
-      {
-        internalType: "bytes32",
-        name: "version",
-        type: "bytes32",
-      },
-      {
-        internalType: "string",
-        name: "schedule",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "paramsSchema",
-        type: "string",
-      },
-      {
-        internalType: "address[]",
-        name: "permittedCallers",
-        type: "address[]",
-      },
-    ],
-    name: "setFunctionConfig",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "enclaveIdx",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "functionId",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "delegatedSignerAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "observedTime",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "nextAllowedTimestamp",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "isFailure",
-        type: "bool",
-      },
-      {
-        internalType: "bytes32",
-        name: "mrEnclave",
-        type: "bytes32",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "expirationTimeSeconds",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "gasLimit",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "value",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "to",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "from",
-            type: "address",
-          },
-          {
-            internalType: "bytes",
-            name: "data",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct TransactionLib.Transaction[]",
-        name: "transactions",
-        type: "tuple[]",
-      },
-      {
-        internalType: "bytes[]",
-        name: "signatures",
-        type: "bytes[]",
-      },
-    ],
-    name: "verifyFunction",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

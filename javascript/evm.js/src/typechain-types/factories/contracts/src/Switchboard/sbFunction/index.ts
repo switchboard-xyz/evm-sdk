@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { SbFunction__factory } from "./SbFunction__factory";
+export { SbFunctionView__factory } from "./SbFunctionView__factory";
