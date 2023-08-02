@@ -9,7 +9,7 @@ import {
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
-import { BigNumberish, ContractTransaction } from "ethers";
+import { BigNumberish, ContractTransaction, Wallet } from "ethers";
 
 /**
  * Interface for the Function Account initialization parameters
@@ -144,41 +144,22 @@ export class FunctionAccount {
       params.attestationQueue
     );
     const queueData = await attestationQueue.loadData();
-    const tx = params.functionId
-      ? await switchboard.sendSbTxn(
-          "createFunctionWithId",
-          [
-            params.functionId,
-            params.name,
-            params.authority,
-            attestationQueue.address,
-            params.containerRegistry,
-            params.container,
-            params.version,
-            params.schedule,
-            params.paramSchema ?? "",
-            params.permittedCallers || [],
-          ],
-          options
-        )
-      : await switchboard.sendSbTxn(
-          "createFunction",
-          [
-            params.name,
-            params.authority,
-            attestationQueue.address,
-            params.containerRegistry,
-            params.container,
-            params.version,
-            params.schedule,
-            params.paramSchema ?? "",
-            params.permittedCallers || [],
-          ],
-          options
-        );
-    const functionAddress = await switchboard.pollTxnForSbEvent(
-      tx,
-      "accountId"
+    const functionAddress = params.functionId ?? Wallet.createRandom().address;
+    const tx = await switchboard.sendSbTxn(
+      "createFunctionWithId",
+      [
+        functionAddress,
+        params.name,
+        params.authority,
+        attestationQueue.address,
+        params.containerRegistry,
+        params.container,
+        params.version,
+        params.schedule,
+        params.paramSchema ?? "",
+        params.permittedCallers || [],
+      ],
+      options
     );
     return [new FunctionAccount(switchboard, functionAddress), tx];
   }
