@@ -1,4 +1,4 @@
-import { RawMrEnclave } from "./types.js";
+import type { RawMrEnclave } from "./types.js";
 
 const bytesRegex = /^\[(\s)?[0-9]+((\s)?,(\s)?[0-9]+){31,}\]/g;
 const hexRegex = /^(0x|0X)?[a-fA-F0-9]{64}/g;

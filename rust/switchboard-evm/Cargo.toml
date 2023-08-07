@@ -1,0 +1,31 @@
+[package]
+name = "switchboard-evm"
+version = "0.3.3"
+edition = "2021"
+description = "A Rust library to interact with Switchboard on EVM based chains."
+readme = "README.md"
+keywords = ["switchboard", "oracle", "evm", "solidity"]
+homepage = "https://switchboard.xyz"
+repository = "https://github.com/switchboard-xyz/sbv2-evm/tree/main/rust/switchboard-evm"
+license = "MIT"
+documentation = "https://docs.switchboard.xyz"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+ethers = { version = "2.0.3", features = ["ws", "rustls"] }
+quote = "1.0"
+Inflector = "0.11"
+proc-macro2 = "1.0"
+syn = { version = "2.0", features = ["extra-traits"] }
+serde = "^1"
+serde_json = "^1"
+rand = "0.8.5"
+chrono = "0.4.25"
+cron = "0.12.0"
+tokio = { version = "1.28.2", features = ["full"] }
+switchboard-common = { version = "0.8.6", features = ["client"] }
+sha2 = "0.10.6"
+futures = "0.3"
+lazy_static = "1.4.0"
+sgx-quote = "0.1.0"

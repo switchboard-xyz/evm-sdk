@@ -1,22 +1,22 @@
 import { EthersError } from "../errors.js";
-import {
+import type {
   CreateAggregator,
   CreateOracle,
   EnablePermissions,
   ISwitchboardProgram,
   OracleQueueAttestationConfig,
   OracleQueueData,
-  PermissionStatus,
   RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
+import { PermissionStatus } from "../types.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
 import { AggregatorAccount } from "./AggregatorAccount.js";
 import { OracleAccount } from "./OracleAccount.js";
 import { Permissions } from "./Permissions.js";
 
-import { ContractTransaction } from "ethers";
+import type { ContractTransaction } from "ethers";
 
 /**
  * Initialization parameters for the OracleQueue.

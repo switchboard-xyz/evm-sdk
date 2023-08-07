@@ -1,5 +1,5 @@
 import { EthersError } from "../errors.js";
-import {
+import type {
   FunctionData,
   ISwitchboardProgram,
   RawMrEnclave,
@@ -8,7 +8,7 @@ import {
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
-import { BigNumberish, ContractTransaction } from "ethers";
+import type { BigNumberish, ContractTransaction } from "ethers";
 
 /**
  * Interface for the Function Account initialization parameters

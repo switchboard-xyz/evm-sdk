@@ -1,22 +1,22 @@
 import { EthersError } from "../errors.js";
 import { parseMrEnclave } from "../parseMrEnclave.js";
-import {
+import type {
   AttestationQueueData,
   CreateFunction,
   CreateQuote,
   EnablePermissions,
   ISwitchboardProgram,
-  PermissionStatus,
   RawMrEnclave,
   TransactionOptions,
 } from "../types.js";
+import { PermissionStatus } from "../types.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
 import { FunctionAccount } from "./FunctionAccount.js";
 import { Permissions } from "./Permissions.js";
 import { QuoteAccount } from "./QuoteAccount.js";
 
-import { ContractTransaction } from "ethers";
+import type { ContractTransaction } from "ethers";
 
 /**
  * Parameters to initialize an {AttestationQueueAccount}.

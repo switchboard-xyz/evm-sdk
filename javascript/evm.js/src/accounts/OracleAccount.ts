@@ -1,13 +1,13 @@
 import { EthersError } from "../errors.js";
-import {
+import type {
   ISwitchboardProgram,
   OracleData,
   TransactionOptions,
 } from "../types.js";
 import { toBigNumber } from "../utils.js";
 
-import { Big } from "@switchboard-xyz/common";
-import { BigNumber, ContractTransaction } from "ethers";
+import type { Big } from "@switchboard-xyz/common";
+import type { BigNumber, ContractTransaction } from "ethers";
 
 /**
  * Parameters for saving the result of a query.
