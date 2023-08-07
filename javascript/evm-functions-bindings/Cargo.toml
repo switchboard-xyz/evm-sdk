@@ -1,0 +1,26 @@
+[package]
+name = "evm-functions-bindings"
+version = "0.1.0"
+license = "ISC"
+edition = "2018"
+exclude = ["index.node"]
+
+[lib]
+crate-type = ["cdylib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+switchboard-evm = "0.2.1"
+switchboard-common = { version = "=0.8.5", features = ["client"] }
+
+sgx-quote = "0.1.0"
+ethers = { version = "2.0.3", features = ["ws", "rustls"] }
+serde = "1.0.175"
+
+serde_json = "1.0.104"
+
+[dependencies.neon]
+version = "0.10"
+default-features = false
+features = ["napi-6"]

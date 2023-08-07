@@ -1,5 +1,5 @@
 import { EthersError } from "../errors.js";
-import {
+import type {
   ISwitchboardProgram,
   PermissionStatusType,
   TransactionOptions,
@@ -7,9 +7,10 @@ import {
 import { getPermissionString } from "../utils.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
-import { OracleQueueAccount } from "./OracleQueueAccount.js";
+import type { OracleQueueAccount } from "./OracleQueueAccount.js";
 
-import { BigNumber, ContractTransaction } from "ethers";
+import type { ContractTransaction } from "ethers";
+import { BigNumber } from "ethers";
 
 /**
  * @interface PermissionInitParams

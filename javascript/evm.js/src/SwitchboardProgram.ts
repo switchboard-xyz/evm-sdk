@@ -1,28 +1,25 @@
 import { AggregatorAccount } from "./accounts/AggregatorAccount.js";
 import { FunctionAccount } from "./accounts/FunctionAccount.js";
-import {
+import type {
   Switchboard,
-  Switchboard__factory,
   SwitchboardAttestationService,
+} from "./typechain-types/index.js";
+import {
+  Switchboard__factory,
   SwitchboardAttestationService__factory,
 } from "./typechain-types/index.js";
 import { parseMrEnclave } from "./parseMrEnclave.js";
 import { sendTxnWithOptions } from "./sendTxnWithOptions.js";
-import {
+import type {
   AggregatorData,
   FunctionData,
   ISwitchboardProgram,
   SendContractMethod,
 } from "./types.js";
 
-import { Provider } from "@ethersproject/providers";
-import {
-  Contract,
-  ContractTransaction,
-  providers,
-  Signer,
-  Wallet,
-} from "ethers";
+import type { Provider } from "@ethersproject/providers";
+import type { ContractTransaction } from "ethers";
+import { Contract, providers, Signer, Wallet } from "ethers";
 
 /**
  * Creates and returns a Wallet using a private key and a JSON-RPC provider

@@ -1,5 +1,6 @@
 export * from "./accounts/index.js";
 export * from "./errors.js";
+export * from "./functions";
 export * from "./ipfs.js";
 export { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 export * from "./SwitchboardProgram.js";

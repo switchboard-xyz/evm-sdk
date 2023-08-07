@@ -1,13 +1,13 @@
 import { EthersError } from "./errors";
-import { SendTransactionMethod } from "./types";
+import type { SendTransactionMethod } from "./types";
 
-import {
+import type {
   Contract,
   ContractFunction,
   ContractTransaction,
   Overrides,
-  Signer,
 } from "ethers";
+import { Signer } from "ethers";
 
 export const sendTxnWithOptions: SendTransactionMethod = async (
   _contract,

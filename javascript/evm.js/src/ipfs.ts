@@ -1,4 +1,4 @@
-import { Job } from "./types.js";
+import type { Job } from "./types.js";
 
 const IpfsGateways = [
   "https://ipfs.io/ipfs/",

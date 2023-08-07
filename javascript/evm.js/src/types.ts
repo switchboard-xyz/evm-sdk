@@ -15,6 +15,7 @@ import {
 } from "./typechain-types/index.js";
 
 import { type Big } from "@switchboard-xyz/common";
+import type { BigNumberish, BytesLike } from "ethers";
 import {
   type BigNumber,
   type Contract,
@@ -629,3 +630,12 @@ export const VerificationStatus = {
 } as const;
 
 export type VerificationStatusType = keyof typeof VerificationStatus;
+
+export type TransactionStruct = {
+  expirationTimeSeconds: BigNumberish;
+  gasLimit: BigNumberish;
+  value: BigNumberish;
+  to: string;
+  from: string;
+  data: BytesLike;
+};

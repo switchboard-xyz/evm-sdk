@@ -1,0 +1,37 @@
+{
+  "name": "@switchboard-xyz/evm-functions-bindings",
+  "version": "0.1.2",
+  "description": "Node JS bindings for the rust sdk to write functions for EVM.",
+  "files": [
+    "index.node",
+    "index.cjs",
+    "index.js",
+    "package.json"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "index.cjs",
+  "module": "index.js",
+  "scripts": {
+    "build": "cargo-cp-artifact -nc index.node -- cargo build --message-format=json-render-diagnostics",
+    "build-debug": "npm run build --",
+    "build-release": "npm run build -- --release",
+    "test": "cargo test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cargo-cp-artifact": "^0.1.8"
+  },
+  "dependencies": {
+    "@ethersproject/bignumber": "^5.7.0",
+    "@switchboard-xyz/common": "^2.2.9",
+    "@switchboard-xyz/evm.js": "^3.12.3-alpha.5",
+    "ethers": "^5.7.2"
+  }
+}

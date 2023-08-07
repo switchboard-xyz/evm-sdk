@@ -1,14 +1,17 @@
-import {
+import type {
   Authority,
   EnablePermissions,
-  type ISwitchboardProgram,
-  PermissionStatus,
   PermissionStatusType,
-  VerificationStatus,
   VerificationStatusType,
 } from "./types.js";
+import {
+  type ISwitchboardProgram,
+  PermissionStatus,
+  VerificationStatus,
+} from "./types.js";
 
-import { Big, BN, SwitchboardDecimal } from "@switchboard-xyz/common";
+import type { Big } from "@switchboard-xyz/common";
+import { BN, SwitchboardDecimal } from "@switchboard-xyz/common";
 import { BigNumber, Signer } from "ethers";
 
 export const getQueueSigner = (

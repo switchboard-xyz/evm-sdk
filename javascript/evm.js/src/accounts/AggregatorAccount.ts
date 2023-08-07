@@ -1,6 +1,6 @@
 import { EthersError } from "../errors.js";
 import { fetchJobsFromIPFS } from "../ipfs.js";
-import {
+import type {
   AggregatorData,
   AggregatorReadConfig,
   AggregatorResponseConfig,
@@ -17,7 +17,7 @@ import { fromBigNumber, toBigNumber } from "../utils.js";
 import { OracleQueueAccount } from "./OracleQueueAccount.js";
 
 import { Big, OracleJob } from "@switchboard-xyz/common";
-import { BigNumber, BigNumberish, ContractTransaction } from "ethers";
+import type { BigNumber, BigNumberish, ContractTransaction } from "ethers";
 
 /**
  * AggregatorInitParams defines the parameters required to initialize an Aggregator.

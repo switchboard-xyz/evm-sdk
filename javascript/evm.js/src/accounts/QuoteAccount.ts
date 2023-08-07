@@ -1,17 +1,17 @@
 import { EthersError } from "../errors.js";
 import { parseMrEnclave } from "../parseMrEnclave.js";
-import {
+import type {
   ISwitchboardProgram,
   QuoteData,
   RawMrEnclave,
   TransactionOptions,
-  VerificationStatus,
 } from "../types.js";
+import { VerificationStatus } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
 import { sleep } from "@switchboard-xyz/common";
-import { ContractTransaction } from "ethers";
+import type { ContractTransaction } from "ethers";
 
 /**
  * Defines the parameters for initializing a quote

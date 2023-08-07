@@ -1,10 +1,10 @@
 import { sendTxnWithOptions } from "../sendTxnWithOptions.js";
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
-import {
+import type {
   Switchboard,
   SwitchboardAttestationService,
 } from "../typechain-types/index.js";
-import { SendContractMethod } from "../types.js";
+import type { SendContractMethod } from "../types.js";
 
 export class ArbitrumProgram extends SwitchboardProgram {
   constructor(
