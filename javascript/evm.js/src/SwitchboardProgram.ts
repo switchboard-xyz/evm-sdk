@@ -1,13 +1,9 @@
 import { AggregatorAccount } from "./accounts/AggregatorAccount.js";
 import { FunctionAccount } from "./accounts/FunctionAccount.js";
-import type {
-  Switchboard,
-  SwitchboardAttestationService,
-} from "./typechain-types/index.js";
-import {
-  Switchboard__factory,
-  SwitchboardAttestationService__factory,
-} from "./typechain-types/index.js";
+import { SwitchboardPushReceiver__factory } from "./switchboard-push-types/factories/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
+import type { SwitchboardPushReceiver } from "./switchboard-push-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
+import { Switchboard__factory } from "./switchboard-types/factories/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
+import type { Switchboard } from "./switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
 import { parseMrEnclave } from "./parseMrEnclave.js";
 import { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 import type {
@@ -18,8 +14,8 @@ import type {
 } from "./types.js";
 
 import type { Provider } from "@ethersproject/providers";
-import type { ContractTransaction } from "ethers";
-import { Contract, providers, Signer, Wallet } from "ethers";
+import type { ContractTransaction, Signer } from "ethers";
+import { BigNumber, providers, utils, Wallet } from "ethers";
 
 /**
  * Creates and returns a Wallet using a private key and a JSON-RPC provider
@@ -48,31 +44,69 @@ export function getSwitchboard(
   address: string,
   signerOrProvider: Signer | providers.Provider
 ): Switchboard {
-  const factory = new Switchboard__factory(
-    signerOrProvider instanceof Signer ? signerOrProvider : undefined
-  );
-  const contract = new Contract(address, factory.interface, signerOrProvider);
-  return contract as Switchboard;
+  return Switchboard__factory.connect(address, signerOrProvider);
 }
 
 /**
- * Creates and returns a {@link SwitchboardAttestationService} instance
- * @param address - The contract address of the SwitchboardAttestationService
+ * Creates and returns a Switchboard Push instance
+ * @param address - The contract address of the Switchboard
  * @param signerOrProvider - The signer or provider used to interact with the contract
- * @returns SwitchboardAttestationService instance
+ * @returns SwitchboardPushReceiver instance
  *
  *
- * const attestationService = getSwitchboardAttestationService('0xSwitchboardAttestationContractAddress', mySignerOrProvider);
+ * const switchboard = getSwitchboardPushReceiver('0xSwitchboardSolContractAddress', mySignerOrProvider);
  */
-export function getSwitchboardAttestationService(
+export function getSwitchboardPushReceiver(
   address: string,
   signerOrProvider: Signer | providers.Provider
-): SwitchboardAttestationService {
-  const factory = new SwitchboardAttestationService__factory(
-    signerOrProvider instanceof Signer ? signerOrProvider : undefined
-  );
-  const contract = new Contract(address, factory.interface, signerOrProvider);
-  return contract as SwitchboardAttestationService;
+): SwitchboardPushReceiver {
+  return SwitchboardPushReceiver__factory.connect(address, signerOrProvider);
+}
+
+/**
+ * Get switchboard push receiver feeds as Aggregators
+ */
+export async function getSwitchboardPushReceiverFeeds(
+  switchboardPushReceiver: SwitchboardPushReceiver
+): Promise<AggregatorData[]> {
+  const feeds = await switchboardPushReceiver.getAllFeeds();
+  const admin = await switchboardPushReceiver.owner();
+  const functionId = await switchboardPushReceiver.functionId();
+
+  return feeds.map((feed) => {
+    const result = {
+      value: feed.latestResult.value,
+      timestamp: feed.latestResult.updatedAt,
+      oracleAddress: functionId,
+    };
+
+    const config = {
+      batchSize: BigNumber.from(1),
+      minUpdateDelaySeconds: BigNumber.from(30),
+      minOracleResults: BigNumber.from(1),
+      varianceThreshold: BigNumber.from(1).mul(BigNumber.from(10).pow(17)),
+      minJobResults: BigNumber.from(1),
+      forceReportPeriod: BigNumber.from(0),
+    };
+
+    const data = {
+      name: utils.parseBytes32String(feed.feedName),
+      authority: admin,
+      latestResult: result,
+      config,
+      jobsHash: "",
+      queueId: "",
+      balanceLeftForInterval: BigNumber.from(0),
+      nextIntervalRefreshTime: BigNumber.from(0),
+      intervalId: BigNumber.from(0),
+      balance: BigNumber.from(0),
+      historyEnabled: Boolean(feed.historyEnabled),
+    };
+
+    // Not ideal, but I really don't want to copy the jank typechain-types types (object & array union)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return data as any;
+  });
 }
 
 /**
@@ -111,9 +145,7 @@ export function getSwitchboardAttestationService(
 export class SwitchboardProgram implements ISwitchboardProgram {
   constructor(
     // An instance of the {@link Switchboard} contract.
-    public readonly sb: Switchboard,
-    // An instance of the {@link SwitchboardAttestationService} contract.
-    public readonly vs?: SwitchboardAttestationService
+    public readonly sb: Switchboard
   ) {}
 
   private _addressPromise: Promise<string> | undefined = undefined;
@@ -154,18 +186,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
     switchboardAddress: string
   ): Promise<SwitchboardProgram> {
     const sb = getSwitchboard(switchboardAddress, signerOrProvider);
-    let vs: SwitchboardAttestationService | undefined = undefined;
-    try {
-      const attestationServiceAddress = await sb.switchboardAS();
-      vs = getSwitchboardAttestationService(
-        attestationServiceAddress,
-        signerOrProvider
-      );
-    } catch {
-      vs = undefined;
-    }
-
-    return new SwitchboardProgram(sb, vs);
+    return new SwitchboardProgram(sb);
   }
 
   /**
@@ -178,23 +199,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * ```
    */
   public connect(signer: Signer): SwitchboardProgram {
-    return new SwitchboardProgram(
-      this.sb.connect(signer),
-      this.vs?.connect(signer)
-    );
-  }
-
-  /**
-   * Checks if the SwitchboardProgram instance has an AttestationService.
-   * Throws an error if the AttestationService is undefined.
-   * @throws Error - if the AttestationService is undefined
-   */
-  hasAttestationService(): void {
-    if (this.vs === undefined) {
-      throw new Error(
-        `You need to provide the attestation service address when initializing the SwitchboardProgram class in order to use this method`
-      );
-    }
+    return new SwitchboardProgram(this.sb.connect(signer));
   }
 
   /**
@@ -214,27 +219,6 @@ export class SwitchboardProgram implements ISwitchboardProgram {
     options
   ) => {
     return await sendTxnWithOptions(this.sb, methodName, args, options);
-  };
-
-  /**
-   * Sends a transaction to the SwitchboardAttestationService.sol contract
-   * @param methodName - The name of the contract method to be called
-   * @param args - The arguments to pass to the contract method
-   * @param options - The options to pass to the contract method
-   * @returns Promise<ContractTransaction>
-   *
-   * ```typescript
-   * const transaction = await switchboardProgram.sendVsTxn('methodName', args, options);
-   * ```
-   */
-  sendVsTxn: SendContractMethod<SwitchboardAttestationService> = async (
-    methodName,
-    args,
-    options
-  ) => {
-    this.hasAttestationService();
-
-    return await sendTxnWithOptions(this.vs, methodName, args, options);
   };
 
   /**
@@ -260,28 +244,6 @@ export class SwitchboardProgram implements ISwitchboardProgram {
   }
 
   /**
-   * Polls a SwitchboardAttestationService contract transaction for an emitted event field
-   * @param tx - The contract transaction to poll
-   * @param field - An optional field name to extract from the event
-   * @returns Promise<T>
-   *
-   * ```typescript
-   * const accountAddress = await switchboardProgram.pollTxnForVsEvent(tx, 'accountAddress');
-   * ```
-   */
-  public async pollTxnForVsEvent<T>(
-    tx: ContractTransaction,
-    field?: string
-  ): Promise<T> {
-    const eventResult = await tx.wait().then((logs) => {
-      const log = logs.logs[0];
-      const sbLog = this.vs.interface.parseLog(log);
-      return (field ? sbLog.args[field] : sbLog.args) as T;
-    });
-    return eventResult;
-  }
-
-  /**
    * Fetches Aggregator accounts for a given authority
    * @param authority - The authority for which to fetch the aggregator accounts
    * @returns Promise<AggregatorAccount[]>
@@ -294,19 +256,8 @@ export class SwitchboardProgram implements ISwitchboardProgram {
     authority: string
   ): Promise<AggregatorAccount[]> {
     const aggregators: AggregatorAccount[] = [];
-
-    const initEvents = await this.sb.queryFilter(
-      this.sb.filters.AggregatorAccountInit(authority)
-    );
-
-    for (const event of initEvents) {
-      const aggregatorAddress = event.args?.accountAddress;
-      if (aggregatorAddress) {
-        aggregators.push(new AggregatorAccount(this, aggregatorAddress));
-      }
-    }
-
-    return aggregators;
+    const [addresses] = await this.sb.getAllAggregators(); // get all aggregators
+    return addresses.map((address) => new AggregatorAccount(this, address));
   }
 
   /**
@@ -326,13 +277,8 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * ```
    */
   public async fetchAggregators(authority: string): Promise<AggregatorData[]> {
-    const aggregatorAccounts = await this.fetchAggregatorAccounts(authority);
-    return await Promise.all(
-      aggregatorAccounts.map(
-        (aggregatorAccount): Promise<AggregatorData> =>
-          aggregatorAccount.loadData()
-      )
-    );
+    const [_ids, aggregators] = await this.sb.getAllAggregators(); // get all aggregators
+    return aggregators;
   }
 
   /**
@@ -354,22 +300,10 @@ export class SwitchboardProgram implements ISwitchboardProgram {
   public async fetchFunctionAccounts(
     authority: string
   ): Promise<FunctionAccount[]> {
-    this.hasAttestationService();
-
-    const functions: FunctionAccount[] = [];
-
-    const initEvents = await this.sb.queryFilter(
-      this.vs.filters.FunctionAccountInit(authority)
+    const [functionIds] = await this.sb.getAllFunctions(); // get all functions
+    return functionIds.map(
+      (functionId) => new FunctionAccount(this, functionId)
     );
-
-    for (const event of initEvents) {
-      const functionAddress = event.args?.accountAddress;
-      if (functionAddress) {
-        functions.push(new FunctionAccount(this, functionAddress));
-      }
-    }
-
-    return functions;
   }
 
   /**
@@ -398,22 +332,19 @@ export class SwitchboardProgram implements ISwitchboardProgram {
   }
 
   /**
-   * Fetch the MrEnclave measurement for a given quote authority address.
-   * @param quoteAuthority - The address of the quote authority to fetch a measurement for.
-   * @returns A quote authorities MrEnclave measurement
+   * Fetch the MrEnclave measurement for a given enclave authority address.
+   * @param enclaveAuthority - The address of the enclave authority to fetch a measurement for.
+   * @returns A enclave authorities MrEnclave measurement
    *
    * ```typescript
-   * const mrEnclave = await switchboardProgram.getQuoteAuthorityMrEnclave('0xMyQuoteAuthority');
+   * const mrEnclave = await switchboardProgram.getEnclaveAuthorityMrEnclave('0xMyEnclaveAuthority');
    * ```
    */
-  public async getQuoteAuthorityMrEnclave(
-    quoteAuthority: string
+  public async getEnclaveAuthorityMrEnclave(
+    enclaveAuthority: string
   ): Promise<Uint8Array> {
-    this.hasAttestationService();
-
-    const rawMrEnclave = await this.vs.getQuoteEnclaveMeasurement(
-      quoteAuthority
-    );
-    return parseMrEnclave(rawMrEnclave);
+    const enclaveId = await this.sb.enclaveSignerToEnclaveId(enclaveAuthority);
+    const enclave = await this.sb.enclaves(enclaveId);
+    return parseMrEnclave(enclave.mrEnclave);
   }
 }

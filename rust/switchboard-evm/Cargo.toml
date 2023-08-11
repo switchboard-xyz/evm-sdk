@@ -1,15 +1,13 @@
 [package]
 name = "switchboard-evm"
-version = "0.3.3"
+version = "0.3.9"
 edition = "2021"
 description = "A Rust library to interact with Switchboard on EVM based chains."
 readme = "README.md"
 keywords = ["switchboard", "oracle", "evm", "solidity"]
 homepage = "https://switchboard.xyz"
-repository = "https://github.com/switchboard-xyz/sbv2-evm/tree/main/rust/switchboard-evm"
+repository = "https://github.com/switchboard-xyz/evm-sdk/tree/main/rust/switchboard-evm"
 license = "MIT"
-documentation = "https://docs.switchboard.xyz"
-
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
