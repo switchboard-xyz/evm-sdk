@@ -11,7 +11,10 @@ pub struct EVMFunctionResult {
     // NOTE: tx.len() == signatures.len() must be true
     pub txs: Vec<EvmTransaction>,
     pub signatures: Vec<Vec<u8>>,
+    pub call_ids: Vec<Vec<u8>>,
+    pub checksums: Vec<Vec<u8>>,
 }
+
 #[derive(Clone, PartialEq, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EvmTransaction {
@@ -22,6 +25,7 @@ pub struct EvmTransaction {
     pub from: Vec<u8>,
     pub data: Vec<u8>,
 }
+
 fn call_emit(mut cx: FunctionContext) -> JsResult<JsObject> {
     let version = cx.argument::<JsNumber>(0)?.value(&mut cx) as u32;
 
@@ -68,6 +72,8 @@ fn call_emit(mut cx: FunctionContext) -> JsResult<JsObject> {
     let cr = ChainResultInfo::Evm(SBEVMFunctionResult {
         txs: txns,
         signatures: decoded_chain_result_info.signatures,
+        call_ids: decoded_chain_result_info.call_ids,
+        checksums: decoded_chain_result_info.checksums,
     });
     emit(version, quote, fn_key, signer, cr);
     Ok(cx.empty_object())

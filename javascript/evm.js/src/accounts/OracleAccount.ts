@@ -31,14 +31,14 @@ export interface SaveResultParams {
  * const oracleSaveResultParams: OracleSaveResultParams = {
  *   data: [saveResultParams1, saveResultParams2],
  *   oracleIdx: 0,
- *   queueAddress: "0xQueueAddress",
+ *   queueId: "0xQueueId",
  * };
  * ```
  */
 export interface OracleSaveManyResultParams {
   data: SaveResultParams[];
   oracleIdx?: number;
-  queueAddress: string;
+  queueId: string;
 }
 
 /**
@@ -47,13 +47,14 @@ export interface OracleSaveManyResultParams {
  * ```typescript
  * const oracleInitParams: OracleInitParams = {
  *   name: "OracleName",
- *   authority: "0xAuthorityAddress",
+ *   authority: "0xAuthorityId",
  * };
  * ```
  */
 export interface OracleInitParams {
   name?: string;
   authority: string;
+  owner?: string;
 }
 
 /**
@@ -61,7 +62,7 @@ export interface OracleInitParams {
  *
  * ```typescript
  * // Instantiate an OracleAccount
- * const oracleAccount = new OracleAccount(switchboardProgram, '0xYourOracleAddress');
+ * const oracleAccount = new OracleAccount(switchboardProgram, '0xYourOracleId');
  *
  * // Load the data
  * const oracle = await oracleAccount.loadData();
@@ -126,7 +127,7 @@ export class OracleAccount {
    * const [oracleAccount, txReceipt] = await OracleAccount.create(switchboard, {
    *   name: "NewOracle",
    *   authority: "0xAuthorityAddress",
-   *   queueAddress: "0xQueueAddress",
+   *   queueId: "0xQueueAddress",
    * }, transactionOptions);
    * ```
    *
@@ -134,19 +135,21 @@ export class OracleAccount {
    */
   public static async create(
     switchboard: ISwitchboardProgram,
-    params: OracleInitParams & { queueAddress: string },
+    params: OracleInitParams & { queueId: string },
     options?: TransactionOptions
   ): Promise<[OracleAccount, ContractTransaction]> {
     const tx = await switchboard.sendSbTxn(
       "createOracle",
-      [params.name ?? "", params.authority, params.queueAddress],
+      [
+        params.name ?? "",
+        params.authority,
+        params.queueId,
+        params.owner ?? params.authority,
+      ],
       options
     );
-    const oracleAddress = await switchboard.pollTxnForSbEvent(
-      tx,
-      "accountAddress"
-    );
-    return [new OracleAccount(switchboard, oracleAddress), tx];
+    const oracleId = await switchboard.pollTxnForSbEvent(tx, "accountId");
+    return [new OracleAccount(switchboard, oracleId), tx];
   }
 
   /**
@@ -173,7 +176,8 @@ export class OracleAccount {
         this.address,
         params.name ?? oracle.name,
         params.authority ?? oracle.authority,
-        oracle.queueAddress,
+        oracle.queueId,
+        params.owner ?? params.authority,
       ],
       options
     );
@@ -211,7 +215,7 @@ export class OracleAccount {
   ): Promise<ContractTransaction> {
     // TODO; Check the provider.address == oracle.authority
     const tx = await this.switchboard.sendSbTxn(
-      "heartbeat",
+      "oracleHeartbeat",
       [this.address],
       options
     );
@@ -236,11 +240,11 @@ export class OracleAccount {
   ): Promise<ContractTransaction> {
     // TODO: Check the provider.address == oracle.authority
 
-    const aggregatorAddresses: string[] = []; // aggregator addresses - mapped to values
+    const aggregatorIds: string[] = []; // aggregator addresses - mapped to values
     const values: BigNumber[] = []; // values to save
 
     for (const row of params.data) {
-      aggregatorAddresses.push(row.aggregatorAddress);
+      aggregatorIds.push(row.aggregatorAddress);
 
       const value = toBigNumber(row.value);
       values.push(value);
@@ -252,9 +256,9 @@ export class OracleAccount {
     const tx = await this.switchboard.sendSbTxn(
       "saveResults",
       [
-        aggregatorAddresses,
+        aggregatorIds,
         values,
-        params.queueAddress, // queue that all the aggregators are in
+        params.queueId, // queue that all the aggregators are in
         oracleIdx,
       ],
       options

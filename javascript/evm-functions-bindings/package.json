@@ -25,13 +25,12 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "cargo-cp-artifact": "^0.1.8"
-  },
   "dependencies": {
     "@ethersproject/bignumber": "^5.7.0",
-    "@switchboard-xyz/common": "^2.2.9",
-    "@switchboard-xyz/evm.js": "^3.12.3-alpha.5",
+    "@switchboard-xyz/common": "^2.3.0",
     "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "cargo-cp-artifact": "^0.1.8"
   }
 }

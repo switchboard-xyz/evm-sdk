@@ -2,8 +2,8 @@ import { EthersError } from "../errors.js";
 import { parseMrEnclave } from "../parseMrEnclave.js";
 import type {
   AttestationQueueData,
+  CreateEnclave,
   CreateFunction,
-  CreateQuote,
   EnablePermissions,
   ISwitchboardProgram,
   RawMrEnclave,
@@ -12,9 +12,9 @@ import type {
 import { PermissionStatus } from "../types.js";
 import { getAuthoritySigner, getQueueSigner } from "../utils.js";
 
+import { EnclaveAccount } from "./EnclaveAccount.js";
 import { FunctionAccount } from "./FunctionAccount.js";
 import { Permissions } from "./Permissions.js";
-import { QuoteAccount } from "./QuoteAccount.js";
 
 import type { ContractTransaction } from "ethers";
 
@@ -26,8 +26,8 @@ import type { ContractTransaction } from "ethers";
  *   authority: 'authority_string',
  *   maxSize: 10,
  *   reward: 50,
- *   quoteTimeout: 60000,
- *   maxQuoteVerificationAge: 3600000,
+ *   enclaveTimeout: 60000,
+ *   maxEnclaveVerificationAge: 3600000,
  *   allowAuthorityOverrideAfter: 7200000,
  *   requireAuthorityHeartbeatPermission: true,
  *   requireUsagePermissions: false
@@ -41,16 +41,18 @@ export interface AttestationQueueInitParams {
   maxSize: number;
   // The reward for providing attestations.
   reward: number;
-  // The timeout for quotes in the attestation queue.
-  quoteTimeout: number;
-  // The maximum age of a quote for it to be valid.
-  maxQuoteVerificationAge: number;
+  // The timeout for enclaves in the attestation queue.
+  enclaveTimeout: number;
+  // The maximum age of a enclave for it to be valid.
+  maxEnclaveVerificationAge: number;
   // The amount of time after which the authority can be overridden.
   allowAuthorityOverrideAfter: number;
   // If true, requires authority's heartbeat permission.
   requireAuthorityHeartbeatPermission: boolean;
   // If true, requires usage permissions.
   requireUsagePermissions: boolean;
+  // Number of tolerated function failures before labeling it non-executable
+  maxConsecutiveFunctionFailures: number;
 }
 
 /**
@@ -94,8 +96,8 @@ export class AttestationQueueAccount {
    * ```
    */
   public async loadData(): Promise<AttestationQueueData> {
-    return await this.switchboard.vs
-      .queues(this.address)
+    return await this.switchboard.sb
+      .attestationQueues(this.address)
       .catch(EthersError.handleError);
   }
 
@@ -141,25 +143,23 @@ export class AttestationQueueAccount {
     params: AttestationQueueInitParams,
     options?: TransactionOptions
   ): Promise<[AttestationQueueAccount, ContractTransaction]> {
-    const tx = await switchboard.sendVsTxn(
+    const tx = await switchboard.sendSbTxn(
       "createAttestationQueue",
       [
         params.authority,
         params.maxSize,
         params.reward,
-        params.quoteTimeout,
-        params.maxQuoteVerificationAge,
+        params.enclaveTimeout,
+        params.maxEnclaveVerificationAge,
         params.allowAuthorityOverrideAfter,
         params.requireAuthorityHeartbeatPermission,
         params.requireUsagePermissions,
+        params.maxConsecutiveFunctionFailures,
       ],
       options
     );
-    const queueAddress = await switchboard.pollTxnForVsEvent(
-      tx,
-      "accountAddress"
-    );
-    return [new AttestationQueueAccount(switchboard, queueAddress), tx];
+    const queueId = await switchboard.pollTxnForSbEvent(tx, "accountId");
+    return [new AttestationQueueAccount(switchboard, queueId), tx];
   }
 
   /**
@@ -179,15 +179,15 @@ export class AttestationQueueAccount {
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const queue = await this.loadData();
-    const tx = await this.switchboard.sendVsTxn(
-      "setQueueConfig",
+    const tx = await this.switchboard.sendSbTxn(
+      "setAttestationQueueConfig",
       [
         this.address,
         params.authority ?? queue.authority,
         params.maxSize ?? queue.maxSize,
         params.reward ?? queue.reward,
-        params.quoteTimeout ?? queue.quoteTimeout,
-        params.maxQuoteVerificationAge ?? queue.maxQuoteVerificationAge,
+        params.enclaveTimeout ?? queue.enclaveTimeout,
+        params.maxEnclaveVerificationAge ?? queue.maxEnclaveVerificationAge,
         params.allowAuthorityOverrideAfter ?? queue.allowAuthorityOverrideAfter,
         params.requireAuthorityHeartbeatPermission
           ? params.requireAuthorityHeartbeatPermission
@@ -195,6 +195,7 @@ export class AttestationQueueAccount {
         params.requireUsagePermissions
           ? params.requireUsagePermissions
           : queue.requireUsagePermissions,
+        params.maxConsecutiveFunctionFailures,
       ],
       options
     );
@@ -213,8 +214,8 @@ export class AttestationQueueAccount {
    * ```
    */
   public async hasMrEnclave(mrEnclave: RawMrEnclave): Promise<boolean> {
-    return await this.switchboard.vs
-      .hasMrEnclave(this.address, parseMrEnclave(mrEnclave))
+    return await this.switchboard.sb
+      .attestationQueueHasMrEnclave(this.address, parseMrEnclave(mrEnclave))
       .catch(EthersError.handleError);
   }
 
@@ -234,8 +235,8 @@ export class AttestationQueueAccount {
     mrEnclave: RawMrEnclave,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await this.switchboard.sendVsTxn(
-      "addMrEnclave",
+    const tx = await this.switchboard.sendSbTxn(
+      "addMrEnclaveToAttestationQueue",
       [this.address, mrEnclave],
       options
     );
@@ -258,8 +259,8 @@ export class AttestationQueueAccount {
     mrEnclave: RawMrEnclave,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await this.switchboard.sendVsTxn(
-      "removeMrEnclave",
+    const tx = await this.switchboard.sendSbTxn(
+      "removeMrEnclaveFromAttestationQueue",
       [this.address, mrEnclave],
       options
     );
@@ -324,21 +325,21 @@ export class AttestationQueueAccount {
   }
 
   /**
-   * Method to create a {QuoteAccount} and optionally enable its serviceQueue permissions
+   * Method to create a {EnclaveAccount} and optionally enable its serviceQueue permissions
    *
-   * @param params - Parameters required to create the quote
+   * @param params - Parameters required to create the enclave
    * @param [options] - Transaction options
    *
-   * @returns {Promise<QuoteAccount>} Promise that resolves to QuoteAccount
+   * @returns {Promise<EnclaveAccount>} Promise that resolves to EnclaveAccount
    *
    * ```typescript
-   * const quoteAccount = await attestationQueueAccount.createQuote(createQuoteParams, options);
+   * const enclaveAccount = await attestationQueueAccount.createEnclave(createEnclaveParams, options);
    * ```
    */
-  public async createQuote(
-    params: CreateQuote,
+  public async createEnclave(
+    params: CreateEnclave,
     options?: TransactionOptions
-  ): Promise<QuoteAccount> {
+  ): Promise<EnclaveAccount> {
     // verify it exists
     await this.loadData();
 
@@ -347,7 +348,7 @@ export class AttestationQueueAccount {
       params
     );
 
-    const [quoteAccount] = await QuoteAccount.create(
+    const [enclaveAccount] = await EnclaveAccount.create(
       switchboard,
       {
         ...params,
@@ -357,6 +358,6 @@ export class AttestationQueueAccount {
       { ...options, signer: authoritySigner }
     );
 
-    return quoteAccount;
+    return enclaveAccount;
   }
 }

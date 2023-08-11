@@ -1,7 +1,7 @@
 {
   "name": "@switchboard-xyz/evm.js",
   "description": "API wrapper for intergating with the Switchboardv2 program on our EVM implementation",
-  "version": "3.12.2",
+  "version": "3.12.13",
   "license": "MIT",
   "files": [
     "lib",
@@ -28,14 +28,16 @@
     "test": "pnpm exec ts-mocha -p ./tsconfig.cjs.json --require ts-node/register -t 1000000 ./tests/*.tests.ts",
     "lint": "pnpm exec eslint src",
     "fix": "pnpm exec eslint --fix src",
-    "clean": "pnpm exec rimraf node_modules lib .turbo"
+    "clean": "pnpm exec rimraf node_modules lib .turbo",
+    "bindings": "pnpm run cp-sb-bindings && pnpm run cp-sbp-bindings",
+    "cp-sb-bindings": "cp -r ../../chains/evm/contracts/Switchboard/typechain-types ./src/switchboard-types/",
+    "cp-sbp-bindings": "cp -r ../../chains/evm/contracts/SwitchboardPushReceiver/typechain-types ./src/switchboard-push-types/"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@switchboard-xyz/common": "^2.2.9",
-    "@switchboard-xyz/evm-functions-bindings": "^0.1.2",
+    "@switchboard-xyz/common": "^2.3.0",
     "chalk": "^5.0.1",
     "ethers": "^5.7.2",
     "js-sha3": "^0.8.0",

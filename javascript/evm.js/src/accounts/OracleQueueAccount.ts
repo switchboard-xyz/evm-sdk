@@ -93,7 +93,7 @@ export class OracleQueueAccount {
    */
   async loadData(): Promise<OracleQueueData> {
     return await this.switchboard.sb
-      .queues(this.address)
+      .oracleQueues(this.address)
       .catch(EthersError.handleError);
   }
 
@@ -157,10 +157,7 @@ export class OracleQueueAccount {
       ],
       options
     );
-    const queueAddress = await switchboard.pollTxnForSbEvent(
-      tx,
-      "accountAddress"
-    );
+    const queueAddress = await switchboard.pollTxnForSbEvent(tx, "accountId");
     return [new OracleQueueAccount(switchboard, queueAddress), tx];
   }
 
@@ -176,7 +173,7 @@ export class OracleQueueAccount {
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const tx = await this.switchboard.sendSbTxn(
-      "setQueueConfig",
+      "setOracleQueueConfig",
       [
         this.address,
         params.name,
@@ -238,14 +235,14 @@ export class OracleQueueAccount {
   ): Promise<ContractTransaction> {
     const currentAttestationConfig = await this.getAttestationConfig();
     const tx = await this.switchboard.sendSbTxn(
-      "setQueueAttestationConfig",
+      "setOracleQueueAttestationConfig",
       [
         this.address,
         params.attestationQueueAddress,
         params.mrEnclaves,
         params.requireValidQuote !== undefined
           ? params.requireValidQuote
-          : currentAttestationConfig.requireValidQuote,
+          : currentAttestationConfig.requireValidEnclave,
         params.requireHeartbeatPermission !== undefined
           ? params.requireHeartbeatPermission
           : currentAttestationConfig.requireHeartbeatPermission,
@@ -280,7 +277,7 @@ export class OracleQueueAccount {
       {
         name: params?.name ?? "",
         authority: authority,
-        queueAddress: this.address,
+        queueId: this.address,
       },
       {
         ...options,

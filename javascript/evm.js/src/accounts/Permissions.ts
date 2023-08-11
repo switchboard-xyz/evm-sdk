@@ -167,7 +167,7 @@ export class Permissions {
     granter: string,
     grantee: string
   ): Promise<PermissionStatusType> {
-    const permissions = await switchboard.sb.permissions(granter, grantee);
+    const permissions = await switchboard.sb.getPermission(granter, grantee);
     return getPermissionString(permissions);
   }
 
@@ -197,7 +197,7 @@ export class Permissions {
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const tx = await switchboard.sendSbTxn(
-      "setPermission",
+      "setOracleQueuePermission", // single permission store accross the app
       [granter, grantee, BigNumber.from(permission), enable],
       options
     );
@@ -250,7 +250,7 @@ export class Permissions {
     granter: string,
     grantee: string
   ): Promise<PermissionStatusType> {
-    const permissions = await switchboard.vs.permissions(granter, grantee);
+    const permissions = await switchboard.sb.getPermission(granter, grantee);
     return getPermissionString(permissions);
   }
 
@@ -279,8 +279,8 @@ export class Permissions {
     enable?: boolean,
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
-    const tx = await switchboard.sendVsTxn(
-      "setPermission",
+    const tx = await switchboard.sendSbTxn(
+      "setAttestationQueuePermission",
       [granter, grantee, BigNumber.from(permission), enable],
       options
     );
@@ -308,7 +308,7 @@ export class Permissions {
     grantee: string,
     permission: number
   ): Promise<boolean> {
-    const hasPermissions = await switchboard.vs
+    const hasPermissions = await switchboard.sb
       .hasPermission(granter, grantee, BigNumber.from(permission))
       .catch(EthersError.handleError);
     return hasPermissions;
