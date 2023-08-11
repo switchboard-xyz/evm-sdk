@@ -1,5 +1,5 @@
 {
-  "name": "read",
+  "name": "read-feed",
   "version": "1.0.0",
   "description": "A boilerplate repository to get you started with Hardhat and Ethereum development",
   "scripts": {
