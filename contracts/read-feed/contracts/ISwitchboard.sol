@@ -61,7 +61,6 @@ interface ISwitchboard {
      * @param description description embedded in the adapter
      * emits NewAdapter which can be used to get the adapter address
      *
-     * @NOTE - enables feed history when an adapter is deployed
      * Adapter source can be found at https://github.com/switchboard-xyz/evm-functions-template/blob/main/rust/01_price_oracle/SwitchboardPushReceiver/contracts/src/SwitchboardPushReceiver/Receiver/Aggregator.sol
      */
     function deployFeedAdapter(
@@ -95,13 +94,11 @@ interface ISwitchboard {
     function results(
         bytes32 feedName,
         uint80 intervalId
-    ) external view returns (ReceiverLib.Result memory);
+    ) external view returns (Result memory);
 
-    function feeds(
-        bytes32 feedName
-    ) external view returns (ReceiverLib.Feed memory);
+    function feeds(bytes32 feedName) external view returns (Feed memory);
 
-    function getAllFeeds() external view returns (ReceiverLib.Feed[] memory);
+    function getAllFeeds() external view returns (Feed[] memory);
 
     function latestTimestamp() external view returns (uint256);
 }
