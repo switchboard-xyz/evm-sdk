@@ -3,10 +3,14 @@ export * from "./errors.js";
 export * from "./functions";
 export * from "./ipfs.js";
 export { sendTxnWithOptions } from "./sendTxnWithOptions.js";
-export { SwitchboardPushReceiver__factory } from "./switchboard-push-types/factories/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
-export { SwitchboardPushReceiver } from "./switchboard-push-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
-export { Switchboard__factory } from "./switchboard-types/factories/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
-export { Switchboard } from "./switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
+export {
+  SwitchboardPushReceiver,
+  SwitchboardPushReceiver__factory,
+} from "./switchboard-push-types/index.js";
+export {
+  Switchboard,
+  Switchboard__factory,
+} from "./switchboard-types/index.js";
 export * from "./SwitchboardProgram.js";
 export * from "./types.js";
 export * from "./utils.js";

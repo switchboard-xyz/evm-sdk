@@ -1,11 +1,10 @@
-import type { Switchboard } from "../";
 import type { TransactionStruct } from "../types";
 
 import type { PopulatedTransaction, TypedDataDomain, Wallet } from "ethers";
 import { BigNumber } from "ethers";
 import { _TypedDataEncoder, joinSignature } from "ethers/lib/utils";
 export async function prepare(
-  contract: Switchboard,
+  contract: string,
   payerWallet: Wallet,
   enclaveWallet: Wallet,
   txs: PopulatedTransaction[],
@@ -24,7 +23,7 @@ export async function prepare(
     name: "Switchboard",
     version: "0.0.1",
     chainId,
-    verifyingContract: contract.address,
+    verifyingContract: contract,
   };
 
   const transactions: {

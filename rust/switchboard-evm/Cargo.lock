@@ -713,6 +713,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "envy"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f47e0157f2cb54f5ae1bd371b30a2ae4311e1c028f575cd4e81de7353215965"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "equivalent"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2905,10 +2914,9 @@ dependencies = [
 
 [[package]]
 name = "switchboard-common"
-version = "0.8.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eaa7b85e2005ce058c626ce0d4d618dc18ca8f45a24bd66f3e11a6bf43f20082"
+version = "0.8.7"
 dependencies = [
+ "envy",
  "getrandom",
  "hex",
  "serde",

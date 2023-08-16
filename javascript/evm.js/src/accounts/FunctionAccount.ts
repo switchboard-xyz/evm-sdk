@@ -255,4 +255,56 @@ export class FunctionAccount {
     );
     return tx;
   }
+
+  /**
+   * addMrEnclave
+   * @param mrEnclave - The mrEnclave to add to the function
+   * @param options - (Optional) Transaction options.
+   * @returns - The ContractTransaction.
+   */
+  public async addMrEnclave(
+    mrEnclave: RawMrEnclave,
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
+    const tx = await this.switchboard.sendSbTxn(
+      "addMrEnclaveToFunction",
+      [this.address, mrEnclave],
+      options
+    );
+    return tx;
+  }
+
+  /**
+   * removeMrEnclave
+   * @param mrEnclave - The mrEnclave to remove from the function
+   * @param options - (Optional) Transaction options.
+   * @returns - The ContractTransaction.
+   */
+  public async removeMrEnclave(
+    mrEnclave: RawMrEnclave,
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
+    const tx = await this.switchboard.sendSbTxn(
+      "removeMrEnclaveFromFunction",
+      [this.address, mrEnclave],
+      options
+    );
+    return tx;
+  }
+
+  /**
+   * setDeactivated
+   * @param options - (Optional) Transaction options.
+   * @returns - The ContractTransaction.
+   */
+  public async setDeactivated(
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
+    const tx = await this.switchboard.sendSbTxn(
+      "setFunctionDeactivated",
+      [this.address],
+      options
+    );
+    return tx;
+  }
 }

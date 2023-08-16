@@ -1,0 +1,18 @@
+[workspace]
+
+[package]
+name = "evm-randomness-function"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "evm-randomness-function"
+path = "src/main.rs"
+
+[dependencies]
+tokio = "^1"
+futures = "0.3"
+ethers = { version = "2.0.7", features = ["legacy"] }
+rand = "0.8.5"
+serde_json = "1.0.64"
+switchboard-evm = { version = "0.3.9", path = "../../../../../../rust/switchboard-evm" }

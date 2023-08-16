@@ -8,7 +8,7 @@ import {
   type FunctionInitParams,
 } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
-import type { Switchboard } from "./switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
+import type { Switchboard } from "./switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol";
 
 import { type Big } from "@switchboard-xyz/common";
 import {

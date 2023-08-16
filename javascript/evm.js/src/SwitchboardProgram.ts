@@ -1,9 +1,9 @@
 import { AggregatorAccount } from "./accounts/AggregatorAccount.js";
 import { FunctionAccount } from "./accounts/FunctionAccount.js";
-import { SwitchboardPushReceiver__factory } from "./switchboard-push-types/factories/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
-import type { SwitchboardPushReceiver } from "./switchboard-push-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
-import { Switchboard__factory } from "./switchboard-types/factories/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
-import type { Switchboard } from "./switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
+import type { SwitchboardPushReceiver } from "./switchboard-push-types/index.js";
+import { SwitchboardPushReceiver__factory } from "./switchboard-push-types/index.js";
+import type { Switchboard } from "./switchboard-types/index.js";
+import { Switchboard__factory } from "./switchboard-types/index.js";
 import { parseMrEnclave } from "./parseMrEnclave.js";
 import { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 import type {
@@ -16,6 +16,8 @@ import type {
 import type { Provider } from "@ethersproject/providers";
 import type { ContractTransaction, Signer } from "ethers";
 import { BigNumber, providers, utils, Wallet } from "ethers";
+
+export type Aggregator = AggregatorData & { address: string };
 
 /**
  * Creates and returns a Wallet using a private key and a JSON-RPC provider
@@ -68,12 +70,13 @@ export function getSwitchboardPushReceiver(
  */
 export async function getSwitchboardPushReceiverFeeds(
   switchboardPushReceiver: SwitchboardPushReceiver
-): Promise<AggregatorData[]> {
+): Promise<Aggregator[]> {
   const feeds = await switchboardPushReceiver.getAllFeeds();
   const admin = await switchboardPushReceiver.owner();
   const functionId = await switchboardPushReceiver.functionId();
+  let latestTimestamp = BigNumber.from(0);
 
-  return feeds.map((feed) => {
+  const results = feeds.map((feed) => {
     const result = {
       value: feed.latestResult.value,
       timestamp: feed.latestResult.updatedAt,
@@ -90,6 +93,7 @@ export async function getSwitchboardPushReceiverFeeds(
     };
 
     const data = {
+      address: feed.feedId,
       name: utils.parseBytes32String(feed.feedName),
       authority: admin,
       latestResult: result,
@@ -101,12 +105,26 @@ export async function getSwitchboardPushReceiverFeeds(
       intervalId: BigNumber.from(0),
       balance: BigNumber.from(0),
       historyEnabled: Boolean(feed.historyEnabled),
+      latestResultFailed: Boolean(feed.latestResultFailed),
     };
 
+    if (feed.latestResult.updatedAt.gt(latestTimestamp)) {
+      latestTimestamp = feed.latestResult.updatedAt;
+    }
+
     // Not ideal, but I really don't want to copy the jank typechain-types types (object & array union)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return data as any;
+    return data;
   });
+
+  // check if latestResult is stale, if not set the timestamp to the latest timestamp
+  for (const result of results) {
+    if (!result.latestResultFailed) {
+      result.latestResult.timestamp = latestTimestamp;
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return results as any;
 }
 
 /**
