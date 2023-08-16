@@ -1,5 +1,5 @@
 import { sendTxnWithOptions } from "../sendTxnWithOptions.js";
-import type { Switchboard } from "../switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol/index.js";
+import type { Switchboard } from "../switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol";
 import { SwitchboardProgram } from "../SwitchboardProgram.js";
 import type { SendContractMethod } from "../types.js";
 

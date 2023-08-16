@@ -1,5 +1,3 @@
-import { SwitchboardProgram } from "../SwitchboardProgram";
-
 import type { EVMFunctionResult, FunctionResult } from "./functionResult";
 import { emit } from "./functionResult";
 import { prepare } from "./prepare";
@@ -151,13 +149,8 @@ export class FunctionRunner {
     expirationTimeSeconds?: number,
     gasLimit?: string
   ) {
-    const switchboard = await SwitchboardProgram.load(
-      this.enclaveWallet, // Signer instance
-      this.verifyingContract // Switchboard contract address
-    );
-
     const preparedTxns = await prepare(
-      switchboard.sb,
+      this.verifyingContract,
       this.enclaveWallet, // payer
       this.enclaveWallet, // signer
       populatedTxn,
@@ -222,7 +215,7 @@ export class FunctionRunner {
     try {
       fs.accessSync("/dev/attestation/quote");
     } catch (err) {
-      console.log("WARNING: NOT IN SGX / NO QUOTE GENERATED");
+      console.log("WARNING: NOT IN TEE / NO QUOTE GENERATED");
     }
     const hash = crypto.createHash("sha256");
     hash.update(this.enclaveWallet.address);

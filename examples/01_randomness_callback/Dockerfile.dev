@@ -1,0 +1,46 @@
+# syntax=docker/dockerfile:1.4
+FROM switchboardlabs/sgx-function:main AS builder
+
+ARG CARGO_NAME=switchboard-function
+
+WORKDIR /home/root/switchboard
+
+COPY ./rust/switchboard-common/Cargo.toml \
+     ./rust/switchboard-common/Cargo.lock \
+     ./rust/switchboard-common/
+
+COPY ./rust/switchboard-evm/Cargo.toml \
+     ./rust/switchboard-evm/Cargo.lock \
+     ./rust/switchboard-evm/
+
+COPY ./chains/evm/examples/01_randomness_callback/sgx-function/Cargo.dev.toml \
+     ./chains/evm/examples/01_randomness_callback/sgx-function/Cargo.toml
+COPY ./chains/evm/examples/01_randomness_callback/sgx-function/Cargo.lock \
+     ./chains/evm/examples/01_randomness_callback/sgx-function/Cargo.lock
+
+COPY ./rust/switchboard-common/src \
+     ./rust/switchboard-common/src/
+
+COPY ./rust/switchboard-evm/src \
+     ./rust/switchboard-evm/src/
+
+COPY ./chains/evm/examples/01_randomness_callback/sgx-function/src \
+     ./chains/evm/examples/01_randomness_callback/sgx-function/src/
+
+WORKDIR /home/root/switchboard/chains/evm/examples/01_randomness_callback/sgx-function
+
+RUN --mount=type=cache,target=/usr/local/cargo/registry,id=${TARGETPLATFORM} \
+    --mount=type=cache,target=target,id=${TARGETPLATFORM} \
+    cargo build --release && \
+    cargo strip && \
+    mv target/release/${CARGO_NAME} /sgx/app
+
+FROM switchboardlabs/sgx-function:main
+
+# Copy the binary
+WORKDIR /sgx
+COPY --from=builder /sgx/app /sgx
+
+# Get the measurement from the enclave
+RUN /get_measurement.sh
+ENTRYPOINT ["bash", "/boot.sh"]

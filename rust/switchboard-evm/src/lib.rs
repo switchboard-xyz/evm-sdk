@@ -1,8 +1,14 @@
 pub mod bindings;
-// pub mod function;
 pub mod sdk;
-
 pub mod utils;
+
+/// The Switchboard contract ABI with the included facets.
+pub const SWITCHBOARD_ABI: &str = std::include_str!("../Switchboard.json");
+
+/// The Switchboard Push Receiver contract ABI with the included facets.
+pub const SWITCHBOARD_PUSH_RECEIVER_ABI: &str =
+    std::include_str!("../SwitchboardPushReceiver.json");
+
 //#[cfg(test)]
 
 // @TODO: update this test / finish inline ierc20 call

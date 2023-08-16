@@ -1,0 +1,22 @@
+## defaults for all profiles
+[profile.default]
+src = 'src'                                              # the source directory
+test = 'test'                                            # the test directory
+out = 'out'                                              # the output directory (for artifacts)
+libs = ['../../lib']                                     # a list of library directories
+optimizer = true                                         # enable or disable the solc optimizer
+ffi = true                                               # whether to enable foreign function interface (ffi) cheatcodes or not
+sender = '0x00a329c0648769a73afac7f9381e08fb43dbea72'    # the address of `msg.sender` in tests
+tx_origin = '0x00a329c0648769a73afac7f9381e08fb43dbea72' # the address of `tx.origin` in tests
+initial_balance = '0xffffffffffffffffffffffff'           # the initial balance of the test contract
+solc = "0.8.17"
+
+## optimizer details for the default profile
+[profile.default.optimizer_details]
+constantOptimizer = true # whether to enable the optimizer for literal numbers and strings or not
+yul = true               # whether to enable the new Yul optimizer or not
+
+# sets the `yulDetails` of the `optimizer_details` for the `default` profile
+[profile.default.optimizer_details.yulDetails]
+stackAllocation = true               # whether to enable the improvement of allocation of stack slots for variables or not
+optimizerSteps = 'dhfoDgvulfnTUtnIf' # the optimization steps to be applied
