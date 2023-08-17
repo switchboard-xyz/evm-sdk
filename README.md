@@ -45,6 +45,7 @@ You can find existing Switchboard Feeds and their ID's for accessing in solidity
 
 You can use this simple price function (which supplies 500+ feeds from top exchanges!) and build custom functionality on top of it
 
+<!--
 ## Addresses
 
 ### Arbitrum
@@ -85,7 +86,7 @@ The following addresses can be used with the Switchboard deployment on Coredao
 | -------------------- | -------------------------------------------- |
 | Program ID           | `0x1bAB46734e02d25D9dF5EE725c0646b39C0c5224` |
 | Program Authority    | `0xB76E3A368dA2B6E6E5F5F686046C7cb0a3e1Bd1A` |
-| Permissionless Queue | `0x934eb1F9D0f59695050f761DC64e443E5030A569` |
+| Permissionless Queue | `0x934eb1F9D0f59695050f761DC64e443E5030A569` | -->
 
 ## Clients
 

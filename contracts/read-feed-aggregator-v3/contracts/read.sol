@@ -29,17 +29,7 @@ contract ReadAFeed {
         );
 
         // fetch the latest round
-        (
-            ,
-            /*uint80 roundId*/ int256 answer,
-            uint256 startedAt /*uint256 updatedAt*/ /*uint80 answeredInRound*/,
-            ,
-
-        ) = aggregator.latestRoundData();
-
-        // set these loocally
-        latestTimestamp = startedAt;
-        latestValue = answer;
+        (, int256 value, uint256 timestamp, , ) = aggregator.latestRoundData();
 
         // return these
         value = answer;

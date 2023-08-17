@@ -26,12 +26,10 @@ contract ReadAFeed {
     {
         ISwitchboard switchboard = ISwitchboard(switchboardPushAddress);
         (
-            int256 value,
-            uint256 timestamp,
+            value,
+            timestamp,
             uint256 _updatedAt,
             uint80 _intervalId
         ) = switchboard.getLatestResult(feedId);
-        latestValue = value;
-        latestTimestamp = timestamp;
     }
 }
