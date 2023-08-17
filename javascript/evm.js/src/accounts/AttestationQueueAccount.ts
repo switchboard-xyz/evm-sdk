@@ -16,7 +16,7 @@ import { EnclaveAccount } from "./EnclaveAccount.js";
 import { FunctionAccount } from "./FunctionAccount.js";
 import { Permissions } from "./Permissions.js";
 
-import type { ContractTransaction } from "ethers";
+import type { BigNumber, ContractTransaction } from "ethers";
 
 /**
  * Parameters to initialize an {AttestationQueueAccount}.
@@ -107,7 +107,7 @@ export class AttestationQueueAccount {
    * @param switchboard - The switchboard program instance
    * @param address - The account address
    *
-   * @returns {Promise<[AttestationQueueAccount, AttestationQueueData]>} Promise that resolves to a tuple with AttestationQueueAccount and AttestationQueueData
+   * @returns {Promise<LoadedAttestationQueueAccount>} Promise that resolves to a tuple with AttestationQueueAccount and AttestationQueueData
    *
    * ```typescript
    * const [account, data] = await AttestationQueueAccount.load(switchboardProgram, 'account_address');
@@ -116,13 +116,15 @@ export class AttestationQueueAccount {
   public static async load(
     switchboard: ISwitchboardProgram,
     address: string
-  ): Promise<[AttestationQueueAccount, AttestationQueueData]> {
-    const attestationQueueAccount = new AttestationQueueAccount(
+  ): Promise<LoadedAttestationQueueAccount> {
+    const attestationQueue = await switchboard.sb
+      .attestationQueues(address)
+      .catch(EthersError.handleError);
+    return new LoadedAttestationQueueAccount(
       switchboard,
-      address
+      address,
+      attestationQueue
     );
-    const attestationQueue = await attestationQueueAccount.loadData();
-    return [attestationQueueAccount, attestationQueue];
   }
 
   /**
@@ -179,6 +181,7 @@ export class AttestationQueueAccount {
     options?: TransactionOptions
   ): Promise<ContractTransaction> {
     const queue = await this.loadData();
+
     const tx = await this.switchboard.sendSbTxn(
       "setAttestationQueueConfig",
       [
@@ -359,5 +362,130 @@ export class AttestationQueueAccount {
     );
 
     return enclaveAccount;
+  }
+}
+
+export class LoadedAttestationQueueAccount extends AttestationQueueAccount {
+  constructor(
+    readonly switchboard: ISwitchboardProgram,
+    readonly address: string,
+    public data: AttestationQueueData
+  ) {
+    super(switchboard, address);
+  }
+
+  public get account(): AttestationQueueAccount {
+    return this;
+  }
+
+  /**
+   * Load Function Account data and update LoadedFunctionAccount state.
+   *
+   * @returns {Promise<AttestationQueueData>} Promise that resolves to AttestationQueueData
+   *
+   * ```typescript
+   * const functionData = await functionAccount.loadData();
+   * ```
+   */
+  public async loadData(): Promise<AttestationQueueData> {
+    this.data = await this.switchboard.sb
+      .attestationQueues(this.address)
+      .catch(EthersError.handleError);
+    return this.data;
+  }
+
+  // authority
+  public get authority(): string {
+    return this.data.authority;
+  }
+
+  // verifier oracles
+  public get verifiers(): string[] {
+    return this.data.data;
+  }
+
+  // maxSize
+  public get maxSize(): number {
+    return this.data.maxSize.toNumber();
+  }
+
+  // reward
+  public get reward(): BigNumber {
+    return this.data.reward;
+  }
+
+  // lastHeartbeat
+  public get lastHeartbeat(): number {
+    return this.data.lastHeartbeat.toNumber();
+  }
+
+  // mrEnclaves
+  public get mrEnclaves(): string[] {
+    return this.data.mrEnclaves;
+  }
+
+  // maxEnclaveVerificationAge
+  public get maxEnclaveVerificationAge(): number {
+    return this.data.maxEnclaveVerificationAge.toNumber();
+  }
+
+  // allowAuthorityOverrideAfter
+  public get allowAuthorityOverrideAfter(): number {
+    return this.data.allowAuthorityOverrideAfter.toNumber();
+  }
+
+  // maxConsecutiveFunctionFailures
+  public get maxConsecutiveFunctionFailures(): number {
+    return this.data.maxConsecutiveFunctionFailures.toNumber();
+  }
+
+  // requireAuthorityHeartbeatPermission
+  public get requireAuthorityHeartbeatPermission(): boolean {
+    return this.data.requireAuthorityHeartbeatPermission;
+  }
+
+  // requireUsagePermissions
+  public get requireUsagePermissions(): boolean {
+    return this.data.requireUsagePermissions;
+  }
+
+  // enclaveTimeout
+  public get enclaveTimeout(): number {
+    return this.data.enclaveTimeout.toNumber();
+  }
+
+  // gcIdx
+  public get gcIdx(): number {
+    return this.data.gcIdx.toNumber();
+  }
+
+  // currIdx
+  public get currIdx(): number {
+    return this.data.currIdx.toNumber();
+  }
+
+  public toObj() {
+    return this.toJSON();
+  }
+
+  public toJSON() {
+    return {
+      address: this.address,
+      authority: this.authority,
+      verifiers: this.verifiers,
+      maxSize: this.maxSize,
+      reward: this.reward,
+      lastHeartbeat: this.lastHeartbeat,
+      mrEnclaves: this.mrEnclaves,
+      maxEnclaveVerificationAge: this.maxEnclaveVerificationAge,
+      allowAuthorityOverrideAfter: this.allowAuthorityOverrideAfter,
+      maxConsecutiveFunctionFailures: this.maxConsecutiveFunctionFailures,
+      requireAuthorityHeartbeatPermission:
+        this.requireAuthorityHeartbeatPermission,
+      requireUsagePermissions: this.requireUsagePermissions,
+      enclaveTimeout: this.enclaveTimeout,
+      gcIdx: this.gcIdx,
+      currIdx: this.currIdx,
+    };
   }
 }

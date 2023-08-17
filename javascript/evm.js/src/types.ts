@@ -3,11 +3,13 @@ import {
   type AggregatorInitParams,
 } from "./accounts/AggregatorAccount.js";
 import { type EnclaveInitParams } from "./accounts/EnclaveAccount.js";
+import type { LoadedFunctionAccount } from "./accounts/FunctionAccount.js";
 import {
   type FunctionAccount,
   type FunctionInitParams,
 } from "./accounts/FunctionAccount.js";
 import { type OracleInitParams } from "./accounts/OracleAccount.js";
+import type { SwitchboardPushReceiver } from "./switchboard-push-types/index.js";
 import type { Switchboard } from "./switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol";
 
 import { type Big } from "@switchboard-xyz/common";
@@ -184,6 +186,8 @@ export interface ISwitchboardProgram {
    * ```
    */
   address: Promise<string>;
+  chainId: Promise<number>;
+  sbPushReceiver: Promise<SwitchboardPushReceiver>;
   /**
    * Returns a new instance of the SwitchboardProgram with a new signer.
    * @param signer - The new signer
@@ -221,53 +225,26 @@ export interface ISwitchboardProgram {
   pollTxnForSbEvent: PollTxnForEventFieldFn;
 
   /**
-   * Fetches Aggregator accounts for a given authority
-   * @param authority - The authority for which to fetch the aggregator accounts
-   * @returns Promise<AggregatorAccount[]>
+   * Fetches all functions for the Switchboard contract.
+   * @returns An array of LoadedFunctionAccount's.
    *
    * ```typescript
-   * const aggregatorAccounts = await switchboardProgram.fetchAggregatorAccounts('myAuthority');
-   * ```
-   */
-  fetchAggregatorAccounts: (authority: string) => Promise<AggregatorAccount[]>;
-  /**
-   * Fetches an array of AggregatorData instances for a given authority.
-   * @param authority - The public key of the authority for which to fetch the AggregatorData.
-   * @returns An array of AggregatorData instances.
-   *
-   * ```typescript
-   * // Fetch all aggregator data for a given authority
+   * // Fetch all function data for a given authority
    * const authority = '0xabc123...'; // the public key of the authority
-   * const aggregatorData = await switchboardProgram.fetchAggregators(authority);
+   * const functionAccounts = await switchboardProgram.fetchFunctions(authority);
    *
-   * // Now you can loop through the aggregatorData array to access individual data.
-   * for (const data of aggregatorData) {
-   *    console.log(data);
-   * }
-   * ```
-   */
-  fetchAggregators: (authority: string) => Promise<AggregatorData[]>;
-  /**
-   * Fetches an array of FunctionAccount instances for a given authority.
-   * @param authority - The public key of the authority for which to fetch FunctionAccount instances.
-   * @returns An array of FunctionAccount instances.
-   *
-   * ```typescript
-   * // Fetch all function accounts for a given authority
-   * const authority = '0xabc123...'; // the public key of the authority
-   * const functionAccounts = await switchboardProgram.fetchFunctionAccounts(authority);
-   *
-   * // Now you can loop through the functionAccounts array to access individual accounts.
+   * // Now you can loop through the functionAccounts array to access individual data.
    * for (const account of functionAccounts) {
-   *    console.log(account);
+   *    console.log(account.data);
    * }
    * ```
    */
-  fetchFunctionAccounts: (authority: string) => Promise<FunctionAccount[]>;
+  fetchFunctions: () => Promise<LoadedFunctionAccount[]>;
+
   /**
    * Fetches an array of FunctionData instances for a given authority.
    * @param authority - The public key of the authority for which to fetch FunctionData.
-   * @returns An array of FunctionData instances.
+   * @returns An array of LoadedFunctionAccount's.
    *
    * ```typescript
    * // Fetch all function data for a given authority
@@ -280,7 +257,9 @@ export interface ISwitchboardProgram {
    * }
    * ```
    */
-  fetchFunctions: (authority: string) => Promise<FunctionData[]>;
+  fetchFunctionsByAuthority: (
+    _authority?: string
+  ) => Promise<LoadedFunctionAccount[]>;
 
   /**
    * Fetch the MrEnclave measurement for a given enclave authority address.
@@ -547,10 +526,10 @@ export type LatestResults = Array<LatestResult & { oracleId: string }>;
  * VerificationStatus is an enumeration of possible verification statuses.
  */
 export const VerificationStatus = {
-  VERIFICATION_PENDING: 0,
-  VERIFICATION_FAILURE: 1,
-  VERIFICATION_SUCCESS: 2,
-  VERIFICATION_OVERRIDE: 3,
+  PENDING: 0,
+  FAILURE: 1,
+  SUCCESS: 2,
+  OVERRIDE: 3,
 } as const;
 
 export type VerificationStatusType = keyof typeof VerificationStatus;
@@ -563,3 +542,18 @@ export type TransactionStruct = {
   from: string;
   data: BytesLike;
 };
+
+/**
+ * PermissionStatus is an enumeration of possible permission statuses.
+ */
+export const FunctionStatus = {
+  NONE: 0,
+  ACTIVE: 1,
+  NON_EXECUTABLE: 2,
+  EXPIRED: 3,
+  OUT_OF_FUNDS: 4,
+  INVALID_PERMISSIONS: 5,
+  DEACTIVATED: 6,
+} as const;
+
+export type FunctionStatusType = keyof typeof FunctionStatus;
