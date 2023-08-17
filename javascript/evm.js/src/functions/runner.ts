@@ -1,6 +1,6 @@
-import type { EVMFunctionResult, FunctionResult } from "./functionResult";
-import { emit } from "./functionResult";
-import { prepare } from "./prepare";
+import type { EVMFunctionResult, FunctionResult } from "./functionResult.js";
+import { emit } from "./functionResult.js";
+import { prepare } from "./prepare.js";
 
 import { BN } from "@switchboard-xyz/common";
 import crypto from "crypto";

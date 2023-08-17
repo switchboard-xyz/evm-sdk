@@ -1,15 +1,17 @@
 import { EthersError } from "../errors.js";
-import type {
-  FunctionData,
-  ISwitchboardProgram,
-  RawMrEnclave,
-  TransactionOptions,
-  TransactionStruct,
+import type { FunctionLib } from "../switchboard-types/hardhat-diamond-abi/HardhatDiamondABI.sol/Switchboard.js";
+import type { FunctionStatusType } from "../types.js";
+import {
+  type FunctionData,
+  type ISwitchboardProgram,
+  type RawMrEnclave,
+  type TransactionOptions,
+  type TransactionStruct,
 } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
-import type { BigNumberish, ContractTransaction } from "ethers";
+import type { BigNumber, BigNumberish, ContractTransaction } from "ethers";
 import { Wallet } from "ethers";
 
 /**
@@ -106,7 +108,7 @@ export class FunctionAccount {
    * @param {ISwitchboardProgram} switchboard - Instance of the Switchboard Program class
    * @param {string} address - Address of the Function Account
    *
-   * @returns {Promise<[FunctionAccount, FunctionData]>} Promise that resolves to a tuple containing the FunctionAccount and the FunctionData
+   * @returns {Promise<LoadedFunctionAccount>} Promise that resolves to a LoadedFunctionAccount class containing the current on-chain state of the function
    *
    * ```typescript
    * const [functionAccount, functionData] = await FunctionAccount.load(switchboard, address);
@@ -115,10 +117,11 @@ export class FunctionAccount {
   public static async load(
     switchboard: ISwitchboardProgram,
     address: string
-  ): Promise<[FunctionAccount, FunctionData]> {
-    const functionAccount = new FunctionAccount(switchboard, address);
-    const functionData = await functionAccount.loadData();
-    return [functionAccount, functionData];
+  ): Promise<LoadedFunctionAccount> {
+    const functionData = await switchboard.sb
+      .funcs(address)
+      .catch(EthersError.handleError);
+    return new LoadedFunctionAccount(switchboard, address, functionData);
   }
 
   /**
@@ -144,8 +147,10 @@ export class FunctionAccount {
       switchboard,
       params.attestationQueue
     );
-    const queueData = await attestationQueue.loadData();
+    await attestationQueue.loadData();
+
     const functionAddress = params.functionId ?? Wallet.createRandom().address;
+
     const tx = await switchboard.sendSbTxn(
       "createFunctionWithId",
       [
@@ -306,5 +311,257 @@ export class FunctionAccount {
       options
     );
     return tx;
+  }
+
+  public async configure(
+    configs: {
+      name?: string;
+      authority?: string;
+      containerRegistry?: string;
+      container?: string;
+      version?: string;
+      schedule?: string;
+      paramsSchema?: string;
+      permittedCallers?: string[];
+    },
+    options?: TransactionOptions
+  ): Promise<ContractTransaction> {
+    const fnData = await this.loadData();
+    const name = configs.name ?? fnData.name;
+    const authority = configs.authority ?? fnData.authority;
+    const containerRegistry =
+      configs.containerRegistry ?? fnData.config.containerRegistry;
+    const container = configs.container ?? fnData.config.container;
+    const version = configs.version ?? fnData.config.version;
+    const schedule = configs.schedule ?? fnData.config.schedule;
+    const paramsSchema = configs.paramsSchema ?? fnData.config.paramsSchema;
+    const permittedCallers =
+      configs.permittedCallers ?? fnData.config.permittedCallers;
+    const tx = await this.switchboard.sendSbTxn(
+      "setFunctionConfig",
+      [
+        this.address,
+        name,
+        authority,
+        containerRegistry,
+        container,
+        version,
+        schedule,
+        paramsSchema,
+        permittedCallers,
+      ],
+      options
+    );
+    return tx;
+  }
+}
+
+export class LoadedFunctionAccount extends FunctionAccount {
+  constructor(
+    readonly switchboard: ISwitchboardProgram,
+    readonly address: string,
+    public data: FunctionData
+  ) {
+    super(switchboard, address);
+  }
+
+  public get account(): FunctionAccount {
+    return this;
+  }
+
+  /**
+   * Load Function Account data and update LoadedFunctionAccount state.
+   *
+   * @returns {Promise<FunctionData>} Promise that resolves to FunctionData
+   *
+   * ```typescript
+   * const functionData = await functionAccount.loadData();
+   * ```
+   */
+  public async loadData(): Promise<FunctionData> {
+    this.data = await this.switchboard.sb
+      .funcs(this.address)
+      .catch(EthersError.handleError);
+    return this.data;
+  }
+
+  /** The name of the function. */
+  public get name(): string {
+    return this.data.name;
+  }
+
+  /** The authority of the function and is permitted to make account changes. */
+  public get authority(): string {
+    return this.data.authority;
+  }
+
+  public get enclaveId(): string {
+    return this.data.enclaveId;
+  }
+
+  /** The address of the attestation queue that the function belongs to. */
+  public get queueId(): string {
+    return this.data.queueId;
+  }
+
+  /** The current balance of the function. Used to reward verifier oracles
+   * for fulfilling updates.
+   */
+  public get balance(): BigNumber {
+    return this.data.balance;
+  }
+
+  /** The status of the function. */
+  public get status(): FunctionStatusType {
+    switch (this.data.status) {
+      case 0:
+        return "NONE";
+      case 1:
+        return "ACTIVE";
+      case 2:
+        return "NON_EXECUTABLE";
+      case 3:
+        return "EXPIRED";
+      case 4:
+        return "OUT_OF_FUNDS";
+      case 5:
+        return "INVALID_PERMISSIONS";
+      case 6:
+        return "DEACTIVATED";
+      default:
+        throw new Error(
+          `Failed to get Function's status from enum (${this.data.status})`
+        );
+    }
+  }
+
+  public get config(): FunctionLib.FunctionConfigStructOutput {
+    return this.data.config;
+  }
+
+  /** The cron schedule of the function. */
+  public get schedule(): string {
+    return this.config.schedule;
+  }
+
+  public get permittedCallers(): string[] {
+    return this.config.permittedCallers;
+  }
+
+  /** The container registry of the function. */
+  public get containerRegistry(): string {
+    return this.config.containerRegistry;
+  }
+
+  /** The name of the container in the registry. */
+  public get container(): string {
+    return this.config.container;
+  }
+
+  /** The version of the container in the registry. */
+  public get version(): string {
+    return this.config.version;
+  }
+
+  public get paramsSchema(): string {
+    return this.config.paramsSchema;
+  }
+
+  /** The list of permitted MRENCLAVE measurements that are allowed to be
+   * executed for this function. You will need to update this config value
+   * each time the container is updated.
+   * */
+  public get mrEnclaves(): string[] {
+    return this.config.mrEnclaves;
+  }
+
+  public get allowAllFnCalls(): boolean {
+    return this.config.allowAllFnCalls;
+  }
+
+  public get useFnCallEscrow(): boolean {
+    return this.config.useFnCallEscrow;
+  }
+
+  public get state(): FunctionLib.FunctionStateStructOutput {
+    return this.data.state;
+  }
+
+  /** Number of consecutive failures for the function. */
+  public get consecutiveFailures(): number {
+    return this.state.consecutiveFailures.toNumber();
+  }
+
+  /** Unix timestamp when the function was last executed. */
+  public get lastExecutionTimestamp(): number {
+    return this.state.lastExecutionTimestamp.toNumber();
+  }
+
+  /** Unix timestamp when the function is next allowed to execute. */
+  public get nextAllowedTimestamp(): number {
+    return this.state.nextAllowedTimestamp.toNumber();
+  }
+
+  /** The amount of gas consumed in the previous function execution. */
+  public get lastExecutionGasCost(): BigNumber {
+    return this.state.lastExecutionGasCost;
+  }
+
+  /** Unix timestamp since the function was triggered and hasn't been fulfilled yet. */
+  public get triggeredSince(): number {
+    return this.state.triggeredSince.toNumber();
+  }
+
+  /** Number of active triggers for the function. */
+  public get triggerCount(): number {
+    return this.state.triggerCount.toNumber();
+  }
+
+  /** Current idx of the function on the attestation queue. Used to increment over
+   * the queue's verifier oracles to prevent collusion.
+   */
+  public get queueIdx(): number {
+    return this.state.queueIdx.toNumber();
+  }
+
+  /** Whether the function has been triggered for a request. */
+  public get triggered(): boolean {
+    return this.state.triggered;
+  }
+
+  /** Unix timestamp when the function was created. */
+  public get createdAt(): number {
+    return this.state.createdAt.toNumber();
+  }
+
+  public toObj() {
+    return this.toJSON();
+  }
+
+  public toJSON() {
+    return {
+      address: this.address,
+      name: this.name,
+      authority: this.authority,
+      enclaveId: this.enclaveId,
+      queueId: this.queueId,
+      queueIdx: this.queueIdx,
+      balance: this.balance,
+      status: this.status,
+      permittedCallers: this.permittedCallers,
+      schedule: this.schedule,
+      containerRegistry: this.containerRegistry,
+      container: this.container,
+      version: this.version,
+      nextAllowedTimestamp: this.nextAllowedTimestamp,
+      lastExecutionTimestamp: this.lastExecutionTimestamp,
+      lastExecutionGasCost: this.lastExecutionGasCost,
+      consecutiveFailures: this.consecutiveFailures,
+      triggered: this.triggered,
+      triggerCount: this.triggerCount,
+      triggeredSince: this.triggeredSince,
+      paramsSchema: this.paramsSchema,
+      mrEnclaves: this.mrEnclaves,
+    };
   }
 }
