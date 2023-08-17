@@ -203,6 +203,7 @@ export class AggregatorAccount {
       });
     } catch (e) {
       console.log(e, "\nerror fetching jobs for ipfs hash:", jobsHash);
+      throw e;
     }
   }
 

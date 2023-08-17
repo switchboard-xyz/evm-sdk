@@ -1,5 +1,5 @@
 import { AggregatorAccount } from "./accounts/AggregatorAccount.js";
-import { FunctionAccount } from "./accounts/FunctionAccount.js";
+import { LoadedFunctionAccount } from "./accounts/FunctionAccount.js";
 import type { SwitchboardPushReceiver } from "./switchboard-push-types/index.js";
 import { SwitchboardPushReceiver__factory } from "./switchboard-push-types/index.js";
 import type { Switchboard } from "./switchboard-types/index.js";
@@ -8,16 +8,23 @@ import { parseMrEnclave } from "./parseMrEnclave.js";
 import { sendTxnWithOptions } from "./sendTxnWithOptions.js";
 import type {
   AggregatorData,
-  FunctionData,
   ISwitchboardProgram,
   SendContractMethod,
 } from "./types.js";
 
 import type { Provider } from "@ethersproject/providers";
+import type { IEvmNetworkConfig } from "@switchboard-xyz/common/networks";
+import { getSupportedEvmChainId } from "@switchboard-xyz/common/networks";
 import type { ContractTransaction, Signer } from "ethers";
 import { BigNumber, providers, utils, Wallet } from "ethers";
 
 export type Aggregator = AggregatorData & { address: string };
+
+export { isSupportedChainId } from "@switchboard-xyz/common/networks";
+
+export function getEvmConfig(chainId: number): IEvmNetworkConfig {
+  return getSupportedEvmChainId(chainId);
+}
 
 /**
  * Creates and returns a Wallet using a private key and a JSON-RPC provider
@@ -63,6 +70,21 @@ export function getSwitchboardPushReceiver(
   signerOrProvider: Signer | providers.Provider
 ): SwitchboardPushReceiver {
   return SwitchboardPushReceiver__factory.connect(address, signerOrProvider);
+}
+
+export async function getSbPushReceiverFromProvider(
+  provider: providers.Provider,
+  _address?: string
+): Promise<SwitchboardPushReceiver> {
+  const address = _address
+    ? _address
+    : await (async () => {
+        const { chainId } = await provider.getNetwork();
+        const config = getSupportedEvmChainId(chainId);
+        return config.sbPushReceiver;
+      })();
+
+  return SwitchboardPushReceiver__factory.connect(address, provider);
 }
 
 /**
@@ -168,6 +190,46 @@ export class SwitchboardProgram implements ISwitchboardProgram {
 
   private _addressPromise: Promise<string> | undefined = undefined;
 
+  private _chainIdPromise: Promise<number> | undefined = undefined;
+
+  private _sbPushReceiverPromise: Promise<SwitchboardPushReceiver> | undefined =
+    undefined;
+
+  public get chainId(): Promise<number> {
+    if (this._chainIdPromise) {
+      return this._chainIdPromise;
+    }
+
+    this._chainIdPromise = this.sb.provider
+      .getNetwork()
+      .then(({ chainId }) => chainId)
+      .catch((err) => {
+        this._chainIdPromise = undefined;
+        throw err;
+      });
+    return this._chainIdPromise;
+  }
+
+  public get sbPushReceiver(): Promise<SwitchboardPushReceiver> {
+    if (this._sbPushReceiverPromise) {
+      return this._sbPushReceiverPromise;
+    }
+
+    this._sbPushReceiverPromise = this.chainId
+      .then((chainId) => {
+        const config = getSupportedEvmChainId(chainId);
+        return SwitchboardPushReceiver__factory.connect(
+          config.sbPushReceiver,
+          this.sb.provider
+        );
+      })
+      .catch((err) => {
+        this._sbPushReceiverPromise = undefined;
+        throw err;
+      });
+    return this._sbPushReceiverPromise;
+  }
+
   /**
    * A getter that returns a promise which resolves to the address of the signer.
    * If the address has already been fetched, it will be returned from the cache.
@@ -184,9 +246,28 @@ export class SwitchboardProgram implements ISwitchboardProgram {
 
     this._addressPromise = this.sb.signer.getAddress().catch((err) => {
       this._addressPromise = undefined;
-      return undefined;
+      throw err;
     });
     return this._addressPromise;
+  }
+
+  /**
+   * Static method to create and return a SwitchboardProgram instance.
+   * @param signerOrProvider - The signer or provider used to interact with the contracts
+   * @throws if chainId is not supported by Switchboard
+   * @returns Promise<SwitchboardProgram>
+   *
+   * ```typescript
+   * const switchboardProgram = await SwitchboardProgram.load(mySignerOrProvider, '0xMySwitchboardAddress');
+   * ```
+   */
+  public static async fromProvider(
+    provider: Provider
+  ): Promise<SwitchboardProgram> {
+    const { chainId } = await provider.getNetwork();
+    const config = getSupportedEvmChainId(chainId);
+    const sb = getSwitchboard(config.address, provider);
+    return new SwitchboardProgram(sb);
   }
 
   /**
@@ -262,72 +343,31 @@ export class SwitchboardProgram implements ISwitchboardProgram {
   }
 
   /**
-   * Fetches Aggregator accounts for a given authority
-   * @param authority - The authority for which to fetch the aggregator accounts
-   * @returns Promise<AggregatorAccount[]>
+   * Fetches all functions for the Switchboard contract.
+   * @returns An array of LoadedFunctionAccount's.
    *
    * ```typescript
-   * const aggregatorAccounts = await switchboardProgram.fetchAggregatorAccounts('myAuthority');
-   * ```
-   */
-  public async fetchAggregatorAccounts(
-    authority: string
-  ): Promise<AggregatorAccount[]> {
-    const aggregators: AggregatorAccount[] = [];
-    const [addresses] = await this.sb.getAllAggregators(); // get all aggregators
-    return addresses.map((address) => new AggregatorAccount(this, address));
-  }
-
-  /**
-   * Fetches an array of AggregatorData instances for a given authority.
-   * @param authority - The public key of the authority for which to fetch the AggregatorData.
-   * @returns An array of AggregatorData instances.
-   *
-   * ```typescript
-   * // Fetch all aggregator data for a given authority
+   * // Fetch all function data for a given authority
    * const authority = '0xabc123...'; // the public key of the authority
-   * const aggregatorData = await switchboardProgram.fetchAggregators(authority);
+   * const functionAccounts = await switchboardProgram.fetchFunctions(authority);
    *
-   * // Now you can loop through the aggregatorData array to access individual data.
-   * for (const data of aggregatorData) {
-   *    console.log(data);
-   * }
-   * ```
-   */
-  public async fetchAggregators(authority: string): Promise<AggregatorData[]> {
-    const [_ids, aggregators] = await this.sb.getAllAggregators(); // get all aggregators
-    return aggregators;
-  }
-
-  /**
-   * Fetches an array of FunctionAccount instances for a given authority.
-   * @param authority - The public key of the authority for which to fetch FunctionAccount instances.
-   * @returns An array of FunctionAccount instances.
-   *
-   * ```typescript
-   * // Fetch all function accounts for a given authority
-   * const authority = '0xabc123...'; // the public key of the authority
-   * const functionAccounts = await switchboardProgram.fetchFunctionAccounts(authority);
-   *
-   * // Now you can loop through the functionAccounts array to access individual accounts.
+   * // Now you can loop through the functionAccounts array to access individual data.
    * for (const account of functionAccounts) {
-   *    console.log(account);
+   *    console.log(account.data);
    * }
    * ```
    */
-  public async fetchFunctionAccounts(
-    authority: string
-  ): Promise<FunctionAccount[]> {
-    const [functionIds] = await this.sb.getAllFunctions(); // get all functions
-    return functionIds.map(
-      (functionId) => new FunctionAccount(this, functionId)
+  public async fetchFunctions(): Promise<LoadedFunctionAccount[]> {
+    const [ids, states] = await this.sb.getAllFunctions();
+    return ids.map(
+      (_, i) => new LoadedFunctionAccount(this, ids[i], states[i])
     );
   }
 
   /**
    * Fetches an array of FunctionData instances for a given authority.
    * @param authority - The public key of the authority for which to fetch FunctionData.
-   * @returns An array of FunctionData instances.
+   * @returns An array of LoadedFunctionAccount's.
    *
    * ```typescript
    * // Fetch all function data for a given authority
@@ -340,12 +380,13 @@ export class SwitchboardProgram implements ISwitchboardProgram {
    * }
    * ```
    */
-  public async fetchFunctions(authority: string): Promise<FunctionData[]> {
-    const functionAccounts = await this.fetchFunctionAccounts(authority);
-    return await Promise.all(
-      functionAccounts.map(
-        (functionAccount): Promise<FunctionData> => functionAccount.loadData()
-      )
+  public async fetchFunctionsByAuthority(
+    _authority?: string
+  ): Promise<LoadedFunctionAccount[]> {
+    const authority = _authority ?? (await this.address);
+    const [ids, states] = await this.sb.getFunctionsByAuthority(authority);
+    return ids.map(
+      (_, i) => new LoadedFunctionAccount(this, ids[i], states[i])
     );
   }
 

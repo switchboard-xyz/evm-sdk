@@ -1,4 +1,4 @@
-import type { TransactionStruct } from "../types";
+import type { TransactionStruct } from "../types.js";
 
 import type { PopulatedTransaction, TypedDataDomain, Wallet } from "ethers";
 import { BigNumber } from "ethers";

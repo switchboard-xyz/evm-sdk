@@ -5,13 +5,14 @@ import type {
   ISwitchboardProgram,
   RawMrEnclave,
   TransactionOptions,
+  VerificationStatusType,
 } from "../types.js";
 import { VerificationStatus } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
 
 import { sleep } from "@switchboard-xyz/common";
-import type { ContractTransaction } from "ethers";
+import type { BigNumber, ContractTransaction } from "ethers";
 import { Wallet } from "ethers";
 
 /**
@@ -84,19 +85,20 @@ export class EnclaveAccount {
    * @param switchboard - Instance of the {@link SwitchboardProgram} class
    * @param address - Address of the EnclaveAccount
    *
-   * @returns {Promise<[EnclaveAccount, EnclaveData]>} Promise that resolves to tuple of EnclaveAccount and EnclaveData
+   * @returns {Promise<LoadedEnclaveAccount>} Promise that resolves to tuple of EnclaveAccount and EnclaveData
    *
    * ```typescript
-   * const [enclaveAccount, enclaveData] = await EnclaveAccount.load(switchboard, address);
+   * const enclaveAccount = await EnclaveAccount.load(switchboard, address);
    * ```
    */
   public static async load(
     switchboard: ISwitchboardProgram,
     address: string
-  ): Promise<[EnclaveAccount, EnclaveData]> {
-    const enclaveAccount = new EnclaveAccount(switchboard, address);
-    const enclave = await enclaveAccount.loadData();
-    return [enclaveAccount, enclave];
+  ): Promise<LoadedEnclaveAccount> {
+    const enclave = await switchboard.sb
+      .enclaves(address)
+      .catch(EthersError.handleError);
+    return new LoadedEnclaveAccount(switchboard, address, enclave);
   }
 
   /**
@@ -311,9 +313,7 @@ export class EnclaveAccount {
         );
       }
 
-      if (
-        enclave.verificationStatus !== VerificationStatus.VERIFICATION_SUCCESS
-      ) {
+      if (enclave.verificationStatus !== VerificationStatus.SUCCESS) {
         sendEnclaveTx = true;
       }
     } catch {
@@ -332,8 +332,8 @@ export class EnclaveAccount {
     const finalEnclaveState = await enclaveAccount.pollVerification(retryCount);
     const verificationStatus = finalEnclaveState.verificationStatus;
     if (
-      verificationStatus !== VerificationStatus.VERIFICATION_SUCCESS &&
-      verificationStatus !== VerificationStatus.VERIFICATION_OVERRIDE
+      verificationStatus !== VerificationStatus.SUCCESS &&
+      verificationStatus !== VerificationStatus.OVERRIDE
     ) {
       throw new Error(`Enclave was not verified successfully`);
     }
@@ -364,12 +364,12 @@ export class EnclaveAccount {
         enclave = await this.loadData();
 
         switch (enclave.verificationStatus) {
-          case VerificationStatus.VERIFICATION_SUCCESS:
-          case VerificationStatus.VERIFICATION_OVERRIDE: {
+          case VerificationStatus.SUCCESS:
+          case VerificationStatus.OVERRIDE: {
             continuePoll = false;
             break;
           }
-          case VerificationStatus.VERIFICATION_FAILURE: {
+          case VerificationStatus.FAILURE: {
             continuePoll = false;
             throw new Error("Oracle SGX measurement has failed verification");
           }
@@ -394,5 +394,124 @@ export class EnclaveAccount {
     }
 
     return enclave;
+  }
+}
+
+export class LoadedEnclaveAccount extends EnclaveAccount {
+  constructor(
+    readonly switchboard: ISwitchboardProgram,
+    readonly address: string,
+    public data: EnclaveData
+  ) {
+    super(switchboard, address);
+  }
+
+  public get account(): EnclaveAccount {
+    return this;
+  }
+
+  /**
+   * Load Function Account data and update LoadedFunctionAccount state.
+   *
+   * @returns {Promise<EnclaveData>} Promise that resolves to EnclaveData
+   *
+   * ```typescript
+   * const functionData = await functionAccount.loadData();
+   * ```
+   */
+  public async loadData(): Promise<EnclaveData> {
+    this.data = await this.switchboard.sb
+      .enclaves(this.address)
+      .catch(EthersError.handleError);
+    return this.data;
+  }
+
+  // signer
+  public get signer(): string {
+    return this.data.signer;
+  }
+
+  // authority
+  public get authority(): string {
+    return this.data.authority;
+  }
+
+  // queueId
+  public get queueId(): string {
+    return this.data.queueId;
+  }
+
+  // cid
+  public get cid(): string {
+    return this.data.cid;
+  }
+
+  // verificationStatus
+  public get verificationStatus(): VerificationStatusType {
+    switch (this.data.verificationStatus) {
+      case 0:
+        return "PENDING";
+      case 1:
+        return "FAILURE";
+      case 2:
+        return "SUCCESS";
+      case 3:
+        return "OVERRIDE";
+      default:
+        throw new Error(
+          `Failed to get Enclave's verificationStatus from enum (${this.data.verificationStatus})`
+        );
+    }
+  }
+
+  // verificationTimestamp
+  public get verificationTimestamp(): number {
+    return this.data.verificationTimestamp.toNumber();
+  }
+
+  // validUntil
+  public get validUntil(): number {
+    return this.data.validUntil.toNumber();
+  }
+
+  // mrEnclave
+  public get mrEnclave(): string {
+    return this.data.mrEnclave;
+  }
+
+  // isOnQueue
+  public get isOnQueue(): boolean {
+    return this.data.isOnQueue;
+  }
+
+  // lastHeartbeat
+  public get lastHeartbeat(): number {
+    return this.data.lastHeartbeat.toNumber();
+  }
+
+  // balance
+  public get balance(): BigNumber {
+    return this.data.balance;
+  }
+
+  public toObj() {
+    return this.toJSON();
+  }
+
+  public toJSON() {
+    return {
+      address: this.address,
+      signer: this.signer,
+      authority: this.authority,
+      queueId: this.queueId,
+      cid: this.cid,
+      verificationStatus: this.verificationStatus,
+      verificationTimestamp: this.verificationTimestamp,
+      validUntil: this.validUntil,
+      mrEnclave: this.mrEnclave,
+      isOnQueue: this.isOnQueue,
+      lastHeartbeat: this.lastHeartbeat,
+      balance: this.balance,
+    };
   }
 }
