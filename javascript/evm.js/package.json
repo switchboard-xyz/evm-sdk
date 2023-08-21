@@ -1,24 +1,11 @@
 {
   "name": "@switchboard-xyz/evm.js",
   "description": "API wrapper for intergating with the Switchboardv2 program on our EVM implementation",
-  "version": "3.12.22",
+  "version": "3.12.25",
   "license": "MIT",
-  "files": [
-    "lib",
-    "src",
-    "contracts",
-    "package.json"
-  ],
-  "exports": {
-    ".": {
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
-    },
-    "./package.json": "./package.json"
-  },
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
-  "types": "lib/cjs/index.d.ts",
+  "types": "lib/esm/index.d.ts",
   "scripts": {
     "build:cjs": "pnpm exec tsc -p tsconfig.cjs.json",
     "build:esm": "pnpm exec tsc",
@@ -37,7 +24,7 @@
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@switchboard-xyz/common": "^2.3.1",
+    "@switchboard-xyz/common": "^",
     "chalk": "^5.0.1",
     "ethers": "^5.7.2",
     "js-sha3": "^0.8.0",
@@ -75,5 +62,19 @@
   },
   "engines": {
     "node": ">=12.0.0"
+  },
+  "files": [
+    "lib",
+    "src",
+    "contracts",
+    "package.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./lib/esm/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    },
+    "./package.json": "./package.json"
   }
 }
