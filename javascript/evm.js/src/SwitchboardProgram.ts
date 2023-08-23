@@ -81,7 +81,7 @@ export async function getSbPushReceiverFromProvider(
     : await (async () => {
         const { chainId } = await provider.getNetwork();
         const config = getSupportedEvmChainId(chainId);
-        return config.sbPushReceiver;
+        return config.sbPushOracle;
       })();
 
   return SwitchboardPushReceiver__factory.connect(address, provider);
@@ -192,7 +192,7 @@ export class SwitchboardProgram implements ISwitchboardProgram {
 
   private _chainIdPromise: Promise<number> | undefined = undefined;
 
-  private _sbPushReceiverPromise: Promise<SwitchboardPushReceiver> | undefined =
+  private _sbPushOraclePromise: Promise<SwitchboardPushReceiver> | undefined =
     undefined;
 
   public get chainId(): Promise<number> {
@@ -210,24 +210,24 @@ export class SwitchboardProgram implements ISwitchboardProgram {
     return this._chainIdPromise;
   }
 
-  public get sbPushReceiver(): Promise<SwitchboardPushReceiver> {
-    if (this._sbPushReceiverPromise) {
-      return this._sbPushReceiverPromise;
+  public get sbPushOracle(): Promise<SwitchboardPushReceiver> {
+    if (this._sbPushOraclePromise) {
+      return this._sbPushOraclePromise;
     }
 
-    this._sbPushReceiverPromise = this.chainId
+    this._sbPushOraclePromise = this.chainId
       .then((chainId) => {
         const config = getSupportedEvmChainId(chainId);
         return SwitchboardPushReceiver__factory.connect(
-          config.sbPushReceiver,
+          config.sbPushOracle,
           this.sb.provider
         );
       })
       .catch((err) => {
-        this._sbPushReceiverPromise = undefined;
+        this._sbPushOraclePromise = undefined;
         throw err;
       });
-    return this._sbPushReceiverPromise;
+    return this._sbPushOraclePromise;
   }
 
   /**

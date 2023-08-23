@@ -187,7 +187,7 @@ export interface ISwitchboardProgram {
    */
   address: Promise<string>;
   chainId: Promise<number>;
-  sbPushReceiver: Promise<SwitchboardPushReceiver>;
+  sbPushOracle: Promise<SwitchboardPushReceiver>;
   /**
    * Returns a new instance of the SwitchboardProgram with a new signer.
    * @param signer - The new signer

@@ -14,3 +14,21 @@ export {
 export * from "./SwitchboardProgram.js";
 export * from "./types.js";
 export * from "./utils.js";
+export {
+  arbitrum,
+  coredao,
+  EvmChainConfigs,
+  EvmChainIds,
+  EvmChainType,
+  getSupportedEvmChain,
+  getSupportedEvmChainId,
+  IEvmNetworkConfig,
+  isSupportedChainId,
+  isSupportedEvmChain,
+  SUPPORTED_EVM_CHAIN_IDS,
+  SWITCHBOARD_ARBITRUM_MAINNET_CONFIG,
+  SWITCHBOARD_ARBITRUM_TESTNET_CONFIG,
+  SWITCHBOARD_COREDAO_MAINNET_CONFIG,
+  SWITCHBOARD_COREDAO_TESTNET_CONFIG,
+  SWITCHBOARD_EVM_CHAINS,
+} from "@switchboard-xyz/common/networks";

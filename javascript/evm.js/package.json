@@ -1,7 +1,7 @@
 {
   "name": "@switchboard-xyz/evm.js",
   "description": "API wrapper for intergating with the Switchboardv2 program on our EVM implementation",
-  "version": "3.12.25",
+  "version": "3.12.30",
   "license": "MIT",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -24,7 +24,7 @@
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@switchboard-xyz/common": "^2.3.2",
+    "@switchboard-xyz/common": "^2.3.4",
     "chalk": "^5.0.1",
     "ethers": "^5.7.2",
     "js-sha3": "^0.8.0",
