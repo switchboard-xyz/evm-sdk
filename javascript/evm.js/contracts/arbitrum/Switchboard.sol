@@ -6,6 +6,7 @@ import {ISwitchboardPush} from "../ISwitchboardPush.sol";
 import {Aggregator} from "../Aggregator.sol";
 
 /**
+ * @title arbitrum mainnet switchboard library
  * @dev Switchboard Operations
  */
 library Switchboard {
@@ -16,6 +17,48 @@ library Switchboard {
         0x0000000000000000000000000000000000000001;
     address constant ATTESTATION_QUEUE_ID =
         0x0000000000000000000000000000000000000001;
+
+    error InvalidSender(address expected, address received);
+
+    /**
+     * Function config - to minimize impact on stack depth
+     * @param name name exposed to the Switchboard Explorer
+     * @param authority the function's authority
+     * @param containerRegistry "dockerhub"
+     * @param container container name, ex: "switchboardlabs/function-example"
+     * @param version container version tag, ex: "latest"
+     * @param schedule cron schedule, ex: "0 * * * *"
+     * @param paramsSchema json schema for the function's params
+     * @param permittedCallers array of addresses that are allowed to call the function (empty array for all)
+     */
+    struct FunctionConfig {
+        string name;
+        address authority;
+        address queueId;
+        string containerRegistry;
+        string container;
+        string version;
+        string schedule;
+        string paramsSchema;
+        address[] permittedCallers;
+    }
+
+    /**
+     * Function Call Settings (all optional)
+     * @param requireEstimatedRunCostFee require that the payment be at least the estimated run cost
+     * (uses recent runs for gas cost estimation, so first is the least expensive)
+     * @param minimumFee minimum fee that a function caller must pay
+     * @param maxGasCost maximum gas cost that a function run can cost
+     * @param requireCallerPayFullCost require that the caller pay the full cost of the call
+     * @param requireSenderBeReturnAddress require that the callback target be the caller contract
+     */
+    struct FunctionCallConfig {
+        bool requireEstimatedRunCostFee;
+        uint256 minimumFee;
+        uint256 maxGasCost;
+        bool requireCallerPayFullCost;
+        bool requireSenderBeReturnAddress;
+    }
 
     /**
      * Read a feed's latest result
@@ -83,108 +126,69 @@ library Switchboard {
     /**
      * Create a function
      * @param functionId the function's id
-     * @param name name exposed to the Switchboard Explorer
-     * @param authority the function's authority
-     * @param containerRegistry "dockerhub"
-     * @param container container name, ex: "switchboardlabs/function-example"
-     * @param version container version tag, ex: "latest"
-     * @param schedule cron schedule, ex: "0 * * * *", empty for no scheduled runs
-     * @param paramsSchema json schema for the function's params (purely for documentation purposes)
-     * @param permittedCallers array of addresses that are allowed to call the function (empty array for all)
-     * @param initialFunding initial funding for the function's escrow
+     * @param params function parameters
      * @dev emits FunctionAccountInit event
      */
     function createFunction(
         address functionId,
-        string calldata name,
-        address authority,
-        string calldata containerRegistry,
-        string calldata container,
-        string calldata version,
-        string calldata schedule,
-        string calldata paramsSchema,
-        address[] calldata permittedCallers,
+        FunctionConfig memory params,
         uint256 initialFunding
     ) external {
         ISwitchboard(SWITCHBOARD_ADDRESS).createFunctionWithId{
             value: initialFunding
         }(
             functionId,
-            name,
-            authority,
+            params.name,
+            params.authority,
             ATTESTATION_QUEUE_ID,
-            containerRegistry,
-            container,
-            version,
-            schedule,
-            paramsSchema,
-            permittedCallers
+            params.containerRegistry,
+            params.container,
+            params.version,
+            params.schedule,
+            params.paramsSchema,
+            params.permittedCallers
         );
     }
 
     /**
      * Set parameters around calling functions - each of these defaults to 0 / false / empty
      * @param functionId the function's id
-     * @param name name exposed to the Switchboard Explorer
-     * @param authority the function's authority
-     * @param containerRegistry "dockerhub"
-     * @param container container name, ex: "switchboardlabs/function-example"
-     * @param version container version tag, ex: "latest"
-     * @param schedule cron schedule, ex: "0 * * * *"
-     * @param paramsSchema json schema for the function's params
-     * @param permittedCallers array of addresses that are allowed to call the function (empty array for all)
+     * @param params function parameters
      * @dev reverts if the caller is not the function's authority
      */
     function setFunctionConfig(
         address functionId,
-        string calldata name,
-        address authority,
-        string calldata containerRegistry,
-        string calldata container,
-        string calldata version,
-        string calldata schedule,
-        string calldata paramsSchema,
-        address[] calldata permittedCallers
+        FunctionConfig memory params
     ) external {
         ISwitchboard(SWITCHBOARD_ADDRESS).setFunctionConfig(
             functionId,
-            name,
-            authority,
-            containerRegistry,
-            container,
-            version,
-            schedule,
-            paramsSchema,
-            permittedCallers
+            params.name,
+            params.authority,
+            params.containerRegistry,
+            params.container,
+            params.version,
+            params.schedule,
+            params.paramsSchema,
+            params.permittedCallers
         );
     }
 
     /**
      * Set parameters around calling functions - each of these defaults to 0 / false / empty - entirely optional
-     * @param functionId the function's id
-     * @param requireEstimatedRunCostFee require that the payment be at least the estimated run cost
-     * (uses recent runs for gas cost estimation, so first is the least expensive)
-     * @param minimumFee minimum fee that a function caller must pay
-     * @param maxGasCost maximum gas cost that a function run can cost
-     * @param requireCallerPayFullCost require that the caller pay the full cost of the call
-     * @param requireSenderBeReturnAddress require that the callback target be the caller contract
+     * @param params function parameters
      * @dev reverts if the caller is not the function's authority
      */
     function setFunctionCallSettings(
         address functionId,
-        bool requireEstimatedRunCostFee,
-        uint256 minimumFee,
-        uint256 maxGasCost,
-        bool requireCallerPayFullCost,
-        bool requireSenderBeReturnAddress
+        FunctionCallConfig memory params
     ) external {
         ISwitchboard(SWITCHBOARD_ADDRESS).setFunctionCallSettings(
             functionId,
-            requireEstimatedRunCostFee,
-            minimumFee,
-            maxGasCost,
-            requireCallerPayFullCost,
-            requireSenderBeReturnAddress
+            params.requireEstimatedRunCostFee,
+            params.minimumFee,
+            params.maxGasCost,
+            params.requireCallerPayFullCost,
+            params.requireSenderBeReturnAddress
         );
     }
 
@@ -235,5 +239,25 @@ library Switchboard {
             name,
             description
         );
+    }
+
+    /**
+     * Get the encoded sender in the current call (if called from Switchboard)
+     */
+    function getEncodedFunctionId()
+        internal
+        view
+        returns (address payable signer)
+    {
+        signer = payable(msg.sender);
+        if (signer != SWITCHBOARD_ADDRESS) {
+            revert InvalidSender(SWITCHBOARD_ADDRESS, signer);
+        }
+
+        if (msg.data.length >= 20) {
+            assembly {
+                signer := shr(96, calldataload(sub(calldatasize(), 20)))
+            }
+        }
     }
 }

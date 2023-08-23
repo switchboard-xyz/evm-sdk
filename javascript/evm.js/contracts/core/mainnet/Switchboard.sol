@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import {ISwitchboard} from "../ISwitchboard.sol";
-import {ISwitchboardPush} from "../ISwitchboardPush.sol";
-import {Aggregator} from "../Aggregator.sol";
+import {ISwitchboard} from "../../ISwitchboard.sol";
+import {ISwitchboardPush} from "../../ISwitchboardPush.sol";
+import {Aggregator} from "../../Aggregator.sol";
 
 /**
  * @title core mainnet switchboard library
