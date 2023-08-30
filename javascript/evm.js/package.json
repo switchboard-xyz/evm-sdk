@@ -9,6 +9,7 @@
   "scripts": {
     "build:cjs": "pnpm exec tsc -p tsconfig.cjs.json",
     "build:esm": "pnpm exec tsc",
+    "cp:contracts": "rimraf contracts; cp -R ../../contracts",
     "build": "rimraf lib; pnpm run bindings && pnpm run build:cjs && pnpm run build:esm",
     "watch": "pnpm exec tsc -p tsconfig.cjs.json --watch",
     "prepack": "pnpm exec eslint --fix ./src ./tests && pnpm run lint && pnpm run build",
