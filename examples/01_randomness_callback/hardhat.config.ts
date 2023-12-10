@@ -114,6 +114,18 @@ const config: HardhatUserConfig = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+    optimismTestnet: {
+      chainId: 420,
+      url: process.env.OPTIMISM_TESTNET_URL || "https://goerli.optimism.io",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+    optimismMain: {
+      chainId: 10,
+      url: process.env.OPTIMISM_MAINNET_URL || "https://mainnet.optimism.io",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
   },
 };
 

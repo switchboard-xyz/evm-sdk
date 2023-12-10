@@ -35,5 +35,34 @@ Or add the following line to your Cargo.toml:
 
 ```toml
 [dependencies]
-switchboard-evm = "0.3.9"
+switchboard-evm = "0.5.15"
+```
+
+## Usage
+
+Here's an example of using the EvmFunctionRunner inside a Switchboard Function:
+
+```rust
+/// Required
+static CLIENT_URL: &str = "https://goerli-rollup.arbitrum.io/rpc";
+// Generate your contract's ABI
+abigen!(Receiver, r#"[ function callback(uint256) ]"#,);
+
+#[derive(EthAbiType, EthAbiCodec, Default, Debug, Clone)]
+pub struct Params {
+    callback: Address,
+}
+
+#[sb_function(expiration_seconds = 120, gas_limit = 5_500_000)]
+async fn sb_function(client: SbMiddleware, _call_id: Address, params: Params) -> SbResult {
+    let receiver_contract = Receiver::new(params.callback, client.into());
+    let mut random = [0u8; 32];
+    Gramine::read_rand(random.as_mut_slice()).map_err(|_| SbError::SgxRandReadFail)?;
+    Ok(vec![receiver_contract.callback(U256::from_little_endian(&random))])
+}
+
+#[sb_error]
+pub enum SbError {
+    SgxRandReadFail
+}
 ```

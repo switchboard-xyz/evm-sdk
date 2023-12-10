@@ -1,3 +1,5 @@
+use crate::*;
+
 use ethers::types::transaction::eip712::EIP712Domain;
 use ethers::{prelude::k256::ecdsa::SigningKey, signers::Wallet, types::Address};
 use rand::SeedableRng;
@@ -5,11 +7,11 @@ use std::env;
 use std::result::Result;
 use std::str::FromStr;
 
-use crate::bindings::{eip712, error::SwitchboardClientError};
+use crate::bindings::eip712;
 
-pub fn load_env_address(key: &str) -> Result<Address, SwitchboardClientError> {
+pub fn load_env_address(key: &str) -> Result<Address, SbError> {
     let key = &env::var(key).unwrap_or(String::new());
-    Address::from_str(key).map_err(|_| SwitchboardClientError::EnvVariableMissing(key.to_string()))
+    Address::from_str(key).map_err(|_| SbError::EnvVariableMissing(key.to_string()))
 }
 
 pub fn generate_signer() -> Wallet<SigningKey> {

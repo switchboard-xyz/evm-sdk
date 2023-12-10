@@ -5,11 +5,15 @@ import {
   type FunctionData,
   type ISwitchboardProgram,
   type RawMrEnclave,
+  type RequestData,
+  type RoutineData,
   type TransactionOptions,
   type TransactionStruct,
 } from "../types.js";
 
 import { AttestationQueueAccount } from "./AttestationQueueAccount.js";
+import { RequestAccount } from "./RequestAccount.js";
+import { RoutineAccount } from "./RoutineAccount.js";
 
 import type { BigNumber, BigNumberish, ContractTransaction } from "ethers";
 import { Wallet } from "ethers";
@@ -100,6 +104,38 @@ export class FunctionAccount {
     return await this.switchboard.sb
       .funcs(this.address)
       .catch(EthersError.handleError);
+  }
+
+  public async loadAllRequests(): Promise<
+    Array<[RequestAccount, RequestData]>
+  > {
+    const routines = await this.switchboard.sb
+      .getRequestsByFunctionId(this.address)
+      .catch(EthersError.handleError);
+    const out: Array<[RequestAccount, RequestData]> = [];
+    for (let i = 0; i < routines[0].length; i++) {
+      out.push([
+        new RequestAccount(this.switchboard, routines[0][i]),
+        routines[1][i],
+      ]);
+    }
+    return out;
+  }
+
+  public async loadAllRoutines(): Promise<
+    Array<[RoutineAccount, RoutineData]>
+  > {
+    const routines = await this.switchboard.sb
+      .getRoutinesByFunctionId(this.address)
+      .catch(EthersError.handleError);
+    const out: Array<[RoutineAccount, RoutineData]> = [];
+    for (let i = 0; i < routines[0].length; i++) {
+      out.push([
+        new RoutineAccount(this.switchboard, routines[0][i]),
+        routines[1][i],
+      ]);
+    }
+    return out;
   }
 
   /**
