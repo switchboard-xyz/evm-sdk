@@ -36,8 +36,7 @@ Get started writing Switchboard Functions with our [functions template repositor
 
 ## Switchboard Feeds
 
-Switchboard Data Feeds are powered by Switchboard Functions. You can find the source code (contracts and off-chain logic) for the Switchboard Function that powers the available feeds in the [functions repository](https://github.com/switchboard-xyz/evm-functions-template/tree/main/rust/01_price_oracle).
-
+Switchboard Data Feeds are powered by Switchboard Functions. You can find the source code (contracts and off-chain logic) for the Switchboard Function that powers the available feeds in the [functions repository](https://github.com/switchboard-xyz/evm-functions-template/tree/main/rust/01_price_oracle/SwitchboardPushReceiver).
 - [Receiver.sol](https://github.com/switchboard-xyz/evm-functions-template/rust/01_price_oracle/contracts/src/Receiver/Receiver.sol) - The main entry point for the Switchboard Feed Function. This contract is deployed by the Switchboard, and is responsible for receiving data from the off-chain Switchboard Function, and making it available to other contracts.
 - [Receiver.sol](https://github.com/switchboard-xyz/evm-functions-template/blob/main/rust/01_price_oracle/SwitchboardPushReceiver/contracts/src/SwitchboardPushReceiver/Receiver/Receiver.sol)) - The main entry point for the Switchboard Feed Function. This contract is deployed by the Switchboard, and is responsible for receiving data from the off-chain Switchboard Function, and making it available to other contracts.
 - [Main.rs](https://github.com/switchboard-xyz/evm-functions-template/blob/main/rust/01_price_oracle/SwitchboardPushReceiver/switchboard-function/src/main.rs) - The off-chain Switchboard Function that powers the Switchboard Feed. This function is responsible for fetching data from an external API, and submitting it to the Switchboard Receiver contract.
@@ -100,13 +99,13 @@ The following addresses can be used with the Switchboard deployment on Coredao
 
 ## Example Contracts
 
-| **Lang** | **Name**                                                     | **Description**                                                                 |
-| -------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| Solidity | [feed-parser](contracts/read-feed)                           | An example Solidity contract demonstrating how to read a Switchboard data feed. |
-| Solidity | [read-feed-aggregator-v3](contracts/read-feed-aggregator-v3) | An example Solidity contract demonstrating how to read a Switchboard data feed. |
+| **Lang** | **Name**                                                       | **Description**                                                                              |
+| -------- | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Solidity | [randomness-calllback](examples/01_randomness_callback)        | An example Solidity contract demonstrating how to consume randomenss with Switchboard.       |
+| Solidity | [user-triggered-callback](examples/02_user_triggered_callback) | An example Solidity contract demonstrating how manually trigger a callback with Switchboard. |
 
 ## Troubleshooting
 
-1. File a [GitHub Issue](https://github.com/switchboard-xyz/sbv2-evm/issues/new)
+1. File a [GitHub Issue](https://github.com/switchboard-xyz/evm-sdk/issues/new)
 2. Ask a question in
    [Discord #dev-support](https://discord.com/channels/841525135311634443/984343400377647144)
