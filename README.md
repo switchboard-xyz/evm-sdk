@@ -36,10 +36,12 @@ Get started writing Switchboard Functions with our [functions template repositor
 
 ## Switchboard Feeds
 
-Switchboard Data Feeds are powered by Switchboard Functions. You can find the source code (contracts and off-chain logic) for the Switchboard Function that powers the available feeds in the [functions repository](https://github.com/switchboard-xyz/evm-functions-template/rust/01_price_oracle).
+Switchboard Data Feeds are powered by Switchboard Functions. You can find the source code (contracts and off-chain logic) for the Switchboard Function that powers the available feeds in the [functions repository](https://github.com/switchboard-xyz/evm-functions-template/tree/main/rust/01_price_oracle).
 
 - [Receiver.sol](https://github.com/switchboard-xyz/evm-functions-template/rust/01_price_oracle/contracts/src/Receiver/Receiver.sol) - The main entry point for the Switchboard Feed Function. This contract is deployed by the Switchboard, and is responsible for receiving data from the off-chain Switchboard Function, and making it available to other contracts.
-- [Main.rs](https://github.com/switchboard-xyz/evm-functions-template/rust/01_price_oracle/switchboard-function/src/main.rs) - The off-chain Switchboard Function that powers the Switchboard Feed. This function is responsible for fetching data from an external API, and submitting it to the Switchboard Receiver contract.
+- [Receiver.sol](https://github.com/switchboard-xyz/evm-functions-template/blob/main/rust/01_price_oracle/SwitchboardPushReceiver/contracts/src/SwitchboardPushReceiver/Receiver/Receiver.sol)) - The main entry point for the Switchboard Feed Function. This contract is deployed by the Switchboard, and is responsible for receiving data from the off-chain Switchboard Function, and making it available to other contracts.
+- [Main.rs](https://github.com/switchboard-xyz/evm-functions-template/blob/main/rust/01_price_oracle/SwitchboardPushReceiver/switchboard-function/src/main.rs) - The off-chain Switchboard Function that powers the Switchboard Feed. This function is responsible for fetching data from an external API, and submitting it to the Switchboard Receiver contract.
+
 
 You can find existing Switchboard Feeds and their ID's for accessing in solidity at [app.switchboard.xyz](https://app.switchboard.xyz/).
 
