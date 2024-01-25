@@ -6,7 +6,50 @@ interface ISwitchboard {
     // Events
     //=========================================================================
 
-    // [Function Calls]
+    // [Function Verify]
+    event VerifyFailed(
+        address indexed functionId,
+        address indexed callId,
+        uint256 indexed code
+    );
+
+    // [Request]
+    event RequestEvent(
+        address indexed functionId,
+        address indexed sender,
+        address indexed requestId,
+        bytes params
+    );
+    event RequestFund(
+        address indexed functionId,
+        address indexed funder,
+        uint256 amount
+    );
+    event RequestWithdraw(
+        address indexed functionId,
+        address indexed funder,
+        uint256 amount
+    );
+
+    // [Routine]
+    event RoutineFund(
+        address indexed functionId,
+        address indexed funder,
+        uint256 amount
+    );
+    event RoutineWithdraw(
+        address indexed functionId,
+        address indexed funder,
+        uint256 amount
+    );
+    event RoutineCreated(
+        address indexed functionId,
+        address indexed sender,
+        address indexed routineId,
+        bytes params
+    );
+
+    // [Function Calls -- DEPRECATED]
     event FunctionCallFund(
         address indexed functionId,
         address indexed funder,
@@ -74,10 +117,213 @@ interface ISwitchboard {
     );
 
     //=========================================================================
+    // Errors
+    //=========================================================================
+    error AggregatorDoesNotExist(address aggregatorId);
+    error OracleQueueDoesNotExist(address oracleQueueId);
+    error InsufficientBalance(uint256 expectedBalance, uint256 receivedBalance);
+    error AggregatorAlreadyExists(address aggregatorId);
+    error OracleAlreadyExists(address oracleId);
+    error OracleExpired(address oracleId);
+    error InvalidAuthority(
+        address expectedAuthority,
+        address receivedAuthority
+    );
+    error InvalidSigner(address expectedSigner, address receivedSigner);
+    error InvalidArgument(uint256 argumentIndex);
+    error PermissionDenied(
+        address granter,
+        address grantee,
+        uint256 permission
+    );
+    error InsufficientSamples(uint256 expected, uint256 received);
+    error EarlyOracleResponse(address oracleId);
+    error IntervalHistoryNotRecorded(address aggregatorId);
+    error MrEnclaveNotAllowed(address queueId, bytes32 mrEnclave);
+    error QueuesDoNotMatch(address expectedQueueId, address receivedQueueId);
+    error EnclaveUnverified(address enclaveId);
+    error EnclaveNotReadyForVerification(address enclaveId);
+    error EnclaveNotOnQueue(address queueId, address enclaveId);
+    error EnclaveNotAtQueueIdx(
+        address queueId,
+        address enclaveId,
+        uint256 enclaveIdx
+    );
+    error OracleNotOnQueue(address queueId, address oracleId);
+    error OracleNotAtQueueIdx(
+        address queueId,
+        address oracleId,
+        uint256 oracleIdx
+    );
+    error InvalidEnclave(address enclaveId);
+    error EnclaveExpired(address enclaveId);
+    error AttestationQueueDoesNotExist(address attestationQueueId);
+    error EnclaveDoesNotExist(address enclaveId);
+    error FunctionDoesNotExist(address functionId);
+    error EnclaveAlreadyExists(address enclaveId);
+    error AttestationQueueAlreadyExists(address attestationQueueId);
+    error FunctionAlreadyExists(address functionId);
+    error InsufficientNodes(uint256 expected, uint256 received);
+    error InvalidEntry();
+    error GasLimitExceeded(uint256 limit, uint256 used);
+    error TransactionExpired(uint256 expirationTime);
+    error AlreadyExecuted(bytes32 txHash);
+    error InvalidSignature(
+        address expectedSender,
+        bytes32 txHash,
+        bytes signature
+    );
+    error FunctionCallerNotPermitted(address functionId, address sender);
+    error FunctionMrEnclaveMismatch(bytes32 expected, bytes32 received);
+    error FunctionSignerAlreadySet(address current, address received);
+    error FunctionFeeTooLow(
+        address functionId,
+        uint256 expected,
+        uint256 received
+    );
+    error FunctionIncorrectTarget(address functionId, address received);
+    error IncorrectReportedTime(uint256 maxExpectedTime, uint256 reportedTime);
+    error SubmittedResultsMismatch(uint256 aggregators, uint256 results);
+    error ForceOverrideNotReady(address queueId);
+    error InvalidStatus(address account, uint256 expected, uint256 received);
+    error ExcessiveGasSpent(uint256 gasLimit, uint256 gasSpent);
+    error ACLNotAdmin(address account);
+    error ACLNotAllowed(address account);
+    error ACLAdminAlreadyInitialized();
+    error IncorrectToken(address expected, address received);
+    error TokenTransferFailure(address token, address to, uint256 amount);
+    error StakeNotReady(address queueId, address staker, uint256 readyAt);
+    error StakeNotReadyForWithdrawal(
+        address queueId,
+        address staker,
+        uint256 readyAt
+    );
+    error EnclaveNotFullyStaked(address enclaveId);
+    error InvalidCallId(address callId);
+    error CallIdAlreadyExists(address callId);
+    error InsufficientCallFeePaid(
+        address callId,
+        uint256 expected,
+        uint256 received
+    );
+    error InsufficientCallBalance(
+        address callId,
+        uint256 expected,
+        uint256 received
+    );
+    error CallExceededMaxGasCost(
+        address callId,
+        uint256 expected,
+        uint256 received
+    );
+    error IncorrectFunctionId(address expected, address received);
+    error RoutineIdAlreadyExists(address routineId);
+    error RequestIdAlreadyExists(address requestId);
+    error InvalidRoutineId(address routineId);
+    error RoutinesDisabled(address functionId);
+    error RequestAlreadyExists(address requestId);
+    error Generic();
+
+    //=========================================================================
     // Structs
     //=========================================================================
 
-    // [Function Calls]
+    // [Transactions]
+    struct Transaction {
+        uint256 expirationTimeSeconds;
+        uint256 gasLimit;
+        uint256 value;
+        address to;
+        address from;
+        bytes data;
+    }
+
+    // [Function Verify]
+    struct FunctionVerifyParams {
+        uint256 enclaveIdx; // verifier enclave idx
+        address functionId; // function being run
+        address delegatedSignerAddress; // enclave signer
+        uint256 observedTime; // observed time in enclave
+        uint256 nextAllowedTimestamp;
+        bytes32 mrEnclave; // enclave measurement
+        Transaction[] transactions; // transactions to run
+        bytes[] signatures; // signatures for each transaction
+        //---- below are optional params / just to handle calls ----
+        address[] ids; // List of function calls resolved by this run
+        bytes32[] checksums; // List of params checksums for each function call
+        uint8[] codes; // Failure reason for individual calls (0 if successful)
+    }
+
+    struct FunctionFailParams {
+        uint256 enclaveIdx; // verifier enclave idx
+        address functionId; // function being run
+        uint256 observedTime; // observed time in enclave
+        uint256 nextAllowedTimestamp;
+        uint8 code; // reason for failure
+        //---- below are optional params to handle calls ----
+        address[] ids; // List of function calls resolved by this run / marked as failed
+        bytes32[] checksums; // List of params checksums for each function call
+        uint8[] codes; // Failure reason for individual calls
+    }
+
+    struct FunctionVerifyDetails {
+        uint256 lastContainerPullTimestamp;
+        string lastPulledVersion;
+        string lastPulledContainer;
+        string lastPulledRegistry;
+    }
+
+    // [Request]
+    struct Request {
+        address functionId;
+        address authority;
+        uint256 createdAt;
+        bytes requestData;
+        bool executed;
+        uint256 consecutiveFailures;
+        uint256 balance;
+        uint256 startAfter;
+        uint8 errorCode;
+        uint256 executedAt;
+        FunctionStatus status;
+    }
+
+    // [Routine]
+    struct Routine {
+        address functionId;
+        address authority;
+        string schedule;
+        bytes params;
+        uint256 lastCalledAt;
+        uint256 consecutiveFailures;
+        uint256 balance;
+        FunctionStatus status;
+        uint8 errorCode;
+    }
+
+    // [Function Settings]
+    struct FunctionSettings {
+        // maximum gas cost that a function call can cost
+        uint256 maxGasCost;
+        // require isolated runs for each routine and request
+        bool requireIsolatedRuns;
+        // --- Routines ---
+        // routines_disabled
+        bool routinesDisabled;
+        // require fn authority to sign new routines
+        bool routinesRequireAuthorization;
+        // routine users must pay a fee for each execution to the fn authority
+        uint256 routineFee;
+        // --- Requests ---
+        // requests_disabled
+        bool requestsDisabled;
+        // require fn authority to sign new requests
+        uint256 requestFee;
+        // require fn authority to sign new routines
+        bool requestsRequireAuthorization;
+    }
+
+    // [Function Calls - deprecated]
     struct FunctionCall {
         address functionId;
         address caller;
@@ -88,6 +334,7 @@ interface ISwitchboard {
         uint256 feePaid;
     }
 
+    // [Function Call Settings deprecated - see FunctionSettings]
     struct FunctionCallSettings {
         // require the function call to pay the estimated run cost fee
         bool requireEstimatedRunCostFee;
@@ -196,7 +443,251 @@ interface ISwitchboard {
     // User Functions
     //=========================================================================
 
-    // [Function Calls]
+    // [Function Verify]
+
+    /**
+     * Verify a function result from an enclave and submit its results on-chain
+     * @param params FunctionVerifyParams struct
+     * @dev reverts if the function does not exist
+     * @dev reverts if the caller is not a valid enclave with authority to operate on the queue
+     * @dev reverts if the enclave is not on the queue
+     * @dev reverts if the user transactions submitted fail or use excessive gas
+     * @dev reverts if the user function doesn't have enough funds to cover the transaction + gas
+     */
+    function verifyFunctionResult(FunctionVerifyParams memory params) external;
+
+    /**
+     * Mark a function result as failed from an enclave and submit its results on-chain
+     * @param params FunctionFailParams struct
+     * @dev reverts if the function does not exist
+     * @dev reverts if the caller is not a valid enclave with authority to operate on the queue
+     * @dev reverts if the enclave is not on the queue
+     */
+    function failFunctionResult(FunctionFailParams memory params) external;
+
+    // [Call Verify]
+
+    /**
+     * verifyCallbackParams - used to verify that a function call was run with the correct params
+     * - verifies that the function call was run with the correct params
+     * @param callIds the callIds that were used to call the function
+     * @param hashes the hashes of the params that were used to call the function
+     * @dev reverts if the hashes do not match the param hashes the request / routine was created with
+     */
+    function verifyCallbackParams(
+        address[] memory callIds,
+        bytes32[] memory hashes
+    ) external view;
+
+    // [Request]
+
+    /**
+     * Call a function with params - and pay into the function's escrow (if applicable)
+     * @param functionId the function's id to be called
+     * @param params arbitrary data encoded and passed to the function (for off-chain use)
+     * @return id the call's id
+     * @dev reverts if the function does not exist
+     * @dev reverts if the caller's address is not allowed to call the function
+     * @dev reverts if the function isn't called with enough funding
+     * @dev emits RequestEvent
+     */
+    function sendRequest(
+        address functionId,
+        bytes memory params
+    ) external payable returns (address id);
+
+    /**
+     * Call a function with params and assign it an ID - and pay into the function's escrow (if applicable)
+     * @param requestId the request's id
+     * @param functionId the function's id to be called
+     * @param params arbitrary data encoded and passed to the function (for off-chain use)
+     * @return id the call's id
+     * @dev reverts if the function does not exist
+     * @dev reverts if the caller's address is not allowed to call the function
+     * @dev reverts if the function isn't called with enough funding
+     * @dev reverts if a request has already been made with that id
+     * @dev emits RequestEvent
+     */
+    function sendRequestWithId(
+        address requestId,
+        address functionId,
+        bytes memory params
+    ) external payable returns (address id);
+
+    /**
+     * Call a function with params, an ID, and a start time - and pay into the function's escrow (if applicable)
+     * @param requestId the request's id
+     * @param functionId the function's id to be called
+     * @param params arbitrary data encoded and passed to the function (for off-chain use)
+     * @param startAfter the timestamp to start the request after
+     * @dev reverts if the function does not exist
+     * @dev reverts if the caller's address is not allowed to call the function
+     * @dev reverts if the function isn't called with enough funding
+     * @dev reverts if a request has already been made with that id
+     * @dev emits RequestEvent
+     */
+    function sendDelayedRequest(
+        address requestId,
+        address functionId,
+        bytes memory params,
+        uint256 startAfter
+    ) external payable;
+
+    /**
+     * Get a request by id
+     * @param requestId the request's id
+     * @return Request struct for the request
+     */
+    function requests(address requestId) external view returns (Request memory);
+
+    /**
+     * Get active requests by thir queue id
+     * @param queueId the queue's id
+     */
+    function getActiveRequestsByQueue(
+        address queueId
+    ) external view returns (address[] memory, Request[] memory);
+
+    /**
+     * Fund a request
+     * @param requestId the request's id
+     * @dev emits RequestFund
+     * @dev reverts if request doesn't exist
+     */
+    function requestFund(address requestId) external payable;
+
+    /**
+     * Withdraw from a request
+     * @param requestId the request's id
+     * @param recipient recipient address
+     * @param amount the amount to withdraw
+     * @dev emits RequestWithdraw
+     * @dev reverts if not the request caller
+     */
+    function requestWithdraw(
+        address requestId,
+        address recipient,
+        uint256 amount
+    ) external;
+
+    /**
+     * Get requests by function id
+     * @param functionId the function's id
+     */
+    function getRequestsByFunction(
+        address functionId
+    ) external view returns (address[] memory, Request[] memory);
+
+    // [Routine]
+
+    /**
+     * Create Routine with Id
+     * @param routineId the routine's id
+     * @param functionId the function's id to be called
+     * @param authority the routine authority
+     * @param params arbitrary data encoded and passed to the function (for off-chain use)
+     * @param schedule the cron schedule for the routine
+     */
+    function createRoutineWithId(
+        address routineId,
+        address functionId,
+        address authority,
+        bytes calldata params,
+        string calldata schedule
+    ) external payable;
+
+    /**
+     * Update Routine
+     * @param routineId the routine's id
+     * @param functionId the function's id to be called
+     * @param authority the routine authority
+     * @param params arbitrary data encoded and passed to the function (for off-chain use)
+     * @param schedule the cron schedule for the routine
+     * @dev reverts if the routine doesn't exist
+     * @dev reverts if the caller is not the routine authority
+     */
+    function updateRoutine(
+        address routineId,
+        address functionId,
+        address authority,
+        bytes calldata params,
+        string calldata schedule
+    ) external;
+
+    /**
+     * Fund routine
+     * @param routineId the routine's id
+     * @dev reverts if the routine doesn't exist
+     */
+    function routineEscrowFund(address routineId) external payable;
+
+    /**
+     * Withdraw from a routine
+     * @param routineId the routine's id
+     * @param amount amount to withdraw
+     */
+    function routineEscrowWithdraw(address routineId, uint256 amount) external;
+
+    /**
+     * Check if a routine exists
+     * @param routineId the routine's id
+     */
+    function routineExists(address routineId) external view returns (bool);
+
+    /**
+     * Get routines by routine id
+     * @param routineId the routine's id
+     */
+    function routines(address routineId) external view returns (Routine memory);
+
+    /**
+     * Get active routines by queue id
+     * @param queueId the queue's id
+     */
+    function getActiveRoutinesByQueue(
+        address queueId
+    ) external view returns (address[] memory, Routine[] memory);
+
+    /**
+     * Get routines by authority
+     * @param authority the routine's authority
+     */
+    function getRoutinesByAuthority(
+        address authority
+    ) external view returns (address[] memory, Routine[] memory);
+
+    /**
+     * Get routines by function id
+     * @param functionId the function's id
+     * @return routines array of routines
+     */
+    function getRoutinesByFunction(
+        address functionId
+    ) external view returns (address[] memory, Routine[] memory);
+
+    // [Function Settings]
+
+    /**
+     * Get a function's settings
+     * @param functionId the function's id
+     * @return FunctionSettings struct for the function
+     */
+    function functionSettings(
+        address functionId
+    ) external returns (FunctionSettings memory);
+
+    /**
+     * Set a function's settings
+     * @param functionId the function's id
+     * @param settings FunctionSettings memory settings
+     * @dev reverts if the caller is not the function's authority
+     */
+    function setFunctionSettings(
+        address functionId,
+        FunctionSettings memory settings
+    ) external;
+
+    // [Function Calls - deprecated]
 
     /**
      * Call a function with params - and pay into the function's escrow (if applicable)
@@ -281,15 +772,15 @@ interface ISwitchboard {
      */
     function createFunctionWithId(
         address functionId,
-        string calldata name,
+        string memory name,
         address authority,
         address queueId,
-        string calldata containerRegistry,
-        string calldata container,
-        string calldata version,
-        string calldata schedule,
-        string calldata paramsSchema,
-        address[] calldata permittedCallers
+        string memory containerRegistry,
+        string memory container,
+        string memory version,
+        string memory schedule,
+        string memory paramsSchema,
+        address[] memory permittedCallers
     ) external payable;
 
     /**
@@ -307,14 +798,14 @@ interface ISwitchboard {
      */
     function setFunctionConfig(
         address functionId,
-        string calldata name,
+        string memory name,
         address authority,
-        string calldata containerRegistry,
-        string calldata container,
-        string calldata version,
-        string calldata schedule,
-        string calldata paramsSchema,
-        address[] calldata permittedCallers
+        string memory containerRegistry,
+        string memory container,
+        string memory version,
+        string memory schedule,
+        string memory paramsSchema,
+        address[] memory permittedCallers
     ) external;
 
     /**
@@ -730,15 +1221,15 @@ interface ISwitchboard {
      * @dev emits FunctionAccountInit event
      */
     function createFunction(
-        string calldata name,
+        string memory name,
         address authority,
         address queueId,
-        string calldata containerRegistry,
-        string calldata container,
-        string calldata version,
-        string calldata schedule,
-        string calldata paramsSchema,
-        address[] calldata permittedCallers
+        string memory containerRegistry,
+        string memory container,
+        string memory version,
+        string memory schedule,
+        string memory paramsSchema,
+        address[] memory permittedCallers
     ) external payable;
 
     /**
@@ -768,7 +1259,7 @@ interface ISwitchboard {
         uint256 value,
         address to,
         address from,
-        bytes calldata data
+        bytes memory data
     ) external view returns (bytes32);
 
     /**
@@ -792,8 +1283,8 @@ interface ISwitchboard {
         uint256 nextAllowedTimestamp,
         bool isFailure,
         bytes32 mrEnclave,
-        bytes32[] calldata transactionsData,
-        bytes[] calldata signatures
+        bytes32[] memory transactionsData,
+        bytes[] memory signatures
     ) external;
 
     /**
@@ -818,9 +1309,9 @@ interface ISwitchboard {
         uint256 nextAllowedTimestamp,
         bool isFailure,
         bytes32 mrEnclave,
-        bytes32[] calldata transactionsData,
-        bytes[] calldata signatures,
-        address[] calldata functionCallIds
+        bytes32[] memory transactionsData,
+        bytes[] memory signatures,
+        address[] memory functionCallIds
     ) external;
 
     /**

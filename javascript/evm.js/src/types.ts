@@ -557,3 +557,6 @@ export const FunctionStatus = {
 } as const;
 
 export type FunctionStatusType = keyof typeof FunctionStatus;
+
+export type RoutineData = Awaited<ReturnType<Switchboard["routines"]>>;
+export type RequestData = Awaited<ReturnType<Switchboard["requests"]>>;

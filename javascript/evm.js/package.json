@@ -1,19 +1,32 @@
 {
   "name": "@switchboard-xyz/evm.js",
-  "description": "API wrapper for intergating with the Switchboardv2 program on our EVM implementation",
-  "version": "3.12.30",
+  "version": "3.12.36",
+  "description": "API wrapper for intergating with the Switchboard program on our EVM implementation",
   "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./lib/esm/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/esm/index.d.ts",
+  "files": [
+    "lib",
+    "src",
+    "contracts",
+    "package.json"
+  ],
   "scripts": {
     "build:cjs": "pnpm exec tsc -p tsconfig.cjs.json",
     "build:esm": "pnpm exec tsc",
-    "cp:contracts": "rimraf contracts; cp -R ../../contracts",
-    "build": "rimraf lib; pnpm run bindings && pnpm run build:cjs && pnpm run build:esm",
+    "build": "rimraf lib; pnpm run build:cjs && pnpm run build:esm",
     "watch": "pnpm exec tsc -p tsconfig.cjs.json --watch",
     "prepack": "pnpm exec eslint --fix ./src ./tests && pnpm run lint && pnpm run build",
-    "test": "pnpm exec ts-mocha -p ./tsconfig.cjs.json --require ts-node/register -t 1000000 ./tests/*.tests.ts",
+    "test": "pnpm exec ts-mocha -p ./tsconfig.cjs.json --require ts-node/register -t 1000000 tests/*.ts",
     "lint": "pnpm exec eslint src",
     "fix": "pnpm exec eslint --fix src",
     "clean": "pnpm exec rimraf node_modules lib .turbo",
@@ -25,7 +38,7 @@
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@switchboard-xyz/common": "^2.3.4",
+    "@switchboard-xyz/common": "^",
     "chalk": "^5.0.1",
     "ethers": "^5.7.2",
     "js-sha3": "^0.8.0",
@@ -63,19 +76,5 @@
   },
   "engines": {
     "node": ">=12.0.0"
-  },
-  "files": [
-    "lib",
-    "src",
-    "contracts",
-    "package.json"
-  ],
-  "exports": {
-    ".": {
-      "types": "./lib/esm/index.d.ts",
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
-    },
-    "./package.json": "./package.json"
   }
 }

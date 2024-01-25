@@ -1,13 +1,14 @@
 {
   "name": "switchboard-evm",
   "scripts": {
+    "cargo:build": "pnpm run copy:abi && cargo build --features all",
+    "lint": "cargo fmt -- --check",
+    "fix": "cargo fmt",
+    "test": "cargo test --features all -- --nocapture",
     "copy:abi:switchboard": "cp ../../chains/evm/switchboard/abis/hardhat-diamond-abi/HardhatDiamondABI.sol/Switchboard.json Switchboard.json",
     "copy:abi:push": "cp ../../chains/evm/switchboard_push_receiver/abis/hardhat-diamond-abi/HardhatDiamondABI.sol/SwitchboardPushReceiver.json SwitchboardPushReceiver.json",
     "copy:abi": "run-p copy:abi:*",
-    "cargo:build": "pnpm run copy:abi && cargo build",
-    "abi": "sed -i '' 's/\"//g; s/,$//' Switchboard.json",
-    "fix": "cargo fmt",
-    "test": "cargo test"
+    "abi": "sed -i '' 's/\"//g; s/,$//' Switchboard.json"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"

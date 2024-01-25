@@ -6,7 +6,7 @@
 CARGO_NAME=evm-randomness-function
 DOCKER_IMAGE_NAME=switchboardlabs/evm-randomness-function
 
-DOCKER_BUILD_COMMAND=DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64 --build-arg CARGO_NAME=${CARGO_NAME}
+DOCKER_BUILD_COMMAND=DOCKER_BUILDKIT=1 docker buildx build --platform linux/amd64 --build-arg CARGO_NAME=${CARGO_NAME} --build-arg CALLBACK_ADDRESS=${CALLBACK_ADDRESS}
 
 # Default make task
 all: build

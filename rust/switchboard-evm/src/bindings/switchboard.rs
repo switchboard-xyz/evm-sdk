@@ -10,13 +10,9097 @@ pub use switchboard::*;
     non_camel_case_types
 )]
 pub mod switchboard {
-    #[rustfmt::skip]
-    const __ABI: &str = "[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"NewRandomValue\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"callback\",\"outputs\":[]},{\"inputs\":[],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"randomValue\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_initializationContractAddress\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"_calldata\",\"type\":\"bytes\",\"components\":[]}],\"type\":\"error\",\"name\":\"InitializationFunctionReverted\",\"outputs\":[]},{\"inputs\":[],\"type\":\"error\",\"name\":\"ACLAdminAlreadyInitialized\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"ACLNotAdmin\",\"outputs\":[]},{\"inputs\":[],\"type\":\"error\",\"name\":\"InvalidEntry\",\"outputs\":[]},{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"initialize\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"isAdmin\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"isAllowed\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"status\",\"type\":\"bool\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setAdmin\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"status\",\"type\":\"bool\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setAllowed\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"AggregatorAlreadyExists\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"AggregatorDoesNotExist\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"EarlyOracleResponse\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"gasLimit\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"gasSpent\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"ExcessiveGasSpent\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"expectedBalance\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"receivedBalance\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"InsufficientBalance\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"expected\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"received\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"InsufficientSamples\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"IntervalHistoryNotRecorded\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"expectedAuthority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"receivedAuthority\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"InvalidAuthority\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"OracleExpired\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"expectedQueueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"receivedQueueId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"QueuesDoNotMatch\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"aggregators\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"results\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"SubmittedResultsMismatch\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"accountId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"AggregatorAccountInit\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"funder\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"AggregatorFundEvent\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"intervalId\",\"type\":\"uint256\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"balanceLeftForInterval\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"AggregatorIntervalRefreshed\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"intervalId\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"AggregatorOpenInterval\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"reader\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"AggregatorRead\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"oracle\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"AggregatorSaveResult\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"minUpdateDelaySeconds\",\"type\":\"uint256\",\"components\":[],\"indexed\":false},{\"internalType\":\"uint256\",\"name\":\"minOracleResults\",\"type\":\"uint256\",\"components\":[],\"indexed\":false},{\"internalType\":\"uint256\",\"name\":\"varianceThreshold\",\"type\":\"uint256\",\"components\":[],\"indexed\":false},{\"internalType\":\"uint256\",\"name\":\"minJobResults\",\"type\":\"uint256\",\"components\":[],\"indexed\":false},{\"internalType\":\"uint256\",\"name\":\"forceReportPeriod\",\"type\":\"uint256\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"AggregatorSettingsUpdated\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"AggregatorUpdate\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"funder\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"AggregatorWithdrawEvent\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"OraclePayoutEvent\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"accountId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"aggregatorEscrowFund\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"recipient\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"aggregatorEscrowWithdraw\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint80\",\"name\":\"roundId\",\"type\":\"uint80\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"aggregatorHistory\",\"outputs\":[{\"internalType\":\"struct AggregatorLib.AggregatorHistoryResult\",\"name\":\"\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"medianTimestamp\",\"type\":\"uint256\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"aggregators\",\"outputs\":[{\"internalType\":\"struct AggregatorLib.Aggregator\",\"name\":\"\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"struct AggregatorLib.Result\",\"name\":\"latestResult\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}]},{\"internalType\":\"struct AggregatorLib.AggregatorConfig\",\"name\":\"config\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"batchSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minUpdateDelaySeconds\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minOracleResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"varianceThreshold\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minJobResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"forceReportPeriod\",\"type\":\"uint256\",\"components\":[]}]},{\"internalType\":\"string\",\"name\":\"jobsHash\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balanceLeftForInterval\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"nextIntervalRefreshTime\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint80\",\"name\":\"intervalId\",\"type\":\"uint80\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"historyEnabled\",\"type\":\"bool\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"batchSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minUpdateDelaySeconds\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minOracleResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"jobsHash\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"varianceThreshold\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minJobResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"forceReportPeriod\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"enableHistory\",\"type\":\"bool\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"createAggregator\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getAggregatorsByAuthority\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"struct AggregatorLib.Aggregator[]\",\"name\":\"\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"struct AggregatorLib.Result\",\"name\":\"latestResult\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}]},{\"internalType\":\"struct AggregatorLib.AggregatorConfig\",\"name\":\"config\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"batchSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minUpdateDelaySeconds\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minOracleResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"varianceThreshold\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minJobResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"forceReportPeriod\",\"type\":\"uint256\",\"components\":[]}]},{\"internalType\":\"string\",\"name\":\"jobsHash\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balanceLeftForInterval\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"nextIntervalRefreshTime\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint80\",\"name\":\"intervalId\",\"type\":\"uint80\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"historyEnabled\",\"type\":\"bool\",\"components\":[]}]}]},{\"inputs\":[],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getAllAggregators\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"struct AggregatorLib.Aggregator[]\",\"name\":\"\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"struct AggregatorLib.Result\",\"name\":\"latestResult\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}]},{\"internalType\":\"struct AggregatorLib.AggregatorConfig\",\"name\":\"config\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"batchSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minUpdateDelaySeconds\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minOracleResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"varianceThreshold\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minJobResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"forceReportPeriod\",\"type\":\"uint256\",\"components\":[]}]},{\"internalType\":\"string\",\"name\":\"jobsHash\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balanceLeftForInterval\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"nextIntervalRefreshTime\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint80\",\"name\":\"intervalId\",\"type\":\"uint80\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"historyEnabled\",\"type\":\"bool\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getCurrentIntervalId\",\"outputs\":[{\"internalType\":\"uint80\",\"name\":\"roundId\",\"type\":\"uint80\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint80\",\"name\":\"intervalId\",\"type\":\"uint80\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"getIntervalResult\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"medianTimestamp\",\"type\":\"uint256\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"latestResult\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"openInterval\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"ids\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"int256[]\",\"name\":\"results\",\"type\":\"int256[]\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"oracleIdx\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"saveResults\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"batchSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minUpdateDelaySeconds\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minOracleResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"jobsHash\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"varianceThreshold\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"minJobResults\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"forceReportPeriod\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"enableHistory\",\"type\":\"bool\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setAggregatorConfig\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"viewAggregatorResults\",\"outputs\":[{\"internalType\":\"struct AggregatorLib.Result[]\",\"name\":\"\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"aggregatorId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"viewLatestResult\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"attestationQueueId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"AttestationQueueAlreadyExists\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"argumentIndex\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"InvalidArgument\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]}],\"type\":\"error\",\"name\":\"MrEnclaveNotAllowed\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"AddMrEnclave\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"accountId\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"AttestationQueueAccountInit\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"granter\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"permission\",\"type\":\"uint256\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"AttestationQueuePermissionUpdated\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"AttestationQueueSetConfig\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"RemoveMrEnclave\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"addMrEnclaveToAttestationQueue\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"attestationQueueHasMrEnclave\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"attestationQueues\",\"outputs\":[{\"internalType\":\"struct AttestationQueueLib.AttestationQueue\",\"name\":\"\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"data\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"reward\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"lastHeartbeat\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bytes32[]\",\"name\":\"mrEnclaves\",\"type\":\"bytes32[]\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxEnclaveVerificationAge\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"allowAuthorityOverrideAfter\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxConsecutiveFunctionFailures\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireAuthorityHeartbeatPermission\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireUsagePermissions\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"enclaveTimeout\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"gcIdx\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"currIdx\",\"type\":\"uint256\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"reward\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"enclaveTimeout\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxEnclaveVerificationAge\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"allowAuthorityOverrideAfter\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireAuthorityHeartbeatPermission\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireUsagePermissions\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxConsecutiveFunctionFailures\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"createAttestationQueue\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getAttestationQueueMrEnclaves\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getEnclaveIdx\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getEnclaves\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"removeMrEnclaveFromAttestationQueue\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"reward\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"enclaveTimeout\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxEnclaveVerificationAge\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"allowAuthorityOverrideAfter\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireAuthorityHeartbeatPermission\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireUsagePermissions\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxConsecutiveFunctionFailures\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setAttestationQueueConfig\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"permission\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"on\",\"type\":\"bool\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setAttestationQueuePermission\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"struct IDiamondCut.FacetCut[]\",\"name\":\"_diamondCut\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"address\",\"name\":\"facetAddress\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"enum IDiamondCut.FacetCutAction\",\"name\":\"action\",\"type\":\"uint8\",\"components\":[]},{\"internalType\":\"bytes4[]\",\"name\":\"functionSelectors\",\"type\":\"bytes4[]\",\"components\":[]}],\"indexed\":false},{\"internalType\":\"address\",\"name\":\"_init\",\"type\":\"address\",\"components\":[],\"indexed\":false},{\"internalType\":\"bytes\",\"name\":\"_calldata\",\"type\":\"bytes\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"DiamondCut\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"struct IDiamondCut.FacetCut[]\",\"name\":\"_diamondCut\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"address\",\"name\":\"facetAddress\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"enum IDiamondCut.FacetCutAction\",\"name\":\"action\",\"type\":\"uint8\",\"components\":[]},{\"internalType\":\"bytes4[]\",\"name\":\"functionSelectors\",\"type\":\"bytes4[]\",\"components\":[]}]},{\"internalType\":\"address\",\"name\":\"_init\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"_calldata\",\"type\":\"bytes\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"diamondCut\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"_functionSelector\",\"type\":\"bytes4\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"facetAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"facetAddress_\",\"type\":\"address\",\"components\":[]}]},{\"inputs\":[],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"facetAddresses\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"facetAddresses_\",\"type\":\"address[]\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_facet\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"facetFunctionSelectors\",\"outputs\":[{\"internalType\":\"bytes4[]\",\"name\":\"facetFunctionSelectors_\",\"type\":\"bytes4[]\",\"components\":[]}]},{\"inputs\":[],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"facets\",\"outputs\":[{\"internalType\":\"struct IDiamondLoupe.Facet[]\",\"name\":\"facets_\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"address\",\"name\":\"facetAddress\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes4[]\",\"name\":\"functionSelectors\",\"type\":\"bytes4[]\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"_interfaceId\",\"type\":\"bytes4\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"OwnershipTransferred\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"owner_\",\"type\":\"address\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_newOwner\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"transferOwnership\",\"outputs\":[]},{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"init\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"EnclaveAlreadyExists\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"EnclaveDoesNotExist\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"EnclaveExpired\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"enclaveIdx\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"EnclaveNotAtQueueIdx\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"EnclaveNotOnQueue\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"EnclaveNotReadyForVerification\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"EnclaveUnverified\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"ForceOverrideNotReady\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"maxExpectedTime\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"reportedTime\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"IncorrectReportedTime\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"InvalidEnclave\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"expected\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"received\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"InvalidStatus\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"granter\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"permission\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"PermissionDenied\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"accountId\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"EnclaveAccountInit\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"queue\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"EnclaveGC\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"EnclaveHeartbeat\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"nodeId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"EnclavePayoutEvent\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"oldAuthority\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"newAuthority\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"EnclaveRotateAuthority\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"verifier\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"verifiee\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"EnclaveVerifyRequest\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"createEnclave\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"createEnclaveWithId\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"enclaveAuthorityToEnclaveAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"enclaveIdx\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"enclaveGarbageCollect\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"enclaveHeartbeat\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"enclaves\",\"outputs\":[{\"internalType\":\"struct EnclaveLib.Enclave\",\"name\":\"\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"cid\",\"type\":\"bytes\",\"components\":[]},{\"internalType\":\"enum EnclaveLib.VerificationStatus\",\"name\":\"verificationStatus\",\"type\":\"uint8\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"verificationTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"validUntil\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"isOnQueue\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"lastHeartbeat\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"verifierId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"verifierIdx\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"failEnclave\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"forceOverrideVerify\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"isEnclaveValid\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"newAuthority\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"rotateEnclaveAuthority\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"cid\",\"type\":\"bytes\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"updateEnclave\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"attestationQueueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32[]\",\"name\":\"validMeasurements\",\"type\":\"bytes32[]\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"validate\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"verifierId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"enclaveIdx\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"verifyEnclave\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"ACLNotAllowed\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"txHash\",\"type\":\"bytes32\",\"components\":[]}],\"type\":\"error\",\"name\":\"AlreadyExecuted\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"attestationQueueId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"AttestationQueueDoesNotExist\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"FunctionAlreadyExists\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"FunctionCallerNotPermitted\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"FunctionDoesNotExist\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"expected\",\"type\":\"bytes32\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"received\",\"type\":\"bytes32\",\"components\":[]}],\"type\":\"error\",\"name\":\"FunctionMrEnclaveMismatch\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"current\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"received\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"FunctionSignerAlreadySet\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"limit\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"used\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"GasLimitExceeded\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"expected\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"received\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"InsufficientNodes\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"expectedSender\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"txHash\",\"type\":\"bytes32\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\",\"components\":[]}],\"type\":\"error\",\"name\":\"InvalidSignature\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"OracleAlreadyExists\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"oracleIdx\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"OracleNotAtQueueIdx\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"OracleNotOnQueue\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleQueueId\",\"type\":\"address\",\"components\":[]}],\"type\":\"error\",\"name\":\"OracleQueueDoesNotExist\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"expirationTime\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"TransactionExpired\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"callId\",\"type\":\"uint256\",\"components\":[],\"indexed\":true},{\"internalType\":\"bytes\",\"name\":\"params\",\"type\":\"bytes\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"FunctionCallEvent\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"callId\",\"type\":\"uint256\",\"components\":[],\"indexed\":true},{\"internalType\":\"bytes\",\"name\":\"params\",\"type\":\"bytes\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"FunctionCallFailure\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"funder\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"FunctionCallFund\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"params\",\"type\":\"bytes\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"callFunction\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getActiveFunctionCallsByQueue\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"struct FunctionCallLib.FunctionCall[]\",\"name\":\"\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"callData\",\"type\":\"bytes\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"executed\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"consecutiveFailures\",\"type\":\"uint256\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"accountId\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"OracleAccountInit\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"OracleGC\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"OracleHeartbeat\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[],\"indexed\":false},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"OracleSetConfig\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"createOracle\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"createOracleWithId\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"oracleIdx\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"oracleGarbageCollect\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"oracleHeartbeat\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"oracles\",\"outputs\":[{\"internalType\":\"struct OracleLib.Oracle\",\"name\":\"\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint8\",\"name\":\"numRows\",\"type\":\"uint8\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"lastHeartbeat\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"newAuthority\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"rotateOracleAuthority\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setOracleConfig\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"accountId\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"OracleQueueAccountInit\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"attestationQueueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"OracleQueueAddMrEnclave\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"attestationQueueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"OracleQueueRemoveMrEnclave\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"attestationQueueId\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"OracleQueueSetAttestationConfig\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"OracleQueueSetConfig\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"granter\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"permission\",\"type\":\"uint256\",\"components\":[],\"indexed\":false}],\"type\":\"event\",\"name\":\"OracleQueueSetPermission\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"addMrEnclaveToOracleQueue\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"unpermissionedFeedsEnabled\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"reward\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"oracleTimeout\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"createOracleQueue\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"oracleId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getOracleIdx\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getOracleQueueAllowedMrEnclaves\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getOracles\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"oracleQueues\",\"outputs\":[{\"internalType\":\"struct OracleQueueLib.OracleQueue\",\"name\":\"\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"oracles\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"unpermissionedFeedsEnabled\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"reward\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"oracleTimeout\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"gcIdx\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"currIdx\",\"type\":\"uint256\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"queueAttestationConfigs\",\"outputs\":[{\"internalType\":\"struct OracleQueueLib.AttestationConfig\",\"name\":\"\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"address\",\"name\":\"attestationQueueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32[]\",\"name\":\"mrEnclaves\",\"type\":\"bytes32[]\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireValidEnclave\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireHeartbeatPermission\",\"type\":\"bool\",\"components\":[]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"removeMrEnclaveFromOracleQueue\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"attestationQueueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes32[]\",\"name\":\"mrEnclaves\",\"type\":\"bytes32[]\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireValidEnclave\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"requireHeartbeatPermission\",\"type\":\"bool\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setOracleQueueAttestationConfig\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"unpermissionedFeedsEnabled\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"maxSize\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"reward\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"oracleTimeout\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setOracleQueueConfig\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"permission\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"on\",\"type\":\"bool\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setOracleQueuePermission\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"granter\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getPermission\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"granter\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"permission\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"hasPermission\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\",\"components\":[]}]},{\"inputs\":[],\"type\":\"error\",\"name\":\"ECDSAInvalidSignature\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"length\",\"type\":\"uint256\",\"components\":[]}],\"type\":\"error\",\"name\":\"ECDSAInvalidSignatureLength\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\",\"components\":[]}],\"type\":\"error\",\"name\":\"ECDSAInvalidSignatureS\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"accountId\",\"type\":\"address\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"FunctionAccountInit\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"funder\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"FunctionFund\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"address\",\"name\":\"withdrawer\",\"type\":\"address\",\"components\":[],\"indexed\":true},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[],\"indexed\":true}],\"type\":\"event\",\"name\":\"FunctionWithdraw\",\"outputs\":[],\"anonymous\":false},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"containerRegistry\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"container\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"version\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"schedule\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"paramsSchema\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"permittedCallers\",\"type\":\"address[]\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"createFunction\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"containerRegistry\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"container\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"version\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"schedule\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"paramsSchema\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"permittedCallers\",\"type\":\"address[]\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"createFunctionWithId\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"struct TransactionLib.Transaction[]\",\"name\":\"transactions\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"expirationTimeSeconds\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"gasLimit\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\",\"components\":[]}]},{\"internalType\":\"bytes[]\",\"name\":\"signatures\",\"type\":\"bytes[]\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"forward\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"accountId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"payable\",\"type\":\"function\",\"name\":\"functionEscrowFund\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"recipient\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"functionEscrowWithdraw\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"containerRegistry\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"container\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"version\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"schedule\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"paramsSchema\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"permittedCallers\",\"type\":\"address[]\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setFunctionConfig\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tolerance\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setToleratedTimestampDiscrepancy\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"enclaveIdx\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"delegatedSignerAddress\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"observedTime\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"nextAllowedTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"isFailure\",\"type\":\"bool\",\"components\":[]},{\"internalType\":\"bytes32\",\"name\":\"mrEnclave\",\"type\":\"bytes32\",\"components\":[]},{\"internalType\":\"struct TransactionLib.Transaction[]\",\"name\":\"transactions\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"expirationTimeSeconds\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"gasLimit\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\",\"components\":[]}]},{\"internalType\":\"bytes[]\",\"name\":\"signatures\",\"type\":\"bytes[]\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"verifyFunction\",\"outputs\":[]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"funcs\",\"outputs\":[{\"internalType\":\"struct FunctionLib.SbFunction\",\"name\":\"\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"enum FunctionLib.FunctionStatus\",\"name\":\"status\",\"type\":\"uint8\",\"components\":[]},{\"internalType\":\"struct FunctionLib.FunctionConfig\",\"name\":\"config\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"string\",\"name\":\"schedule\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"permittedCallers\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"containerRegistry\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"container\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"version\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"paramsSchema\",\"type\":\"string\",\"components\":[]}]},{\"internalType\":\"struct FunctionLib.FunctionState\",\"name\":\"state\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"consecutiveFailures\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"lastExecutionTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"nextAllowedTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"callId\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"triggeredSince\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"triggerCount\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"queueIdx\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"triggered\",\"type\":\"bool\",\"components\":[]}]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"functionId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"functionExists\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getActiveFunctionsByQueue\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"struct FunctionLib.SbFunction[]\",\"name\":\"\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"enum FunctionLib.FunctionStatus\",\"name\":\"status\",\"type\":\"uint8\",\"components\":[]},{\"internalType\":\"struct FunctionLib.FunctionConfig\",\"name\":\"config\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"string\",\"name\":\"schedule\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"permittedCallers\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"containerRegistry\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"container\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"version\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"paramsSchema\",\"type\":\"string\",\"components\":[]}]},{\"internalType\":\"struct FunctionLib.FunctionState\",\"name\":\"state\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"consecutiveFailures\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"lastExecutionTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"nextAllowedTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"callId\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"triggeredSince\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"triggerCount\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"queueIdx\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"triggered\",\"type\":\"bool\",\"components\":[]}]}]}]},{\"inputs\":[],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getAllFunctions\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"struct FunctionLib.SbFunction[]\",\"name\":\"\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"enum FunctionLib.FunctionStatus\",\"name\":\"status\",\"type\":\"uint8\",\"components\":[]},{\"internalType\":\"struct FunctionLib.FunctionConfig\",\"name\":\"config\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"string\",\"name\":\"schedule\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"permittedCallers\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"containerRegistry\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"container\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"version\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"paramsSchema\",\"type\":\"string\",\"components\":[]}]},{\"internalType\":\"struct FunctionLib.FunctionState\",\"name\":\"state\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"consecutiveFailures\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"lastExecutionTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"nextAllowedTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"callId\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"triggeredSince\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"triggerCount\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"queueIdx\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"triggered\",\"type\":\"bool\",\"components\":[]}]}]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getFunctionsByAuthority\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"struct FunctionLib.SbFunction[]\",\"name\":\"\",\"type\":\"tuple[]\",\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"authority\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"enclaveId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"queueId\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"enum FunctionLib.FunctionStatus\",\"name\":\"status\",\"type\":\"uint8\",\"components\":[]},{\"internalType\":\"struct FunctionLib.FunctionConfig\",\"name\":\"config\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"string\",\"name\":\"schedule\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"address[]\",\"name\":\"permittedCallers\",\"type\":\"address[]\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"containerRegistry\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"container\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"version\",\"type\":\"string\",\"components\":[]},{\"internalType\":\"string\",\"name\":\"paramsSchema\",\"type\":\"string\",\"components\":[]}]},{\"internalType\":\"struct FunctionLib.FunctionState\",\"name\":\"state\",\"type\":\"tuple\",\"components\":[{\"internalType\":\"uint256\",\"name\":\"consecutiveFailures\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"lastExecutionTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"nextAllowedTimestamp\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"callId\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"triggeredSince\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"triggerCount\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"queueIdx\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"bool\",\"name\":\"triggered\",\"type\":\"bool\",\"components\":[]}]}]}]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"expirationTimeSeconds\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"gasLimit\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\",\"components\":[]},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\",\"components\":[]}],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"getTransactionHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\",\"components\":[]}],\"stateMutability\":\"pure\",\"type\":\"function\",\"name\":\"isTrustedForwarder\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\",\"components\":[]}]}]";
+    #[allow(deprecated)]
+    fn __abi() -> ::ethers::core::abi::Abi {
+        ::ethers::core::abi::ethabi::Contract {
+            constructor: ::core::option::Option::None,
+            functions: ::core::convert::From::from([
+                (
+                    ::std::borrow::ToOwned::to_owned("addMrEnclaveToAttestationQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "addMrEnclaveToAttestationQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("addMrEnclaveToFunction"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "addMrEnclaveToFunction",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("addMrEnclaveToOracleQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "addMrEnclaveToOracleQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("addStake"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("addStake"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("aggregatorEscrowFund"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "aggregatorEscrowFund",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("accountId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("aggregatorEscrowWithdraw"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "aggregatorEscrowWithdraw",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("recipient"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address payable"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("aggregatorHistory"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("aggregatorHistory"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("roundId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(80usize),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint80"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct AggregatorLib.AggregatorHistoryResult",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("aggregators"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("aggregators"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                ],
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                ],
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(80usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct AggregatorLib.Aggregator",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("allowance"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("allowance"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("owner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("spender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("approve"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("approve"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("spender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("attestationQueueHasMrEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "attestationQueueHasMrEnclave",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("attestationQueues"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("attestationQueues"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct AttestationQueueLib.AttestationQueue",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("balanceOf"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("balanceOf"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("account"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("callBalances"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("callBalances"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callIds"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("balances"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("callFunction"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("callFunction"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createAggregator"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("createAggregator"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("batchSize"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "minUpdateDelaySeconds",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("minOracleResults"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("jobsHash"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("varianceThreshold"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("minJobResults"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("forceReportPeriod"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enableHistory"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createAttestationQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "createAttestationQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("maxSize"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("reward"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveTimeout"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "maxEnclaveVerificationAge",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "allowAuthorityOverrideAfter",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireAuthorityHeartbeatPermission",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireUsagePermissions",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "maxConsecutiveFunctionFailures",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("createEnclave"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createEnclaveWithId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "createEnclaveWithId",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createFunction"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("createFunction"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("containerRegistry"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("container"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("version"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("schedule"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("paramsSchema"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("permittedCallers"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createFunctionWithId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "createFunctionWithId",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("containerRegistry"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("container"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("version"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("schedule"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("paramsSchema"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("permittedCallers"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createOracle"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("createOracle"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createOracleQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("createOracleQueue"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "unpermissionedFeedsEnabled",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("maxSize"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("reward"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleTimeout"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createOracleWithId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("createOracleWithId"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("createRoutineWithId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "createRoutineWithId",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("schedule"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("diamondCut"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("diamondCut"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("_diamondCut"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Array(
+                                                        ::std::boxed::Box::new(
+                                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(4usize),
+                                                        ),
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct IDiamondCut.FacetCut[]",
+                                        ),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("_init"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("_calldata"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("enclaveGarbageCollect"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "enclaveGarbageCollect",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("enclaveHeartbeat"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("enclaveHeartbeat"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("enclaveSignerToEnclaveId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "enclaveSignerToEnclaveId",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("enclaves"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("enclaves"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct EnclaveLib.Enclave",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("estimatedRunCost"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("estimatedRunCost"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("gasPrice"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("facetAddress"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("facetAddress"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("_functionSelector"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        4usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes4"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("facetAddress_"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("facetAddresses"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("facetAddresses"),
+                            inputs: ::std::vec![],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("facetAddresses_"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("facetFunctionSelectors"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "facetFunctionSelectors",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("_facet"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "facetFunctionSelectors_",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(4usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes4[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("facets"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("facets"),
+                            inputs: ::std::vec![],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("facets_"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Array(
+                                                        ::std::boxed::Box::new(
+                                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(4usize),
+                                                        ),
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct IDiamondLoupe.Facet[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("failEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("failEnclave"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("verifierId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("verifierIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("failFunctionResult"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("failFunctionResult"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionVerifyLib.FunctionFailParams",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("forceOverrideVerify"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "forceOverrideVerify",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("forward"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("forward"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("transactions"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct TransactionLib.Transaction[]",
+                                        ),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signatures"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("funcs"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("funcs"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Array(
+                                                        ::std::boxed::Box::new(
+                                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                                        ),
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Array(
+                                                        ::std::boxed::Box::new(
+                                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                                        ),
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                ],
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                ],
+                                            ),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionLib.SbFunction",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("functionCallSettings"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "functionCallSettings",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionCallLib.FunctionCallSettings",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("functionCalls"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("functionCalls"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionCallLib.FunctionCall",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("functionEscrowFund"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("functionEscrowFund"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("accountId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("functionEscrowWithdraw"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "functionEscrowWithdraw",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("recipient"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address payable"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("functionExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("functionExists"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("functionSettings"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("functionSettings"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionSettingsLib.FunctionSettings",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("functionVerify"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("functionVerify"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "delegatedSignerAddress",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("observedTime"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "nextAllowedTimestamp",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("isFailure"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("transactions"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct TransactionLib.Transaction[]",
+                                        ),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signatures"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("functionVerifyRequest"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "functionVerifyRequest",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "delegatedSignerAddress",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("observedTime"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "nextAllowedTimestamp",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("isFailure"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("transactions"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct TransactionLib.Transaction[]",
+                                        ),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signatures"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionCallIds"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getActiveFunctionCallsByQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getActiveFunctionCallsByQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionCallLib.FunctionCall[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getActiveFunctionsByQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getActiveFunctionsByQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                                ::std::boxed::Box::new(
+                                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                                ),
+                                                            ),
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                                ::std::boxed::Box::new(
+                                                                    ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                                                ),
+                                                            ),
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                        ],
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                        ],
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionLib.SbFunction[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getActiveRequestsByQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getActiveRequestsByQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct RequestLib.Request[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getActiveRoutinesByQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getActiveRoutinesByQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct RoutineLib.Routine[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getAggregatorsByAuthority"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getAggregatorsByAuthority",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("user"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                                        ],
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                        ],
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(80usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct AggregatorLib.Aggregator[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getAllAggregators"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getAllAggregators"),
+                            inputs: ::std::vec![],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                                        ],
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                        ],
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(80usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct AggregatorLib.Aggregator[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getAllFunctions"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getAllFunctions"),
+                            inputs: ::std::vec![],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                                ::std::boxed::Box::new(
+                                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                                ),
+                                                            ),
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                                ::std::boxed::Box::new(
+                                                                    ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                                                ),
+                                                            ),
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                        ],
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                        ],
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionLib.SbFunction[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getAttestationQueueMrEnclaves"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getAttestationQueueMrEnclaves",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getCurrentIntervalId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getCurrentIntervalId",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("roundId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(80usize),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint80"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getEnclaveIdx"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getEnclaveIdx"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("int256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getEnclaves"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getEnclaves"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getFunctionMrEnclaves"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getFunctionMrEnclaves",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getFunctionPermittedCallers"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getFunctionPermittedCallers",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getFunctionsByAuthority"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getFunctionsByAuthority",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("user"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                                ::std::boxed::Box::new(
+                                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                                ),
+                                                            ),
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                                ::std::boxed::Box::new(
+                                                                    ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                                                ),
+                                                            ),
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                        ],
+                                                    ),
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                        ],
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionLib.SbFunction[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getIntervalResult"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getIntervalResult"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("intervalId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(80usize),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint80"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("int256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("timestamp"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("medianTimestamp"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getOracleIdx"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getOracleIdx"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("int256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getOracleQueueAllowedMrEnclaves"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getOracleQueueAllowedMrEnclaves",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getOracles"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getOracles"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getPermission"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getPermission"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("granter"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("grantee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getRequestsByFunctionId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getRequestsByFunctionId",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bool,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct RequestLib.Request[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getRoutinesByAuthority"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getRoutinesByAuthority",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct RoutineLib.Routine[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getRoutinesByFunctionId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getRoutinesByFunctionId",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::String,
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct RoutineLib.Routine[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getStakeForEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getStakeForEnclave"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("struct StakingLib.Stake"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getStakeForEnclaveWithToken"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "getStakeForEnclaveWithToken",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("token"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("struct StakingLib.Stake"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getStakingConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getStakingConfig"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct StakingLib.StakingConfig",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("getTransactionHash"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("getTransactionHash"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "expirationTimeSeconds",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("gasLimit"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("to"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("from"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("data"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("hasPermission"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("hasPermission"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("granter"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("grantee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("permission"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("init"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("init"),
+                            inputs: ::std::vec![],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("initialize"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("initialize"),
+                            inputs: ::std::vec![],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("isAdmin"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("isAdmin"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("isAllowed"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("isAllowed"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("isEnclaveValid"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("isEnclaveValid"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("isTrustedForwarder"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("isTrustedForwarder"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Pure,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("latestResult"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("latestResult"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("int256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("timestamp"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("openInterval"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("openInterval"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("oracleGarbageCollect"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "oracleGarbageCollect",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("oracleHeartbeat"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("oracleHeartbeat"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("oracleQueues"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("oracleQueues"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct OracleQueueLib.OracleQueue",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("oracles"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("oracles"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("struct OracleLib.Oracle"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("owner"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("owner"),
+                            inputs: ::std::vec![],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("owner_"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("prepareUnstake"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("prepareUnstake"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("queueAttestationConfigs"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "queueAttestationConfigs",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct OracleQueueLib.AttestationConfig",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("recoverStakeWithToken"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "recoverStakeWithToken",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("token"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned(
+                        "removeMrEnclaveFromAttestationQueue",
+                    ),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "removeMrEnclaveFromAttestationQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("removeMrEnclaveFromFunction"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "removeMrEnclaveFromFunction",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("removeMrEnclaveFromOracleQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "removeMrEnclaveFromOracleQueue",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("requestFund"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("requestFund"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("requestId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("requestWithdrawal"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("requestWithdrawal"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("requestId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("recipient"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("requests"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("requests"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("requestId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct RequestLib.Request",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("rotateEnclaveSigner"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "rotateEnclaveSigner",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("newSigner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("rotateOracleSigner"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("rotateOracleSigner"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("newSigner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("routineEscrowFund"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("routineEscrowFund"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("routineEscrowWithdraw"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "routineEscrowWithdraw",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("routineExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("routineExists"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("routines"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("routines"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::String,
+                                            ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct RoutineLib.Routine",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("saveResults"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("saveResults"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("ids"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("results"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("int256[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("sendDelayedRequest"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("sendDelayedRequest"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("requestId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("startAfter"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("sendRequest"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("sendRequest"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("id"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("sendRequestWithId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("sendRequestWithId"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("requestId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("id"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setAdmin"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("setAdmin"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("status"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setAggregatorConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setAggregatorConfig",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("batchSize"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "minUpdateDelaySeconds",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("minOracleResults"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("jobsHash"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("varianceThreshold"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("minJobResults"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("forceReportPeriod"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enableHistory"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setAllowed"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("setAllowed"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("status"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setAttestationQueueConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setAttestationQueueConfig",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("maxSize"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("reward"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveTimeout"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "maxEnclaveVerificationAge",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "allowAuthorityOverrideAfter",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireAuthorityHeartbeatPermission",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireUsagePermissions",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "maxConsecutiveFunctionFailures",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setAttestationQueuePermission"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setAttestationQueuePermission",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("grantee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("permission"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("on"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setFunctionCallSettings"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setFunctionCallSettings",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireEstimatedRunCostFee",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("minimumFee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("maxGasCost"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireCallerPayFullCost",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireSenderBeReturnAddress",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setFunctionConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("setFunctionConfig"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("containerRegistry"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("container"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("version"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("schedule"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("paramsSchema"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("permittedCallers"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setFunctionDeactivated"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setFunctionDeactivated",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setFunctionSettings"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setFunctionSettings",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("settings"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Bool,
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionSettingsLib.FunctionSettings",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setOracleConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("setOracleConfig"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setOracleQueueAttestationConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setOracleQueueAttestationConfig",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "attestationQueueId",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclaves"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireValidEnclave",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "requireHeartbeatPermission",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setOracleQueueConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setOracleQueueConfig",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "unpermissionedFeedsEnabled",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("maxSize"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("reward"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleTimeout"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setOracleQueuePermission"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setOracleQueuePermission",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("grantee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("permission"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("on"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setStakingConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("setStakingConfig"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("token"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("stakingAmount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("stakingPeriod"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("unstakingPeriod"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("setToleratedTimestampDiscrepancy"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "setToleratedTimestampDiscrepancy",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("tolerance"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("slashStake"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("slashStake"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("supportsInterface"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("supportsInterface"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("_interfaceId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        4usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes4"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("totalStaked"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("totalStaked"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("token"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("totalSupply"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("totalSupply"),
+                            inputs: ::std::vec![],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("transfer"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("transfer"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("to"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("transferFrom"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("transferFrom"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("from"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("to"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bool,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bool"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("transferOwnership"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("transferOwnership"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("_newOwner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("unstake"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("unstake"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("updateEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("updateEnclave"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("cid"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::Payable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("updateRoutine"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("updateRoutine"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("schedule"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("string"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("validate"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("validate"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "attestationQueueId",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("validMeasurements"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("verifyCallbackParams"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "verifyCallbackParams",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callIds"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address[]"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("hashes"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32[]"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("verifyEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("verifyEnclave"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("verifierId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("timestamp"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("verifyFunctionResult"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "verifyFunctionResult",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                        ::std::vec![
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                        ::std::vec![
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                                            ::ethers::core::abi::ethabi::ParamType::Address,
+                                                            ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                        ],
+                                                    ),
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::FixedBytes(32usize),
+                                                ),
+                                            ),
+                                            ::ethers::core::abi::ethabi::ParamType::Array(
+                                                ::std::boxed::Box::new(
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                ),
+                                            ),
+                                        ],
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct FunctionVerifyLib.FunctionVerifyParams",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::NonPayable,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("viewAggregatorResults"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "viewAggregatorResults",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::string::String::new(),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(256usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned(
+                                            "struct AggregatorLib.Result[]",
+                                        ),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("viewLatestResult"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Function {
+                            name: ::std::borrow::ToOwned::to_owned("viewLatestResult"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                            outputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("int256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("timestamp"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                            constant: ::core::option::Option::None,
+                            state_mutability: ::ethers::core::abi::ethabi::StateMutability::View,
+                        },
+                    ],
+                ),
+            ]),
+            events: ::core::convert::From::from([
+                (
+                    ::std::borrow::ToOwned::to_owned("AddMrEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("AddMrEnclave"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorAccountInit"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorAccountInit",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("accountId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("timestamp"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorFundEvent"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorFundEvent",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("funder"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorIntervalRefreshed"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorIntervalRefreshed",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("intervalId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "balanceLeftForInterval",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorOpenInterval"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorOpenInterval",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("intervalId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorRead"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("AggregatorRead"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("reader"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorSaveResult"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorSaveResult",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("oracle"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorSettingsUpdated"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorSettingsUpdated",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "minUpdateDelaySeconds",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("minOracleResults"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("varianceThreshold"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("minJobResults"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("forceReportPeriod"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorUpdate"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("AggregatorUpdate"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Int(256usize),
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("timestamp"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorWithdrawEvent"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorWithdrawEvent",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("funder"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("Approval"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("Approval"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("owner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("spender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AttestationQueueAccountInit"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AttestationQueueAccountInit",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("accountId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned(
+                        "AttestationQueuePermissionUpdated",
+                    ),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AttestationQueuePermissionUpdated",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("granter"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("grantee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("permission"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AttestationQueueSetConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AttestationQueueSetConfig",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("DiamondCut"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("DiamondCut"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("_diamondCut"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Array(
+                                        ::std::boxed::Box::new(
+                                            ::ethers::core::abi::ethabi::ParamType::Tuple(
+                                                ::std::vec![
+                                                    ::ethers::core::abi::ethabi::ParamType::Address,
+                                                    ::ethers::core::abi::ethabi::ParamType::Uint(8usize),
+                                                    ::ethers::core::abi::ethabi::ParamType::Array(
+                                                        ::std::boxed::Box::new(
+                                                            ::ethers::core::abi::ethabi::ParamType::FixedBytes(4usize),
+                                                        ),
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                    ),
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("_init"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("_calldata"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveAccountInit"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("EnclaveAccountInit"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("accountId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveGC"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("EnclaveGC"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queue"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveHeartbeat"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("EnclaveHeartbeat"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclavePayoutEvent"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("EnclavePayoutEvent"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("nodeId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveRotateSigner"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "EnclaveRotateSigner",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("oldSigner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("newSigner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveVerifyRequest"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "EnclaveVerifyRequest",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("verifier"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("verifiee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionAccountInit"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "FunctionAccountInit",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("accountId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionCallEvent"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("FunctionCallEvent"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionCallFund"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("FunctionCallFund"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("funder"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionFund"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("FunctionFund"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("funder"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionWithdraw"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("FunctionWithdraw"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("withdrawer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleAccountInit"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("OracleAccountInit"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("accountId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleGC"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("OracleGC"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleHeartbeat"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("OracleHeartbeat"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OraclePayoutEvent"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("OraclePayoutEvent"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleQueueAccountInit"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleQueueAccountInit",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("accountId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleQueueAddMrEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleQueueAddMrEnclave",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "attestationQueueId",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleQueueRemoveMrEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleQueueRemoveMrEnclave",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "attestationQueueId",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleQueueSetAttestationConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleQueueSetAttestationConfig",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "attestationQueueId",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleQueueSetConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleQueueSetConfig",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleQueueSetPermission"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleQueueSetPermission",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("granter"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("grantee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("permission"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleRotateSigner"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("OracleRotateSigner"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("oldSigner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("newSigner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleSetConfig"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("OracleSetConfig"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("name"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::String,
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("signer"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("authority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OwnershipTransferred"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OwnershipTransferred",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("previousOwner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("newOwner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RemoveMrEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("RemoveMrEnclave"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RequestEvent"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("RequestEvent"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("requestId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RequestFund"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("RequestFund"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("funder"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RequestWithdraw"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("RequestWithdraw"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("funder"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RoutineCreated"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("RoutineCreated"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("params"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RoutineFund"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("RoutineFund"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("funder"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RoutineWithdraw"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("RoutineWithdraw"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("funder"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("StakeAdded"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("StakeAdded"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("staker"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("StakeRemoved"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("StakeRemoved"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("staker"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("Transfer"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("Transfer"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("from"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("to"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("value"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("Unstaked"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("Unstaked"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("staker"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: false,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: false,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("VerifyFailed"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::Event {
+                            name: ::std::borrow::ToOwned::to_owned("VerifyFailed"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    indexed: true,
+                                },
+                                ::ethers::core::abi::ethabi::EventParam {
+                                    name: ::std::borrow::ToOwned::to_owned("code"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    indexed: true,
+                                },
+                            ],
+                            anonymous: false,
+                        },
+                    ],
+                ),
+            ]),
+            errors: ::core::convert::From::from([
+                (
+                    ::std::borrow::ToOwned::to_owned("ACLAdminAlreadyInitialized"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "ACLAdminAlreadyInitialized",
+                            ),
+                            inputs: ::std::vec![],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("ACLNotAdmin"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("ACLNotAdmin"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("account"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("ACLNotAllowed"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("ACLNotAllowed"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("account"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AggregatorDoesNotExist"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AggregatorDoesNotExist",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AlreadyExecuted"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("AlreadyExecuted"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("txHash"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AttestationQueueAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AttestationQueueAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "attestationQueueId",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("AttestationQueueDoesNotExist"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "AttestationQueueDoesNotExist",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "attestationQueueId",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("CallExceededMaxGasCost"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "CallExceededMaxGasCost",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("CallIdAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "CallIdAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("ECDSAInvalidSignature"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "ECDSAInvalidSignature",
+                            ),
+                            inputs: ::std::vec![],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("ECDSAInvalidSignatureLength"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "ECDSAInvalidSignatureLength",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("length"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("ECDSAInvalidSignatureS"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "ECDSAInvalidSignatureS",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("s"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EarlyOracleResponse"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "EarlyOracleResponse",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "EnclaveAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveDoesNotExist"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "EnclaveDoesNotExist",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveExpired"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("EnclaveExpired"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveNotAtQueueIdx"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "EnclaveNotAtQueueIdx",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveNotFullyStaked"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "EnclaveNotFullyStaked",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveNotOnQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("EnclaveNotOnQueue"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveNotReadyForVerification"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "EnclaveNotReadyForVerification",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("EnclaveUnverified"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("EnclaveUnverified"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("ExcessiveGasSpent"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("ExcessiveGasSpent"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("gasLimit"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("gasSpent"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("ForceOverrideNotReady"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "ForceOverrideNotReady",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "FunctionAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionCallerNotPermitted"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "FunctionCallerNotPermitted",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("sender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionDoesNotExist"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "FunctionDoesNotExist",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionFeeTooLow"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("FunctionFeeTooLow"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionIncorrectTarget"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "FunctionIncorrectTarget",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionMrEnclaveMismatch"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "FunctionMrEnclaveMismatch",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("FunctionSignerAlreadySet"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "FunctionSignerAlreadySet",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("current"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("GasLimitExceeded"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("GasLimitExceeded"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("limit"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("used"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("Generic"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("Generic"),
+                            inputs: ::std::vec![],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("IncorrectFunctionId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "IncorrectFunctionId",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("IncorrectReportedTime"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "IncorrectReportedTime",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("maxExpectedTime"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("reportedTime"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("IncorrectToken"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("IncorrectToken"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InitializationFunctionReverted"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "InitializationFunctionReverted",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned(
+                                        "_initializationContractAddress",
+                                    ),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("_calldata"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InsufficientBalance"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "InsufficientBalance",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expectedBalance"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("receivedBalance"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InsufficientCallBalance"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "InsufficientCallBalance",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InsufficientCallFeePaid"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "InsufficientCallFeePaid",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InsufficientNodes"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InsufficientNodes"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InsufficientSamples"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "InsufficientSamples",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("IntervalHistoryNotRecorded"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "IntervalHistoryNotRecorded",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregatorId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidArgument"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidArgument"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("argumentIndex"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidAuthority"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidAuthority"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expectedAuthority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("receivedAuthority"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidCallId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidCallId"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidCallbackParams"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "InvalidCallbackParams",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("callId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("hash"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidEnclave"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidEnclave"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("enclaveId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidEntry"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidEntry"),
+                            inputs: ::std::vec![],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidRoutineId"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidRoutineId"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidSignature"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidSignature"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expectedSender"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("txHash"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("signature"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Bytes,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidSigner"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidSigner"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expectedSigner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("receivedSigner"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("InvalidStatus"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("InvalidStatus"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("account"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expected"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("received"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("MrEnclaveNotAllowed"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "MrEnclaveNotAllowed",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("mrEnclave"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::FixedBytes(
+                                        32usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("bytes32"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleExpired"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("OracleExpired"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleNotAtQueueIdx"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleNotAtQueueIdx",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleIdx"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleNotOnQueue"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("OracleNotOnQueue"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("OracleQueueDoesNotExist"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "OracleQueueDoesNotExist",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("oracleQueueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("PermissionDenied"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("PermissionDenied"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("granter"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("grantee"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("permission"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("QueuesDoNotMatch"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("QueuesDoNotMatch"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expectedQueueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("receivedQueueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RequestAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "RequestAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("requestId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RequestIdAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "RequestIdAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("requestId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RoutineIdAlreadyExists"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "RoutineIdAlreadyExists",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("routineId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("RoutinesDisabled"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("RoutinesDisabled"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("functionId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("StakeNotReady"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("StakeNotReady"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("staker"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("readyAt"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("StakeNotReadyForWithdrawal"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "StakeNotReadyForWithdrawal",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("queueId"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("staker"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("readyAt"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("SubmittedResultsMismatch"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "SubmittedResultsMismatch",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("aggregators"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("results"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("TokenTransferFailure"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned(
+                                "TokenTransferFailure",
+                            ),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("token"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("to"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Address,
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("address"),
+                                    ),
+                                },
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("amount"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+                (
+                    ::std::borrow::ToOwned::to_owned("TransactionExpired"),
+                    ::std::vec![
+                        ::ethers::core::abi::ethabi::AbiError {
+                            name: ::std::borrow::ToOwned::to_owned("TransactionExpired"),
+                            inputs: ::std::vec![
+                                ::ethers::core::abi::ethabi::Param {
+                                    name: ::std::borrow::ToOwned::to_owned("expirationTime"),
+                                    kind: ::ethers::core::abi::ethabi::ParamType::Uint(
+                                        256usize,
+                                    ),
+                                    internal_type: ::core::option::Option::Some(
+                                        ::std::borrow::ToOwned::to_owned("uint256"),
+                                    ),
+                                },
+                            ],
+                        },
+                    ],
+                ),
+            ]),
+            receive: false,
+            fallback: false,
+        }
+    }
     ///The parsed JSON ABI of the contract.
     pub static SWITCHBOARD_ABI: ::ethers::contract::Lazy<::ethers::core::abi::Abi> =
-        ::ethers::contract::Lazy::new(|| {
-            ::ethers::core::utils::__serde_json::from_str(__ABI).expect("ABI is always valid")
-        });
+        ::ethers::contract::Lazy::new(__abi);
     pub struct Switchboard<M>(::ethers::contract::Contract<M>);
     impl<M> ::core::clone::Clone for Switchboard<M> {
         fn clone(&self) -> Self {
@@ -36,7 +9120,7 @@ pub mod switchboard {
     }
     impl<M> ::core::fmt::Debug for Switchboard<M> {
         fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-            f.debug_tuple(stringify!(Switchboard))
+            f.debug_tuple(::core::stringify!(Switchboard))
                 .field(&self.address())
                 .finish()
         }
@@ -64,6 +9148,16 @@ pub mod switchboard {
                 .method_hash([173, 67, 91, 157], (queue_id, mr_enclave))
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `addMrEnclaveToFunction` (0x45fc160c) function
+        pub fn add_mr_enclave_to_function(
+            &self,
+            function_id: ::ethers::core::types::Address,
+            mr_enclave: [u8; 32],
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([69, 252, 22, 12], (function_id, mr_enclave))
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `addMrEnclaveToOracleQueue` (0x51a426d8) function
         pub fn add_mr_enclave_to_oracle_queue(
             &self,
@@ -72,6 +9166,16 @@ pub mod switchboard {
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
                 .method_hash([81, 164, 38, 216], (queue_id, mr_enclave))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `addStake` (0x6374299e) function
+        pub fn add_stake(
+            &self,
+            enclave_id: ::ethers::core::types::Address,
+            amount: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([99, 116, 41, 158], (enclave_id, amount))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `aggregatorEscrowFund` (0xd55dcc5b) function
@@ -113,6 +9217,26 @@ pub mod switchboard {
                 .method_hash([17, 44, 218, 185], aggregator_id)
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `allowance` (0xdd62ed3e) function
+        pub fn allowance(
+            &self,
+            owner: ::ethers::core::types::Address,
+            spender: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::U256> {
+            self.0
+                .method_hash([221, 98, 237, 62], (owner, spender))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `approve` (0x095ea7b3) function
+        pub fn approve(
+            &self,
+            spender: ::ethers::core::types::Address,
+            value: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, bool> {
+            self.0
+                .method_hash([9, 94, 167, 179], (spender, value))
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `attestationQueueHasMrEnclave` (0x63fcd771) function
         pub fn attestation_queue_has_mr_enclave(
             &self,
@@ -132,23 +9256,35 @@ pub mod switchboard {
                 .method_hash([139, 179, 4, 140], queue_id)
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `balanceOf` (0x70a08231) function
+        pub fn balance_of(
+            &self,
+            account: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::U256> {
+            self.0
+                .method_hash([112, 160, 130, 49], account)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `callBalances` (0x0aaeffe5) function
+        pub fn call_balances(
+            &self,
+            call_ids: ::std::vec::Vec<::ethers::core::types::Address>,
+        ) -> ::ethers::contract::builders::ContractCall<
+            M,
+            ::std::vec::Vec<::ethers::core::types::U256>,
+        > {
+            self.0
+                .method_hash([10, 174, 255, 229], call_ids)
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `callFunction` (0x9c23da50) function
         pub fn call_function(
             &self,
             function_id: ::ethers::core::types::Address,
             params: ::ethers::core::types::Bytes,
-        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::Address> {
             self.0
                 .method_hash([156, 35, 218, 80], (function_id, params))
-                .expect("method not found (this should never happen)")
-        }
-        ///Calls the contract's `callback` (0xff585caf) function
-        pub fn callback(
-            &self,
-            value: ::ethers::core::types::U256,
-        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
-            self.0
-                .method_hash([255, 88, 92, 175], value)
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `createAggregator` (0x84ed8177) function
@@ -218,24 +9354,27 @@ pub mod switchboard {
         ///Calls the contract's `createEnclave` (0xcf392e2f) function
         pub fn create_enclave(
             &self,
-            authority: ::ethers::core::types::Address,
+            signer: ::ethers::core::types::Address,
             queue_id: ::ethers::core::types::Address,
-            owner: ::ethers::core::types::Address,
+            authority: ::ethers::core::types::Address,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
-                .method_hash([207, 57, 46, 47], (authority, queue_id, owner))
+                .method_hash([207, 57, 46, 47], (signer, queue_id, authority))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `createEnclaveWithId` (0xc7c1143e) function
         pub fn create_enclave_with_id(
             &self,
             enclave_id: ::ethers::core::types::Address,
-            authority: ::ethers::core::types::Address,
+            signer: ::ethers::core::types::Address,
             queue_id: ::ethers::core::types::Address,
-            owner: ::ethers::core::types::Address,
+            authority: ::ethers::core::types::Address,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
-                .method_hash([199, 193, 20, 62], (enclave_id, authority, queue_id, owner))
+                .method_hash(
+                    [199, 193, 20, 62],
+                    (enclave_id, signer, queue_id, authority),
+                )
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `createFunction` (0xc4829580) function
@@ -304,12 +9443,12 @@ pub mod switchboard {
         pub fn create_oracle(
             &self,
             name: ::std::string::String,
-            authority: ::ethers::core::types::Address,
+            signer: ::ethers::core::types::Address,
             queue_id: ::ethers::core::types::Address,
-            owner: ::ethers::core::types::Address,
+            authority: ::ethers::core::types::Address,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
-                .method_hash([248, 67, 184, 70], (name, authority, queue_id, owner))
+                .method_hash([248, 67, 184, 70], (name, signer, queue_id, authority))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `createOracleQueue` (0xe7675651) function
@@ -341,14 +9480,30 @@ pub mod switchboard {
             &self,
             oracle_id: ::ethers::core::types::Address,
             name: ::std::string::String,
-            authority: ::ethers::core::types::Address,
+            signer: ::ethers::core::types::Address,
             queue_id: ::ethers::core::types::Address,
-            owner: ::ethers::core::types::Address,
+            authority: ::ethers::core::types::Address,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
                 .method_hash(
                     [22, 112, 49, 48],
-                    (oracle_id, name, authority, queue_id, owner),
+                    (oracle_id, name, signer, queue_id, authority),
+                )
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `createRoutineWithId` (0x410d3013) function
+        pub fn create_routine_with_id(
+            &self,
+            routine_id: ::ethers::core::types::Address,
+            function_id: ::ethers::core::types::Address,
+            authority: ::ethers::core::types::Address,
+            params: ::ethers::core::types::Bytes,
+            schedule: ::std::string::String,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash(
+                    [65, 13, 48, 19],
+                    (routine_id, function_id, authority, params, schedule),
                 )
                 .expect("method not found (this should never happen)")
         }
@@ -361,15 +9516,6 @@ pub mod switchboard {
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
                 .method_hash([31, 147, 28, 28], (diamond_cut, init, calldata))
-                .expect("method not found (this should never happen)")
-        }
-        ///Calls the contract's `enclaveAuthorityToEnclaveAddress` (0x5a6fe378) function
-        pub fn enclave_authority_to_enclave_address(
-            &self,
-            authority: ::ethers::core::types::Address,
-        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::Address> {
-            self.0
-                .method_hash([90, 111, 227, 120], authority)
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `enclaveGarbageCollect` (0xc06e4eda) function
@@ -391,6 +9537,15 @@ pub mod switchboard {
                 .method_hash([206, 131, 68, 55], enclave_id)
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `enclaveSignerToEnclaveId` (0x2ff75ec2) function
+        pub fn enclave_signer_to_enclave_id(
+            &self,
+            signer: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::Address> {
+            self.0
+                .method_hash([47, 247, 94, 194], signer)
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `enclaves` (0xfaeedb07) function
         pub fn enclaves(
             &self,
@@ -398,6 +9553,16 @@ pub mod switchboard {
         ) -> ::ethers::contract::builders::ContractCall<M, Enclave> {
             self.0
                 .method_hash([250, 238, 219, 7], enclave_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `estimatedRunCost` (0x3da87438) function
+        pub fn estimated_run_cost(
+            &self,
+            function_id: ::ethers::core::types::Address,
+            gas_price: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::U256> {
+            self.0
+                .method_hash([61, 168, 116, 56], (function_id, gas_price))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `facetAddress` (0xcdffacc6) function
@@ -448,6 +9613,15 @@ pub mod switchboard {
                 .method_hash([57, 217, 32, 230], (verifier_id, enclave_id, verifier_idx))
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `failFunctionResult` (0x52c7cc93) function
+        pub fn fail_function_result(
+            &self,
+            params: FunctionFailParams,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([82, 199, 204, 147], (params,))
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `forceOverrideVerify` (0xe231b12f) function
         pub fn force_override_verify(
             &self,
@@ -474,6 +9648,24 @@ pub mod switchboard {
         ) -> ::ethers::contract::builders::ContractCall<M, SbFunction> {
             self.0
                 .method_hash([142, 249, 32, 3], function_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `functionCallSettings` (0xa30f8d25) function
+        pub fn function_call_settings(
+            &self,
+            function_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, FunctionCallSettings> {
+            self.0
+                .method_hash([163, 15, 141, 37], function_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `functionCalls` (0x826df326) function
+        pub fn function_calls(
+            &self,
+            call_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, FunctionCall> {
+            self.0
+                .method_hash([130, 109, 243, 38], call_id)
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `functionEscrowFund` (0xba93166c) function
@@ -505,6 +9697,77 @@ pub mod switchboard {
                 .method_hash([161, 48, 1, 201], function_id)
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `functionSettings` (0xce77efa6) function
+        pub fn function_settings(
+            &self,
+            function_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, FunctionSettings> {
+            self.0
+                .method_hash([206, 119, 239, 166], function_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `functionVerify` (0xa5625b96) function
+        pub fn function_verify(
+            &self,
+            enclave_idx: ::ethers::core::types::U256,
+            function_id: ::ethers::core::types::Address,
+            delegated_signer_address: ::ethers::core::types::Address,
+            observed_time: ::ethers::core::types::U256,
+            next_allowed_timestamp: ::ethers::core::types::U256,
+            is_failure: bool,
+            mr_enclave: [u8; 32],
+            transactions: ::std::vec::Vec<Transaction>,
+            signatures: ::std::vec::Vec<::ethers::core::types::Bytes>,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash(
+                    [165, 98, 91, 150],
+                    (
+                        enclave_idx,
+                        function_id,
+                        delegated_signer_address,
+                        observed_time,
+                        next_allowed_timestamp,
+                        is_failure,
+                        mr_enclave,
+                        transactions,
+                        signatures,
+                    ),
+                )
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `functionVerifyRequest` (0xb8390a56) function
+        pub fn function_verify_request(
+            &self,
+            enclave_idx: ::ethers::core::types::U256,
+            function_id: ::ethers::core::types::Address,
+            delegated_signer_address: ::ethers::core::types::Address,
+            observed_time: ::ethers::core::types::U256,
+            next_allowed_timestamp: ::ethers::core::types::U256,
+            is_failure: bool,
+            mr_enclave: [u8; 32],
+            transactions: ::std::vec::Vec<Transaction>,
+            signatures: ::std::vec::Vec<::ethers::core::types::Bytes>,
+            function_call_ids: ::std::vec::Vec<::ethers::core::types::Address>,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash(
+                    [184, 57, 10, 86],
+                    (
+                        enclave_idx,
+                        function_id,
+                        delegated_signer_address,
+                        observed_time,
+                        next_allowed_timestamp,
+                        is_failure,
+                        mr_enclave,
+                        transactions,
+                        signatures,
+                        function_call_ids,
+                    ),
+                )
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `getActiveFunctionCallsByQueue` (0xfa88c651) function
         pub fn get_active_function_calls_by_queue(
             &self,
@@ -533,6 +9796,36 @@ pub mod switchboard {
         > {
             self.0
                 .method_hash([31, 199, 71, 183], queue_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getActiveRequestsByQueue` (0x55c053c3) function
+        pub fn get_active_requests_by_queue(
+            &self,
+            queue_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<
+            M,
+            (
+                ::std::vec::Vec<::ethers::core::types::Address>,
+                ::std::vec::Vec<Request>,
+            ),
+        > {
+            self.0
+                .method_hash([85, 192, 83, 195], queue_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getActiveRoutinesByQueue` (0x9da3c6eb) function
+        pub fn get_active_routines_by_queue(
+            &self,
+            queue_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<
+            M,
+            (
+                ::std::vec::Vec<::ethers::core::types::Address>,
+                ::std::vec::Vec<Routine>,
+            ),
+        > {
+            self.0
+                .method_hash([157, 163, 198, 235], queue_id)
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `getAggregatorsByAuthority` (0x911c30f3) function
@@ -617,6 +9910,27 @@ pub mod switchboard {
                 .method_hash([52, 13, 216, 139], queue_id)
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `getFunctionMrEnclaves` (0x526112ce) function
+        pub fn get_function_mr_enclaves(
+            &self,
+            function_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::std::vec::Vec<[u8; 32]>> {
+            self.0
+                .method_hash([82, 97, 18, 206], function_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getFunctionPermittedCallers` (0xafdcbd6a) function
+        pub fn get_function_permitted_callers(
+            &self,
+            function_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<
+            M,
+            ::std::vec::Vec<::ethers::core::types::Address>,
+        > {
+            self.0
+                .method_hash([175, 220, 189, 106], function_id)
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `getFunctionsByAuthority` (0x357f633f) function
         pub fn get_functions_by_authority(
             &self,
@@ -687,6 +10001,79 @@ pub mod switchboard {
         ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::U256> {
             self.0
                 .method_hash([145, 1, 133, 221], (granter, grantee))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getRequestsByFunctionId` (0xb68e3ace) function
+        pub fn get_requests_by_function_id(
+            &self,
+            function_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<
+            M,
+            (
+                ::std::vec::Vec<::ethers::core::types::Address>,
+                ::std::vec::Vec<Request>,
+            ),
+        > {
+            self.0
+                .method_hash([182, 142, 58, 206], function_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getRoutinesByAuthority` (0xb36afb5a) function
+        pub fn get_routines_by_authority(
+            &self,
+            authority: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<
+            M,
+            (
+                ::std::vec::Vec<::ethers::core::types::Address>,
+                ::std::vec::Vec<Routine>,
+            ),
+        > {
+            self.0
+                .method_hash([179, 106, 251, 90], authority)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getRoutinesByFunctionId` (0x27c66c0f) function
+        pub fn get_routines_by_function_id(
+            &self,
+            function_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<
+            M,
+            (
+                ::std::vec::Vec<::ethers::core::types::Address>,
+                ::std::vec::Vec<Routine>,
+            ),
+        > {
+            self.0
+                .method_hash([39, 198, 108, 15], function_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getStakeForEnclave` (0x376d9b41) function
+        pub fn get_stake_for_enclave(
+            &self,
+            enclave_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, Stake> {
+            self.0
+                .method_hash([55, 109, 155, 65], enclave_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getStakeForEnclaveWithToken` (0x3ff8f2af) function
+        pub fn get_stake_for_enclave_with_token(
+            &self,
+            enclave_id: ::ethers::core::types::Address,
+            token: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, Stake> {
+            self.0
+                .method_hash([63, 248, 242, 175], (enclave_id, token))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `getStakingConfig` (0x5133a68c) function
+        pub fn get_staking_config(
+            &self,
+            queue_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, StakingConfig> {
+            self.0
+                .method_hash([81, 51, 166, 140], queue_id)
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `getTransactionHash` (0xd93f1970) function
@@ -831,6 +10218,15 @@ pub mod switchboard {
                 .method_hash([141, 165, 203, 91], ())
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `prepareUnstake` (0xb8d35d6a) function
+        pub fn prepare_unstake(
+            &self,
+            enclave_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([184, 211, 93, 106], enclave_id)
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `queueAttestationConfigs` (0x6ddc9122) function
         pub fn queue_attestation_configs(
             &self,
@@ -840,12 +10236,15 @@ pub mod switchboard {
                 .method_hash([109, 220, 145, 34], queue_id)
                 .expect("method not found (this should never happen)")
         }
-        ///Calls the contract's `randomValue` (0x276801ec) function
-        pub fn random_value(
+        ///Calls the contract's `recoverStakeWithToken` (0x5e8e1ad0) function
+        pub fn recover_stake_with_token(
             &self,
-        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::U256> {
+            enclave_id: ::ethers::core::types::Address,
+            token: ::ethers::core::types::Address,
+            amount: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
-                .method_hash([39, 104, 1, 236], ())
+                .method_hash([94, 142, 26, 208], (enclave_id, token, amount))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `removeMrEnclaveFromAttestationQueue` (0x083f30cf) function
@@ -858,6 +10257,16 @@ pub mod switchboard {
                 .method_hash([8, 63, 48, 207], (queue_id, mr_enclave))
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `removeMrEnclaveFromFunction` (0xf0184db9) function
+        pub fn remove_mr_enclave_from_function(
+            &self,
+            function_id: ::ethers::core::types::Address,
+            mr_enclave: [u8; 32],
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([240, 24, 77, 185], (function_id, mr_enclave))
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `removeMrEnclaveFromOracleQueue` (0x262955d8) function
         pub fn remove_mr_enclave_from_oracle_queue(
             &self,
@@ -868,24 +10277,90 @@ pub mod switchboard {
                 .method_hash([38, 41, 85, 216], (queue_id, mr_enclave))
                 .expect("method not found (this should never happen)")
         }
-        ///Calls the contract's `rotateEnclaveAuthority` (0xd4d832aa) function
-        pub fn rotate_enclave_authority(
+        ///Calls the contract's `requestFund` (0x52a061d7) function
+        pub fn request_fund(
             &self,
-            enclave_id: ::ethers::core::types::Address,
-            new_authority: ::ethers::core::types::Address,
+            request_id: ::ethers::core::types::Address,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
-                .method_hash([212, 216, 50, 170], (enclave_id, new_authority))
+                .method_hash([82, 160, 97, 215], request_id)
                 .expect("method not found (this should never happen)")
         }
-        ///Calls the contract's `rotateOracleAuthority` (0x4cfb1758) function
-        pub fn rotate_oracle_authority(
+        ///Calls the contract's `requestWithdrawal` (0x8985646a) function
+        pub fn request_withdrawal(
             &self,
-            oracle_id: ::ethers::core::types::Address,
-            new_authority: ::ethers::core::types::Address,
+            request_id: ::ethers::core::types::Address,
+            recipient: ::ethers::core::types::Address,
+            amount: ::ethers::core::types::U256,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
-                .method_hash([76, 251, 23, 88], (oracle_id, new_authority))
+                .method_hash([137, 133, 100, 106], (request_id, recipient, amount))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `requests` (0x74adad1d) function
+        pub fn requests(
+            &self,
+            request_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, Request> {
+            self.0
+                .method_hash([116, 173, 173, 29], request_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `rotateEnclaveSigner` (0x2628b3a9) function
+        pub fn rotate_enclave_signer(
+            &self,
+            enclave_id: ::ethers::core::types::Address,
+            new_signer: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([38, 40, 179, 169], (enclave_id, new_signer))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `rotateOracleSigner` (0x4d1b776d) function
+        pub fn rotate_oracle_signer(
+            &self,
+            oracle_id: ::ethers::core::types::Address,
+            new_signer: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([77, 27, 119, 109], (oracle_id, new_signer))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `routineEscrowFund` (0x5d4e4594) function
+        pub fn routine_escrow_fund(
+            &self,
+            routine_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([93, 78, 69, 148], routine_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `routineEscrowWithdraw` (0xfab08683) function
+        pub fn routine_escrow_withdraw(
+            &self,
+            routine_id: ::ethers::core::types::Address,
+            amount: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([250, 176, 134, 131], (routine_id, amount))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `routineExists` (0xc98d9be8) function
+        pub fn routine_exists(
+            &self,
+            routine_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, bool> {
+            self.0
+                .method_hash([201, 141, 155, 232], routine_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `routines` (0xfdcc54d2) function
+        pub fn routines(
+            &self,
+            routine_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, Routine> {
+            self.0
+                .method_hash([253, 204, 84, 210], routine_id)
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `saveResults` (0x735e3555) function
@@ -898,6 +10373,42 @@ pub mod switchboard {
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
                 .method_hash([115, 94, 53, 85], (ids, results, queue_id, oracle_idx))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `sendDelayedRequest` (0x80eb181e) function
+        pub fn send_delayed_request(
+            &self,
+            request_id: ::ethers::core::types::Address,
+            function_id: ::ethers::core::types::Address,
+            params: ::ethers::core::types::Bytes,
+            start_after: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash(
+                    [128, 235, 24, 30],
+                    (request_id, function_id, params, start_after),
+                )
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `sendRequest` (0x62d3fe46) function
+        pub fn send_request(
+            &self,
+            function_id: ::ethers::core::types::Address,
+            params: ::ethers::core::types::Bytes,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::Address> {
+            self.0
+                .method_hash([98, 211, 254, 70], (function_id, params))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `sendRequestWithId` (0x264c1450) function
+        pub fn send_request_with_id(
+            &self,
+            request_id: ::ethers::core::types::Address,
+            function_id: ::ethers::core::types::Address,
+            params: ::ethers::core::types::Bytes,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::Address> {
+            self.0
+                .method_hash([38, 76, 20, 80], (request_id, function_id, params))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `setAdmin` (0x4b0bddd2) function
@@ -1000,6 +10511,30 @@ pub mod switchboard {
                 .method_hash([167, 122, 7, 211], (queue_id, grantee, permission, on))
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `setFunctionCallSettings` (0x6b7ef38b) function
+        pub fn set_function_call_settings(
+            &self,
+            function_id: ::ethers::core::types::Address,
+            require_estimated_run_cost_fee: bool,
+            minimum_fee: ::ethers::core::types::U256,
+            max_gas_cost: ::ethers::core::types::U256,
+            require_caller_pay_full_cost: bool,
+            require_sender_be_return_address: bool,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash(
+                    [107, 126, 243, 139],
+                    (
+                        function_id,
+                        require_estimated_run_cost_fee,
+                        minimum_fee,
+                        max_gas_cost,
+                        require_caller_pay_full_cost,
+                        require_sender_be_return_address,
+                    ),
+                )
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `setFunctionConfig` (0x822e99d5) function
         pub fn set_function_config(
             &self,
@@ -1030,19 +10565,38 @@ pub mod switchboard {
                 )
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `setFunctionDeactivated` (0x725483a5) function
+        pub fn set_function_deactivated(
+            &self,
+            function_id: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([114, 84, 131, 165], function_id)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `setFunctionSettings` (0xfeb0de89) function
+        pub fn set_function_settings(
+            &self,
+            function_id: ::ethers::core::types::Address,
+            settings: FunctionSettings,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([254, 176, 222, 137], (function_id, settings))
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `setOracleConfig` (0xf50b5ed0) function
         pub fn set_oracle_config(
             &self,
             oracle_id: ::ethers::core::types::Address,
             name: ::std::string::String,
-            authority: ::ethers::core::types::Address,
+            signer: ::ethers::core::types::Address,
             queue_id: ::ethers::core::types::Address,
-            owner: ::ethers::core::types::Address,
+            authority: ::ethers::core::types::Address,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
                 .method_hash(
                     [245, 11, 94, 208],
-                    (oracle_id, name, authority, queue_id, owner),
+                    (oracle_id, name, signer, queue_id, authority),
                 )
                 .expect("method not found (this should never happen)")
         }
@@ -1106,6 +10660,28 @@ pub mod switchboard {
                 .method_hash([1, 252, 27, 162], (queue_id, grantee, permission, on))
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `setStakingConfig` (0xf22644c2) function
+        pub fn set_staking_config(
+            &self,
+            queue_id: ::ethers::core::types::Address,
+            token: ::ethers::core::types::Address,
+            staking_amount: ::ethers::core::types::U256,
+            staking_period: ::ethers::core::types::U256,
+            unstaking_period: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash(
+                    [242, 38, 68, 194],
+                    (
+                        queue_id,
+                        token,
+                        staking_amount,
+                        staking_period,
+                        unstaking_period,
+                    ),
+                )
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `setToleratedTimestampDiscrepancy` (0x101277b2) function
         pub fn set_tolerated_timestamp_discrepancy(
             &self,
@@ -1113,6 +10689,16 @@ pub mod switchboard {
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
                 .method_hash([16, 18, 119, 178], tolerance)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `slashStake` (0x98d1c5a8) function
+        pub fn slash_stake(
+            &self,
+            enclave_id: ::ethers::core::types::Address,
+            amount: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([152, 209, 197, 168], (enclave_id, amount))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `supportsInterface` (0x01ffc9a7) function
@@ -1124,6 +10710,45 @@ pub mod switchboard {
                 .method_hash([1, 255, 201, 167], interface_id)
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `totalStaked` (0xf21630cb) function
+        pub fn total_staked(
+            &self,
+            queue_id: ::ethers::core::types::Address,
+            token: ::ethers::core::types::Address,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::U256> {
+            self.0
+                .method_hash([242, 22, 48, 203], (queue_id, token))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `totalSupply` (0x18160ddd) function
+        pub fn total_supply(
+            &self,
+        ) -> ::ethers::contract::builders::ContractCall<M, ::ethers::core::types::U256> {
+            self.0
+                .method_hash([24, 22, 13, 221], ())
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `transfer` (0xa9059cbb) function
+        pub fn transfer(
+            &self,
+            to: ::ethers::core::types::Address,
+            value: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, bool> {
+            self.0
+                .method_hash([169, 5, 156, 187], (to, value))
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `transferFrom` (0x23b872dd) function
+        pub fn transfer_from(
+            &self,
+            from: ::ethers::core::types::Address,
+            to: ::ethers::core::types::Address,
+            value: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, bool> {
+            self.0
+                .method_hash([35, 184, 114, 221], (from, to, value))
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `transferOwnership` (0xf2fde38b) function
         pub fn transfer_ownership(
             &self,
@@ -1131,6 +10756,16 @@ pub mod switchboard {
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
                 .method_hash([242, 253, 227, 139], new_owner)
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `unstake` (0xc2a672e0) function
+        pub fn unstake(
+            &self,
+            enclave_id: ::ethers::core::types::Address,
+            amount: ::ethers::core::types::U256,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([194, 166, 114, 224], (enclave_id, amount))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `updateEnclave` (0x5cd6ac0c) function
@@ -1143,18 +10778,44 @@ pub mod switchboard {
                 .method_hash([92, 214, 172, 12], (enclave_id, cid))
                 .expect("method not found (this should never happen)")
         }
+        ///Calls the contract's `updateRoutine` (0x9300c999) function
+        pub fn update_routine(
+            &self,
+            routine_id: ::ethers::core::types::Address,
+            function_id: ::ethers::core::types::Address,
+            authority: ::ethers::core::types::Address,
+            params: ::ethers::core::types::Bytes,
+            schedule: ::std::string::String,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash(
+                    [147, 0, 201, 153],
+                    (routine_id, function_id, authority, params, schedule),
+                )
+                .expect("method not found (this should never happen)")
+        }
         ///Calls the contract's `validate` (0x1755a7f8) function
         pub fn validate(
             &self,
-            authority: ::ethers::core::types::Address,
+            signer: ::ethers::core::types::Address,
             attestation_queue_id: ::ethers::core::types::Address,
             valid_measurements: ::std::vec::Vec<[u8; 32]>,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
                 .method_hash(
                     [23, 85, 167, 248],
-                    (authority, attestation_queue_id, valid_measurements),
+                    (signer, attestation_queue_id, valid_measurements),
                 )
+                .expect("method not found (this should never happen)")
+        }
+        ///Calls the contract's `verifyCallbackParams` (0x9c5eb6d9) function
+        pub fn verify_callback_params(
+            &self,
+            call_ids: ::std::vec::Vec<::ethers::core::types::Address>,
+            hashes: ::std::vec::Vec<[u8; 32]>,
+        ) -> ::ethers::contract::builders::ContractCall<M, ()> {
+            self.0
+                .method_hash([156, 94, 182, 217], (call_ids, hashes))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `verifyEnclave` (0xef0ebd71) function
@@ -1173,34 +10834,13 @@ pub mod switchboard {
                 )
                 .expect("method not found (this should never happen)")
         }
-        ///Calls the contract's `verifyFunction` (0x8cc5b02c) function
-        pub fn verify_function(
+        ///Calls the contract's `verifyFunctionResult` (0x3bd7b617) function
+        pub fn verify_function_result(
             &self,
-            enclave_idx: ::ethers::core::types::U256,
-            function_id: ::ethers::core::types::Address,
-            delegated_signer_address: ::ethers::core::types::Address,
-            observed_time: ::ethers::core::types::U256,
-            next_allowed_timestamp: ::ethers::core::types::U256,
-            is_failure: bool,
-            mr_enclave: [u8; 32],
-            transactions: ::std::vec::Vec<Transaction>,
-            signatures: ::std::vec::Vec<::ethers::core::types::Bytes>,
+            params: FunctionVerifyParams,
         ) -> ::ethers::contract::builders::ContractCall<M, ()> {
             self.0
-                .method_hash(
-                    [140, 197, 176, 44],
-                    (
-                        enclave_idx,
-                        function_id,
-                        delegated_signer_address,
-                        observed_time,
-                        next_allowed_timestamp,
-                        is_failure,
-                        mr_enclave,
-                        transactions,
-                        signatures,
-                    ),
-                )
+                .method_hash([59, 215, 182, 23], (params,))
                 .expect("method not found (this should never happen)")
         }
         ///Calls the contract's `viewAggregatorResults` (0xde866484) function
@@ -1303,6 +10943,12 @@ pub mod switchboard {
         > {
             self.0.event()
         }
+        ///Gets the contract's `Approval` event
+        pub fn approval_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, ApprovalFilter> {
+            self.0.event()
+        }
         ///Gets the contract's `AttestationQueueAccountInit` event
         pub fn attestation_queue_account_init_filter(
             &self,
@@ -1366,10 +11012,10 @@ pub mod switchboard {
         {
             self.0.event()
         }
-        ///Gets the contract's `EnclaveRotateAuthority` event
-        pub fn enclave_rotate_authority_filter(
+        ///Gets the contract's `EnclaveRotateSigner` event
+        pub fn enclave_rotate_signer_filter(
             &self,
-        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, EnclaveRotateAuthorityFilter>
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, EnclaveRotateSignerFilter>
         {
             self.0.event()
         }
@@ -1394,13 +11040,6 @@ pub mod switchboard {
         {
             self.0.event()
         }
-        ///Gets the contract's `FunctionCallFailure` event
-        pub fn function_call_failure_filter(
-            &self,
-        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, FunctionCallFailureFilter>
-        {
-            self.0.event()
-        }
         ///Gets the contract's `FunctionCallFund` event
         pub fn function_call_fund_filter(
             &self,
@@ -1419,13 +11058,6 @@ pub mod switchboard {
         pub fn function_withdraw_filter(
             &self,
         ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, FunctionWithdrawFilter>
-        {
-            self.0.event()
-        }
-        ///Gets the contract's `NewRandomValue` event
-        pub fn new_random_value_filter(
-            &self,
-        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, NewRandomValueFilter>
         {
             self.0.event()
         }
@@ -1510,6 +11142,13 @@ pub mod switchboard {
         > {
             self.0.event()
         }
+        ///Gets the contract's `OracleRotateSigner` event
+        pub fn oracle_rotate_signer_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, OracleRotateSignerFilter>
+        {
+            self.0.event()
+        }
         ///Gets the contract's `OracleSetConfig` event
         pub fn oracle_set_config_filter(
             &self,
@@ -1528,6 +11167,80 @@ pub mod switchboard {
         pub fn remove_mr_enclave_filter(
             &self,
         ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, RemoveMrEnclaveFilter>
+        {
+            self.0.event()
+        }
+        ///Gets the contract's `RequestEvent` event
+        pub fn request_event_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, RequestEventFilter>
+        {
+            self.0.event()
+        }
+        ///Gets the contract's `RequestFund` event
+        pub fn request_fund_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, RequestFundFilter>
+        {
+            self.0.event()
+        }
+        ///Gets the contract's `RequestWithdraw` event
+        pub fn request_withdraw_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, RequestWithdrawFilter>
+        {
+            self.0.event()
+        }
+        ///Gets the contract's `RoutineCreated` event
+        pub fn routine_created_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, RoutineCreatedFilter>
+        {
+            self.0.event()
+        }
+        ///Gets the contract's `RoutineFund` event
+        pub fn routine_fund_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, RoutineFundFilter>
+        {
+            self.0.event()
+        }
+        ///Gets the contract's `RoutineWithdraw` event
+        pub fn routine_withdraw_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, RoutineWithdrawFilter>
+        {
+            self.0.event()
+        }
+        ///Gets the contract's `StakeAdded` event
+        pub fn stake_added_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, StakeAddedFilter> {
+            self.0.event()
+        }
+        ///Gets the contract's `StakeRemoved` event
+        pub fn stake_removed_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, StakeRemovedFilter>
+        {
+            self.0.event()
+        }
+        ///Gets the contract's `Transfer` event
+        pub fn transfer_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, TransferFilter> {
+            self.0.event()
+        }
+        ///Gets the contract's `Unstaked` event
+        pub fn unstaked_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, UnstakedFilter> {
+            self.0.event()
+        }
+        ///Gets the contract's `VerifyFailed` event
+        pub fn verify_failed_filter(
+            &self,
+        ) -> ::ethers::contract::builders::Event<::std::sync::Arc<M>, M, VerifyFailedFilter>
         {
             self.0.event()
         }
@@ -1678,6 +11391,41 @@ pub mod switchboard {
     pub struct AttestationQueueDoesNotExist {
         pub attestation_queue_id: ::ethers::core::types::Address,
     }
+    ///Custom Error type `CallExceededMaxGasCost` with signature `CallExceededMaxGasCost(address,uint256,uint256)` and selector `0x7ec28264`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "CallExceededMaxGasCost",
+        abi = "CallExceededMaxGasCost(address,uint256,uint256)"
+    )]
+    pub struct CallExceededMaxGasCost {
+        pub call_id: ::ethers::core::types::Address,
+        pub expected: ::ethers::core::types::U256,
+        pub received: ::ethers::core::types::U256,
+    }
+    ///Custom Error type `CallIdAlreadyExists` with signature `CallIdAlreadyExists(address)` and selector `0x2277cabb`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "CallIdAlreadyExists", abi = "CallIdAlreadyExists(address)")]
+    pub struct CallIdAlreadyExists {
+        pub call_id: ::ethers::core::types::Address,
+    }
     ///Custom Error type `ECDSAInvalidSignature` with signature `ECDSAInvalidSignature()` and selector `0xf645eedf`
     #[derive(
         Clone,
@@ -1806,6 +11554,21 @@ pub mod switchboard {
         pub queue_id: ::ethers::core::types::Address,
         pub enclave_id: ::ethers::core::types::Address,
         pub enclave_idx: ::ethers::core::types::U256,
+    }
+    ///Custom Error type `EnclaveNotFullyStaked` with signature `EnclaveNotFullyStaked(address)` and selector `0x784ed478`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "EnclaveNotFullyStaked", abi = "EnclaveNotFullyStaked(address)")]
+    pub struct EnclaveNotFullyStaked {
+        pub enclave_id: ::ethers::core::types::Address,
     }
     ///Custom Error type `EnclaveNotOnQueue` with signature `EnclaveNotOnQueue(address,address)` and selector `0x4d7fe4fc`
     #[derive(
@@ -1936,6 +11699,45 @@ pub mod switchboard {
     pub struct FunctionDoesNotExist {
         pub function_id: ::ethers::core::types::Address,
     }
+    ///Custom Error type `FunctionFeeTooLow` with signature `FunctionFeeTooLow(address,uint256,uint256)` and selector `0xf3663dbf`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "FunctionFeeTooLow",
+        abi = "FunctionFeeTooLow(address,uint256,uint256)"
+    )]
+    pub struct FunctionFeeTooLow {
+        pub function_id: ::ethers::core::types::Address,
+        pub expected: ::ethers::core::types::U256,
+        pub received: ::ethers::core::types::U256,
+    }
+    ///Custom Error type `FunctionIncorrectTarget` with signature `FunctionIncorrectTarget(address,address)` and selector `0xe726bd72`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "FunctionIncorrectTarget",
+        abi = "FunctionIncorrectTarget(address,address)"
+    )]
+    pub struct FunctionIncorrectTarget {
+        pub function_id: ::ethers::core::types::Address,
+        pub received: ::ethers::core::types::Address,
+    }
     ///Custom Error type `FunctionMrEnclaveMismatch` with signature `FunctionMrEnclaveMismatch(bytes32,bytes32)` and selector `0x552d918e`
     #[derive(
         Clone,
@@ -1990,6 +11792,38 @@ pub mod switchboard {
         pub limit: ::ethers::core::types::U256,
         pub used: ::ethers::core::types::U256,
     }
+    ///Custom Error type `Generic` with signature `Generic()` and selector `0xbf25017a`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "Generic", abi = "Generic()")]
+    pub struct Generic;
+    ///Custom Error type `IncorrectFunctionId` with signature `IncorrectFunctionId(address,address)` and selector `0xcf9ccae6`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "IncorrectFunctionId",
+        abi = "IncorrectFunctionId(address,address)"
+    )]
+    pub struct IncorrectFunctionId {
+        pub expected: ::ethers::core::types::Address,
+        pub received: ::ethers::core::types::Address,
+    }
     ///Custom Error type `IncorrectReportedTime` with signature `IncorrectReportedTime(uint256,uint256)` and selector `0x3ff1de92`
     #[derive(
         Clone,
@@ -2008,6 +11842,22 @@ pub mod switchboard {
     pub struct IncorrectReportedTime {
         pub max_expected_time: ::ethers::core::types::U256,
         pub reported_time: ::ethers::core::types::U256,
+    }
+    ///Custom Error type `IncorrectToken` with signature `IncorrectToken(address,address)` and selector `0x9334834f`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "IncorrectToken", abi = "IncorrectToken(address,address)")]
+    pub struct IncorrectToken {
+        pub expected: ::ethers::core::types::Address,
+        pub received: ::ethers::core::types::Address,
     }
     ///Custom Error type `InitializationFunctionReverted` with signature `InitializationFunctionReverted(address,bytes)` and selector `0x192105d7`
     #[derive(
@@ -2046,6 +11896,46 @@ pub mod switchboard {
     pub struct InsufficientBalance {
         pub expected_balance: ::ethers::core::types::U256,
         pub received_balance: ::ethers::core::types::U256,
+    }
+    ///Custom Error type `InsufficientCallBalance` with signature `InsufficientCallBalance(address,uint256,uint256)` and selector `0x7bfbdd60`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "InsufficientCallBalance",
+        abi = "InsufficientCallBalance(address,uint256,uint256)"
+    )]
+    pub struct InsufficientCallBalance {
+        pub call_id: ::ethers::core::types::Address,
+        pub expected: ::ethers::core::types::U256,
+        pub received: ::ethers::core::types::U256,
+    }
+    ///Custom Error type `InsufficientCallFeePaid` with signature `InsufficientCallFeePaid(address,uint256,uint256)` and selector `0xc6477cc1`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "InsufficientCallFeePaid",
+        abi = "InsufficientCallFeePaid(address,uint256,uint256)"
+    )]
+    pub struct InsufficientCallFeePaid {
+        pub call_id: ::ethers::core::types::Address,
+        pub expected: ::ethers::core::types::U256,
+        pub received: ::ethers::core::types::U256,
     }
     ///Custom Error type `InsufficientNodes` with signature `InsufficientNodes(uint256,uint256)` and selector `0x3c1222b1`
     #[derive(
@@ -2131,6 +12021,40 @@ pub mod switchboard {
         pub expected_authority: ::ethers::core::types::Address,
         pub received_authority: ::ethers::core::types::Address,
     }
+    ///Custom Error type `InvalidCallId` with signature `InvalidCallId(address)` and selector `0xddd63c15`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "InvalidCallId", abi = "InvalidCallId(address)")]
+    pub struct InvalidCallId {
+        pub call_id: ::ethers::core::types::Address,
+    }
+    ///Custom Error type `InvalidCallbackParams` with signature `InvalidCallbackParams(address,bytes32)` and selector `0x1c6cea40`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "InvalidCallbackParams",
+        abi = "InvalidCallbackParams(address,bytes32)"
+    )]
+    pub struct InvalidCallbackParams {
+        pub call_id: ::ethers::core::types::Address,
+        pub hash: [u8; 32],
+    }
     ///Custom Error type `InvalidEnclave` with signature `InvalidEnclave(address)` and selector `0x8bec1a4e`
     #[derive(
         Clone,
@@ -2159,6 +12083,21 @@ pub mod switchboard {
     )]
     #[etherror(name = "InvalidEntry", abi = "InvalidEntry()")]
     pub struct InvalidEntry;
+    ///Custom Error type `InvalidRoutineId` with signature `InvalidRoutineId(address)` and selector `0x0b532497`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "InvalidRoutineId", abi = "InvalidRoutineId(address)")]
+    pub struct InvalidRoutineId {
+        pub routine_id: ::ethers::core::types::Address,
+    }
     ///Custom Error type `InvalidSignature` with signature `InvalidSignature(address,bytes32,bytes)` and selector `0xd491963d`
     #[derive(
         Clone,
@@ -2178,6 +12117,22 @@ pub mod switchboard {
         pub expected_sender: ::ethers::core::types::Address,
         pub tx_hash: [u8; 32],
         pub signature: ::ethers::core::types::Bytes,
+    }
+    ///Custom Error type `InvalidSigner` with signature `InvalidSigner(address,address)` and selector `0x7ba5ffb5`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "InvalidSigner", abi = "InvalidSigner(address,address)")]
+    pub struct InvalidSigner {
+        pub expected_signer: ::ethers::core::types::Address,
+        pub received_signer: ::ethers::core::types::Address,
     }
     ///Custom Error type `InvalidStatus` with signature `InvalidStatus(address,uint256,uint256)` and selector `0xee56daf8`
     #[derive(
@@ -2335,6 +12290,109 @@ pub mod switchboard {
         pub expected_queue_id: ::ethers::core::types::Address,
         pub received_queue_id: ::ethers::core::types::Address,
     }
+    ///Custom Error type `RequestAlreadyExists` with signature `RequestAlreadyExists(address)` and selector `0x0b5bc361`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "RequestAlreadyExists", abi = "RequestAlreadyExists(address)")]
+    pub struct RequestAlreadyExists {
+        pub request_id: ::ethers::core::types::Address,
+    }
+    ///Custom Error type `RequestIdAlreadyExists` with signature `RequestIdAlreadyExists(address)` and selector `0xfefd00d8`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "RequestIdAlreadyExists",
+        abi = "RequestIdAlreadyExists(address)"
+    )]
+    pub struct RequestIdAlreadyExists {
+        pub request_id: ::ethers::core::types::Address,
+    }
+    ///Custom Error type `RoutineIdAlreadyExists` with signature `RoutineIdAlreadyExists(address)` and selector `0x704f61ed`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "RoutineIdAlreadyExists",
+        abi = "RoutineIdAlreadyExists(address)"
+    )]
+    pub struct RoutineIdAlreadyExists {
+        pub routine_id: ::ethers::core::types::Address,
+    }
+    ///Custom Error type `RoutinesDisabled` with signature `RoutinesDisabled(address)` and selector `0xe71fe28b`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "RoutinesDisabled", abi = "RoutinesDisabled(address)")]
+    pub struct RoutinesDisabled {
+        pub function_id: ::ethers::core::types::Address,
+    }
+    ///Custom Error type `StakeNotReady` with signature `StakeNotReady(address,address,uint256)` and selector `0x8be9b6b3`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(name = "StakeNotReady", abi = "StakeNotReady(address,address,uint256)")]
+    pub struct StakeNotReady {
+        pub queue_id: ::ethers::core::types::Address,
+        pub staker: ::ethers::core::types::Address,
+        pub ready_at: ::ethers::core::types::U256,
+    }
+    ///Custom Error type `StakeNotReadyForWithdrawal` with signature `StakeNotReadyForWithdrawal(address,address,uint256)` and selector `0xc026a454`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "StakeNotReadyForWithdrawal",
+        abi = "StakeNotReadyForWithdrawal(address,address,uint256)"
+    )]
+    pub struct StakeNotReadyForWithdrawal {
+        pub queue_id: ::ethers::core::types::Address,
+        pub staker: ::ethers::core::types::Address,
+        pub ready_at: ::ethers::core::types::U256,
+    }
     ///Custom Error type `SubmittedResultsMismatch` with signature `SubmittedResultsMismatch(uint256,uint256)` and selector `0xc7d91853`
     #[derive(
         Clone,
@@ -2353,6 +12411,26 @@ pub mod switchboard {
     pub struct SubmittedResultsMismatch {
         pub aggregators: ::ethers::core::types::U256,
         pub results: ::ethers::core::types::U256,
+    }
+    ///Custom Error type `TokenTransferFailure` with signature `TokenTransferFailure(address,address,uint256)` and selector `0x95eb946f`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthError,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[etherror(
+        name = "TokenTransferFailure",
+        abi = "TokenTransferFailure(address,address,uint256)"
+    )]
+    pub struct TokenTransferFailure {
+        pub token: ::ethers::core::types::Address,
+        pub to: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
     }
     ///Custom Error type `TransactionExpired` with signature `TransactionExpired(uint256)` and selector `0x6634e923`
     #[derive(
@@ -2380,6 +12458,8 @@ pub mod switchboard {
         AlreadyExecuted(AlreadyExecuted),
         AttestationQueueAlreadyExists(AttestationQueueAlreadyExists),
         AttestationQueueDoesNotExist(AttestationQueueDoesNotExist),
+        CallExceededMaxGasCost(CallExceededMaxGasCost),
+        CallIdAlreadyExists(CallIdAlreadyExists),
         ECDSAInvalidSignature(ECDSAInvalidSignature),
         ECDSAInvalidSignatureLength(ECDSAInvalidSignatureLength),
         ECDSAInvalidSignatureS(ECDSAInvalidSignatureS),
@@ -2388,6 +12468,7 @@ pub mod switchboard {
         EnclaveDoesNotExist(EnclaveDoesNotExist),
         EnclaveExpired(EnclaveExpired),
         EnclaveNotAtQueueIdx(EnclaveNotAtQueueIdx),
+        EnclaveNotFullyStaked(EnclaveNotFullyStaked),
         EnclaveNotOnQueue(EnclaveNotOnQueue),
         EnclaveNotReadyForVerification(EnclaveNotReadyForVerification),
         EnclaveUnverified(EnclaveUnverified),
@@ -2396,20 +12477,31 @@ pub mod switchboard {
         FunctionAlreadyExists(FunctionAlreadyExists),
         FunctionCallerNotPermitted(FunctionCallerNotPermitted),
         FunctionDoesNotExist(FunctionDoesNotExist),
+        FunctionFeeTooLow(FunctionFeeTooLow),
+        FunctionIncorrectTarget(FunctionIncorrectTarget),
         FunctionMrEnclaveMismatch(FunctionMrEnclaveMismatch),
         FunctionSignerAlreadySet(FunctionSignerAlreadySet),
         GasLimitExceeded(GasLimitExceeded),
+        Generic(Generic),
+        IncorrectFunctionId(IncorrectFunctionId),
         IncorrectReportedTime(IncorrectReportedTime),
+        IncorrectToken(IncorrectToken),
         InitializationFunctionReverted(InitializationFunctionReverted),
         InsufficientBalance(InsufficientBalance),
+        InsufficientCallBalance(InsufficientCallBalance),
+        InsufficientCallFeePaid(InsufficientCallFeePaid),
         InsufficientNodes(InsufficientNodes),
         InsufficientSamples(InsufficientSamples),
         IntervalHistoryNotRecorded(IntervalHistoryNotRecorded),
         InvalidArgument(InvalidArgument),
         InvalidAuthority(InvalidAuthority),
+        InvalidCallId(InvalidCallId),
+        InvalidCallbackParams(InvalidCallbackParams),
         InvalidEnclave(InvalidEnclave),
         InvalidEntry(InvalidEntry),
+        InvalidRoutineId(InvalidRoutineId),
         InvalidSignature(InvalidSignature),
+        InvalidSigner(InvalidSigner),
         InvalidStatus(InvalidStatus),
         MrEnclaveNotAllowed(MrEnclaveNotAllowed),
         OracleAlreadyExists(OracleAlreadyExists),
@@ -2419,7 +12511,14 @@ pub mod switchboard {
         OracleQueueDoesNotExist(OracleQueueDoesNotExist),
         PermissionDenied(PermissionDenied),
         QueuesDoNotMatch(QueuesDoNotMatch),
+        RequestAlreadyExists(RequestAlreadyExists),
+        RequestIdAlreadyExists(RequestIdAlreadyExists),
+        RoutineIdAlreadyExists(RoutineIdAlreadyExists),
+        RoutinesDisabled(RoutinesDisabled),
+        StakeNotReady(StakeNotReady),
+        StakeNotReadyForWithdrawal(StakeNotReadyForWithdrawal),
         SubmittedResultsMismatch(SubmittedResultsMismatch),
+        TokenTransferFailure(TokenTransferFailure),
         TransactionExpired(TransactionExpired),
         /// The standard solidity revert string, with selector
         /// Error(string) -- 0x08c379a0
@@ -2470,6 +12569,16 @@ pub mod switchboard {
                 return Ok(Self::AttestationQueueDoesNotExist(decoded));
             }
             if let Ok(decoded) =
+                <CallExceededMaxGasCost as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::CallExceededMaxGasCost(decoded));
+            }
+            if let Ok(decoded) =
+                <CallIdAlreadyExists as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::CallIdAlreadyExists(decoded));
+            }
+            if let Ok(decoded) =
                 <ECDSAInvalidSignature as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::ECDSAInvalidSignature(decoded));
@@ -2506,6 +12615,11 @@ pub mod switchboard {
                 <EnclaveNotAtQueueIdx as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::EnclaveNotAtQueueIdx(decoded));
+            }
+            if let Ok(decoded) =
+                <EnclaveNotFullyStaked as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::EnclaveNotFullyStaked(decoded));
             }
             if let Ok(decoded) = <EnclaveNotOnQueue as ::ethers::core::abi::AbiDecode>::decode(data)
             {
@@ -2544,6 +12658,15 @@ pub mod switchboard {
             {
                 return Ok(Self::FunctionDoesNotExist(decoded));
             }
+            if let Ok(decoded) = <FunctionFeeTooLow as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::FunctionFeeTooLow(decoded));
+            }
+            if let Ok(decoded) =
+                <FunctionIncorrectTarget as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::FunctionIncorrectTarget(decoded));
+            }
             if let Ok(decoded) =
                 <FunctionMrEnclaveMismatch as ::ethers::core::abi::AbiDecode>::decode(data)
             {
@@ -2558,10 +12681,21 @@ pub mod switchboard {
             {
                 return Ok(Self::GasLimitExceeded(decoded));
             }
+            if let Ok(decoded) = <Generic as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::Generic(decoded));
+            }
+            if let Ok(decoded) =
+                <IncorrectFunctionId as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::IncorrectFunctionId(decoded));
+            }
             if let Ok(decoded) =
                 <IncorrectReportedTime as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::IncorrectReportedTime(decoded));
+            }
+            if let Ok(decoded) = <IncorrectToken as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::IncorrectToken(decoded));
             }
             if let Ok(decoded) =
                 <InitializationFunctionReverted as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -2572,6 +12706,16 @@ pub mod switchboard {
                 <InsufficientBalance as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::InsufficientBalance(decoded));
+            }
+            if let Ok(decoded) =
+                <InsufficientCallBalance as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::InsufficientCallBalance(decoded));
+            }
+            if let Ok(decoded) =
+                <InsufficientCallFeePaid as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::InsufficientCallFeePaid(decoded));
             }
             if let Ok(decoded) = <InsufficientNodes as ::ethers::core::abi::AbiDecode>::decode(data)
             {
@@ -2594,15 +12738,30 @@ pub mod switchboard {
             {
                 return Ok(Self::InvalidAuthority(decoded));
             }
+            if let Ok(decoded) = <InvalidCallId as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::InvalidCallId(decoded));
+            }
+            if let Ok(decoded) =
+                <InvalidCallbackParams as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::InvalidCallbackParams(decoded));
+            }
             if let Ok(decoded) = <InvalidEnclave as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::InvalidEnclave(decoded));
             }
             if let Ok(decoded) = <InvalidEntry as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::InvalidEntry(decoded));
             }
+            if let Ok(decoded) = <InvalidRoutineId as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::InvalidRoutineId(decoded));
+            }
             if let Ok(decoded) = <InvalidSignature as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::InvalidSignature(decoded));
+            }
+            if let Ok(decoded) = <InvalidSigner as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::InvalidSigner(decoded));
             }
             if let Ok(decoded) = <InvalidStatus as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::InvalidStatus(decoded));
@@ -2643,9 +12802,41 @@ pub mod switchboard {
                 return Ok(Self::QueuesDoNotMatch(decoded));
             }
             if let Ok(decoded) =
+                <RequestAlreadyExists as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RequestAlreadyExists(decoded));
+            }
+            if let Ok(decoded) =
+                <RequestIdAlreadyExists as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RequestIdAlreadyExists(decoded));
+            }
+            if let Ok(decoded) =
+                <RoutineIdAlreadyExists as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RoutineIdAlreadyExists(decoded));
+            }
+            if let Ok(decoded) = <RoutinesDisabled as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RoutinesDisabled(decoded));
+            }
+            if let Ok(decoded) = <StakeNotReady as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::StakeNotReady(decoded));
+            }
+            if let Ok(decoded) =
+                <StakeNotReadyForWithdrawal as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::StakeNotReadyForWithdrawal(decoded));
+            }
+            if let Ok(decoded) =
                 <SubmittedResultsMismatch as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::SubmittedResultsMismatch(decoded));
+            }
+            if let Ok(decoded) =
+                <TokenTransferFailure as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::TokenTransferFailure(decoded));
             }
             if let Ok(decoded) =
                 <TransactionExpired as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -2676,6 +12867,12 @@ pub mod switchboard {
                 Self::AttestationQueueDoesNotExist(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::CallExceededMaxGasCost(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::CallIdAlreadyExists(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::ECDSAInvalidSignature(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
@@ -2698,6 +12895,9 @@ pub mod switchboard {
                 Self::EnclaveNotAtQueueIdx(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::EnclaveNotFullyStaked(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::EnclaveNotOnQueue(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::EnclaveNotReadyForVerification(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
@@ -2716,6 +12916,10 @@ pub mod switchboard {
                 Self::FunctionDoesNotExist(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::FunctionFeeTooLow(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::FunctionIncorrectTarget(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::FunctionMrEnclaveMismatch(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
@@ -2723,13 +12927,24 @@ pub mod switchboard {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::GasLimitExceeded(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::Generic(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::IncorrectFunctionId(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::IncorrectReportedTime(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::IncorrectToken(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::InitializationFunctionReverted(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::InsufficientBalance(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::InsufficientCallBalance(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::InsufficientCallFeePaid(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::InsufficientNodes(element) => ::ethers::core::abi::AbiEncode::encode(element),
@@ -2741,9 +12956,15 @@ pub mod switchboard {
                 }
                 Self::InvalidArgument(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::InvalidAuthority(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::InvalidCallId(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::InvalidCallbackParams(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::InvalidEnclave(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::InvalidEntry(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::InvalidRoutineId(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::InvalidSignature(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::InvalidSigner(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::InvalidStatus(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::MrEnclaveNotAllowed(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
@@ -2761,7 +12982,24 @@ pub mod switchboard {
                 }
                 Self::PermissionDenied(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::QueuesDoNotMatch(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::RequestAlreadyExists(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::RequestIdAlreadyExists(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::RoutineIdAlreadyExists(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::RoutinesDisabled(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::StakeNotReady(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::StakeNotReadyForWithdrawal(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::SubmittedResultsMismatch(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::TokenTransferFailure(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::TransactionExpired(element) => {
@@ -2806,6 +13044,14 @@ pub mod switchboard {
                     true
                 }
                 _ if selector
+                    == <CallExceededMaxGasCost as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <CallIdAlreadyExists as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
                     == <ECDSAInvalidSignature as ::ethers::contract::EthError>::selector() => {
                     true
                 }
@@ -2835,6 +13081,10 @@ pub mod switchboard {
                 }
                 _ if selector
                     == <EnclaveNotAtQueueIdx as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <EnclaveNotFullyStaked as ::ethers::contract::EthError>::selector() => {
                     true
                 }
                 _ if selector
@@ -2870,6 +13120,14 @@ pub mod switchboard {
                     true
                 }
                 _ if selector
+                    == <FunctionFeeTooLow as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <FunctionIncorrectTarget as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
                     == <FunctionMrEnclaveMismatch as ::ethers::contract::EthError>::selector() => {
                     true
                 }
@@ -2882,7 +13140,17 @@ pub mod switchboard {
                     true
                 }
                 _ if selector
+                    == <Generic as ::ethers::contract::EthError>::selector() => true,
+                _ if selector
+                    == <IncorrectFunctionId as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
                     == <IncorrectReportedTime as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <IncorrectToken as ::ethers::contract::EthError>::selector() => {
                     true
                 }
                 _ if selector
@@ -2891,6 +13159,14 @@ pub mod switchboard {
                 }
                 _ if selector
                     == <InsufficientBalance as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <InsufficientCallBalance as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <InsufficientCallFeePaid as ::ethers::contract::EthError>::selector() => {
                     true
                 }
                 _ if selector
@@ -2914,13 +13190,29 @@ pub mod switchboard {
                     true
                 }
                 _ if selector
+                    == <InvalidCallId as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <InvalidCallbackParams as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
                     == <InvalidEnclave as ::ethers::contract::EthError>::selector() => {
                     true
                 }
                 _ if selector
                     == <InvalidEntry as ::ethers::contract::EthError>::selector() => true,
                 _ if selector
+                    == <InvalidRoutineId as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
                     == <InvalidSignature as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <InvalidSigner as ::ethers::contract::EthError>::selector() => {
                     true
                 }
                 _ if selector
@@ -2960,7 +13252,35 @@ pub mod switchboard {
                     true
                 }
                 _ if selector
+                    == <RequestAlreadyExists as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <RequestIdAlreadyExists as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <RoutineIdAlreadyExists as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <RoutinesDisabled as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <StakeNotReady as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <StakeNotReadyForWithdrawal as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
                     == <SubmittedResultsMismatch as ::ethers::contract::EthError>::selector() => {
+                    true
+                }
+                _ if selector
+                    == <TokenTransferFailure as ::ethers::contract::EthError>::selector() => {
                     true
                 }
                 _ if selector
@@ -2986,6 +13306,8 @@ pub mod switchboard {
                 Self::AttestationQueueDoesNotExist(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
+                Self::CallExceededMaxGasCost(element) => ::core::fmt::Display::fmt(element, f),
+                Self::CallIdAlreadyExists(element) => ::core::fmt::Display::fmt(element, f),
                 Self::ECDSAInvalidSignature(element) => ::core::fmt::Display::fmt(element, f),
                 Self::ECDSAInvalidSignatureLength(element) => ::core::fmt::Display::fmt(element, f),
                 Self::ECDSAInvalidSignatureS(element) => ::core::fmt::Display::fmt(element, f),
@@ -2994,6 +13316,7 @@ pub mod switchboard {
                 Self::EnclaveDoesNotExist(element) => ::core::fmt::Display::fmt(element, f),
                 Self::EnclaveExpired(element) => ::core::fmt::Display::fmt(element, f),
                 Self::EnclaveNotAtQueueIdx(element) => ::core::fmt::Display::fmt(element, f),
+                Self::EnclaveNotFullyStaked(element) => ::core::fmt::Display::fmt(element, f),
                 Self::EnclaveNotOnQueue(element) => ::core::fmt::Display::fmt(element, f),
                 Self::EnclaveNotReadyForVerification(element) => {
                     ::core::fmt::Display::fmt(element, f)
@@ -3004,22 +13327,33 @@ pub mod switchboard {
                 Self::FunctionAlreadyExists(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionCallerNotPermitted(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionDoesNotExist(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FunctionFeeTooLow(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FunctionIncorrectTarget(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionMrEnclaveMismatch(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionSignerAlreadySet(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GasLimitExceeded(element) => ::core::fmt::Display::fmt(element, f),
+                Self::Generic(element) => ::core::fmt::Display::fmt(element, f),
+                Self::IncorrectFunctionId(element) => ::core::fmt::Display::fmt(element, f),
                 Self::IncorrectReportedTime(element) => ::core::fmt::Display::fmt(element, f),
+                Self::IncorrectToken(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InitializationFunctionReverted(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
                 Self::InsufficientBalance(element) => ::core::fmt::Display::fmt(element, f),
+                Self::InsufficientCallBalance(element) => ::core::fmt::Display::fmt(element, f),
+                Self::InsufficientCallFeePaid(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InsufficientNodes(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InsufficientSamples(element) => ::core::fmt::Display::fmt(element, f),
                 Self::IntervalHistoryNotRecorded(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InvalidArgument(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InvalidAuthority(element) => ::core::fmt::Display::fmt(element, f),
+                Self::InvalidCallId(element) => ::core::fmt::Display::fmt(element, f),
+                Self::InvalidCallbackParams(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InvalidEnclave(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InvalidEntry(element) => ::core::fmt::Display::fmt(element, f),
+                Self::InvalidRoutineId(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InvalidSignature(element) => ::core::fmt::Display::fmt(element, f),
+                Self::InvalidSigner(element) => ::core::fmt::Display::fmt(element, f),
                 Self::InvalidStatus(element) => ::core::fmt::Display::fmt(element, f),
                 Self::MrEnclaveNotAllowed(element) => ::core::fmt::Display::fmt(element, f),
                 Self::OracleAlreadyExists(element) => ::core::fmt::Display::fmt(element, f),
@@ -3029,7 +13363,14 @@ pub mod switchboard {
                 Self::OracleQueueDoesNotExist(element) => ::core::fmt::Display::fmt(element, f),
                 Self::PermissionDenied(element) => ::core::fmt::Display::fmt(element, f),
                 Self::QueuesDoNotMatch(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RequestAlreadyExists(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RequestIdAlreadyExists(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RoutineIdAlreadyExists(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RoutinesDisabled(element) => ::core::fmt::Display::fmt(element, f),
+                Self::StakeNotReady(element) => ::core::fmt::Display::fmt(element, f),
+                Self::StakeNotReadyForWithdrawal(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SubmittedResultsMismatch(element) => ::core::fmt::Display::fmt(element, f),
+                Self::TokenTransferFailure(element) => ::core::fmt::Display::fmt(element, f),
                 Self::TransactionExpired(element) => ::core::fmt::Display::fmt(element, f),
                 Self::RevertString(s) => ::core::fmt::Display::fmt(s, f),
             }
@@ -3080,6 +13421,16 @@ pub mod switchboard {
             Self::AttestationQueueDoesNotExist(value)
         }
     }
+    impl ::core::convert::From<CallExceededMaxGasCost> for SwitchboardErrors {
+        fn from(value: CallExceededMaxGasCost) -> Self {
+            Self::CallExceededMaxGasCost(value)
+        }
+    }
+    impl ::core::convert::From<CallIdAlreadyExists> for SwitchboardErrors {
+        fn from(value: CallIdAlreadyExists) -> Self {
+            Self::CallIdAlreadyExists(value)
+        }
+    }
     impl ::core::convert::From<ECDSAInvalidSignature> for SwitchboardErrors {
         fn from(value: ECDSAInvalidSignature) -> Self {
             Self::ECDSAInvalidSignature(value)
@@ -3118,6 +13469,11 @@ pub mod switchboard {
     impl ::core::convert::From<EnclaveNotAtQueueIdx> for SwitchboardErrors {
         fn from(value: EnclaveNotAtQueueIdx) -> Self {
             Self::EnclaveNotAtQueueIdx(value)
+        }
+    }
+    impl ::core::convert::From<EnclaveNotFullyStaked> for SwitchboardErrors {
+        fn from(value: EnclaveNotFullyStaked) -> Self {
+            Self::EnclaveNotFullyStaked(value)
         }
     }
     impl ::core::convert::From<EnclaveNotOnQueue> for SwitchboardErrors {
@@ -3160,6 +13516,16 @@ pub mod switchboard {
             Self::FunctionDoesNotExist(value)
         }
     }
+    impl ::core::convert::From<FunctionFeeTooLow> for SwitchboardErrors {
+        fn from(value: FunctionFeeTooLow) -> Self {
+            Self::FunctionFeeTooLow(value)
+        }
+    }
+    impl ::core::convert::From<FunctionIncorrectTarget> for SwitchboardErrors {
+        fn from(value: FunctionIncorrectTarget) -> Self {
+            Self::FunctionIncorrectTarget(value)
+        }
+    }
     impl ::core::convert::From<FunctionMrEnclaveMismatch> for SwitchboardErrors {
         fn from(value: FunctionMrEnclaveMismatch) -> Self {
             Self::FunctionMrEnclaveMismatch(value)
@@ -3175,9 +13541,24 @@ pub mod switchboard {
             Self::GasLimitExceeded(value)
         }
     }
+    impl ::core::convert::From<Generic> for SwitchboardErrors {
+        fn from(value: Generic) -> Self {
+            Self::Generic(value)
+        }
+    }
+    impl ::core::convert::From<IncorrectFunctionId> for SwitchboardErrors {
+        fn from(value: IncorrectFunctionId) -> Self {
+            Self::IncorrectFunctionId(value)
+        }
+    }
     impl ::core::convert::From<IncorrectReportedTime> for SwitchboardErrors {
         fn from(value: IncorrectReportedTime) -> Self {
             Self::IncorrectReportedTime(value)
+        }
+    }
+    impl ::core::convert::From<IncorrectToken> for SwitchboardErrors {
+        fn from(value: IncorrectToken) -> Self {
+            Self::IncorrectToken(value)
         }
     }
     impl ::core::convert::From<InitializationFunctionReverted> for SwitchboardErrors {
@@ -3188,6 +13569,16 @@ pub mod switchboard {
     impl ::core::convert::From<InsufficientBalance> for SwitchboardErrors {
         fn from(value: InsufficientBalance) -> Self {
             Self::InsufficientBalance(value)
+        }
+    }
+    impl ::core::convert::From<InsufficientCallBalance> for SwitchboardErrors {
+        fn from(value: InsufficientCallBalance) -> Self {
+            Self::InsufficientCallBalance(value)
+        }
+    }
+    impl ::core::convert::From<InsufficientCallFeePaid> for SwitchboardErrors {
+        fn from(value: InsufficientCallFeePaid) -> Self {
+            Self::InsufficientCallFeePaid(value)
         }
     }
     impl ::core::convert::From<InsufficientNodes> for SwitchboardErrors {
@@ -3215,6 +13606,16 @@ pub mod switchboard {
             Self::InvalidAuthority(value)
         }
     }
+    impl ::core::convert::From<InvalidCallId> for SwitchboardErrors {
+        fn from(value: InvalidCallId) -> Self {
+            Self::InvalidCallId(value)
+        }
+    }
+    impl ::core::convert::From<InvalidCallbackParams> for SwitchboardErrors {
+        fn from(value: InvalidCallbackParams) -> Self {
+            Self::InvalidCallbackParams(value)
+        }
+    }
     impl ::core::convert::From<InvalidEnclave> for SwitchboardErrors {
         fn from(value: InvalidEnclave) -> Self {
             Self::InvalidEnclave(value)
@@ -3225,9 +13626,19 @@ pub mod switchboard {
             Self::InvalidEntry(value)
         }
     }
+    impl ::core::convert::From<InvalidRoutineId> for SwitchboardErrors {
+        fn from(value: InvalidRoutineId) -> Self {
+            Self::InvalidRoutineId(value)
+        }
+    }
     impl ::core::convert::From<InvalidSignature> for SwitchboardErrors {
         fn from(value: InvalidSignature) -> Self {
             Self::InvalidSignature(value)
+        }
+    }
+    impl ::core::convert::From<InvalidSigner> for SwitchboardErrors {
+        fn from(value: InvalidSigner) -> Self {
+            Self::InvalidSigner(value)
         }
     }
     impl ::core::convert::From<InvalidStatus> for SwitchboardErrors {
@@ -3275,9 +13686,44 @@ pub mod switchboard {
             Self::QueuesDoNotMatch(value)
         }
     }
+    impl ::core::convert::From<RequestAlreadyExists> for SwitchboardErrors {
+        fn from(value: RequestAlreadyExists) -> Self {
+            Self::RequestAlreadyExists(value)
+        }
+    }
+    impl ::core::convert::From<RequestIdAlreadyExists> for SwitchboardErrors {
+        fn from(value: RequestIdAlreadyExists) -> Self {
+            Self::RequestIdAlreadyExists(value)
+        }
+    }
+    impl ::core::convert::From<RoutineIdAlreadyExists> for SwitchboardErrors {
+        fn from(value: RoutineIdAlreadyExists) -> Self {
+            Self::RoutineIdAlreadyExists(value)
+        }
+    }
+    impl ::core::convert::From<RoutinesDisabled> for SwitchboardErrors {
+        fn from(value: RoutinesDisabled) -> Self {
+            Self::RoutinesDisabled(value)
+        }
+    }
+    impl ::core::convert::From<StakeNotReady> for SwitchboardErrors {
+        fn from(value: StakeNotReady) -> Self {
+            Self::StakeNotReady(value)
+        }
+    }
+    impl ::core::convert::From<StakeNotReadyForWithdrawal> for SwitchboardErrors {
+        fn from(value: StakeNotReadyForWithdrawal) -> Self {
+            Self::StakeNotReadyForWithdrawal(value)
+        }
+    }
     impl ::core::convert::From<SubmittedResultsMismatch> for SwitchboardErrors {
         fn from(value: SubmittedResultsMismatch) -> Self {
             Self::SubmittedResultsMismatch(value)
+        }
+    }
+    impl ::core::convert::From<TokenTransferFailure> for SwitchboardErrors {
+        fn from(value: TokenTransferFailure) -> Self {
+            Self::TokenTransferFailure(value)
         }
     }
     impl ::core::convert::From<TransactionExpired> for SwitchboardErrors {
@@ -3505,6 +13951,24 @@ pub mod switchboard {
         Eq,
         Hash,
     )]
+    #[ethevent(name = "Approval", abi = "Approval(address,address,uint256)")]
+    pub struct ApprovalFilter {
+        #[ethevent(indexed)]
+        pub owner: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub spender: ::ethers::core::types::Address,
+        pub value: ::ethers::core::types::U256,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
     #[ethevent(
         name = "AttestationQueueAccountInit",
         abi = "AttestationQueueAccountInit(address,address)"
@@ -3593,7 +14057,7 @@ pub mod switchboard {
     )]
     pub struct EnclaveAccountInitFilter {
         #[ethevent(indexed)]
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         #[ethevent(indexed)]
         pub account_id: ::ethers::core::types::Address,
     }
@@ -3629,7 +14093,7 @@ pub mod switchboard {
         #[ethevent(indexed)]
         pub enclave_id: ::ethers::core::types::Address,
         #[ethevent(indexed)]
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
     }
     #[derive(
         Clone,
@@ -3664,16 +14128,16 @@ pub mod switchboard {
         Hash,
     )]
     #[ethevent(
-        name = "EnclaveRotateAuthority",
-        abi = "EnclaveRotateAuthority(address,address,address)"
+        name = "EnclaveRotateSigner",
+        abi = "EnclaveRotateSigner(address,address,address)"
     )]
-    pub struct EnclaveRotateAuthorityFilter {
+    pub struct EnclaveRotateSignerFilter {
         #[ethevent(indexed)]
         pub queue_id: ::ethers::core::types::Address,
         #[ethevent(indexed)]
-        pub old_authority: ::ethers::core::types::Address,
+        pub old_signer: ::ethers::core::types::Address,
         #[ethevent(indexed)]
-        pub new_authority: ::ethers::core::types::Address,
+        pub new_signer: ::ethers::core::types::Address,
     }
     #[derive(
         Clone,
@@ -3729,7 +14193,7 @@ pub mod switchboard {
     )]
     #[ethevent(
         name = "FunctionCallEvent",
-        abi = "FunctionCallEvent(address,address,uint256,bytes)"
+        abi = "FunctionCallEvent(address,address,address,bytes)"
     )]
     pub struct FunctionCallEventFilter {
         #[ethevent(indexed)]
@@ -3737,30 +14201,7 @@ pub mod switchboard {
         #[ethevent(indexed)]
         pub sender: ::ethers::core::types::Address,
         #[ethevent(indexed)]
-        pub call_id: ::ethers::core::types::U256,
-        pub params: ::ethers::core::types::Bytes,
-    }
-    #[derive(
-        Clone,
-        ::ethers::contract::EthEvent,
-        ::ethers::contract::EthDisplay,
-        Default,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-    )]
-    #[ethevent(
-        name = "FunctionCallFailure",
-        abi = "FunctionCallFailure(address,address,uint256,bytes)"
-    )]
-    pub struct FunctionCallFailureFilter {
-        #[ethevent(indexed)]
-        pub function_id: ::ethers::core::types::Address,
-        #[ethevent(indexed)]
-        pub sender: ::ethers::core::types::Address,
-        #[ethevent(indexed)]
-        pub call_id: ::ethers::core::types::U256,
+        pub call_id: ::ethers::core::types::Address,
         pub params: ::ethers::core::types::Bytes,
     }
     #[derive(
@@ -3836,24 +14277,10 @@ pub mod switchboard {
         Eq,
         Hash,
     )]
-    #[ethevent(name = "NewRandomValue", abi = "NewRandomValue(uint256)")]
-    pub struct NewRandomValueFilter {
-        pub value: ::ethers::core::types::U256,
-    }
-    #[derive(
-        Clone,
-        ::ethers::contract::EthEvent,
-        ::ethers::contract::EthDisplay,
-        Default,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-    )]
     #[ethevent(name = "OracleAccountInit", abi = "OracleAccountInit(address,address)")]
     pub struct OracleAccountInitFilter {
         #[ethevent(indexed)]
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         #[ethevent(indexed)]
         pub account_id: ::ethers::core::types::Address,
     }
@@ -4047,6 +14474,28 @@ pub mod switchboard {
         Hash,
     )]
     #[ethevent(
+        name = "OracleRotateSigner",
+        abi = "OracleRotateSigner(address,address,address)"
+    )]
+    pub struct OracleRotateSignerFilter {
+        #[ethevent(indexed)]
+        pub queue_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub old_signer: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub new_signer: ::ethers::core::types::Address,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(
         name = "OracleSetConfig",
         abi = "OracleSetConfig(address,string,address,address,address)"
     )]
@@ -4055,10 +14504,10 @@ pub mod switchboard {
         pub oracle_id: ::ethers::core::types::Address,
         pub name: ::std::string::String,
         #[ethevent(indexed)]
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         #[ethevent(indexed)]
         pub queue_id: ::ethers::core::types::Address,
-        pub owner: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
     }
     #[derive(
         Clone,
@@ -4096,6 +14545,230 @@ pub mod switchboard {
         pub queue_id: ::ethers::core::types::Address,
         pub mr_enclave: [u8; 32],
     }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(
+        name = "RequestEvent",
+        abi = "RequestEvent(address,address,address,bytes)"
+    )]
+    pub struct RequestEventFilter {
+        #[ethevent(indexed)]
+        pub function_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub sender: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub request_id: ::ethers::core::types::Address,
+        pub params: ::ethers::core::types::Bytes,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(name = "RequestFund", abi = "RequestFund(address,address,uint256)")]
+    pub struct RequestFundFilter {
+        #[ethevent(indexed)]
+        pub function_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub funder: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(
+        name = "RequestWithdraw",
+        abi = "RequestWithdraw(address,address,uint256)"
+    )]
+    pub struct RequestWithdrawFilter {
+        #[ethevent(indexed)]
+        pub function_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub funder: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(
+        name = "RoutineCreated",
+        abi = "RoutineCreated(address,address,address,bytes)"
+    )]
+    pub struct RoutineCreatedFilter {
+        #[ethevent(indexed)]
+        pub function_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub sender: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub routine_id: ::ethers::core::types::Address,
+        pub params: ::ethers::core::types::Bytes,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(name = "RoutineFund", abi = "RoutineFund(address,address,uint256)")]
+    pub struct RoutineFundFilter {
+        #[ethevent(indexed)]
+        pub function_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub funder: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(
+        name = "RoutineWithdraw",
+        abi = "RoutineWithdraw(address,address,uint256)"
+    )]
+    pub struct RoutineWithdrawFilter {
+        #[ethevent(indexed)]
+        pub function_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub funder: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(
+        name = "StakeAdded",
+        abi = "StakeAdded(address,address,uint256,address)"
+    )]
+    pub struct StakeAddedFilter {
+        #[ethevent(indexed)]
+        pub queue_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub staker: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+        pub sender: ::ethers::core::types::Address,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(
+        name = "StakeRemoved",
+        abi = "StakeRemoved(address,address,uint256,address)"
+    )]
+    pub struct StakeRemovedFilter {
+        #[ethevent(indexed)]
+        pub queue_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub staker: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+        pub sender: ::ethers::core::types::Address,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(name = "Transfer", abi = "Transfer(address,address,uint256)")]
+    pub struct TransferFilter {
+        #[ethevent(indexed)]
+        pub from: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub to: ::ethers::core::types::Address,
+        pub value: ::ethers::core::types::U256,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(name = "Unstaked", abi = "Unstaked(address,address,uint256,address)")]
+    pub struct UnstakedFilter {
+        #[ethevent(indexed)]
+        pub queue_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub staker: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+        pub sender: ::ethers::core::types::Address,
+    }
+    #[derive(
+        Clone,
+        ::ethers::contract::EthEvent,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethevent(name = "VerifyFailed", abi = "VerifyFailed(address,address,uint256)")]
+    pub struct VerifyFailedFilter {
+        #[ethevent(indexed)]
+        pub function_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub call_id: ::ethers::core::types::Address,
+        #[ethevent(indexed)]
+        pub code: ::ethers::core::types::U256,
+    }
     ///Container type for all of the contract's events
     #[derive(Clone, ::ethers::contract::EthAbiType, Debug, PartialEq, Eq, Hash)]
     pub enum SwitchboardEvents {
@@ -4109,6 +14782,7 @@ pub mod switchboard {
         AggregatorSettingsUpdatedFilter(AggregatorSettingsUpdatedFilter),
         AggregatorUpdateFilter(AggregatorUpdateFilter),
         AggregatorWithdrawEventFilter(AggregatorWithdrawEventFilter),
+        ApprovalFilter(ApprovalFilter),
         AttestationQueueAccountInitFilter(AttestationQueueAccountInitFilter),
         AttestationQueuePermissionUpdatedFilter(AttestationQueuePermissionUpdatedFilter),
         AttestationQueueSetConfigFilter(AttestationQueueSetConfigFilter),
@@ -4117,15 +14791,13 @@ pub mod switchboard {
         EnclaveGCFilter(EnclaveGCFilter),
         EnclaveHeartbeatFilter(EnclaveHeartbeatFilter),
         EnclavePayoutEventFilter(EnclavePayoutEventFilter),
-        EnclaveRotateAuthorityFilter(EnclaveRotateAuthorityFilter),
+        EnclaveRotateSignerFilter(EnclaveRotateSignerFilter),
         EnclaveVerifyRequestFilter(EnclaveVerifyRequestFilter),
         FunctionAccountInitFilter(FunctionAccountInitFilter),
         FunctionCallEventFilter(FunctionCallEventFilter),
-        FunctionCallFailureFilter(FunctionCallFailureFilter),
         FunctionCallFundFilter(FunctionCallFundFilter),
         FunctionFundFilter(FunctionFundFilter),
         FunctionWithdrawFilter(FunctionWithdrawFilter),
-        NewRandomValueFilter(NewRandomValueFilter),
         OracleAccountInitFilter(OracleAccountInitFilter),
         OracleGCFilter(OracleGCFilter),
         OracleHeartbeatFilter(OracleHeartbeatFilter),
@@ -4136,9 +14808,21 @@ pub mod switchboard {
         OracleQueueSetAttestationConfigFilter(OracleQueueSetAttestationConfigFilter),
         OracleQueueSetConfigFilter(OracleQueueSetConfigFilter),
         OracleQueueSetPermissionFilter(OracleQueueSetPermissionFilter),
+        OracleRotateSignerFilter(OracleRotateSignerFilter),
         OracleSetConfigFilter(OracleSetConfigFilter),
         OwnershipTransferredFilter(OwnershipTransferredFilter),
         RemoveMrEnclaveFilter(RemoveMrEnclaveFilter),
+        RequestEventFilter(RequestEventFilter),
+        RequestFundFilter(RequestFundFilter),
+        RequestWithdrawFilter(RequestWithdrawFilter),
+        RoutineCreatedFilter(RoutineCreatedFilter),
+        RoutineFundFilter(RoutineFundFilter),
+        RoutineWithdrawFilter(RoutineWithdrawFilter),
+        StakeAddedFilter(StakeAddedFilter),
+        StakeRemovedFilter(StakeRemovedFilter),
+        TransferFilter(TransferFilter),
+        UnstakedFilter(UnstakedFilter),
+        VerifyFailedFilter(VerifyFailedFilter),
     }
     impl ::ethers::contract::EthLogDecode for SwitchboardEvents {
         fn decode_log(
@@ -4176,6 +14860,9 @@ pub mod switchboard {
             if let Ok(decoded) = AggregatorWithdrawEventFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::AggregatorWithdrawEventFilter(decoded));
             }
+            if let Ok(decoded) = ApprovalFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::ApprovalFilter(decoded));
+            }
             if let Ok(decoded) = AttestationQueueAccountInitFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::AttestationQueueAccountInitFilter(
                     decoded,
@@ -4204,8 +14891,8 @@ pub mod switchboard {
             if let Ok(decoded) = EnclavePayoutEventFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::EnclavePayoutEventFilter(decoded));
             }
-            if let Ok(decoded) = EnclaveRotateAuthorityFilter::decode_log(log) {
-                return Ok(SwitchboardEvents::EnclaveRotateAuthorityFilter(decoded));
+            if let Ok(decoded) = EnclaveRotateSignerFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::EnclaveRotateSignerFilter(decoded));
             }
             if let Ok(decoded) = EnclaveVerifyRequestFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::EnclaveVerifyRequestFilter(decoded));
@@ -4216,9 +14903,6 @@ pub mod switchboard {
             if let Ok(decoded) = FunctionCallEventFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::FunctionCallEventFilter(decoded));
             }
-            if let Ok(decoded) = FunctionCallFailureFilter::decode_log(log) {
-                return Ok(SwitchboardEvents::FunctionCallFailureFilter(decoded));
-            }
             if let Ok(decoded) = FunctionCallFundFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::FunctionCallFundFilter(decoded));
             }
@@ -4227,9 +14911,6 @@ pub mod switchboard {
             }
             if let Ok(decoded) = FunctionWithdrawFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::FunctionWithdrawFilter(decoded));
-            }
-            if let Ok(decoded) = NewRandomValueFilter::decode_log(log) {
-                return Ok(SwitchboardEvents::NewRandomValueFilter(decoded));
             }
             if let Ok(decoded) = OracleAccountInitFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::OracleAccountInitFilter(decoded));
@@ -4263,6 +14944,9 @@ pub mod switchboard {
             if let Ok(decoded) = OracleQueueSetPermissionFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::OracleQueueSetPermissionFilter(decoded));
             }
+            if let Ok(decoded) = OracleRotateSignerFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::OracleRotateSignerFilter(decoded));
+            }
             if let Ok(decoded) = OracleSetConfigFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::OracleSetConfigFilter(decoded));
             }
@@ -4271,6 +14955,39 @@ pub mod switchboard {
             }
             if let Ok(decoded) = RemoveMrEnclaveFilter::decode_log(log) {
                 return Ok(SwitchboardEvents::RemoveMrEnclaveFilter(decoded));
+            }
+            if let Ok(decoded) = RequestEventFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::RequestEventFilter(decoded));
+            }
+            if let Ok(decoded) = RequestFundFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::RequestFundFilter(decoded));
+            }
+            if let Ok(decoded) = RequestWithdrawFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::RequestWithdrawFilter(decoded));
+            }
+            if let Ok(decoded) = RoutineCreatedFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::RoutineCreatedFilter(decoded));
+            }
+            if let Ok(decoded) = RoutineFundFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::RoutineFundFilter(decoded));
+            }
+            if let Ok(decoded) = RoutineWithdrawFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::RoutineWithdrawFilter(decoded));
+            }
+            if let Ok(decoded) = StakeAddedFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::StakeAddedFilter(decoded));
+            }
+            if let Ok(decoded) = StakeRemovedFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::StakeRemovedFilter(decoded));
+            }
+            if let Ok(decoded) = TransferFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::TransferFilter(decoded));
+            }
+            if let Ok(decoded) = UnstakedFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::UnstakedFilter(decoded));
+            }
+            if let Ok(decoded) = VerifyFailedFilter::decode_log(log) {
+                return Ok(SwitchboardEvents::VerifyFailedFilter(decoded));
             }
             Err(::ethers::core::abi::Error::InvalidData)
         }
@@ -4296,6 +15013,7 @@ pub mod switchboard {
                 Self::AggregatorWithdrawEventFilter(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
+                Self::ApprovalFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::AttestationQueueAccountInitFilter(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
@@ -4310,17 +15028,13 @@ pub mod switchboard {
                 Self::EnclaveGCFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::EnclaveHeartbeatFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::EnclavePayoutEventFilter(element) => ::core::fmt::Display::fmt(element, f),
-                Self::EnclaveRotateAuthorityFilter(element) => {
-                    ::core::fmt::Display::fmt(element, f)
-                }
+                Self::EnclaveRotateSignerFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::EnclaveVerifyRequestFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionAccountInitFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionCallEventFilter(element) => ::core::fmt::Display::fmt(element, f),
-                Self::FunctionCallFailureFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionCallFundFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionFundFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionWithdrawFilter(element) => ::core::fmt::Display::fmt(element, f),
-                Self::NewRandomValueFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::OracleAccountInitFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::OracleGCFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::OracleHeartbeatFilter(element) => ::core::fmt::Display::fmt(element, f),
@@ -4341,9 +15055,21 @@ pub mod switchboard {
                 Self::OracleQueueSetPermissionFilter(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
+                Self::OracleRotateSignerFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::OracleSetConfigFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::OwnershipTransferredFilter(element) => ::core::fmt::Display::fmt(element, f),
                 Self::RemoveMrEnclaveFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RequestEventFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RequestFundFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RequestWithdrawFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RoutineCreatedFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RoutineFundFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RoutineWithdrawFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::StakeAddedFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::StakeRemovedFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::TransferFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::UnstakedFilter(element) => ::core::fmt::Display::fmt(element, f),
+                Self::VerifyFailedFilter(element) => ::core::fmt::Display::fmt(element, f),
             }
         }
     }
@@ -4397,6 +15123,11 @@ pub mod switchboard {
             Self::AggregatorWithdrawEventFilter(value)
         }
     }
+    impl ::core::convert::From<ApprovalFilter> for SwitchboardEvents {
+        fn from(value: ApprovalFilter) -> Self {
+            Self::ApprovalFilter(value)
+        }
+    }
     impl ::core::convert::From<AttestationQueueAccountInitFilter> for SwitchboardEvents {
         fn from(value: AttestationQueueAccountInitFilter) -> Self {
             Self::AttestationQueueAccountInitFilter(value)
@@ -4437,9 +15168,9 @@ pub mod switchboard {
             Self::EnclavePayoutEventFilter(value)
         }
     }
-    impl ::core::convert::From<EnclaveRotateAuthorityFilter> for SwitchboardEvents {
-        fn from(value: EnclaveRotateAuthorityFilter) -> Self {
-            Self::EnclaveRotateAuthorityFilter(value)
+    impl ::core::convert::From<EnclaveRotateSignerFilter> for SwitchboardEvents {
+        fn from(value: EnclaveRotateSignerFilter) -> Self {
+            Self::EnclaveRotateSignerFilter(value)
         }
     }
     impl ::core::convert::From<EnclaveVerifyRequestFilter> for SwitchboardEvents {
@@ -4457,11 +15188,6 @@ pub mod switchboard {
             Self::FunctionCallEventFilter(value)
         }
     }
-    impl ::core::convert::From<FunctionCallFailureFilter> for SwitchboardEvents {
-        fn from(value: FunctionCallFailureFilter) -> Self {
-            Self::FunctionCallFailureFilter(value)
-        }
-    }
     impl ::core::convert::From<FunctionCallFundFilter> for SwitchboardEvents {
         fn from(value: FunctionCallFundFilter) -> Self {
             Self::FunctionCallFundFilter(value)
@@ -4475,11 +15201,6 @@ pub mod switchboard {
     impl ::core::convert::From<FunctionWithdrawFilter> for SwitchboardEvents {
         fn from(value: FunctionWithdrawFilter) -> Self {
             Self::FunctionWithdrawFilter(value)
-        }
-    }
-    impl ::core::convert::From<NewRandomValueFilter> for SwitchboardEvents {
-        fn from(value: NewRandomValueFilter) -> Self {
-            Self::NewRandomValueFilter(value)
         }
     }
     impl ::core::convert::From<OracleAccountInitFilter> for SwitchboardEvents {
@@ -4532,6 +15253,11 @@ pub mod switchboard {
             Self::OracleQueueSetPermissionFilter(value)
         }
     }
+    impl ::core::convert::From<OracleRotateSignerFilter> for SwitchboardEvents {
+        fn from(value: OracleRotateSignerFilter) -> Self {
+            Self::OracleRotateSignerFilter(value)
+        }
+    }
     impl ::core::convert::From<OracleSetConfigFilter> for SwitchboardEvents {
         fn from(value: OracleSetConfigFilter) -> Self {
             Self::OracleSetConfigFilter(value)
@@ -4545,6 +15271,61 @@ pub mod switchboard {
     impl ::core::convert::From<RemoveMrEnclaveFilter> for SwitchboardEvents {
         fn from(value: RemoveMrEnclaveFilter) -> Self {
             Self::RemoveMrEnclaveFilter(value)
+        }
+    }
+    impl ::core::convert::From<RequestEventFilter> for SwitchboardEvents {
+        fn from(value: RequestEventFilter) -> Self {
+            Self::RequestEventFilter(value)
+        }
+    }
+    impl ::core::convert::From<RequestFundFilter> for SwitchboardEvents {
+        fn from(value: RequestFundFilter) -> Self {
+            Self::RequestFundFilter(value)
+        }
+    }
+    impl ::core::convert::From<RequestWithdrawFilter> for SwitchboardEvents {
+        fn from(value: RequestWithdrawFilter) -> Self {
+            Self::RequestWithdrawFilter(value)
+        }
+    }
+    impl ::core::convert::From<RoutineCreatedFilter> for SwitchboardEvents {
+        fn from(value: RoutineCreatedFilter) -> Self {
+            Self::RoutineCreatedFilter(value)
+        }
+    }
+    impl ::core::convert::From<RoutineFundFilter> for SwitchboardEvents {
+        fn from(value: RoutineFundFilter) -> Self {
+            Self::RoutineFundFilter(value)
+        }
+    }
+    impl ::core::convert::From<RoutineWithdrawFilter> for SwitchboardEvents {
+        fn from(value: RoutineWithdrawFilter) -> Self {
+            Self::RoutineWithdrawFilter(value)
+        }
+    }
+    impl ::core::convert::From<StakeAddedFilter> for SwitchboardEvents {
+        fn from(value: StakeAddedFilter) -> Self {
+            Self::StakeAddedFilter(value)
+        }
+    }
+    impl ::core::convert::From<StakeRemovedFilter> for SwitchboardEvents {
+        fn from(value: StakeRemovedFilter) -> Self {
+            Self::StakeRemovedFilter(value)
+        }
+    }
+    impl ::core::convert::From<TransferFilter> for SwitchboardEvents {
+        fn from(value: TransferFilter) -> Self {
+            Self::TransferFilter(value)
+        }
+    }
+    impl ::core::convert::From<UnstakedFilter> for SwitchboardEvents {
+        fn from(value: UnstakedFilter) -> Self {
+            Self::UnstakedFilter(value)
+        }
+    }
+    impl ::core::convert::From<VerifyFailedFilter> for SwitchboardEvents {
+        fn from(value: VerifyFailedFilter) -> Self {
+            Self::VerifyFailedFilter(value)
         }
     }
     ///Container type for all input parameters for the `addMrEnclaveToAttestationQueue` function with signature `addMrEnclaveToAttestationQueue(address,bytes32)` and selector `0xad435b9d`
@@ -4566,6 +15347,25 @@ pub mod switchboard {
         pub queue_id: ::ethers::core::types::Address,
         pub mr_enclave: [u8; 32],
     }
+    ///Container type for all input parameters for the `addMrEnclaveToFunction` function with signature `addMrEnclaveToFunction(address,bytes32)` and selector `0x45fc160c`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "addMrEnclaveToFunction",
+        abi = "addMrEnclaveToFunction(address,bytes32)"
+    )]
+    pub struct AddMrEnclaveToFunctionCall {
+        pub function_id: ::ethers::core::types::Address,
+        pub mr_enclave: [u8; 32],
+    }
     ///Container type for all input parameters for the `addMrEnclaveToOracleQueue` function with signature `addMrEnclaveToOracleQueue(address,bytes32)` and selector `0x51a426d8`
     #[derive(
         Clone,
@@ -4584,6 +15384,22 @@ pub mod switchboard {
     pub struct AddMrEnclaveToOracleQueueCall {
         pub queue_id: ::ethers::core::types::Address,
         pub mr_enclave: [u8; 32],
+    }
+    ///Container type for all input parameters for the `addStake` function with signature `addStake(address,uint256)` and selector `0x6374299e`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "addStake", abi = "addStake(address,uint256)")]
+    pub struct AddStakeCall {
+        pub enclave_id: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
     }
     ///Container type for all input parameters for the `aggregatorEscrowFund` function with signature `aggregatorEscrowFund(address)` and selector `0xd55dcc5b`
     #[derive(
@@ -4651,6 +15467,38 @@ pub mod switchboard {
     pub struct AggregatorsCall {
         pub aggregator_id: ::ethers::core::types::Address,
     }
+    ///Container type for all input parameters for the `allowance` function with signature `allowance(address,address)` and selector `0xdd62ed3e`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "allowance", abi = "allowance(address,address)")]
+    pub struct AllowanceCall {
+        pub owner: ::ethers::core::types::Address,
+        pub spender: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `approve` function with signature `approve(address,uint256)` and selector `0x095ea7b3`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "approve", abi = "approve(address,uint256)")]
+    pub struct ApproveCall {
+        pub spender: ::ethers::core::types::Address,
+        pub value: ::ethers::core::types::U256,
+    }
     ///Container type for all input parameters for the `attestationQueueHasMrEnclave` function with signature `attestationQueueHasMrEnclave(address,bytes32)` and selector `0x63fcd771`
     #[derive(
         Clone,
@@ -4685,6 +15533,36 @@ pub mod switchboard {
     pub struct AttestationQueuesCall {
         pub queue_id: ::ethers::core::types::Address,
     }
+    ///Container type for all input parameters for the `balanceOf` function with signature `balanceOf(address)` and selector `0x70a08231`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "balanceOf", abi = "balanceOf(address)")]
+    pub struct BalanceOfCall {
+        pub account: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `callBalances` function with signature `callBalances(address[])` and selector `0x0aaeffe5`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "callBalances", abi = "callBalances(address[])")]
+    pub struct CallBalancesCall {
+        pub call_ids: ::std::vec::Vec<::ethers::core::types::Address>,
+    }
     ///Container type for all input parameters for the `callFunction` function with signature `callFunction(address,bytes)` and selector `0x9c23da50`
     #[derive(
         Clone,
@@ -4700,21 +15578,6 @@ pub mod switchboard {
     pub struct CallFunctionCall {
         pub function_id: ::ethers::core::types::Address,
         pub params: ::ethers::core::types::Bytes,
-    }
-    ///Container type for all input parameters for the `callback` function with signature `callback(uint256)` and selector `0xff585caf`
-    #[derive(
-        Clone,
-        ::ethers::contract::EthCall,
-        ::ethers::contract::EthDisplay,
-        Default,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-    )]
-    #[ethcall(name = "callback", abi = "callback(uint256)")]
-    pub struct CallbackCall {
-        pub value: ::ethers::core::types::U256,
     }
     ///Container type for all input parameters for the `createAggregator` function with signature `createAggregator(string,address,uint256,uint256,uint256,string,address,uint256,uint256,uint256,bool)` and selector `0x84ed8177`
     #[derive(
@@ -4783,9 +15646,9 @@ pub mod switchboard {
     )]
     #[ethcall(name = "createEnclave", abi = "createEnclave(address,address,address)")]
     pub struct CreateEnclaveCall {
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         pub queue_id: ::ethers::core::types::Address,
-        pub owner: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `createEnclaveWithId` function with signature `createEnclaveWithId(address,address,address,address)` and selector `0xc7c1143e`
     #[derive(
@@ -4804,9 +15667,9 @@ pub mod switchboard {
     )]
     pub struct CreateEnclaveWithIdCall {
         pub enclave_id: ::ethers::core::types::Address,
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         pub queue_id: ::ethers::core::types::Address,
-        pub owner: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `createFunction` function with signature `createFunction(string,address,address,string,string,string,string,string,address[])` and selector `0xc4829580`
     #[derive(
@@ -4878,9 +15741,9 @@ pub mod switchboard {
     )]
     pub struct CreateOracleCall {
         pub name: ::std::string::String,
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         pub queue_id: ::ethers::core::types::Address,
-        pub owner: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `createOracleQueue` function with signature `createOracleQueue(string,address,bool,uint256,uint256,uint256)` and selector `0xe7675651`
     #[derive(
@@ -4923,9 +15786,31 @@ pub mod switchboard {
     pub struct CreateOracleWithIdCall {
         pub oracle_id: ::ethers::core::types::Address,
         pub name: ::std::string::String,
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         pub queue_id: ::ethers::core::types::Address,
-        pub owner: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `createRoutineWithId` function with signature `createRoutineWithId(address,address,address,bytes,string)` and selector `0x410d3013`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "createRoutineWithId",
+        abi = "createRoutineWithId(address,address,address,bytes,string)"
+    )]
+    pub struct CreateRoutineWithIdCall {
+        pub routine_id: ::ethers::core::types::Address,
+        pub function_id: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
+        pub params: ::ethers::core::types::Bytes,
+        pub schedule: ::std::string::String,
     }
     ///Container type for all input parameters for the `diamondCut` function with signature `diamondCut((address,uint8,bytes4[])[],address,bytes)` and selector `0x1f931c1c`
     #[derive(
@@ -4946,24 +15831,6 @@ pub mod switchboard {
         pub diamond_cut: ::std::vec::Vec<FacetCut>,
         pub init: ::ethers::core::types::Address,
         pub calldata: ::ethers::core::types::Bytes,
-    }
-    ///Container type for all input parameters for the `enclaveAuthorityToEnclaveAddress` function with signature `enclaveAuthorityToEnclaveAddress(address)` and selector `0x5a6fe378`
-    #[derive(
-        Clone,
-        ::ethers::contract::EthCall,
-        ::ethers::contract::EthDisplay,
-        Default,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-    )]
-    #[ethcall(
-        name = "enclaveAuthorityToEnclaveAddress",
-        abi = "enclaveAuthorityToEnclaveAddress(address)"
-    )]
-    pub struct EnclaveAuthorityToEnclaveAddressCall {
-        pub authority: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `enclaveGarbageCollect` function with signature `enclaveGarbageCollect(address,uint256)` and selector `0xc06e4eda`
     #[derive(
@@ -4999,6 +15866,24 @@ pub mod switchboard {
     pub struct EnclaveHeartbeatCall {
         pub enclave_id: ::ethers::core::types::Address,
     }
+    ///Container type for all input parameters for the `enclaveSignerToEnclaveId` function with signature `enclaveSignerToEnclaveId(address)` and selector `0x2ff75ec2`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "enclaveSignerToEnclaveId",
+        abi = "enclaveSignerToEnclaveId(address)"
+    )]
+    pub struct EnclaveSignerToEnclaveIdCall {
+        pub signer: ::ethers::core::types::Address,
+    }
     ///Container type for all input parameters for the `enclaves` function with signature `enclaves(address)` and selector `0xfaeedb07`
     #[derive(
         Clone,
@@ -5013,6 +15898,22 @@ pub mod switchboard {
     #[ethcall(name = "enclaves", abi = "enclaves(address)")]
     pub struct EnclavesCall {
         pub enclave_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `estimatedRunCost` function with signature `estimatedRunCost(address,uint256)` and selector `0x3da87438`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "estimatedRunCost", abi = "estimatedRunCost(address,uint256)")]
+    pub struct EstimatedRunCostCall {
+        pub function_id: ::ethers::core::types::Address,
+        pub gas_price: ::ethers::core::types::U256,
     }
     ///Container type for all input parameters for the `facetAddress` function with signature `facetAddress(bytes4)` and selector `0xcdffacc6`
     #[derive(
@@ -5090,6 +15991,24 @@ pub mod switchboard {
         pub enclave_id: ::ethers::core::types::Address,
         pub verifier_idx: ::ethers::core::types::U256,
     }
+    ///Container type for all input parameters for the `failFunctionResult` function with signature `failFunctionResult((uint256,address,uint256,uint256,uint8,address[],bytes32[],uint8[]))` and selector `0x52c7cc93`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "failFunctionResult",
+        abi = "failFunctionResult((uint256,address,uint256,uint256,uint8,address[],bytes32[],uint8[]))"
+    )]
+    pub struct FailFunctionResultCall {
+        pub params: FunctionFailParams,
+    }
     ///Container type for all input parameters for the `forceOverrideVerify` function with signature `forceOverrideVerify(address)` and selector `0xe231b12f`
     #[derive(
         Clone,
@@ -5138,6 +16057,36 @@ pub mod switchboard {
     #[ethcall(name = "funcs", abi = "funcs(address)")]
     pub struct FuncsCall {
         pub function_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `functionCallSettings` function with signature `functionCallSettings(address)` and selector `0xa30f8d25`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "functionCallSettings", abi = "functionCallSettings(address)")]
+    pub struct FunctionCallSettingsCall {
+        pub function_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `functionCalls` function with signature `functionCalls(address)` and selector `0x826df326`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "functionCalls", abi = "functionCalls(address)")]
+    pub struct FunctionCallsCall {
+        pub call_id: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `functionEscrowFund` function with signature `functionEscrowFund(address)` and selector `0xba93166c`
     #[derive(
@@ -5189,6 +16138,74 @@ pub mod switchboard {
     pub struct FunctionExistsCall {
         pub function_id: ::ethers::core::types::Address,
     }
+    ///Container type for all input parameters for the `functionSettings` function with signature `functionSettings(address)` and selector `0xce77efa6`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "functionSettings", abi = "functionSettings(address)")]
+    pub struct FunctionSettingsCall {
+        pub function_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `functionVerify` function with signature `functionVerify(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])` and selector `0xa5625b96`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "functionVerify",
+        abi = "functionVerify(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])"
+    )]
+    pub struct FunctionVerifyCall {
+        pub enclave_idx: ::ethers::core::types::U256,
+        pub function_id: ::ethers::core::types::Address,
+        pub delegated_signer_address: ::ethers::core::types::Address,
+        pub observed_time: ::ethers::core::types::U256,
+        pub next_allowed_timestamp: ::ethers::core::types::U256,
+        pub is_failure: bool,
+        pub mr_enclave: [u8; 32],
+        pub transactions: ::std::vec::Vec<Transaction>,
+        pub signatures: ::std::vec::Vec<::ethers::core::types::Bytes>,
+    }
+    ///Container type for all input parameters for the `functionVerifyRequest` function with signature `functionVerifyRequest(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[],address[])` and selector `0xb8390a56`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "functionVerifyRequest",
+        abi = "functionVerifyRequest(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[],address[])"
+    )]
+    pub struct FunctionVerifyRequestCall {
+        pub enclave_idx: ::ethers::core::types::U256,
+        pub function_id: ::ethers::core::types::Address,
+        pub delegated_signer_address: ::ethers::core::types::Address,
+        pub observed_time: ::ethers::core::types::U256,
+        pub next_allowed_timestamp: ::ethers::core::types::U256,
+        pub is_failure: bool,
+        pub mr_enclave: [u8; 32],
+        pub transactions: ::std::vec::Vec<Transaction>,
+        pub signatures: ::std::vec::Vec<::ethers::core::types::Bytes>,
+        pub function_call_ids: ::std::vec::Vec<::ethers::core::types::Address>,
+    }
     ///Container type for all input parameters for the `getActiveFunctionCallsByQueue` function with signature `getActiveFunctionCallsByQueue(address)` and selector `0xfa88c651`
     #[derive(
         Clone,
@@ -5223,6 +16240,42 @@ pub mod switchboard {
         abi = "getActiveFunctionsByQueue(address)"
     )]
     pub struct GetActiveFunctionsByQueueCall {
+        pub queue_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getActiveRequestsByQueue` function with signature `getActiveRequestsByQueue(address)` and selector `0x55c053c3`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "getActiveRequestsByQueue",
+        abi = "getActiveRequestsByQueue(address)"
+    )]
+    pub struct GetActiveRequestsByQueueCall {
+        pub queue_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getActiveRoutinesByQueue` function with signature `getActiveRoutinesByQueue(address)` and selector `0x9da3c6eb`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "getActiveRoutinesByQueue",
+        abi = "getActiveRoutinesByQueue(address)"
+    )]
+    pub struct GetActiveRoutinesByQueueCall {
         pub queue_id: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `getAggregatorsByAuthority` function with signature `getAggregatorsByAuthority(address)` and selector `0x911c30f3`
@@ -5332,6 +16385,39 @@ pub mod switchboard {
     pub struct GetEnclavesCall {
         pub queue_id: ::ethers::core::types::Address,
     }
+    ///Container type for all input parameters for the `getFunctionMrEnclaves` function with signature `getFunctionMrEnclaves(address)` and selector `0x526112ce`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "getFunctionMrEnclaves", abi = "getFunctionMrEnclaves(address)")]
+    pub struct GetFunctionMrEnclavesCall {
+        pub function_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getFunctionPermittedCallers` function with signature `getFunctionPermittedCallers(address)` and selector `0xafdcbd6a`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "getFunctionPermittedCallers",
+        abi = "getFunctionPermittedCallers(address)"
+    )]
+    pub struct GetFunctionPermittedCallersCall {
+        pub function_id: ::ethers::core::types::Address,
+    }
     ///Container type for all input parameters for the `getFunctionsByAuthority` function with signature `getFunctionsByAuthority(address)` and selector `0x357f633f`
     #[derive(
         Clone,
@@ -5429,6 +16515,109 @@ pub mod switchboard {
     pub struct GetPermissionCall {
         pub granter: ::ethers::core::types::Address,
         pub grantee: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getRequestsByFunctionId` function with signature `getRequestsByFunctionId(address)` and selector `0xb68e3ace`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "getRequestsByFunctionId",
+        abi = "getRequestsByFunctionId(address)"
+    )]
+    pub struct GetRequestsByFunctionIdCall {
+        pub function_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getRoutinesByAuthority` function with signature `getRoutinesByAuthority(address)` and selector `0xb36afb5a`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "getRoutinesByAuthority",
+        abi = "getRoutinesByAuthority(address)"
+    )]
+    pub struct GetRoutinesByAuthorityCall {
+        pub authority: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getRoutinesByFunctionId` function with signature `getRoutinesByFunctionId(address)` and selector `0x27c66c0f`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "getRoutinesByFunctionId",
+        abi = "getRoutinesByFunctionId(address)"
+    )]
+    pub struct GetRoutinesByFunctionIdCall {
+        pub function_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getStakeForEnclave` function with signature `getStakeForEnclave(address)` and selector `0x376d9b41`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "getStakeForEnclave", abi = "getStakeForEnclave(address)")]
+    pub struct GetStakeForEnclaveCall {
+        pub enclave_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getStakeForEnclaveWithToken` function with signature `getStakeForEnclaveWithToken(address,address)` and selector `0x3ff8f2af`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "getStakeForEnclaveWithToken",
+        abi = "getStakeForEnclaveWithToken(address,address)"
+    )]
+    pub struct GetStakeForEnclaveWithTokenCall {
+        pub enclave_id: ::ethers::core::types::Address,
+        pub token: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `getStakingConfig` function with signature `getStakingConfig(address)` and selector `0x5133a68c`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "getStakingConfig", abi = "getStakingConfig(address)")]
+    pub struct GetStakingConfigCall {
+        pub queue_id: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `getTransactionHash` function with signature `getTransactionHash(uint256,uint256,uint256,address,address,bytes)` and selector `0xd93f1970`
     #[derive(
@@ -5661,6 +16850,21 @@ pub mod switchboard {
     )]
     #[ethcall(name = "owner", abi = "owner()")]
     pub struct OwnerCall;
+    ///Container type for all input parameters for the `prepareUnstake` function with signature `prepareUnstake(address)` and selector `0xb8d35d6a`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "prepareUnstake", abi = "prepareUnstake(address)")]
+    pub struct PrepareUnstakeCall {
+        pub enclave_id: ::ethers::core::types::Address,
+    }
     ///Container type for all input parameters for the `queueAttestationConfigs` function with signature `queueAttestationConfigs(address)` and selector `0x6ddc9122`
     #[derive(
         Clone,
@@ -5679,7 +16883,7 @@ pub mod switchboard {
     pub struct QueueAttestationConfigsCall {
         pub queue_id: ::ethers::core::types::Address,
     }
-    ///Container type for all input parameters for the `randomValue` function with signature `randomValue()` and selector `0x276801ec`
+    ///Container type for all input parameters for the `recoverStakeWithToken` function with signature `recoverStakeWithToken(address,address,uint256)` and selector `0x5e8e1ad0`
     #[derive(
         Clone,
         ::ethers::contract::EthCall,
@@ -5690,8 +16894,15 @@ pub mod switchboard {
         Eq,
         Hash,
     )]
-    #[ethcall(name = "randomValue", abi = "randomValue()")]
-    pub struct RandomValueCall;
+    #[ethcall(
+        name = "recoverStakeWithToken",
+        abi = "recoverStakeWithToken(address,address,uint256)"
+    )]
+    pub struct RecoverStakeWithTokenCall {
+        pub enclave_id: ::ethers::core::types::Address,
+        pub token: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+    }
     ///Container type for all input parameters for the `removeMrEnclaveFromAttestationQueue` function with signature `removeMrEnclaveFromAttestationQueue(address,bytes32)` and selector `0x083f30cf`
     #[derive(
         Clone,
@@ -5709,6 +16920,25 @@ pub mod switchboard {
     )]
     pub struct RemoveMrEnclaveFromAttestationQueueCall {
         pub queue_id: ::ethers::core::types::Address,
+        pub mr_enclave: [u8; 32],
+    }
+    ///Container type for all input parameters for the `removeMrEnclaveFromFunction` function with signature `removeMrEnclaveFromFunction(address,bytes32)` and selector `0xf0184db9`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "removeMrEnclaveFromFunction",
+        abi = "removeMrEnclaveFromFunction(address,bytes32)"
+    )]
+    pub struct RemoveMrEnclaveFromFunctionCall {
+        pub function_id: ::ethers::core::types::Address,
         pub mr_enclave: [u8; 32],
     }
     ///Container type for all input parameters for the `removeMrEnclaveFromOracleQueue` function with signature `removeMrEnclaveFromOracleQueue(address,bytes32)` and selector `0x262955d8`
@@ -5730,7 +16960,7 @@ pub mod switchboard {
         pub queue_id: ::ethers::core::types::Address,
         pub mr_enclave: [u8; 32],
     }
-    ///Container type for all input parameters for the `rotateEnclaveAuthority` function with signature `rotateEnclaveAuthority(address,address)` and selector `0xd4d832aa`
+    ///Container type for all input parameters for the `requestFund` function with signature `requestFund(address)` and selector `0x52a061d7`
     #[derive(
         Clone,
         ::ethers::contract::EthCall,
@@ -5741,15 +16971,11 @@ pub mod switchboard {
         Eq,
         Hash,
     )]
-    #[ethcall(
-        name = "rotateEnclaveAuthority",
-        abi = "rotateEnclaveAuthority(address,address)"
-    )]
-    pub struct RotateEnclaveAuthorityCall {
-        pub enclave_id: ::ethers::core::types::Address,
-        pub new_authority: ::ethers::core::types::Address,
+    #[ethcall(name = "requestFund", abi = "requestFund(address)")]
+    pub struct RequestFundCall {
+        pub request_id: ::ethers::core::types::Address,
     }
-    ///Container type for all input parameters for the `rotateOracleAuthority` function with signature `rotateOracleAuthority(address,address)` and selector `0x4cfb1758`
+    ///Container type for all input parameters for the `requestWithdrawal` function with signature `requestWithdrawal(address,address,uint256)` and selector `0x8985646a`
     #[derive(
         Clone,
         ::ethers::contract::EthCall,
@@ -5761,12 +16987,130 @@ pub mod switchboard {
         Hash,
     )]
     #[ethcall(
-        name = "rotateOracleAuthority",
-        abi = "rotateOracleAuthority(address,address)"
+        name = "requestWithdrawal",
+        abi = "requestWithdrawal(address,address,uint256)"
     )]
-    pub struct RotateOracleAuthorityCall {
+    pub struct RequestWithdrawalCall {
+        pub request_id: ::ethers::core::types::Address,
+        pub recipient: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+    }
+    ///Container type for all input parameters for the `requests` function with signature `requests(address)` and selector `0x74adad1d`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "requests", abi = "requests(address)")]
+    pub struct RequestsCall {
+        pub request_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `rotateEnclaveSigner` function with signature `rotateEnclaveSigner(address,address)` and selector `0x2628b3a9`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "rotateEnclaveSigner",
+        abi = "rotateEnclaveSigner(address,address)"
+    )]
+    pub struct RotateEnclaveSignerCall {
+        pub enclave_id: ::ethers::core::types::Address,
+        pub new_signer: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `rotateOracleSigner` function with signature `rotateOracleSigner(address,address)` and selector `0x4d1b776d`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "rotateOracleSigner",
+        abi = "rotateOracleSigner(address,address)"
+    )]
+    pub struct RotateOracleSignerCall {
         pub oracle_id: ::ethers::core::types::Address,
-        pub new_authority: ::ethers::core::types::Address,
+        pub new_signer: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `routineEscrowFund` function with signature `routineEscrowFund(address)` and selector `0x5d4e4594`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "routineEscrowFund", abi = "routineEscrowFund(address)")]
+    pub struct RoutineEscrowFundCall {
+        pub routine_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `routineEscrowWithdraw` function with signature `routineEscrowWithdraw(address,uint256)` and selector `0xfab08683`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "routineEscrowWithdraw",
+        abi = "routineEscrowWithdraw(address,uint256)"
+    )]
+    pub struct RoutineEscrowWithdrawCall {
+        pub routine_id: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+    }
+    ///Container type for all input parameters for the `routineExists` function with signature `routineExists(address)` and selector `0xc98d9be8`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "routineExists", abi = "routineExists(address)")]
+    pub struct RoutineExistsCall {
+        pub routine_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `routines` function with signature `routines(address)` and selector `0xfdcc54d2`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "routines", abi = "routines(address)")]
+    pub struct RoutinesCall {
+        pub routine_id: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `saveResults` function with signature `saveResults(address[],int256[],address,uint256)` and selector `0x735e3555`
     #[derive(
@@ -5788,6 +17132,63 @@ pub mod switchboard {
         pub results: ::std::vec::Vec<::ethers::core::types::I256>,
         pub queue_id: ::ethers::core::types::Address,
         pub oracle_idx: ::ethers::core::types::U256,
+    }
+    ///Container type for all input parameters for the `sendDelayedRequest` function with signature `sendDelayedRequest(address,address,bytes,uint256)` and selector `0x80eb181e`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "sendDelayedRequest",
+        abi = "sendDelayedRequest(address,address,bytes,uint256)"
+    )]
+    pub struct SendDelayedRequestCall {
+        pub request_id: ::ethers::core::types::Address,
+        pub function_id: ::ethers::core::types::Address,
+        pub params: ::ethers::core::types::Bytes,
+        pub start_after: ::ethers::core::types::U256,
+    }
+    ///Container type for all input parameters for the `sendRequest` function with signature `sendRequest(address,bytes)` and selector `0x62d3fe46`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "sendRequest", abi = "sendRequest(address,bytes)")]
+    pub struct SendRequestCall {
+        pub function_id: ::ethers::core::types::Address,
+        pub params: ::ethers::core::types::Bytes,
+    }
+    ///Container type for all input parameters for the `sendRequestWithId` function with signature `sendRequestWithId(address,address,bytes)` and selector `0x264c1450`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "sendRequestWithId",
+        abi = "sendRequestWithId(address,address,bytes)"
+    )]
+    pub struct SendRequestWithIdCall {
+        pub request_id: ::ethers::core::types::Address,
+        pub function_id: ::ethers::core::types::Address,
+        pub params: ::ethers::core::types::Bytes,
     }
     ///Container type for all input parameters for the `setAdmin` function with signature `setAdmin(address,bool)` and selector `0x4b0bddd2`
     #[derive(
@@ -5898,6 +17299,29 @@ pub mod switchboard {
         pub permission: ::ethers::core::types::U256,
         pub on: bool,
     }
+    ///Container type for all input parameters for the `setFunctionCallSettings` function with signature `setFunctionCallSettings(address,bool,uint256,uint256,bool,bool)` and selector `0x6b7ef38b`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "setFunctionCallSettings",
+        abi = "setFunctionCallSettings(address,bool,uint256,uint256,bool,bool)"
+    )]
+    pub struct SetFunctionCallSettingsCall {
+        pub function_id: ::ethers::core::types::Address,
+        pub require_estimated_run_cost_fee: bool,
+        pub minimum_fee: ::ethers::core::types::U256,
+        pub max_gas_cost: ::ethers::core::types::U256,
+        pub require_caller_pay_full_cost: bool,
+        pub require_sender_be_return_address: bool,
+    }
     ///Container type for all input parameters for the `setFunctionConfig` function with signature `setFunctionConfig(address,string,address,string,string,string,string,string,address[])` and selector `0x822e99d5`
     #[derive(
         Clone,
@@ -5924,6 +17348,43 @@ pub mod switchboard {
         pub params_schema: ::std::string::String,
         pub permitted_callers: ::std::vec::Vec<::ethers::core::types::Address>,
     }
+    ///Container type for all input parameters for the `setFunctionDeactivated` function with signature `setFunctionDeactivated(address)` and selector `0x725483a5`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "setFunctionDeactivated",
+        abi = "setFunctionDeactivated(address)"
+    )]
+    pub struct SetFunctionDeactivatedCall {
+        pub function_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `setFunctionSettings` function with signature `setFunctionSettings(address,(uint256,bool,bool,bool,uint256,bool,uint256,bool))` and selector `0xfeb0de89`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "setFunctionSettings",
+        abi = "setFunctionSettings(address,(uint256,bool,bool,bool,uint256,bool,uint256,bool))"
+    )]
+    pub struct SetFunctionSettingsCall {
+        pub function_id: ::ethers::core::types::Address,
+        pub settings: FunctionSettings,
+    }
     ///Container type for all input parameters for the `setOracleConfig` function with signature `setOracleConfig(address,string,address,address,address)` and selector `0xf50b5ed0`
     #[derive(
         Clone,
@@ -5942,9 +17403,9 @@ pub mod switchboard {
     pub struct SetOracleConfigCall {
         pub oracle_id: ::ethers::core::types::Address,
         pub name: ::std::string::String,
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         pub queue_id: ::ethers::core::types::Address,
-        pub owner: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
     }
     ///Container type for all input parameters for the `setOracleQueueAttestationConfig` function with signature `setOracleQueueAttestationConfig(address,address,bytes32[],bool,bool)` and selector `0x88033af5`
     #[derive(
@@ -6013,6 +17474,28 @@ pub mod switchboard {
         pub permission: ::ethers::core::types::U256,
         pub on: bool,
     }
+    ///Container type for all input parameters for the `setStakingConfig` function with signature `setStakingConfig(address,address,uint256,uint256,uint256)` and selector `0xf22644c2`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "setStakingConfig",
+        abi = "setStakingConfig(address,address,uint256,uint256,uint256)"
+    )]
+    pub struct SetStakingConfigCall {
+        pub queue_id: ::ethers::core::types::Address,
+        pub token: ::ethers::core::types::Address,
+        pub staking_amount: ::ethers::core::types::U256,
+        pub staking_period: ::ethers::core::types::U256,
+        pub unstaking_period: ::ethers::core::types::U256,
+    }
     ///Container type for all input parameters for the `setToleratedTimestampDiscrepancy` function with signature `setToleratedTimestampDiscrepancy(uint256)` and selector `0x101277b2`
     #[derive(
         Clone,
@@ -6031,6 +17514,22 @@ pub mod switchboard {
     pub struct SetToleratedTimestampDiscrepancyCall {
         pub tolerance: ::ethers::core::types::U256,
     }
+    ///Container type for all input parameters for the `slashStake` function with signature `slashStake(address,uint256)` and selector `0x98d1c5a8`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "slashStake", abi = "slashStake(address,uint256)")]
+    pub struct SlashStakeCall {
+        pub enclave_id: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
+    }
     ///Container type for all input parameters for the `supportsInterface` function with signature `supportsInterface(bytes4)` and selector `0x01ffc9a7`
     #[derive(
         Clone,
@@ -6046,6 +17545,68 @@ pub mod switchboard {
     pub struct SupportsInterfaceCall {
         pub interface_id: [u8; 4],
     }
+    ///Container type for all input parameters for the `totalStaked` function with signature `totalStaked(address,address)` and selector `0xf21630cb`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "totalStaked", abi = "totalStaked(address,address)")]
+    pub struct TotalStakedCall {
+        pub queue_id: ::ethers::core::types::Address,
+        pub token: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `totalSupply` function with signature `totalSupply()` and selector `0x18160ddd`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "totalSupply", abi = "totalSupply()")]
+    pub struct TotalSupplyCall;
+    ///Container type for all input parameters for the `transfer` function with signature `transfer(address,uint256)` and selector `0xa9059cbb`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "transfer", abi = "transfer(address,uint256)")]
+    pub struct TransferCall {
+        pub to: ::ethers::core::types::Address,
+        pub value: ::ethers::core::types::U256,
+    }
+    ///Container type for all input parameters for the `transferFrom` function with signature `transferFrom(address,address,uint256)` and selector `0x23b872dd`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "transferFrom", abi = "transferFrom(address,address,uint256)")]
+    pub struct TransferFromCall {
+        pub from: ::ethers::core::types::Address,
+        pub to: ::ethers::core::types::Address,
+        pub value: ::ethers::core::types::U256,
+    }
     ///Container type for all input parameters for the `transferOwnership` function with signature `transferOwnership(address)` and selector `0xf2fde38b`
     #[derive(
         Clone,
@@ -6060,6 +17621,22 @@ pub mod switchboard {
     #[ethcall(name = "transferOwnership", abi = "transferOwnership(address)")]
     pub struct TransferOwnershipCall {
         pub new_owner: ::ethers::core::types::Address,
+    }
+    ///Container type for all input parameters for the `unstake` function with signature `unstake(address,uint256)` and selector `0xc2a672e0`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(name = "unstake", abi = "unstake(address,uint256)")]
+    pub struct UnstakeCall {
+        pub enclave_id: ::ethers::core::types::Address,
+        pub amount: ::ethers::core::types::U256,
     }
     ///Container type for all input parameters for the `updateEnclave` function with signature `updateEnclave(address,bytes)` and selector `0x5cd6ac0c`
     #[derive(
@@ -6077,6 +17654,28 @@ pub mod switchboard {
         pub enclave_id: ::ethers::core::types::Address,
         pub cid: ::ethers::core::types::Bytes,
     }
+    ///Container type for all input parameters for the `updateRoutine` function with signature `updateRoutine(address,address,address,bytes,string)` and selector `0x9300c999`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "updateRoutine",
+        abi = "updateRoutine(address,address,address,bytes,string)"
+    )]
+    pub struct UpdateRoutineCall {
+        pub routine_id: ::ethers::core::types::Address,
+        pub function_id: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
+        pub params: ::ethers::core::types::Bytes,
+        pub schedule: ::std::string::String,
+    }
     ///Container type for all input parameters for the `validate` function with signature `validate(address,address,bytes32[])` and selector `0x1755a7f8`
     #[derive(
         Clone,
@@ -6090,9 +17689,28 @@ pub mod switchboard {
     )]
     #[ethcall(name = "validate", abi = "validate(address,address,bytes32[])")]
     pub struct ValidateCall {
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         pub attestation_queue_id: ::ethers::core::types::Address,
         pub valid_measurements: ::std::vec::Vec<[u8; 32]>,
+    }
+    ///Container type for all input parameters for the `verifyCallbackParams` function with signature `verifyCallbackParams(address[],bytes32[])` and selector `0x9c5eb6d9`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthCall,
+        ::ethers::contract::EthDisplay,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    #[ethcall(
+        name = "verifyCallbackParams",
+        abi = "verifyCallbackParams(address[],bytes32[])"
+    )]
+    pub struct VerifyCallbackParamsCall {
+        pub call_ids: ::std::vec::Vec<::ethers::core::types::Address>,
+        pub hashes: ::std::vec::Vec<[u8; 32]>,
     }
     ///Container type for all input parameters for the `verifyEnclave` function with signature `verifyEnclave(address,address,uint256,uint256,bytes32)` and selector `0xef0ebd71`
     #[derive(
@@ -6116,7 +17734,7 @@ pub mod switchboard {
         pub timestamp: ::ethers::core::types::U256,
         pub mr_enclave: [u8; 32],
     }
-    ///Container type for all input parameters for the `verifyFunction` function with signature `verifyFunction(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])` and selector `0x8cc5b02c`
+    ///Container type for all input parameters for the `verifyFunctionResult` function with signature `verifyFunctionResult((uint256,address,address,uint256,uint256,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[],address[],bytes32[],uint8[]))` and selector `0x3bd7b617`
     #[derive(
         Clone,
         ::ethers::contract::EthCall,
@@ -6128,19 +17746,11 @@ pub mod switchboard {
         Hash,
     )]
     #[ethcall(
-        name = "verifyFunction",
-        abi = "verifyFunction(uint256,address,address,uint256,uint256,bool,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[])"
+        name = "verifyFunctionResult",
+        abi = "verifyFunctionResult((uint256,address,address,uint256,uint256,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[],address[],bytes32[],uint8[]))"
     )]
-    pub struct VerifyFunctionCall {
-        pub enclave_idx: ::ethers::core::types::U256,
-        pub function_id: ::ethers::core::types::Address,
-        pub delegated_signer_address: ::ethers::core::types::Address,
-        pub observed_time: ::ethers::core::types::U256,
-        pub next_allowed_timestamp: ::ethers::core::types::U256,
-        pub is_failure: bool,
-        pub mr_enclave: [u8; 32],
-        pub transactions: ::std::vec::Vec<Transaction>,
-        pub signatures: ::std::vec::Vec<::ethers::core::types::Bytes>,
+    pub struct VerifyFunctionResultCall {
+        pub params: FunctionVerifyParams,
     }
     ///Container type for all input parameters for the `viewAggregatorResults` function with signature `viewAggregatorResults(address)` and selector `0xde866484`
     #[derive(
@@ -6176,15 +17786,20 @@ pub mod switchboard {
     #[derive(Clone, ::ethers::contract::EthAbiType, Debug, PartialEq, Eq, Hash)]
     pub enum SwitchboardCalls {
         AddMrEnclaveToAttestationQueue(AddMrEnclaveToAttestationQueueCall),
+        AddMrEnclaveToFunction(AddMrEnclaveToFunctionCall),
         AddMrEnclaveToOracleQueue(AddMrEnclaveToOracleQueueCall),
+        AddStake(AddStakeCall),
         AggregatorEscrowFund(AggregatorEscrowFundCall),
         AggregatorEscrowWithdraw(AggregatorEscrowWithdrawCall),
         AggregatorHistory(AggregatorHistoryCall),
         Aggregators(AggregatorsCall),
+        Allowance(AllowanceCall),
+        Approve(ApproveCall),
         AttestationQueueHasMrEnclave(AttestationQueueHasMrEnclaveCall),
         AttestationQueues(AttestationQueuesCall),
+        BalanceOf(BalanceOfCall),
+        CallBalances(CallBalancesCall),
         CallFunction(CallFunctionCall),
-        Callback(CallbackCall),
         CreateAggregator(CreateAggregatorCall),
         CreateAttestationQueue(CreateAttestationQueueCall),
         CreateEnclave(CreateEnclaveCall),
@@ -6194,24 +17809,34 @@ pub mod switchboard {
         CreateOracle(CreateOracleCall),
         CreateOracleQueue(CreateOracleQueueCall),
         CreateOracleWithId(CreateOracleWithIdCall),
+        CreateRoutineWithId(CreateRoutineWithIdCall),
         DiamondCut(DiamondCutCall),
-        EnclaveAuthorityToEnclaveAddress(EnclaveAuthorityToEnclaveAddressCall),
         EnclaveGarbageCollect(EnclaveGarbageCollectCall),
         EnclaveHeartbeat(EnclaveHeartbeatCall),
+        EnclaveSignerToEnclaveId(EnclaveSignerToEnclaveIdCall),
         Enclaves(EnclavesCall),
+        EstimatedRunCost(EstimatedRunCostCall),
         FacetAddress(FacetAddressCall),
         FacetAddresses(FacetAddressesCall),
         FacetFunctionSelectors(FacetFunctionSelectorsCall),
         Facets(FacetsCall),
         FailEnclave(FailEnclaveCall),
+        FailFunctionResult(FailFunctionResultCall),
         ForceOverrideVerify(ForceOverrideVerifyCall),
         Forward(ForwardCall),
         Funcs(FuncsCall),
+        FunctionCallSettings(FunctionCallSettingsCall),
+        FunctionCalls(FunctionCallsCall),
         FunctionEscrowFund(FunctionEscrowFundCall),
         FunctionEscrowWithdraw(FunctionEscrowWithdrawCall),
         FunctionExists(FunctionExistsCall),
+        FunctionSettings(FunctionSettingsCall),
+        FunctionVerify(FunctionVerifyCall),
+        FunctionVerifyRequest(FunctionVerifyRequestCall),
         GetActiveFunctionCallsByQueue(GetActiveFunctionCallsByQueueCall),
         GetActiveFunctionsByQueue(GetActiveFunctionsByQueueCall),
+        GetActiveRequestsByQueue(GetActiveRequestsByQueueCall),
+        GetActiveRoutinesByQueue(GetActiveRoutinesByQueueCall),
         GetAggregatorsByAuthority(GetAggregatorsByAuthorityCall),
         GetAllAggregators(GetAllAggregatorsCall),
         GetAllFunctions(GetAllFunctionsCall),
@@ -6219,12 +17844,20 @@ pub mod switchboard {
         GetCurrentIntervalId(GetCurrentIntervalIdCall),
         GetEnclaveIdx(GetEnclaveIdxCall),
         GetEnclaves(GetEnclavesCall),
+        GetFunctionMrEnclaves(GetFunctionMrEnclavesCall),
+        GetFunctionPermittedCallers(GetFunctionPermittedCallersCall),
         GetFunctionsByAuthority(GetFunctionsByAuthorityCall),
         GetIntervalResult(GetIntervalResultCall),
         GetOracleIdx(GetOracleIdxCall),
         GetOracleQueueAllowedMrEnclaves(GetOracleQueueAllowedMrEnclavesCall),
         GetOracles(GetOraclesCall),
         GetPermission(GetPermissionCall),
+        GetRequestsByFunctionId(GetRequestsByFunctionIdCall),
+        GetRoutinesByAuthority(GetRoutinesByAuthorityCall),
+        GetRoutinesByFunctionId(GetRoutinesByFunctionIdCall),
+        GetStakeForEnclave(GetStakeForEnclaveCall),
+        GetStakeForEnclaveWithToken(GetStakeForEnclaveWithTokenCall),
+        GetStakingConfig(GetStakingConfigCall),
         GetTransactionHash(GetTransactionHashCall),
         HasPermission(HasPermissionCall),
         Init(InitCall),
@@ -6240,30 +17873,54 @@ pub mod switchboard {
         OracleQueues(OracleQueuesCall),
         Oracles(OraclesCall),
         Owner(OwnerCall),
+        PrepareUnstake(PrepareUnstakeCall),
         QueueAttestationConfigs(QueueAttestationConfigsCall),
-        RandomValue(RandomValueCall),
+        RecoverStakeWithToken(RecoverStakeWithTokenCall),
         RemoveMrEnclaveFromAttestationQueue(RemoveMrEnclaveFromAttestationQueueCall),
+        RemoveMrEnclaveFromFunction(RemoveMrEnclaveFromFunctionCall),
         RemoveMrEnclaveFromOracleQueue(RemoveMrEnclaveFromOracleQueueCall),
-        RotateEnclaveAuthority(RotateEnclaveAuthorityCall),
-        RotateOracleAuthority(RotateOracleAuthorityCall),
+        RequestFund(RequestFundCall),
+        RequestWithdrawal(RequestWithdrawalCall),
+        Requests(RequestsCall),
+        RotateEnclaveSigner(RotateEnclaveSignerCall),
+        RotateOracleSigner(RotateOracleSignerCall),
+        RoutineEscrowFund(RoutineEscrowFundCall),
+        RoutineEscrowWithdraw(RoutineEscrowWithdrawCall),
+        RoutineExists(RoutineExistsCall),
+        Routines(RoutinesCall),
         SaveResults(SaveResultsCall),
+        SendDelayedRequest(SendDelayedRequestCall),
+        SendRequest(SendRequestCall),
+        SendRequestWithId(SendRequestWithIdCall),
         SetAdmin(SetAdminCall),
         SetAggregatorConfig(SetAggregatorConfigCall),
         SetAllowed(SetAllowedCall),
         SetAttestationQueueConfig(SetAttestationQueueConfigCall),
         SetAttestationQueuePermission(SetAttestationQueuePermissionCall),
+        SetFunctionCallSettings(SetFunctionCallSettingsCall),
         SetFunctionConfig(SetFunctionConfigCall),
+        SetFunctionDeactivated(SetFunctionDeactivatedCall),
+        SetFunctionSettings(SetFunctionSettingsCall),
         SetOracleConfig(SetOracleConfigCall),
         SetOracleQueueAttestationConfig(SetOracleQueueAttestationConfigCall),
         SetOracleQueueConfig(SetOracleQueueConfigCall),
         SetOracleQueuePermission(SetOracleQueuePermissionCall),
+        SetStakingConfig(SetStakingConfigCall),
         SetToleratedTimestampDiscrepancy(SetToleratedTimestampDiscrepancyCall),
+        SlashStake(SlashStakeCall),
         SupportsInterface(SupportsInterfaceCall),
+        TotalStaked(TotalStakedCall),
+        TotalSupply(TotalSupplyCall),
+        Transfer(TransferCall),
+        TransferFrom(TransferFromCall),
         TransferOwnership(TransferOwnershipCall),
+        Unstake(UnstakeCall),
         UpdateEnclave(UpdateEnclaveCall),
+        UpdateRoutine(UpdateRoutineCall),
         Validate(ValidateCall),
+        VerifyCallbackParams(VerifyCallbackParamsCall),
         VerifyEnclave(VerifyEnclaveCall),
-        VerifyFunction(VerifyFunctionCall),
+        VerifyFunctionResult(VerifyFunctionResultCall),
         ViewAggregatorResults(ViewAggregatorResultsCall),
         ViewLatestResult(ViewLatestResultCall),
     }
@@ -6278,9 +17935,17 @@ pub mod switchboard {
                 return Ok(Self::AddMrEnclaveToAttestationQueue(decoded));
             }
             if let Ok(decoded) =
+                <AddMrEnclaveToFunctionCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::AddMrEnclaveToFunction(decoded));
+            }
+            if let Ok(decoded) =
                 <AddMrEnclaveToOracleQueueCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::AddMrEnclaveToOracleQueue(decoded));
+            }
+            if let Ok(decoded) = <AddStakeCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::AddStake(decoded));
             }
             if let Ok(decoded) =
                 <AggregatorEscrowFundCall as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -6300,6 +17965,12 @@ pub mod switchboard {
             if let Ok(decoded) = <AggregatorsCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::Aggregators(decoded));
             }
+            if let Ok(decoded) = <AllowanceCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::Allowance(decoded));
+            }
+            if let Ok(decoded) = <ApproveCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::Approve(decoded));
+            }
             if let Ok(decoded) =
                 <AttestationQueueHasMrEnclaveCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
@@ -6310,12 +17981,16 @@ pub mod switchboard {
             {
                 return Ok(Self::AttestationQueues(decoded));
             }
+            if let Ok(decoded) = <BalanceOfCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::BalanceOf(decoded));
+            }
+            if let Ok(decoded) = <CallBalancesCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::CallBalances(decoded));
+            }
             if let Ok(decoded) = <CallFunctionCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::CallFunction(decoded));
-            }
-            if let Ok(decoded) = <CallbackCall as ::ethers::core::abi::AbiDecode>::decode(data) {
-                return Ok(Self::Callback(decoded));
             }
             if let Ok(decoded) =
                 <CreateAggregatorCall as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -6360,15 +18035,13 @@ pub mod switchboard {
             {
                 return Ok(Self::CreateOracleWithId(decoded));
             }
+            if let Ok(decoded) =
+                <CreateRoutineWithIdCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::CreateRoutineWithId(decoded));
+            }
             if let Ok(decoded) = <DiamondCutCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::DiamondCut(decoded));
-            }
-            if let Ok(decoded) =
-                <EnclaveAuthorityToEnclaveAddressCall as ::ethers::core::abi::AbiDecode>::decode(
-                    data,
-                )
-            {
-                return Ok(Self::EnclaveAuthorityToEnclaveAddress(decoded));
             }
             if let Ok(decoded) =
                 <EnclaveGarbageCollectCall as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -6380,8 +18053,18 @@ pub mod switchboard {
             {
                 return Ok(Self::EnclaveHeartbeat(decoded));
             }
+            if let Ok(decoded) =
+                <EnclaveSignerToEnclaveIdCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::EnclaveSignerToEnclaveId(decoded));
+            }
             if let Ok(decoded) = <EnclavesCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::Enclaves(decoded));
+            }
+            if let Ok(decoded) =
+                <EstimatedRunCostCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::EstimatedRunCost(decoded));
             }
             if let Ok(decoded) = <FacetAddressCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
@@ -6404,6 +18087,11 @@ pub mod switchboard {
                 return Ok(Self::FailEnclave(decoded));
             }
             if let Ok(decoded) =
+                <FailFunctionResultCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::FailFunctionResult(decoded));
+            }
+            if let Ok(decoded) =
                 <ForceOverrideVerifyCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::ForceOverrideVerify(decoded));
@@ -6413,6 +18101,15 @@ pub mod switchboard {
             }
             if let Ok(decoded) = <FuncsCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::Funcs(decoded));
+            }
+            if let Ok(decoded) =
+                <FunctionCallSettingsCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::FunctionCallSettings(decoded));
+            }
+            if let Ok(decoded) = <FunctionCallsCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::FunctionCalls(decoded));
             }
             if let Ok(decoded) =
                 <FunctionEscrowFundCall as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -6430,6 +18127,21 @@ pub mod switchboard {
                 return Ok(Self::FunctionExists(decoded));
             }
             if let Ok(decoded) =
+                <FunctionSettingsCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::FunctionSettings(decoded));
+            }
+            if let Ok(decoded) =
+                <FunctionVerifyCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::FunctionVerify(decoded));
+            }
+            if let Ok(decoded) =
+                <FunctionVerifyRequestCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::FunctionVerifyRequest(decoded));
+            }
+            if let Ok(decoded) =
                 <GetActiveFunctionCallsByQueueCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::GetActiveFunctionCallsByQueue(decoded));
@@ -6438,6 +18150,16 @@ pub mod switchboard {
                 <GetActiveFunctionsByQueueCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::GetActiveFunctionsByQueue(decoded));
+            }
+            if let Ok(decoded) =
+                <GetActiveRequestsByQueueCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetActiveRequestsByQueue(decoded));
+            }
+            if let Ok(decoded) =
+                <GetActiveRoutinesByQueueCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetActiveRoutinesByQueue(decoded));
             }
             if let Ok(decoded) =
                 <GetAggregatorsByAuthorityCall as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -6472,6 +18194,16 @@ pub mod switchboard {
                 return Ok(Self::GetEnclaves(decoded));
             }
             if let Ok(decoded) =
+                <GetFunctionMrEnclavesCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetFunctionMrEnclaves(decoded));
+            }
+            if let Ok(decoded) =
+                <GetFunctionPermittedCallersCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetFunctionPermittedCallers(decoded));
+            }
+            if let Ok(decoded) =
                 <GetFunctionsByAuthorityCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::GetFunctionsByAuthority(decoded));
@@ -6498,6 +18230,36 @@ pub mod switchboard {
             if let Ok(decoded) = <GetPermissionCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::GetPermission(decoded));
+            }
+            if let Ok(decoded) =
+                <GetRequestsByFunctionIdCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetRequestsByFunctionId(decoded));
+            }
+            if let Ok(decoded) =
+                <GetRoutinesByAuthorityCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetRoutinesByAuthority(decoded));
+            }
+            if let Ok(decoded) =
+                <GetRoutinesByFunctionIdCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetRoutinesByFunctionId(decoded));
+            }
+            if let Ok(decoded) =
+                <GetStakeForEnclaveCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetStakeForEnclave(decoded));
+            }
+            if let Ok(decoded) =
+                <GetStakeForEnclaveWithTokenCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetStakeForEnclaveWithToken(decoded));
+            }
+            if let Ok(decoded) =
+                <GetStakingConfigCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::GetStakingConfig(decoded));
             }
             if let Ok(decoded) =
                 <GetTransactionHashCall as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -6559,12 +18321,19 @@ pub mod switchboard {
                 return Ok(Self::Owner(decoded));
             }
             if let Ok(decoded) =
+                <PrepareUnstakeCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::PrepareUnstake(decoded));
+            }
+            if let Ok(decoded) =
                 <QueueAttestationConfigsCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::QueueAttestationConfigs(decoded));
             }
-            if let Ok(decoded) = <RandomValueCall as ::ethers::core::abi::AbiDecode>::decode(data) {
-                return Ok(Self::RandomValue(decoded));
+            if let Ok(decoded) =
+                <RecoverStakeWithTokenCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RecoverStakeWithToken(decoded));
             }
             if let Ok(decoded) =
                 <RemoveMrEnclaveFromAttestationQueueCall as ::ethers::core::abi::AbiDecode>::decode(
@@ -6574,22 +18343,68 @@ pub mod switchboard {
                 return Ok(Self::RemoveMrEnclaveFromAttestationQueue(decoded));
             }
             if let Ok(decoded) =
+                <RemoveMrEnclaveFromFunctionCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RemoveMrEnclaveFromFunction(decoded));
+            }
+            if let Ok(decoded) =
                 <RemoveMrEnclaveFromOracleQueueCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::RemoveMrEnclaveFromOracleQueue(decoded));
             }
-            if let Ok(decoded) =
-                <RotateEnclaveAuthorityCall as ::ethers::core::abi::AbiDecode>::decode(data)
-            {
-                return Ok(Self::RotateEnclaveAuthority(decoded));
+            if let Ok(decoded) = <RequestFundCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::RequestFund(decoded));
             }
             if let Ok(decoded) =
-                <RotateOracleAuthorityCall as ::ethers::core::abi::AbiDecode>::decode(data)
+                <RequestWithdrawalCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
-                return Ok(Self::RotateOracleAuthority(decoded));
+                return Ok(Self::RequestWithdrawal(decoded));
+            }
+            if let Ok(decoded) = <RequestsCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::Requests(decoded));
+            }
+            if let Ok(decoded) =
+                <RotateEnclaveSignerCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RotateEnclaveSigner(decoded));
+            }
+            if let Ok(decoded) =
+                <RotateOracleSignerCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RotateOracleSigner(decoded));
+            }
+            if let Ok(decoded) =
+                <RoutineEscrowFundCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RoutineEscrowFund(decoded));
+            }
+            if let Ok(decoded) =
+                <RoutineEscrowWithdrawCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RoutineEscrowWithdraw(decoded));
+            }
+            if let Ok(decoded) = <RoutineExistsCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::RoutineExists(decoded));
+            }
+            if let Ok(decoded) = <RoutinesCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::Routines(decoded));
             }
             if let Ok(decoded) = <SaveResultsCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::SaveResults(decoded));
+            }
+            if let Ok(decoded) =
+                <SendDelayedRequestCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::SendDelayedRequest(decoded));
+            }
+            if let Ok(decoded) = <SendRequestCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::SendRequest(decoded));
+            }
+            if let Ok(decoded) =
+                <SendRequestWithIdCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::SendRequestWithId(decoded));
             }
             if let Ok(decoded) = <SetAdminCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::SetAdmin(decoded));
@@ -6613,9 +18428,24 @@ pub mod switchboard {
                 return Ok(Self::SetAttestationQueuePermission(decoded));
             }
             if let Ok(decoded) =
+                <SetFunctionCallSettingsCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::SetFunctionCallSettings(decoded));
+            }
+            if let Ok(decoded) =
                 <SetFunctionConfigCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::SetFunctionConfig(decoded));
+            }
+            if let Ok(decoded) =
+                <SetFunctionDeactivatedCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::SetFunctionDeactivated(decoded));
+            }
+            if let Ok(decoded) =
+                <SetFunctionSettingsCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::SetFunctionSettings(decoded));
             }
             if let Ok(decoded) =
                 <SetOracleConfigCall as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -6640,37 +18470,70 @@ pub mod switchboard {
                 return Ok(Self::SetOracleQueuePermission(decoded));
             }
             if let Ok(decoded) =
+                <SetStakingConfigCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::SetStakingConfig(decoded));
+            }
+            if let Ok(decoded) =
                 <SetToleratedTimestampDiscrepancyCall as ::ethers::core::abi::AbiDecode>::decode(
                     data,
                 )
             {
                 return Ok(Self::SetToleratedTimestampDiscrepancy(decoded));
             }
+            if let Ok(decoded) = <SlashStakeCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::SlashStake(decoded));
+            }
             if let Ok(decoded) =
                 <SupportsInterfaceCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::SupportsInterface(decoded));
+            }
+            if let Ok(decoded) = <TotalStakedCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::TotalStaked(decoded));
+            }
+            if let Ok(decoded) = <TotalSupplyCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::TotalSupply(decoded));
+            }
+            if let Ok(decoded) = <TransferCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::Transfer(decoded));
+            }
+            if let Ok(decoded) = <TransferFromCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::TransferFrom(decoded));
             }
             if let Ok(decoded) =
                 <TransferOwnershipCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::TransferOwnership(decoded));
             }
+            if let Ok(decoded) = <UnstakeCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+                return Ok(Self::Unstake(decoded));
+            }
             if let Ok(decoded) = <UpdateEnclaveCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::UpdateEnclave(decoded));
             }
+            if let Ok(decoded) = <UpdateRoutineCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::UpdateRoutine(decoded));
+            }
             if let Ok(decoded) = <ValidateCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::Validate(decoded));
+            }
+            if let Ok(decoded) =
+                <VerifyCallbackParamsCall as ::ethers::core::abi::AbiDecode>::decode(data)
+            {
+                return Ok(Self::VerifyCallbackParams(decoded));
             }
             if let Ok(decoded) = <VerifyEnclaveCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
                 return Ok(Self::VerifyEnclave(decoded));
             }
             if let Ok(decoded) =
-                <VerifyFunctionCall as ::ethers::core::abi::AbiDecode>::decode(data)
+                <VerifyFunctionResultCall as ::ethers::core::abi::AbiDecode>::decode(data)
             {
-                return Ok(Self::VerifyFunction(decoded));
+                return Ok(Self::VerifyFunctionResult(decoded));
             }
             if let Ok(decoded) =
                 <ViewAggregatorResultsCall as ::ethers::core::abi::AbiDecode>::decode(data)
@@ -6691,9 +18554,13 @@ pub mod switchboard {
                 Self::AddMrEnclaveToAttestationQueue(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::AddMrEnclaveToFunction(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::AddMrEnclaveToOracleQueue(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::AddStake(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::AggregatorEscrowFund(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
@@ -6702,12 +18569,15 @@ pub mod switchboard {
                 }
                 Self::AggregatorHistory(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::Aggregators(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::Allowance(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::Approve(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::AttestationQueueHasMrEnclave(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::AttestationQueues(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::BalanceOf(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::CallBalances(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::CallFunction(element) => ::ethers::core::abi::AbiEncode::encode(element),
-                Self::Callback(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::CreateAggregator(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::CreateAttestationQueue(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
@@ -6725,15 +18595,19 @@ pub mod switchboard {
                 Self::CreateOracleWithId(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
-                Self::DiamondCut(element) => ::ethers::core::abi::AbiEncode::encode(element),
-                Self::EnclaveAuthorityToEnclaveAddress(element) => {
+                Self::CreateRoutineWithId(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::DiamondCut(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::EnclaveGarbageCollect(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::EnclaveHeartbeat(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::EnclaveSignerToEnclaveId(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::Enclaves(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::EstimatedRunCost(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::FacetAddress(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::FacetAddresses(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::FacetFunctionSelectors(element) => {
@@ -6741,11 +18615,18 @@ pub mod switchboard {
                 }
                 Self::Facets(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::FailEnclave(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::FailFunctionResult(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::ForceOverrideVerify(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::Forward(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::Funcs(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::FunctionCallSettings(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::FunctionCalls(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::FunctionEscrowFund(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
@@ -6753,10 +18634,21 @@ pub mod switchboard {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::FunctionExists(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::FunctionSettings(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::FunctionVerify(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::FunctionVerifyRequest(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::GetActiveFunctionCallsByQueue(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::GetActiveFunctionsByQueue(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetActiveRequestsByQueue(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetActiveRoutinesByQueue(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::GetAggregatorsByAuthority(element) => {
@@ -6772,6 +18664,12 @@ pub mod switchboard {
                 }
                 Self::GetEnclaveIdx(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::GetEnclaves(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::GetFunctionMrEnclaves(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetFunctionPermittedCallers(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::GetFunctionsByAuthority(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
@@ -6782,6 +18680,28 @@ pub mod switchboard {
                 }
                 Self::GetOracles(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::GetPermission(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::GetRequestsByFunctionId(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetRoutinesByAuthority(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetRequestsByFunctionId(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetRoutinesByAuthority(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetRoutinesByFunctionId(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetStakeForEnclave(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetStakeForEnclaveWithToken(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::GetStakingConfig(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::GetTransactionHash(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
@@ -6803,23 +18723,43 @@ pub mod switchboard {
                 Self::OracleQueues(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::Oracles(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::Owner(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::PrepareUnstake(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::QueueAttestationConfigs(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
-                Self::RandomValue(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::RecoverStakeWithToken(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::RemoveMrEnclaveFromAttestationQueue(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::RemoveMrEnclaveFromFunction(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
                 Self::RemoveMrEnclaveFromOracleQueue(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
-                Self::RotateEnclaveAuthority(element) => {
+                Self::RequestFund(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::RequestWithdrawal(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::Requests(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::RotateEnclaveSigner(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
-                Self::RotateOracleAuthority(element) => {
+                Self::RotateOracleSigner(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::RoutineEscrowFund(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::RoutineEscrowWithdraw(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::RoutineExists(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::Routines(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::SaveResults(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::SendDelayedRequest(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::SendRequest(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::SendRequestWithId(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::SetAdmin(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::SetAggregatorConfig(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
@@ -6831,7 +18771,16 @@ pub mod switchboard {
                 Self::SetAttestationQueuePermission(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::SetFunctionCallSettings(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::SetFunctionConfig(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::SetFunctionDeactivated(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
+                Self::SetFunctionSettings(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::SetOracleConfig(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::SetOracleQueueAttestationConfig(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
@@ -6842,15 +18791,28 @@ pub mod switchboard {
                 Self::SetOracleQueuePermission(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::SetStakingConfig(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::SetToleratedTimestampDiscrepancy(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
+                Self::SlashStake(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::SupportsInterface(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::TotalStaked(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::TotalSupply(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::Transfer(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::TransferFrom(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::TransferOwnership(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::Unstake(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::UpdateEnclave(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::UpdateRoutine(element) => ::ethers::core::abi::AbiEncode::encode(element),
                 Self::Validate(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::VerifyCallbackParams(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::VerifyEnclave(element) => ::ethers::core::abi::AbiEncode::encode(element),
-                Self::VerifyFunction(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::VerifyFunctionResult(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::ViewAggregatorResults(element) => {
                     ::ethers::core::abi::AbiEncode::encode(element)
                 }
@@ -6864,17 +18826,22 @@ pub mod switchboard {
                 Self::AddMrEnclaveToAttestationQueue(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
+                Self::AddMrEnclaveToFunction(element) => ::core::fmt::Display::fmt(element, f),
                 Self::AddMrEnclaveToOracleQueue(element) => ::core::fmt::Display::fmt(element, f),
+                Self::AddStake(element) => ::core::fmt::Display::fmt(element, f),
                 Self::AggregatorEscrowFund(element) => ::core::fmt::Display::fmt(element, f),
                 Self::AggregatorEscrowWithdraw(element) => ::core::fmt::Display::fmt(element, f),
                 Self::AggregatorHistory(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Aggregators(element) => ::core::fmt::Display::fmt(element, f),
+                Self::Allowance(element) => ::core::fmt::Display::fmt(element, f),
+                Self::Approve(element) => ::core::fmt::Display::fmt(element, f),
                 Self::AttestationQueueHasMrEnclave(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
                 Self::AttestationQueues(element) => ::core::fmt::Display::fmt(element, f),
+                Self::BalanceOf(element) => ::core::fmt::Display::fmt(element, f),
+                Self::CallBalances(element) => ::core::fmt::Display::fmt(element, f),
                 Self::CallFunction(element) => ::core::fmt::Display::fmt(element, f),
-                Self::Callback(element) => ::core::fmt::Display::fmt(element, f),
                 Self::CreateAggregator(element) => ::core::fmt::Display::fmt(element, f),
                 Self::CreateAttestationQueue(element) => ::core::fmt::Display::fmt(element, f),
                 Self::CreateEnclave(element) => ::core::fmt::Display::fmt(element, f),
@@ -6884,28 +18851,36 @@ pub mod switchboard {
                 Self::CreateOracle(element) => ::core::fmt::Display::fmt(element, f),
                 Self::CreateOracleQueue(element) => ::core::fmt::Display::fmt(element, f),
                 Self::CreateOracleWithId(element) => ::core::fmt::Display::fmt(element, f),
+                Self::CreateRoutineWithId(element) => ::core::fmt::Display::fmt(element, f),
                 Self::DiamondCut(element) => ::core::fmt::Display::fmt(element, f),
-                Self::EnclaveAuthorityToEnclaveAddress(element) => {
-                    ::core::fmt::Display::fmt(element, f)
-                }
                 Self::EnclaveGarbageCollect(element) => ::core::fmt::Display::fmt(element, f),
                 Self::EnclaveHeartbeat(element) => ::core::fmt::Display::fmt(element, f),
+                Self::EnclaveSignerToEnclaveId(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Enclaves(element) => ::core::fmt::Display::fmt(element, f),
+                Self::EstimatedRunCost(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FacetAddress(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FacetAddresses(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FacetFunctionSelectors(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Facets(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FailEnclave(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FailFunctionResult(element) => ::core::fmt::Display::fmt(element, f),
                 Self::ForceOverrideVerify(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Forward(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Funcs(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FunctionCallSettings(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FunctionCalls(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionEscrowFund(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionEscrowWithdraw(element) => ::core::fmt::Display::fmt(element, f),
                 Self::FunctionExists(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FunctionSettings(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FunctionVerify(element) => ::core::fmt::Display::fmt(element, f),
+                Self::FunctionVerifyRequest(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetActiveFunctionCallsByQueue(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
                 Self::GetActiveFunctionsByQueue(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetActiveRequestsByQueue(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetActiveRoutinesByQueue(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetAggregatorsByAuthority(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetAllAggregators(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetAllFunctions(element) => ::core::fmt::Display::fmt(element, f),
@@ -6915,6 +18890,8 @@ pub mod switchboard {
                 Self::GetCurrentIntervalId(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetEnclaveIdx(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetEnclaves(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetFunctionMrEnclaves(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetFunctionPermittedCallers(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetFunctionsByAuthority(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetIntervalResult(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetOracleIdx(element) => ::core::fmt::Display::fmt(element, f),
@@ -6923,6 +18900,12 @@ pub mod switchboard {
                 }
                 Self::GetOracles(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetPermission(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetRequestsByFunctionId(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetRoutinesByAuthority(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetRoutinesByFunctionId(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetStakeForEnclave(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetStakeForEnclaveWithToken(element) => ::core::fmt::Display::fmt(element, f),
+                Self::GetStakingConfig(element) => ::core::fmt::Display::fmt(element, f),
                 Self::GetTransactionHash(element) => ::core::fmt::Display::fmt(element, f),
                 Self::HasPermission(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Init(element) => ::core::fmt::Display::fmt(element, f),
@@ -6938,17 +18921,29 @@ pub mod switchboard {
                 Self::OracleQueues(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Oracles(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Owner(element) => ::core::fmt::Display::fmt(element, f),
+                Self::PrepareUnstake(element) => ::core::fmt::Display::fmt(element, f),
                 Self::QueueAttestationConfigs(element) => ::core::fmt::Display::fmt(element, f),
-                Self::RandomValue(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RecoverStakeWithToken(element) => ::core::fmt::Display::fmt(element, f),
                 Self::RemoveMrEnclaveFromAttestationQueue(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
+                Self::RemoveMrEnclaveFromFunction(element) => ::core::fmt::Display::fmt(element, f),
                 Self::RemoveMrEnclaveFromOracleQueue(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
-                Self::RotateEnclaveAuthority(element) => ::core::fmt::Display::fmt(element, f),
-                Self::RotateOracleAuthority(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RequestFund(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RequestWithdrawal(element) => ::core::fmt::Display::fmt(element, f),
+                Self::Requests(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RotateEnclaveSigner(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RotateOracleSigner(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RoutineEscrowFund(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RoutineEscrowWithdraw(element) => ::core::fmt::Display::fmt(element, f),
+                Self::RoutineExists(element) => ::core::fmt::Display::fmt(element, f),
+                Self::Routines(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SaveResults(element) => ::core::fmt::Display::fmt(element, f),
+                Self::SendDelayedRequest(element) => ::core::fmt::Display::fmt(element, f),
+                Self::SendRequest(element) => ::core::fmt::Display::fmt(element, f),
+                Self::SendRequestWithId(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SetAdmin(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SetAggregatorConfig(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SetAllowed(element) => ::core::fmt::Display::fmt(element, f),
@@ -6956,22 +18951,34 @@ pub mod switchboard {
                 Self::SetAttestationQueuePermission(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
+                Self::SetFunctionCallSettings(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SetFunctionConfig(element) => ::core::fmt::Display::fmt(element, f),
+                Self::SetFunctionDeactivated(element) => ::core::fmt::Display::fmt(element, f),
+                Self::SetFunctionSettings(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SetOracleConfig(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SetOracleQueueAttestationConfig(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
                 Self::SetOracleQueueConfig(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SetOracleQueuePermission(element) => ::core::fmt::Display::fmt(element, f),
+                Self::SetStakingConfig(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SetToleratedTimestampDiscrepancy(element) => {
                     ::core::fmt::Display::fmt(element, f)
                 }
+                Self::SlashStake(element) => ::core::fmt::Display::fmt(element, f),
                 Self::SupportsInterface(element) => ::core::fmt::Display::fmt(element, f),
+                Self::TotalStaked(element) => ::core::fmt::Display::fmt(element, f),
+                Self::TotalSupply(element) => ::core::fmt::Display::fmt(element, f),
+                Self::Transfer(element) => ::core::fmt::Display::fmt(element, f),
+                Self::TransferFrom(element) => ::core::fmt::Display::fmt(element, f),
                 Self::TransferOwnership(element) => ::core::fmt::Display::fmt(element, f),
+                Self::Unstake(element) => ::core::fmt::Display::fmt(element, f),
                 Self::UpdateEnclave(element) => ::core::fmt::Display::fmt(element, f),
+                Self::UpdateRoutine(element) => ::core::fmt::Display::fmt(element, f),
                 Self::Validate(element) => ::core::fmt::Display::fmt(element, f),
+                Self::VerifyCallbackParams(element) => ::core::fmt::Display::fmt(element, f),
                 Self::VerifyEnclave(element) => ::core::fmt::Display::fmt(element, f),
-                Self::VerifyFunction(element) => ::core::fmt::Display::fmt(element, f),
+                Self::VerifyFunctionResult(element) => ::core::fmt::Display::fmt(element, f),
                 Self::ViewAggregatorResults(element) => ::core::fmt::Display::fmt(element, f),
                 Self::ViewLatestResult(element) => ::core::fmt::Display::fmt(element, f),
             }
@@ -6982,9 +18989,19 @@ pub mod switchboard {
             Self::AddMrEnclaveToAttestationQueue(value)
         }
     }
+    impl ::core::convert::From<AddMrEnclaveToFunctionCall> for SwitchboardCalls {
+        fn from(value: AddMrEnclaveToFunctionCall) -> Self {
+            Self::AddMrEnclaveToFunction(value)
+        }
+    }
     impl ::core::convert::From<AddMrEnclaveToOracleQueueCall> for SwitchboardCalls {
         fn from(value: AddMrEnclaveToOracleQueueCall) -> Self {
             Self::AddMrEnclaveToOracleQueue(value)
+        }
+    }
+    impl ::core::convert::From<AddStakeCall> for SwitchboardCalls {
+        fn from(value: AddStakeCall) -> Self {
+            Self::AddStake(value)
         }
     }
     impl ::core::convert::From<AggregatorEscrowFundCall> for SwitchboardCalls {
@@ -7007,6 +19024,16 @@ pub mod switchboard {
             Self::Aggregators(value)
         }
     }
+    impl ::core::convert::From<AllowanceCall> for SwitchboardCalls {
+        fn from(value: AllowanceCall) -> Self {
+            Self::Allowance(value)
+        }
+    }
+    impl ::core::convert::From<ApproveCall> for SwitchboardCalls {
+        fn from(value: ApproveCall) -> Self {
+            Self::Approve(value)
+        }
+    }
     impl ::core::convert::From<AttestationQueueHasMrEnclaveCall> for SwitchboardCalls {
         fn from(value: AttestationQueueHasMrEnclaveCall) -> Self {
             Self::AttestationQueueHasMrEnclave(value)
@@ -7017,14 +19044,19 @@ pub mod switchboard {
             Self::AttestationQueues(value)
         }
     }
+    impl ::core::convert::From<BalanceOfCall> for SwitchboardCalls {
+        fn from(value: BalanceOfCall) -> Self {
+            Self::BalanceOf(value)
+        }
+    }
+    impl ::core::convert::From<CallBalancesCall> for SwitchboardCalls {
+        fn from(value: CallBalancesCall) -> Self {
+            Self::CallBalances(value)
+        }
+    }
     impl ::core::convert::From<CallFunctionCall> for SwitchboardCalls {
         fn from(value: CallFunctionCall) -> Self {
             Self::CallFunction(value)
-        }
-    }
-    impl ::core::convert::From<CallbackCall> for SwitchboardCalls {
-        fn from(value: CallbackCall) -> Self {
-            Self::Callback(value)
         }
     }
     impl ::core::convert::From<CreateAggregatorCall> for SwitchboardCalls {
@@ -7072,14 +19104,14 @@ pub mod switchboard {
             Self::CreateOracleWithId(value)
         }
     }
+    impl ::core::convert::From<CreateRoutineWithIdCall> for SwitchboardCalls {
+        fn from(value: CreateRoutineWithIdCall) -> Self {
+            Self::CreateRoutineWithId(value)
+        }
+    }
     impl ::core::convert::From<DiamondCutCall> for SwitchboardCalls {
         fn from(value: DiamondCutCall) -> Self {
             Self::DiamondCut(value)
-        }
-    }
-    impl ::core::convert::From<EnclaveAuthorityToEnclaveAddressCall> for SwitchboardCalls {
-        fn from(value: EnclaveAuthorityToEnclaveAddressCall) -> Self {
-            Self::EnclaveAuthorityToEnclaveAddress(value)
         }
     }
     impl ::core::convert::From<EnclaveGarbageCollectCall> for SwitchboardCalls {
@@ -7092,9 +19124,19 @@ pub mod switchboard {
             Self::EnclaveHeartbeat(value)
         }
     }
+    impl ::core::convert::From<EnclaveSignerToEnclaveIdCall> for SwitchboardCalls {
+        fn from(value: EnclaveSignerToEnclaveIdCall) -> Self {
+            Self::EnclaveSignerToEnclaveId(value)
+        }
+    }
     impl ::core::convert::From<EnclavesCall> for SwitchboardCalls {
         fn from(value: EnclavesCall) -> Self {
             Self::Enclaves(value)
+        }
+    }
+    impl ::core::convert::From<EstimatedRunCostCall> for SwitchboardCalls {
+        fn from(value: EstimatedRunCostCall) -> Self {
+            Self::EstimatedRunCost(value)
         }
     }
     impl ::core::convert::From<FacetAddressCall> for SwitchboardCalls {
@@ -7122,6 +19164,11 @@ pub mod switchboard {
             Self::FailEnclave(value)
         }
     }
+    impl ::core::convert::From<FailFunctionResultCall> for SwitchboardCalls {
+        fn from(value: FailFunctionResultCall) -> Self {
+            Self::FailFunctionResult(value)
+        }
+    }
     impl ::core::convert::From<ForceOverrideVerifyCall> for SwitchboardCalls {
         fn from(value: ForceOverrideVerifyCall) -> Self {
             Self::ForceOverrideVerify(value)
@@ -7135,6 +19182,16 @@ pub mod switchboard {
     impl ::core::convert::From<FuncsCall> for SwitchboardCalls {
         fn from(value: FuncsCall) -> Self {
             Self::Funcs(value)
+        }
+    }
+    impl ::core::convert::From<FunctionCallSettingsCall> for SwitchboardCalls {
+        fn from(value: FunctionCallSettingsCall) -> Self {
+            Self::FunctionCallSettings(value)
+        }
+    }
+    impl ::core::convert::From<FunctionCallsCall> for SwitchboardCalls {
+        fn from(value: FunctionCallsCall) -> Self {
+            Self::FunctionCalls(value)
         }
     }
     impl ::core::convert::From<FunctionEscrowFundCall> for SwitchboardCalls {
@@ -7152,6 +19209,21 @@ pub mod switchboard {
             Self::FunctionExists(value)
         }
     }
+    impl ::core::convert::From<FunctionSettingsCall> for SwitchboardCalls {
+        fn from(value: FunctionSettingsCall) -> Self {
+            Self::FunctionSettings(value)
+        }
+    }
+    impl ::core::convert::From<FunctionVerifyCall> for SwitchboardCalls {
+        fn from(value: FunctionVerifyCall) -> Self {
+            Self::FunctionVerify(value)
+        }
+    }
+    impl ::core::convert::From<FunctionVerifyRequestCall> for SwitchboardCalls {
+        fn from(value: FunctionVerifyRequestCall) -> Self {
+            Self::FunctionVerifyRequest(value)
+        }
+    }
     impl ::core::convert::From<GetActiveFunctionCallsByQueueCall> for SwitchboardCalls {
         fn from(value: GetActiveFunctionCallsByQueueCall) -> Self {
             Self::GetActiveFunctionCallsByQueue(value)
@@ -7160,6 +19232,16 @@ pub mod switchboard {
     impl ::core::convert::From<GetActiveFunctionsByQueueCall> for SwitchboardCalls {
         fn from(value: GetActiveFunctionsByQueueCall) -> Self {
             Self::GetActiveFunctionsByQueue(value)
+        }
+    }
+    impl ::core::convert::From<GetActiveRequestsByQueueCall> for SwitchboardCalls {
+        fn from(value: GetActiveRequestsByQueueCall) -> Self {
+            Self::GetActiveRequestsByQueue(value)
+        }
+    }
+    impl ::core::convert::From<GetActiveRoutinesByQueueCall> for SwitchboardCalls {
+        fn from(value: GetActiveRoutinesByQueueCall) -> Self {
+            Self::GetActiveRoutinesByQueue(value)
         }
     }
     impl ::core::convert::From<GetAggregatorsByAuthorityCall> for SwitchboardCalls {
@@ -7197,6 +19279,16 @@ pub mod switchboard {
             Self::GetEnclaves(value)
         }
     }
+    impl ::core::convert::From<GetFunctionMrEnclavesCall> for SwitchboardCalls {
+        fn from(value: GetFunctionMrEnclavesCall) -> Self {
+            Self::GetFunctionMrEnclaves(value)
+        }
+    }
+    impl ::core::convert::From<GetFunctionPermittedCallersCall> for SwitchboardCalls {
+        fn from(value: GetFunctionPermittedCallersCall) -> Self {
+            Self::GetFunctionPermittedCallers(value)
+        }
+    }
     impl ::core::convert::From<GetFunctionsByAuthorityCall> for SwitchboardCalls {
         fn from(value: GetFunctionsByAuthorityCall) -> Self {
             Self::GetFunctionsByAuthority(value)
@@ -7225,6 +19317,36 @@ pub mod switchboard {
     impl ::core::convert::From<GetPermissionCall> for SwitchboardCalls {
         fn from(value: GetPermissionCall) -> Self {
             Self::GetPermission(value)
+        }
+    }
+    impl ::core::convert::From<GetRequestsByFunctionIdCall> for SwitchboardCalls {
+        fn from(value: GetRequestsByFunctionIdCall) -> Self {
+            Self::GetRequestsByFunctionId(value)
+        }
+    }
+    impl ::core::convert::From<GetRoutinesByAuthorityCall> for SwitchboardCalls {
+        fn from(value: GetRoutinesByAuthorityCall) -> Self {
+            Self::GetRoutinesByAuthority(value)
+        }
+    }
+    impl ::core::convert::From<GetRoutinesByFunctionIdCall> for SwitchboardCalls {
+        fn from(value: GetRoutinesByFunctionIdCall) -> Self {
+            Self::GetRoutinesByFunctionId(value)
+        }
+    }
+    impl ::core::convert::From<GetStakeForEnclaveCall> for SwitchboardCalls {
+        fn from(value: GetStakeForEnclaveCall) -> Self {
+            Self::GetStakeForEnclave(value)
+        }
+    }
+    impl ::core::convert::From<GetStakeForEnclaveWithTokenCall> for SwitchboardCalls {
+        fn from(value: GetStakeForEnclaveWithTokenCall) -> Self {
+            Self::GetStakeForEnclaveWithToken(value)
+        }
+    }
+    impl ::core::convert::From<GetStakingConfigCall> for SwitchboardCalls {
+        fn from(value: GetStakingConfigCall) -> Self {
+            Self::GetStakingConfig(value)
         }
     }
     impl ::core::convert::From<GetTransactionHashCall> for SwitchboardCalls {
@@ -7302,14 +19424,19 @@ pub mod switchboard {
             Self::Owner(value)
         }
     }
+    impl ::core::convert::From<PrepareUnstakeCall> for SwitchboardCalls {
+        fn from(value: PrepareUnstakeCall) -> Self {
+            Self::PrepareUnstake(value)
+        }
+    }
     impl ::core::convert::From<QueueAttestationConfigsCall> for SwitchboardCalls {
         fn from(value: QueueAttestationConfigsCall) -> Self {
             Self::QueueAttestationConfigs(value)
         }
     }
-    impl ::core::convert::From<RandomValueCall> for SwitchboardCalls {
-        fn from(value: RandomValueCall) -> Self {
-            Self::RandomValue(value)
+    impl ::core::convert::From<RecoverStakeWithTokenCall> for SwitchboardCalls {
+        fn from(value: RecoverStakeWithTokenCall) -> Self {
+            Self::RecoverStakeWithToken(value)
         }
     }
     impl ::core::convert::From<RemoveMrEnclaveFromAttestationQueueCall> for SwitchboardCalls {
@@ -7317,24 +19444,79 @@ pub mod switchboard {
             Self::RemoveMrEnclaveFromAttestationQueue(value)
         }
     }
+    impl ::core::convert::From<RemoveMrEnclaveFromFunctionCall> for SwitchboardCalls {
+        fn from(value: RemoveMrEnclaveFromFunctionCall) -> Self {
+            Self::RemoveMrEnclaveFromFunction(value)
+        }
+    }
     impl ::core::convert::From<RemoveMrEnclaveFromOracleQueueCall> for SwitchboardCalls {
         fn from(value: RemoveMrEnclaveFromOracleQueueCall) -> Self {
             Self::RemoveMrEnclaveFromOracleQueue(value)
         }
     }
-    impl ::core::convert::From<RotateEnclaveAuthorityCall> for SwitchboardCalls {
-        fn from(value: RotateEnclaveAuthorityCall) -> Self {
-            Self::RotateEnclaveAuthority(value)
+    impl ::core::convert::From<RequestFundCall> for SwitchboardCalls {
+        fn from(value: RequestFundCall) -> Self {
+            Self::RequestFund(value)
         }
     }
-    impl ::core::convert::From<RotateOracleAuthorityCall> for SwitchboardCalls {
-        fn from(value: RotateOracleAuthorityCall) -> Self {
-            Self::RotateOracleAuthority(value)
+    impl ::core::convert::From<RequestWithdrawalCall> for SwitchboardCalls {
+        fn from(value: RequestWithdrawalCall) -> Self {
+            Self::RequestWithdrawal(value)
+        }
+    }
+    impl ::core::convert::From<RequestsCall> for SwitchboardCalls {
+        fn from(value: RequestsCall) -> Self {
+            Self::Requests(value)
+        }
+    }
+    impl ::core::convert::From<RotateEnclaveSignerCall> for SwitchboardCalls {
+        fn from(value: RotateEnclaveSignerCall) -> Self {
+            Self::RotateEnclaveSigner(value)
+        }
+    }
+    impl ::core::convert::From<RotateOracleSignerCall> for SwitchboardCalls {
+        fn from(value: RotateOracleSignerCall) -> Self {
+            Self::RotateOracleSigner(value)
+        }
+    }
+    impl ::core::convert::From<RoutineEscrowFundCall> for SwitchboardCalls {
+        fn from(value: RoutineEscrowFundCall) -> Self {
+            Self::RoutineEscrowFund(value)
+        }
+    }
+    impl ::core::convert::From<RoutineEscrowWithdrawCall> for SwitchboardCalls {
+        fn from(value: RoutineEscrowWithdrawCall) -> Self {
+            Self::RoutineEscrowWithdraw(value)
+        }
+    }
+    impl ::core::convert::From<RoutineExistsCall> for SwitchboardCalls {
+        fn from(value: RoutineExistsCall) -> Self {
+            Self::RoutineExists(value)
+        }
+    }
+    impl ::core::convert::From<RoutinesCall> for SwitchboardCalls {
+        fn from(value: RoutinesCall) -> Self {
+            Self::Routines(value)
         }
     }
     impl ::core::convert::From<SaveResultsCall> for SwitchboardCalls {
         fn from(value: SaveResultsCall) -> Self {
             Self::SaveResults(value)
+        }
+    }
+    impl ::core::convert::From<SendDelayedRequestCall> for SwitchboardCalls {
+        fn from(value: SendDelayedRequestCall) -> Self {
+            Self::SendDelayedRequest(value)
+        }
+    }
+    impl ::core::convert::From<SendRequestCall> for SwitchboardCalls {
+        fn from(value: SendRequestCall) -> Self {
+            Self::SendRequest(value)
+        }
+    }
+    impl ::core::convert::From<SendRequestWithIdCall> for SwitchboardCalls {
+        fn from(value: SendRequestWithIdCall) -> Self {
+            Self::SendRequestWithId(value)
         }
     }
     impl ::core::convert::From<SetAdminCall> for SwitchboardCalls {
@@ -7362,9 +19544,24 @@ pub mod switchboard {
             Self::SetAttestationQueuePermission(value)
         }
     }
+    impl ::core::convert::From<SetFunctionCallSettingsCall> for SwitchboardCalls {
+        fn from(value: SetFunctionCallSettingsCall) -> Self {
+            Self::SetFunctionCallSettings(value)
+        }
+    }
     impl ::core::convert::From<SetFunctionConfigCall> for SwitchboardCalls {
         fn from(value: SetFunctionConfigCall) -> Self {
             Self::SetFunctionConfig(value)
+        }
+    }
+    impl ::core::convert::From<SetFunctionDeactivatedCall> for SwitchboardCalls {
+        fn from(value: SetFunctionDeactivatedCall) -> Self {
+            Self::SetFunctionDeactivated(value)
+        }
+    }
+    impl ::core::convert::From<SetFunctionSettingsCall> for SwitchboardCalls {
+        fn from(value: SetFunctionSettingsCall) -> Self {
+            Self::SetFunctionSettings(value)
         }
     }
     impl ::core::convert::From<SetOracleConfigCall> for SwitchboardCalls {
@@ -7387,9 +19584,19 @@ pub mod switchboard {
             Self::SetOracleQueuePermission(value)
         }
     }
+    impl ::core::convert::From<SetStakingConfigCall> for SwitchboardCalls {
+        fn from(value: SetStakingConfigCall) -> Self {
+            Self::SetStakingConfig(value)
+        }
+    }
     impl ::core::convert::From<SetToleratedTimestampDiscrepancyCall> for SwitchboardCalls {
         fn from(value: SetToleratedTimestampDiscrepancyCall) -> Self {
             Self::SetToleratedTimestampDiscrepancy(value)
+        }
+    }
+    impl ::core::convert::From<SlashStakeCall> for SwitchboardCalls {
+        fn from(value: SlashStakeCall) -> Self {
+            Self::SlashStake(value)
         }
     }
     impl ::core::convert::From<SupportsInterfaceCall> for SwitchboardCalls {
@@ -7397,9 +19604,34 @@ pub mod switchboard {
             Self::SupportsInterface(value)
         }
     }
+    impl ::core::convert::From<TotalStakedCall> for SwitchboardCalls {
+        fn from(value: TotalStakedCall) -> Self {
+            Self::TotalStaked(value)
+        }
+    }
+    impl ::core::convert::From<TotalSupplyCall> for SwitchboardCalls {
+        fn from(value: TotalSupplyCall) -> Self {
+            Self::TotalSupply(value)
+        }
+    }
+    impl ::core::convert::From<TransferCall> for SwitchboardCalls {
+        fn from(value: TransferCall) -> Self {
+            Self::Transfer(value)
+        }
+    }
+    impl ::core::convert::From<TransferFromCall> for SwitchboardCalls {
+        fn from(value: TransferFromCall) -> Self {
+            Self::TransferFrom(value)
+        }
+    }
     impl ::core::convert::From<TransferOwnershipCall> for SwitchboardCalls {
         fn from(value: TransferOwnershipCall) -> Self {
             Self::TransferOwnership(value)
+        }
+    }
+    impl ::core::convert::From<UnstakeCall> for SwitchboardCalls {
+        fn from(value: UnstakeCall) -> Self {
+            Self::Unstake(value)
         }
     }
     impl ::core::convert::From<UpdateEnclaveCall> for SwitchboardCalls {
@@ -7407,9 +19639,19 @@ pub mod switchboard {
             Self::UpdateEnclave(value)
         }
     }
+    impl ::core::convert::From<UpdateRoutineCall> for SwitchboardCalls {
+        fn from(value: UpdateRoutineCall) -> Self {
+            Self::UpdateRoutine(value)
+        }
+    }
     impl ::core::convert::From<ValidateCall> for SwitchboardCalls {
         fn from(value: ValidateCall) -> Self {
             Self::Validate(value)
+        }
+    }
+    impl ::core::convert::From<VerifyCallbackParamsCall> for SwitchboardCalls {
+        fn from(value: VerifyCallbackParamsCall) -> Self {
+            Self::VerifyCallbackParams(value)
         }
     }
     impl ::core::convert::From<VerifyEnclaveCall> for SwitchboardCalls {
@@ -7417,9 +19659,9 @@ pub mod switchboard {
             Self::VerifyEnclave(value)
         }
     }
-    impl ::core::convert::From<VerifyFunctionCall> for SwitchboardCalls {
-        fn from(value: VerifyFunctionCall) -> Self {
-            Self::VerifyFunction(value)
+    impl ::core::convert::From<VerifyFunctionResultCall> for SwitchboardCalls {
+        fn from(value: VerifyFunctionResultCall) -> Self {
+            Self::VerifyFunctionResult(value)
         }
     }
     impl ::core::convert::From<ViewAggregatorResultsCall> for SwitchboardCalls {
@@ -7456,6 +19698,30 @@ pub mod switchboard {
         Hash,
     )]
     pub struct AggregatorsReturn(pub Aggregator);
+    ///Container type for all return fields from the `allowance` function with signature `allowance(address,address)` and selector `0xdd62ed3e`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct AllowanceReturn(pub ::ethers::core::types::U256);
+    ///Container type for all return fields from the `approve` function with signature `approve(address,uint256)` and selector `0x095ea7b3`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct ApproveReturn(pub bool);
     ///Container type for all return fields from the `attestationQueueHasMrEnclave` function with signature `attestationQueueHasMrEnclave(address,bytes32)` and selector `0x63fcd771`
     #[derive(
         Clone,
@@ -7480,7 +19746,7 @@ pub mod switchboard {
         Hash,
     )]
     pub struct AttestationQueuesReturn(pub AttestationQueue);
-    ///Container type for all return fields from the `enclaveAuthorityToEnclaveAddress` function with signature `enclaveAuthorityToEnclaveAddress(address)` and selector `0x5a6fe378`
+    ///Container type for all return fields from the `balanceOf` function with signature `balanceOf(address)` and selector `0x70a08231`
     #[derive(
         Clone,
         ::ethers::contract::EthAbiType,
@@ -7491,7 +19757,47 @@ pub mod switchboard {
         Eq,
         Hash,
     )]
-    pub struct EnclaveAuthorityToEnclaveAddressReturn(pub ::ethers::core::types::Address);
+    pub struct BalanceOfReturn(pub ::ethers::core::types::U256);
+    ///Container type for all return fields from the `callBalances` function with signature `callBalances(address[])` and selector `0x0aaeffe5`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct CallBalancesReturn {
+        pub balances: ::std::vec::Vec<::ethers::core::types::U256>,
+    }
+    ///Container type for all return fields from the `callFunction` function with signature `callFunction(address,bytes)` and selector `0x9c23da50`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct CallFunctionReturn {
+        pub call_id: ::ethers::core::types::Address,
+    }
+    ///Container type for all return fields from the `enclaveSignerToEnclaveId` function with signature `enclaveSignerToEnclaveId(address)` and selector `0x2ff75ec2`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct EnclaveSignerToEnclaveIdReturn(pub ::ethers::core::types::Address);
     ///Container type for all return fields from the `enclaves` function with signature `enclaves(address)` and selector `0xfaeedb07`
     #[derive(
         Clone,
@@ -7504,6 +19810,18 @@ pub mod switchboard {
         Hash,
     )]
     pub struct EnclavesReturn(pub Enclave);
+    ///Container type for all return fields from the `estimatedRunCost` function with signature `estimatedRunCost(address,uint256)` and selector `0x3da87438`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct EstimatedRunCostReturn(pub ::ethers::core::types::U256);
     ///Container type for all return fields from the `facetAddress` function with signature `facetAddress(bytes4)` and selector `0xcdffacc6`
     #[derive(
         Clone,
@@ -7572,6 +19890,30 @@ pub mod switchboard {
         Hash,
     )]
     pub struct FuncsReturn(pub SbFunction);
+    ///Container type for all return fields from the `functionCallSettings` function with signature `functionCallSettings(address)` and selector `0xa30f8d25`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct FunctionCallSettingsReturn(pub FunctionCallSettings);
+    ///Container type for all return fields from the `functionCalls` function with signature `functionCalls(address)` and selector `0x826df326`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct FunctionCallsReturn(pub FunctionCall);
     ///Container type for all return fields from the `functionExists` function with signature `functionExists(address)` and selector `0xa13001c9`
     #[derive(
         Clone,
@@ -7584,6 +19926,18 @@ pub mod switchboard {
         Hash,
     )]
     pub struct FunctionExistsReturn(pub bool);
+    ///Container type for all return fields from the `functionSettings` function with signature `functionSettings(address)` and selector `0xce77efa6`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct FunctionSettingsReturn(pub FunctionSettings);
     ///Container type for all return fields from the `getActiveFunctionCallsByQueue` function with signature `getActiveFunctionCallsByQueue(address)` and selector `0xfa88c651`
     #[derive(
         Clone,
@@ -7613,6 +19967,36 @@ pub mod switchboard {
     pub struct GetActiveFunctionsByQueueReturn(
         pub ::std::vec::Vec<::ethers::core::types::Address>,
         pub ::std::vec::Vec<SbFunction>,
+    );
+    ///Container type for all return fields from the `getActiveRequestsByQueue` function with signature `getActiveRequestsByQueue(address)` and selector `0x55c053c3`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetActiveRequestsByQueueReturn(
+        pub ::std::vec::Vec<::ethers::core::types::Address>,
+        pub ::std::vec::Vec<Request>,
+    );
+    ///Container type for all return fields from the `getActiveRoutinesByQueue` function with signature `getActiveRoutinesByQueue(address)` and selector `0x9da3c6eb`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetActiveRoutinesByQueueReturn(
+        pub ::std::vec::Vec<::ethers::core::types::Address>,
+        pub ::std::vec::Vec<Routine>,
     );
     ///Container type for all return fields from the `getAggregatorsByAuthority` function with signature `getAggregatorsByAuthority(address)` and selector `0x911c30f3`
     #[derive(
@@ -7709,6 +20093,32 @@ pub mod switchboard {
         Hash,
     )]
     pub struct GetEnclavesReturn(pub ::std::vec::Vec<::ethers::core::types::Address>);
+    ///Container type for all return fields from the `getFunctionMrEnclaves` function with signature `getFunctionMrEnclaves(address)` and selector `0x526112ce`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetFunctionMrEnclavesReturn(pub ::std::vec::Vec<[u8; 32]>);
+    ///Container type for all return fields from the `getFunctionPermittedCallers` function with signature `getFunctionPermittedCallers(address)` and selector `0xafdcbd6a`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetFunctionPermittedCallersReturn(
+        pub ::std::vec::Vec<::ethers::core::types::Address>,
+    );
     ///Container type for all return fields from the `getFunctionsByAuthority` function with signature `getFunctionsByAuthority(address)` and selector `0x357f633f`
     #[derive(
         Clone,
@@ -7788,6 +20198,87 @@ pub mod switchboard {
         Hash,
     )]
     pub struct GetPermissionReturn(pub ::ethers::core::types::U256);
+    ///Container type for all return fields from the `getRequestsByFunctionId` function with signature `getRequestsByFunctionId(address)` and selector `0xb68e3ace`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetRequestsByFunctionIdReturn(
+        pub ::std::vec::Vec<::ethers::core::types::Address>,
+        pub ::std::vec::Vec<Request>,
+    );
+    ///Container type for all return fields from the `getRoutinesByAuthority` function with signature `getRoutinesByAuthority(address)` and selector `0xb36afb5a`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetRoutinesByAuthorityReturn(
+        pub ::std::vec::Vec<::ethers::core::types::Address>,
+        pub ::std::vec::Vec<Routine>,
+    );
+    ///Container type for all return fields from the `getRoutinesByFunctionId` function with signature `getRoutinesByFunctionId(address)` and selector `0x27c66c0f`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetRoutinesByFunctionIdReturn(
+        pub ::std::vec::Vec<::ethers::core::types::Address>,
+        pub ::std::vec::Vec<Routine>,
+    );
+    ///Container type for all return fields from the `getStakeForEnclave` function with signature `getStakeForEnclave(address)` and selector `0x376d9b41`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetStakeForEnclaveReturn(pub Stake);
+    ///Container type for all return fields from the `getStakeForEnclaveWithToken` function with signature `getStakeForEnclaveWithToken(address,address)` and selector `0x3ff8f2af`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetStakeForEnclaveWithTokenReturn(pub Stake);
+    ///Container type for all return fields from the `getStakingConfig` function with signature `getStakingConfig(address)` and selector `0x5133a68c`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct GetStakingConfigReturn(pub StakingConfig);
     ///Container type for all return fields from the `getTransactionHash` function with signature `getTransactionHash(uint256,uint256,uint256,address,address,bytes)` and selector `0xd93f1970`
     #[derive(
         Clone,
@@ -7925,7 +20416,7 @@ pub mod switchboard {
         Hash,
     )]
     pub struct QueueAttestationConfigsReturn(pub AttestationConfig);
-    ///Container type for all return fields from the `randomValue` function with signature `randomValue()` and selector `0x276801ec`
+    ///Container type for all return fields from the `requests` function with signature `requests(address)` and selector `0x74adad1d`
     #[derive(
         Clone,
         ::ethers::contract::EthAbiType,
@@ -7936,7 +20427,59 @@ pub mod switchboard {
         Eq,
         Hash,
     )]
-    pub struct RandomValueReturn(pub ::ethers::core::types::U256);
+    pub struct RequestsReturn(pub Request);
+    ///Container type for all return fields from the `routineExists` function with signature `routineExists(address)` and selector `0xc98d9be8`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct RoutineExistsReturn(pub bool);
+    ///Container type for all return fields from the `routines` function with signature `routines(address)` and selector `0xfdcc54d2`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct RoutinesReturn(pub Routine);
+    ///Container type for all return fields from the `sendRequest` function with signature `sendRequest(address,bytes)` and selector `0x62d3fe46`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct SendRequestReturn {
+        pub id: ::ethers::core::types::Address,
+    }
+    ///Container type for all return fields from the `sendRequestWithId` function with signature `sendRequestWithId(address,address,bytes)` and selector `0x264c1450`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct SendRequestWithIdReturn {
+        pub id: ::ethers::core::types::Address,
+    }
     ///Container type for all return fields from the `supportsInterface` function with signature `supportsInterface(bytes4)` and selector `0x01ffc9a7`
     #[derive(
         Clone,
@@ -7949,6 +20492,54 @@ pub mod switchboard {
         Hash,
     )]
     pub struct SupportsInterfaceReturn(pub bool);
+    ///Container type for all return fields from the `totalStaked` function with signature `totalStaked(address,address)` and selector `0xf21630cb`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct TotalStakedReturn(pub ::ethers::core::types::U256);
+    ///Container type for all return fields from the `totalSupply` function with signature `totalSupply()` and selector `0x18160ddd`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct TotalSupplyReturn(pub ::ethers::core::types::U256);
+    ///Container type for all return fields from the `transfer` function with signature `transfer(address,uint256)` and selector `0xa9059cbb`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct TransferReturn(pub bool);
+    ///Container type for all return fields from the `transferFrom` function with signature `transferFrom(address,address,uint256)` and selector `0x23b872dd`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct TransferFromReturn(pub bool);
     ///Container type for all return fields from the `viewAggregatorResults` function with signature `viewAggregatorResults(address)` and selector `0xde866484`
     #[derive(
         Clone,
@@ -8090,8 +20681,8 @@ pub mod switchboard {
         Hash,
     )]
     pub struct Enclave {
+        pub signer: ::ethers::core::types::Address,
         pub authority: ::ethers::core::types::Address,
-        pub owner: ::ethers::core::types::Address,
         pub queue_id: ::ethers::core::types::Address,
         pub cid: ::ethers::core::types::Bytes,
         pub verification_status: u8,
@@ -8102,7 +20693,7 @@ pub mod switchboard {
         pub last_heartbeat: ::ethers::core::types::U256,
         pub balance: ::ethers::core::types::U256,
     }
-    ///`FunctionCall(address,address,uint256,bytes,bool,uint256)`
+    ///`FunctionCall(address,address,uint256,bytes,bool,uint256,uint256)`
     #[derive(
         Clone,
         ::ethers::contract::EthAbiType,
@@ -8120,8 +20711,27 @@ pub mod switchboard {
         pub call_data: ::ethers::core::types::Bytes,
         pub executed: bool,
         pub consecutive_failures: ::ethers::core::types::U256,
+        pub fee_paid: ::ethers::core::types::U256,
     }
-    ///`FunctionConfig(string,address[],string,string,string,string)`
+    ///`FunctionCallSettings(bool,uint256,uint256,bool,bool)`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct FunctionCallSettings {
+        pub require_estimated_run_cost_fee: bool,
+        pub minimum_fee: ::ethers::core::types::U256,
+        pub max_gas_cost: ::ethers::core::types::U256,
+        pub require_caller_pay_full_cost: bool,
+        pub require_sender_be_return_address: bool,
+    }
+    ///`FunctionConfig(string,address[],string,string,string,string,bytes32[],bool,bool)`
     #[derive(
         Clone,
         ::ethers::contract::EthAbiType,
@@ -8139,8 +20749,11 @@ pub mod switchboard {
         pub container: ::std::string::String,
         pub version: ::std::string::String,
         pub params_schema: ::std::string::String,
+        pub mr_enclaves: ::std::vec::Vec<[u8; 32]>,
+        pub allow_all_fn_calls: bool,
+        pub use_fn_call_escrow: bool,
     }
-    ///`FunctionState(uint256,uint256,uint256,uint256,uint256,uint256,uint256,bool)`
+    ///`FunctionState(uint256,uint256,uint256,uint256,uint256,uint256,uint256,bool,uint256)`
     #[derive(
         Clone,
         ::ethers::contract::EthAbiType,
@@ -8155,13 +20768,14 @@ pub mod switchboard {
         pub consecutive_failures: ::ethers::core::types::U256,
         pub last_execution_timestamp: ::ethers::core::types::U256,
         pub next_allowed_timestamp: ::ethers::core::types::U256,
-        pub call_id: ::ethers::core::types::U256,
+        pub last_execution_gas_cost: ::ethers::core::types::U256,
         pub triggered_since: ::ethers::core::types::U256,
         pub trigger_count: ::ethers::core::types::U256,
         pub queue_idx: ::ethers::core::types::U256,
         pub triggered: bool,
+        pub created_at: ::ethers::core::types::U256,
     }
-    ///`SbFunction(string,address,address,address,uint256,uint8,(string,address[],string,string,string,string),(uint256,uint256,uint256,uint256,uint256,uint256,uint256,bool))`
+    ///`SbFunction(string,address,address,address,uint256,uint8,(string,address[],string,string,string,string,bytes32[],bool,bool),(uint256,uint256,uint256,uint256,uint256,uint256,uint256,bool,uint256))`
     #[derive(
         Clone,
         ::ethers::contract::EthAbiType,
@@ -8181,6 +20795,72 @@ pub mod switchboard {
         pub status: u8,
         pub config: FunctionConfig,
         pub state: FunctionState,
+    }
+    ///`FunctionSettings(uint256,bool,bool,bool,uint256,bool,uint256,bool)`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct FunctionSettings {
+        pub max_gas_cost: ::ethers::core::types::U256,
+        pub require_isolated_runs: bool,
+        pub routines_disabled: bool,
+        pub routines_require_authorization: bool,
+        pub routine_fee: ::ethers::core::types::U256,
+        pub requests_disabled: bool,
+        pub request_fee: ::ethers::core::types::U256,
+        pub requests_require_authorization: bool,
+    }
+    ///`FunctionFailParams(uint256,address,uint256,uint256,uint8,address[],bytes32[],uint8[])`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct FunctionFailParams {
+        pub enclave_idx: ::ethers::core::types::U256,
+        pub function_id: ::ethers::core::types::Address,
+        pub observed_time: ::ethers::core::types::U256,
+        pub next_allowed_timestamp: ::ethers::core::types::U256,
+        pub code: u8,
+        pub ids: ::std::vec::Vec<::ethers::core::types::Address>,
+        pub checksums: ::std::vec::Vec<[u8; 32]>,
+        pub codes: ::std::vec::Vec<u8>,
+    }
+    ///`FunctionVerifyParams(uint256,address,address,uint256,uint256,bytes32,(uint256,uint256,uint256,address,address,bytes)[],bytes[],address[],bytes32[],uint8[])`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct FunctionVerifyParams {
+        pub enclave_idx: ::ethers::core::types::U256,
+        pub function_id: ::ethers::core::types::Address,
+        pub delegated_signer_address: ::ethers::core::types::Address,
+        pub observed_time: ::ethers::core::types::U256,
+        pub next_allowed_timestamp: ::ethers::core::types::U256,
+        pub mr_enclave: [u8; 32],
+        pub transactions: ::std::vec::Vec<Transaction>,
+        pub signatures: ::std::vec::Vec<::ethers::core::types::Bytes>,
+        pub ids: ::std::vec::Vec<::ethers::core::types::Address>,
+        pub checksums: ::std::vec::Vec<[u8; 32]>,
+        pub codes: ::std::vec::Vec<u8>,
     }
     ///`FacetCut(address,uint8,bytes4[])`
     #[derive(
@@ -8226,11 +20906,11 @@ pub mod switchboard {
     )]
     pub struct Oracle {
         pub name: ::std::string::String,
-        pub authority: ::ethers::core::types::Address,
+        pub signer: ::ethers::core::types::Address,
         pub num_rows: u8,
         pub last_heartbeat: ::ethers::core::types::U256,
         pub queue_id: ::ethers::core::types::Address,
-        pub owner: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
     }
     ///`AttestationConfig(address,bytes32[],bool,bool)`
     #[derive(
@@ -8270,6 +20950,87 @@ pub mod switchboard {
         pub oracle_timeout: ::ethers::core::types::U256,
         pub gc_idx: ::ethers::core::types::U256,
         pub curr_idx: ::ethers::core::types::U256,
+    }
+    ///`Request(address,address,uint256,bytes,bool,uint256,uint256,uint256,uint8,uint256,uint8)`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct Request {
+        pub function_id: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
+        pub created_at: ::ethers::core::types::U256,
+        pub request_data: ::ethers::core::types::Bytes,
+        pub executed: bool,
+        pub consecutive_failures: ::ethers::core::types::U256,
+        pub balance: ::ethers::core::types::U256,
+        pub start_after: ::ethers::core::types::U256,
+        pub error_code: u8,
+        pub executed_at: ::ethers::core::types::U256,
+        pub status: u8,
+    }
+    ///`Routine(address,address,string,bytes,uint256,uint256,uint256,uint8,uint8)`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct Routine {
+        pub function_id: ::ethers::core::types::Address,
+        pub authority: ::ethers::core::types::Address,
+        pub schedule: ::std::string::String,
+        pub params: ::ethers::core::types::Bytes,
+        pub last_called_at: ::ethers::core::types::U256,
+        pub consecutive_failures: ::ethers::core::types::U256,
+        pub balance: ::ethers::core::types::U256,
+        pub status: u8,
+        pub error_code: u8,
+    }
+    ///`Stake(uint256,uint256,uint256,uint256,address)`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct Stake {
+        pub amount: ::ethers::core::types::U256,
+        pub ready_at: ::ethers::core::types::U256,
+        pub unstake_ready_at: ::ethers::core::types::U256,
+        pub last_updated: ::ethers::core::types::U256,
+        pub token: ::ethers::core::types::Address,
+    }
+    ///`StakingConfig(address,uint256,uint256,uint256)`
+    #[derive(
+        Clone,
+        ::ethers::contract::EthAbiType,
+        ::ethers::contract::EthAbiCodec,
+        Default,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+    )]
+    pub struct StakingConfig {
+        pub token: ::ethers::core::types::Address,
+        pub staking_amount: ::ethers::core::types::U256,
+        pub staking_period: ::ethers::core::types::U256,
+        pub unstaking_period: ::ethers::core::types::U256,
     }
     ///`Transaction(uint256,uint256,uint256,address,address,bytes)`
     #[derive(

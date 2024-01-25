@@ -7,6 +7,7 @@ use ethers::core::{
     },
 };
 use inflector::Inflector;
+use std::str::FromStr;
 use switchboard_common::EvmTransaction;
 use syn::{
     parse::Error, spanned::Spanned, Data, Expr, Fields, GenericArgument, Lit, PathArguments,
@@ -254,9 +255,9 @@ impl From<&EvmTransaction> for Transaction {
             expiration_time_seconds: U256::from(tx.expiration_time_seconds),
             gas_limit: U256::from_str_radix(&tx.gas_limit, 10).unwrap(),
             value: U256::from_str_radix(&tx.value, 10).unwrap(),
-            to: Address::from_slice(tx.to.as_slice()),
-            from: Address::from_slice(tx.from.as_slice()),
-            data: Bytes::from(tx.data.clone()),
+            to: Address::from_slice(&tx.to),
+            from: Address::from_slice(&tx.from),
+            data: tx.data.clone().into(),
         }
     }
 }

@@ -18,12 +18,12 @@ contract ReceiverExample is Recipient {
 
   function callback(uint256 value) external {
     // extract the sender from the callback, this validates that the switchboard contract called this function
-    address msgSender = getMsgSender();
+    // address msgSender = getMsgSender();
 
     // make sure the encoded caller is our function id
-    if (msgSender != functionId) {
-      revert("Invalid sender");
-    }
+    // if (msgSender != functionId) {
+      // revert("Invalid sender");
+    // }
 
     // set the random value
     randomValue = value;
